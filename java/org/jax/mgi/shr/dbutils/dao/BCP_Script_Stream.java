@@ -42,6 +42,7 @@ public class BCP_Script_Stream
         DBException
     {
         super(sqlMgr, bcpMgr);
+        this.writer = writer;
         ScriptStrategy scriptStrategy = new ScriptStrategy(writer);
         super.setUpdateStrategy(scriptStrategy);
         super.setDeleteStrategy(scriptStrategy);
