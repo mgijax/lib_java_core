@@ -4,7 +4,8 @@
 package org.jax.mgi.shr.exception;
 
 import java.io.ByteArrayOutputStream;
-import java.io.PrintWriter;
+import java.io.OutputStreamWriter;
+import java.io.PrintStream;
 
 /**
  * @is An exception object created by the ExceptionFactory class that
@@ -30,95 +31,91 @@ import java.io.PrintWriter;
  * @version 1.0
  */
 
-public class MGIException extends ChainedException implements Cloneable
-{
-    /////////////////
-    //  Variables  //
-    /////////////////
+public class MGIException
+    extends ChainedException
+    implements Cloneable {
+  /////////////////
+  //  Variables  //
+  /////////////////
 
-    // Exception object attributes.
-    //
-    private boolean dataRelated;
-    
-    // flag indicating whether or not include a stack trace in the message
-    //
-    private static boolean okToStackTrace = false;
+  // Exception object attributes.
+  //
+  private boolean dataRelated;
 
+  // flag indicating whether or not include a stack trace in the message
+  //
+  private static boolean okToStackTrace = false;
 
-
-    /**
-     * constructor.
-     * @assumes Nothing
-     * @effects Nothing.
-     * @param pMessage The text of the exception message.
-     * @param pDataRelated Indicates whether or not the exception is an
-     * error in the data.
-     */
-    public MGIException(String pMessage, boolean pDataRelated)
+  /**
+   * constructor.
+   * @assumes Nothing
+   * @effects Nothing.
+   * @param pMessage The text of the exception message.
+   * @param pDataRelated Indicates whether or not the exception is an
+   * error in the data.
+   */
+  public MGIException(String pMessage, boolean pDataRelated) {
+    super(pMessage);
+    dataRelated = pDataRelated;
+    if (okToStackTrace) // include the stack trace in the message
     {
-        super(pMessage);
-        dataRelated = pDataRelated;
-        if (okToStackTrace) 
-        {
-					ByteArrayOutputStream trace = new ByteArrayOutputStream();
-					this.printStackTrace(new PrintWriter(trace));
-					this.appendMessage(trace.toString());
-        }
+      ByteArrayOutputStream trace = new ByteArrayOutputStream();
+      printStackTrace(new PrintStream(trace));
+      replaceMessage(trace.toString());
     }
-   
+  }
 
-    /**
-     * Return the severity of this exception object.
-     * @assumes Nothing
-     * @effects Nothing
-     * @param pDataRelated Indicates whether or not the exception is an
-     * error in the data.
-     */
-    public void setDataRelated (boolean pDataRelated)
-    {
-        dataRelated = pDataRelated;
-    }
+  /**
+   * Return the severity of this exception object.
+   * @assumes Nothing
+   * @effects Nothing
+   * @param pDataRelated Indicates whether or not the exception is an
+   * error in the data.
+   */
+  public void setDataRelated(boolean pDataRelated) {
+    dataRelated = pDataRelated;
+  }
 
-    /**
-     * Return whether this exception is data related.
-     * @assumes Nothing
-     * @effects Nothing
-     * @return true if exception is data related or otherwise false.
-     */
-    public boolean isDataRelated()
-    {
-        return dataRelated;
-    }
-    
-    /**
-     * set whether or not to include a stack trace in the exception message
-     * @param bool true or false
-     */
-    public static void setOkToStackTrace(boolean bool)
-    {
-    	okToStackTrace = bool;
-    }
+  /**
+   * Return whether this exception is data related.
+   * @assumes Nothing
+   * @effects Nothing
+   * @return true if exception is data related or otherwise false.
+   */
+  public boolean isDataRelated() {
+    return dataRelated;
+  }
 
-    /**
-     * get a RuntimeException for throwing within an unsupported method
-     * @return the RuntimeException
-     */
-    public static RuntimeException getUnsupportedMethodException()
-    {
-      Exception e = new Exception();
-      StackTraceElement trace[] = e.getStackTrace();
-      StackTraceElement ste = trace[1];
-      String className = ste.getClassName();
-      String methodName = ste.getMethodName();
-      String message = "Class " + className +
-                       " does not support the method " + methodName;
-      return new java.lang.UnsupportedOperationException(message);
+  /**
+   * set whether or not to include a stack trace in the exception message
+   * @param bool true or false
+   */
+  public static void setOkToStackTrace(boolean bool) {
+    okToStackTrace = bool;
+  }
 
-    }
+  /**
+   * get a RuntimeException for throwing within an unsupported method
+   * @return the RuntimeException
+   */
+  public static RuntimeException getUnsupportedMethodException() {
+    Exception e = new Exception();
+    StackTraceElement trace[] = e.getStackTrace();
+    StackTraceElement ste = trace[1];
+    String className = ste.getClassName();
+    String methodName = ste.getMethodName();
+    String message = "Class " + className +
+        " does not support the method " + methodName;
+    return new java.lang.UnsupportedOperationException(message);
+
+  }
 
 
 }
 // $Log$
+// Revision 1.1  2003/12/30 16:56:32  mbw
+// imported into this product
+//
 // Revision 1.8  2003/10/03 16:55:31  mbw
 // added the new setOkToStackTrace method
 //
