@@ -123,7 +123,7 @@ public class ExceptionFactory
 
     /**
      * set whether or not to include a stack trace in the exception message
-     * @returns true is stack tracing is on, false otherwise
+     * @return true is stack tracing is on, false otherwise
      */
     public static boolean isOkToStackTrace() {
       return okToStackTrace;
@@ -134,6 +134,9 @@ public class ExceptionFactory
 }
 
 // $Log$
+// Revision 1.3  2004/07/28 18:21:53  mbw
+// javadocs only
+//
 // Revision 1.2  2004/07/21 20:28:22  mbw
 // added functionality to control whether or not to print stack traces in error messages and made some javadocs edits
 //

@@ -38,7 +38,7 @@ public class FileUtility {
 
   /**
    * deletes the given file
-   * @param fileParam the filename to delete
+   * @param filename the filename to delete
    */
   public static void delete(String filename) {
     File file = new File(filename);
