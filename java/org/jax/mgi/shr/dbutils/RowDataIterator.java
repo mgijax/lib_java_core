@@ -4,14 +4,11 @@ import java.util.Vector;
 
 /**
  * An object which iterates in a forward direction through a given set
- * of query results and returns objects based on multiple rows
+ * of query results and returns java objects based on the data from each row
  * @has a ResultsNavigator for parsing through the query results and a
- * MultiRowDataInterpreter for creating objects based on multiple rows
- * @does it looks out for a sequential group of rows which contain the same
- * key value and will create a java data object based on that group of rows.
- * The getNext() method is provided for iterating through the results which
- * is iteratively called, returning the next object, until the call to hasNext()
- * returns false.
+ * RowDataInterpreter for creating objects based on multiple rows
+ * @does it acts as a proxy to the ResultsNavigator class to allow the
+ * ResultsNavigator to be used through the DataIterator interface.
  * @author M Walker
  */
 
@@ -27,13 +24,16 @@ public class RowDataIterator implements DataIterator
    * the end of its results
    */
   private boolean done = false;
-
+  /**
+   * the cached object
+   */
   private Object cacheObject = null;
 
   /*
    * the following constant definitions are exceptions thrown by this class
    */
-  private static String InterpretErr = DBExceptionFactory.InterpretErr;
+  private static String PastEndOfResultSet =
+      DBExceptionFactory.PastEndOfResultSet;
 
 
   /**
@@ -45,10 +45,11 @@ public class RowDataIterator implements DataIterator
    * objects based on the rows of query results
    * @throws DBException thrown if there is an error within the database
    */
-  public RowDataIterator(ResultsNavigator nav)
+  public RowDataIterator(ResultsNavigator nav, RowDataInterpreter interpreter)
   throws DBException
   {
     this.nav = nav;
+    nav.setInterpreter(interpreter);
     if (!nav.next())
       done = true;
     else
@@ -57,6 +58,8 @@ public class RowDataIterator implements DataIterator
 
   /**
    * return an indicator of whether or not there are any more results to process
+   * @assumes nothing
+   * @effects nothing
    * @return true if thjere are more results to process, false otherwise
    */
   public boolean hasNext()
@@ -75,14 +78,8 @@ public class RowDataIterator implements DataIterator
     nav.close();
   }
 
-  public void setInterpreter(RowDataInterpreter interpreter)
-  {
-      nav.setInterpreter(interpreter);
-  }
-
   /**
-   * returns a java data object interpreted from the next group of rows
-   * which share the same key value
+   * returns a java data object interpreted from the next row
    * @assumes nothing
    * @effects nothing
    * @return the created java data object
@@ -96,7 +93,11 @@ public class RowDataIterator implements DataIterator
       Object nextObject = null;
 
       if (done) // there are no more rows left in the ResultsNavigator
-          return null;
+      {
+          DBExceptionFactory factory = new DBExceptionFactory();
+          DBException e = (DBException)factory.getException(PastEndOfResultSet);
+          throw e;
+      }
 
       if (cacheObject != null)
       {
