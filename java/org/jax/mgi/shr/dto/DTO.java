@@ -21,7 +21,7 @@ import java.util.Map;
 *    data from the database.  They then bundle that data into DTO objects and
 *    pass it along to other classes (with no database knowledge) for
 *    formatting.
-* @is a Data Transfer Object (DTO), to be used to transfer data among layers
+*  a Data Transfer Object (DTO), to be used to transfer data among layers
 *    of a system.
 * @has a mapping between (String) fieldnames and (Object) values.
 * @does To get a DTO to work with, there is no public constructor.  (We
@@ -181,8 +181,6 @@ public class DTO implements java.util.Map
     /** set the given 'value' to be associated with the given 'fieldname'.
     * @param fieldname the fieldname for the given 'value'
     * @param value the value to be associated with the given 'fieldname'
-    * @purpose set the given 'value' to be associated with the given
-    *    'fieldname'.
     * @return nothing
     * @assumes nothing
     * @effects nothing
@@ -201,8 +199,6 @@ public class DTO implements java.util.Map
     /** retrieve a String representation of the value associated with the
     *    given 'key'
     * @param key the key whose value we seek
-    * @purpose retrieve a String representation of the value associated with
-    *    the given 'key'
     * @return String a String representation of the value associated with
     *    'key', or null if there is no value associated with it
     * @assumes nothing
@@ -222,7 +218,6 @@ public class DTO implements java.util.Map
     /* -------------------------------------------------------------------- */
 
     /** get all the fieldnames defined in this DTO.
-    * @purpose to get all the fieldnames defined in this DTO.
     * @return String[] an array of Strings, each of which is the name of a
     *    field defined in this DTO.  If the DTO has no fields defined, then
     *    a zero-length String[] is returned.
@@ -243,8 +238,6 @@ public class DTO implements java.util.Map
     /* -------------------------------------------------------------------- */
 
     /** removes any fieldnames and values currently defined in this DTO.
-    * @purpose make this DTO empty by removing any fieldnames and values
-    *    currently defined in it.
     * @return nothing
     * @assumes nothing
     * @effects nothing
@@ -322,7 +315,6 @@ public class DTO implements java.util.Map
     /* -------------------------------------------------------------------- */
 
     /** get a String representation of this DTO.
-    * @purpose get a String representation of this DTO, for debugging.
     * @return String a representation of the data in this DTO, similar to:
     *    <P>
     *    {<BR>
@@ -382,8 +374,6 @@ public class DTO implements java.util.Map
     ////////////////////////
 
     /** factory method -- get an empty DTO for use.
-    * @purpose to get an empty DTO for use, from the pool if possible or
-    *    creating a new one if the pool is empty.
     * @return an empty DTO
     * @assumes nothing
     * @effects removes a DTO from DTO.POOL if possible
@@ -409,7 +399,6 @@ public class DTO implements java.util.Map
     /** make the given DTO available for re-use.
     * @param DTO the DTO with which we have finished and which we want to
     *    make available for re-use.
-    * @purpose make the given DTO available for re-use
     * @return nothing
     * @assumes nothing
     * @effects adds the given DTO to the DTO.POOL, if possible
@@ -455,7 +444,6 @@ public class DTO implements java.util.Map
 
     /** set the size of the pool of available DTO objects.
     * @param size approximate maximum size of the pool of DTO objects.
-    * @purpose set the size of the pool of available DTO objects.
     * @return nothing
     * @assumes nothing
     * @effects updated the class variable POOL_SIZE
@@ -501,6 +489,9 @@ public class DTO implements java.util.Map
 
 /*
 * $Log$
+* Revision 1.1  2003/12/30 16:56:27  mbw
+* imported into this product
+*
 * Revision 1.2  2003/12/01 13:10:05  jsb
 * Updated to implement Map, other code review changes
 *

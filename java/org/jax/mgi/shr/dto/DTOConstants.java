@@ -11,7 +11,7 @@ package org.jax.mgi.shr.dto;
 */
 
 /** contains common constants for use in constructing <tt>DTO</tt>s.
-* @is a set of static constants to use for fieldnames when building DTOs.
+*  a set of static constants to use for fieldnames when building DTOs.
 *   (no instances of this class are to be created)
 * @has a set of static constants.
 * @does simply provides public access to these constants.
@@ -203,6 +203,9 @@ public class DTOConstants
 
 /*
 * $Log$
+* Revision 1.9  2004/06/25 11:10:27  jsb
+* added three constants for AlleleType*, for TR5750
+*
 * Revision 1.8  2004/03/12 18:59:06  jsb
 * Added new expression-related definitions
 *

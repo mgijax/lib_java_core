@@ -7,15 +7,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @is An object which extends the java Exception class to provided
- * additional functionality in handling error messages.
+ * An object which extends the java Exception class to provided
+ * additional functionality to bind runtime values to preset error messages.
  * @has An error message which can have embedded strings, namely the
  * charcters '??', used for substituting values in at runtime.
  * @does Provides bind methods for binding additional strings at runtime
  * to the error message
  * @company Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 
 public class BindableException extends Exception implements Cloneable {
@@ -37,7 +36,6 @@ public class BindableException extends Exception implements Cloneable {
    */
   public BindableException(String messageParm) {
     message = messageParm;
-    matcher = pattern.matcher(message);
   }
 
   /**
@@ -66,6 +64,7 @@ public class BindableException extends Exception implements Cloneable {
   {
         // metachars need to be dealt with...
     s = s.replace('$', '@');
+    matcher = pattern.matcher(message);
     message = matcher.replaceFirst(s);
     matcher = pattern.matcher(message);
   }
@@ -86,7 +85,7 @@ public class BindableException extends Exception implements Cloneable {
    * append to the exception message.
    * @assumes Nothing
    * @effects Nothing
-   * @param The exception message(s).
+   * @param message The exception message(s).
    */
   public void appendMessage(String message) {
     this.message = this.message + "\n" + message;
@@ -132,6 +131,9 @@ public class BindableException extends Exception implements Cloneable {
 
 }
 // $Log$
+// Revision 1.2  2004/01/05 18:28:27  mbw
+// added replaceMessage() method
+//
 // Revision 1.1  2003/12/30 16:56:30  mbw
 // imported into this product
 //
