@@ -26,14 +26,15 @@ public class MultipleResults {
   // indicator that the call to getNextResults is the first call
   private boolean firstTime = true;
   // the following constant definitions are exceptions thrown by this class
-  private static final String JDBCException = DBExceptionFactory.JDBCException;
+  private static final String JDBCException =
+      DBExceptionFactory.JDBCException;
    private static final String CloseErr = DBExceptionFactory.CloseErr;
 
   /**
    * constructor
    * @param statement the JDBC Statement object
-   * @param isResultSet boolean indicator of whether or not the Statement object
-   * returned a ResultsSet
+   * @param isResultSet boolean indicator of whether or not the Statement
+   * object returned a ResultsSet
    * @param sql the sql which was executed for the given Statement object
    */
   protected MultipleResults(Statement statement,

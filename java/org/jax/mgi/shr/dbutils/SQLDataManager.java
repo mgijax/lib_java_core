@@ -237,9 +237,10 @@ public class SQLDataManager {
 
   /**
    * constructor which takes all the parameters necessary for getting a
-   * JDBC connection. Any of these parameters can be null, in which case, they
-   * will use default values. See
-   * <href="../config/DatabaseCfg.html">DatabaseCfg</href> for default values.
+   * JDBC connection. Any of these parameters can be null, in which case,
+   * they will use default values. See
+   * <href="../config/DatabaseCfg.html">DatabaseCfg</href> for default
+   * values.
    * @param pDatabase database name
    * @param pUser user name.
    * @param pPasswordFile password file name
@@ -518,7 +519,8 @@ public class SQLDataManager {
   /**
    * get a BCPManager for executing bcp
    * @return a BCPManager
-   * @throws ConfigException thrown if there is an error with the configuration
+   * @throws ConfigException thrown if there is an error with the
+   * configuration
    * @throws DBException thrown if there is an error with the database
    */
   //public BCPManager getBCPManager()
@@ -534,7 +536,8 @@ public class SQLDataManager {
    * @param cfg the configurator object from which to obtain configuration
    * settings
    * @return a BCPManager configured by given configurator
-   * @throws ConfigException thrown if there is an error with the configuration
+   * @throws ConfigException thrown if there is an error with the
+   * configuration
    * @throws DBException thrown if there is an error with the database
    */
   //public BCPManager getBCPManager(BCPManagerCfg cfg)
@@ -548,11 +551,13 @@ public class SQLDataManager {
 
   /**
    * get a BCPManager for executing bcp
-   * @param prefix the prefix to use when looking up configuration parameters.
+   * @param prefix the prefix to use when looking up configuration
+   * parameters.
    * internall calls getBCPManager(new BCPManagerCfg(prefix))
-   * @return a BCPManager configured by parameters in the configuration file
-   * prefixed with the given prefix
-   * @throws ConfigException thrown if there is an error with the configuration
+   * @return a BCPManager configured by parameters in the configuration
+   * file prefixed with the given prefix
+   * @throws ConfigException thrown if there is an error with the
+   * configuration
    * @throws DBException thrown if there is an error with the database
    */
   //public BCPManager getBCPManager(String prefix)
@@ -665,7 +670,7 @@ public class SQLDataManager {
     Statement statement = null;
     try {
       statement = conn.createStatement(scrollable,
-                                                 ResultSet.CONCUR_READ_ONLY);
+                                       ResultSet.CONCUR_READ_ONLY);
       rs = statement.executeQuery(sql);
     }
     catch (SQLException e) {
@@ -726,7 +731,8 @@ public class SQLDataManager {
     catch (SQLException e) {
         if (!isOnlyWarning(e))
         {
-            String msg = "execute update on the following sql string\n" + sql;
+            String msg = "execute update on the following sql string\n" +
+                sql;
             throw this.getJDBCException(msg, e);
         }
     }
@@ -881,7 +887,8 @@ public class SQLDataManager {
     this.checkConnection("obtain a new BindableStatement object");
     PreparedStatement p = null;
     try {
-      p = conn.prepareStatement(sql, scrollable, ResultSet.CONCUR_READ_ONLY);
+      p = conn.prepareStatement(sql, scrollable,
+                                ResultSet.CONCUR_READ_ONLY);
     }
     catch (SQLException e) {
       String msg =
@@ -931,8 +938,9 @@ public class SQLDataManager {
   /**
    * return indicator of whether or not the current connection is a
    * Sybase connection
-   * @assumes the user has set the configuration parameter DBCONNECTION_MANAGER
-   * or is accepting the default value which is a Sybase ConnectionManager.
+   * @assumes the user has set the configuration parameter
+   * DBCONNECTION_MANAGER or is accepting the default value which is a
+   * Sybase ConnectionManager.
    * @effects nothing
    * @return true is the connection is Sybase
    */
@@ -951,8 +959,9 @@ public class SQLDataManager {
   /**
    * return indicator of whether or not the current connection is a
    * MySQL connection
-   * @assumes the user has set the configuration parameter DBCONNECTION_MANAGER
-   * or is accepting the default value which is a Sybase ConnectionManager.
+   * @assumes the user has set the configuration parameter
+   * DBCONNECTION_MANAGER or is accepting the default value which is a
+   * Sybase ConnectionManager.
    * @effects nothing
    * @return true is the connection is MySQL
    */
@@ -971,8 +980,9 @@ public class SQLDataManager {
   /**
    * return indicator of whether or not the current connection is a
    * Oracle connection
-   * @assumes the user has set the configuration parameter DBCONNECTION_MANAGER
-   * or is accepting the default value which is a Sybase ConnectionManager.
+   * @assumes the user has set the configuration parameter
+   * DBCONNECTION_MANAGER or is accepting the default value which is a
+   * Sybase ConnectionManager.
    * @effects nothing
    * @return true is the connection is Oracle
    */
@@ -1259,6 +1269,9 @@ public class SQLDataManager {
 }
 
 // $Log$
+// Revision 1.8  2004/07/22 18:31:43  mbw
+// bug fix: changed constructors accepting alternative ConnectionManagers from accepting ConnectionManager names (String) to ConnectionManager instances
+//
 // Revision 1.7  2004/07/21 20:13:06  mbw
 // - added new constructors
 // - no longer throws SQLWarnings

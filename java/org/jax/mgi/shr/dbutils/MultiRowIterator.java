@@ -10,8 +10,8 @@ import java.util.Vector;
  * @does it looks out for a sequential group of rows which contain the same
  * key value and will create a java data object based on that group of rows.
  * The getNext() method is provided for iterating through the results which
- * is iteratively called, returning the next object, until the call to hasNext()
- * returns false.
+ * is iteratively called, returning the next object, until the call to
+ * hasNext() returns false.
  * @author M Walker
  */
 
@@ -61,7 +61,8 @@ public class MultiRowIterator implements DataIterator
   }
 
   /**
-   * return an indicator of whether or not there are any more results to process
+   * return an indicator of whether or not there are any more results to
+   * process
    * @return true if thjere are more results to process, false otherwise
    */
   public boolean hasNext()

@@ -196,8 +196,9 @@ public class BindableStatement {
       preparedStatement.setNull(i, type);
     }
     catch (SQLException e) {
-      throw getJDBCException("set null on sql type " + type + " for column " + i +
-              "in sql string '" + sql + "'", e);
+      throw getJDBCException("set null on sql type " + type +
+                             " for column " + i +
+                             "in sql string '" + sql + "'", e);
     }
     bindVariables.set(i - 1, null);
   }
@@ -211,8 +212,9 @@ public class BindableStatement {
       preparedStatement.setString(i, x);
     }
     catch (SQLException e) {
-      throw getJDBCException("set string value '" + x + "' for column " + i +
-              "in sql string '" + sql + "'", e);
+      throw getJDBCException("set string value '" + x +
+                             "' for column " + i +
+                             "in sql string '" + sql + "'", e);
     }
     bindVariables.set(i - 1, x);
   }
@@ -226,8 +228,9 @@ public class BindableStatement {
       preparedStatement.setTimestamp(i, x);
     }
     catch (SQLException e) {
-      throw getJDBCException("set timestamp value " + x + " for column " + i +
-              "in sql string '" + sql + "'", e);
+      throw getJDBCException("set timestamp value " + x +
+                             " for column " + i +
+                             "in sql string '" + sql + "'", e);
     }
     bindVariables.set(i - 1, x);
   }
@@ -402,6 +405,9 @@ public class BindableStatement {
 
 }
 // $Log$
+// Revision 1.4  2004/07/21 19:19:30  mbw
+// javadocs only
+//
 // Revision 1.3  2004/02/11 21:13:24  mbw
 // added time stats to debug logging
 //

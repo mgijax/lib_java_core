@@ -33,20 +33,20 @@ import org.jax.mgi.shr.dbutils.types.TypeValidator;
      */
     public Object clone()
     {
-    	ColumnDef col = new ColumnDef();
-    	col.setType(this.getType());
-    	col.setCatalog(this.getCatalog());
-    	col.setDecimalSize(this.getDecimalSize());
-    	col.setName(this.getName());
-    	if (this.isNullable())
-    	  col.setNullable("YES");
-    	else
-    	  col.setNullable("NO");
-    	col.setSchema(this.getSchema());
-    	col.setSize(this.getSize());
-    	col.setTable(this.getTable());
-    	col.setTypeName(this.getTypeName());
-    	return col;
+        ColumnDef col = new ColumnDef();
+        col.setType(this.getType());
+        col.setCatalog(this.getCatalog());
+        col.setDecimalSize(this.getDecimalSize());
+        col.setName(this.getName());
+        if (this.isNullable())
+          col.setNullable("YES");
+        else
+          col.setNullable("NO");
+        col.setSchema(this.getSchema());
+        col.setSize(this.getSize());
+        col.setTable(this.getTable());
+        col.setTypeName(this.getTypeName());
+        return col;
     }
 
     /**
@@ -99,15 +99,15 @@ import org.jax.mgi.shr.dbutils.types.TypeValidator;
       typeName = s;
     }
 
-		/**
-		 * set the value of the data type
-		 * @assumes nothing
-		 * @effects the internal typeName value will be set
-		 * @param i the name of the data type
-		 */
-		protected void setType(int i) {
-			type = i;
-		}
+                /**
+                 * set the value of the data type
+                 * @assumes nothing
+                 * @effects the internal typeName value will be set
+                 * @param i the name of the data type
+                 */
+                protected void setType(int i) {
+                        type = i;
+                }
 
     /**
      * set the value for the column size
@@ -160,15 +160,15 @@ import org.jax.mgi.shr.dbutils.types.TypeValidator;
       return type;
     }
 
-		/**
-		 * get the name of the type
-		 * @assumes nothing
-		 * @effects the internal type value will be set
-		 * @return the daya type as an integer
-		 */
-		public String getTypeName() {
-			return typeName;
-		}
+                /**
+                 * get the name of the type
+                 * @assumes nothing
+                 * @effects the internal type value will be set
+                 * @return the daya type as an integer
+                 */
+                public String getTypeName() {
+                        return typeName;
+                }
 
     /**
      * get the size of the column
@@ -248,103 +248,98 @@ import org.jax.mgi.shr.dbutils.types.TypeValidator;
      * @return the java type name or null if the type is unknown
      */
     public String getJavaType() {
-    	String name = null;
-    	switch (type)
-    	{
-    		case DBTypeConstants.DB_CHAR:
-    		case DBTypeConstants.DB_VARCHAR:
-    		case DBTypeConstants.DB_TEXT:
-    		  name = "String";
-    		  break;
-    		case DBTypeConstants.DB_INTEGER:
-    		   name = "Integer";
-    		   break;
-    		case DBTypeConstants.DB_DATETIME:
-    		   name = "Timestamp";
-    		   break;
-    		case DBTypeConstants.DB_FLOAT:
-    		   name = "Float";
-    		   break;
-    		case DBTypeConstants.DB_BIT:
-    		   name = "Boolean";
-    		   break;
-    		default:
-    		   name = null;
-    		   break;
-    	}
-    	return name;
+        String name = null;
+        switch (type)
+        {
+                case DBTypeConstants.DB_CHAR:
+                case DBTypeConstants.DB_VARCHAR:
+                case DBTypeConstants.DB_TEXT:
+                  name = "String";
+                  break;
+                case DBTypeConstants.DB_INTEGER:
+                   name = "Integer";
+                   break;
+                case DBTypeConstants.DB_DATETIME:
+                   name = "Timestamp";
+                   break;
+                case DBTypeConstants.DB_FLOAT:
+                   name = "Float";
+                   break;
+                case DBTypeConstants.DB_BIT:
+                   name = "Boolean";
+                   break;
+                default:
+                   name = null;
+                   break;
+        }
+        return name;
     }
 
-		/**
-		 * get the name of the given column in a format used during code generation
-		 * @assumes nothing
-		 * @effects nothing
-		 * @return the column name
-		 */
-		public String getCGName() {
-			String[] parts = name.split("_");
-			String cgName = null;
-			boolean firstConcat = true; // first concat operation
-			for (int i = 0; i < parts.length; i++)
-			{
-				String part = parts[i];
-				String newPart = null;
-				if (!part.equals(""))
-				{
-					if (!firstConcat)
-					{
-						// capitalize subsequent substrings during concat operation
-					  newPart =
-					    part.substring(0,1).toUpperCase().concat(part.substring(1));
-					}
-					else
-					{
-						// dont capitalize the first substring
-						newPart =
-						  part.substring(0,1).toLowerCase().concat(part.substring(1));
-					}
-					if (cgName == null)
-					{
-						cgName = newPart;
-						firstConcat = false;
-					}
-					else
-					{
-						cgName = cgName.concat(newPart);
-					}
-				}
-			}
-			if (cgName == null)
-				cgName = this.name;
-			if (cgName.equals("private") || cgName.equals("abstract") || cgName.equals("class"))
-			   cgName = cgName + "Val";
-			return cgName;
-		}
+    /**
+     * get the name of the given column in a format used during code
+     * generation
+     * @assumes nothing
+     * @effects nothing
+     * @return the column name
+     */
+    public String getCGName() {
+      String[] parts = name.split("_");
+      String cgName = null;
+      boolean firstConcat = true; // first concat operation
+      for (int i = 0; i < parts.length; i++) {
+        String part = parts[i];
+        String newPart = null;
+        if (!part.equals("")) {
+          if (!firstConcat) {
+            // capitalize subsequent substrings during concat operation
+            newPart =
+                part.substring(0, 1).toUpperCase().concat(part.substring(1));
+          }
+          else {
+            // dont capitalize the first substring
+            newPart =
+                part.substring(0, 1).toLowerCase().concat(part.substring(1));
+          }
+          if (cgName == null) {
+            cgName = newPart;
+            firstConcat = false;
+          }
+          else {
+            cgName = cgName.concat(newPart);
+          }
+        }
+      }
+      if (cgName == null)
+        cgName = this.name;
+      if (cgName.equals("private") || cgName.equals("abstract") ||
+          cgName.equals("class"))
+        cgName = cgName + "Val";
+      return cgName;
+    }
 
-        /**
-         * get the name of the setter method for this column to be used for
-         * the automated creation of java bean classes with common accessor
-         * methods
-         * @return the name of the setter method for this column
-         */
-		public String getSetterCGName()
-		{
-			String cgName = getCGName();
-			return "set" +
-			       cgName.substring(0, 1).toUpperCase().concat(cgName.substring(1));
-		}
-        /**
-         * get the name of the setter method for this column to be used for
-         * the automated creation of java bean classes with common accessor
-         * methods
-         * @return the name of the setter method for this column
-         */
-		public String getGetterCGName()
-		{
-			String cgName = getCGName();
-			return "get" +
-			       cgName.substring(0, 1).toUpperCase().concat(cgName.substring(1));
-		}
+    /**
+     * get the name of the setter method for this column to be used for
+     * the automated creation of java bean classes with common accessor
+     * methods
+     * @return the name of the setter method for this column
+     */
+    public String getSetterCGName() {
+      String cgName = getCGName();
+      return "set" +
+          cgName.substring(0, 1).toUpperCase().concat(cgName.substring(1));
+    }
+
+    /**
+     * get the name of the setter method for this column to be used for
+     * the automated creation of java bean classes with common accessor
+     * methods
+     * @return the name of the setter method for this column
+     */
+    public String getGetterCGName() {
+      String cgName = getCGName();
+      return "get" +
+          cgName.substring(0, 1).toUpperCase().concat(cgName.substring(1));
+    }
 
 
     /**
@@ -362,9 +357,9 @@ import org.jax.mgi.shr.dbutils.types.TypeValidator;
      * @return the String representation for this instance
      */
     public String toString() {
-    	String s = getName() + " : " + getTypeName();
+        String s = getName() + " : " + getTypeName();
 
-    	return s;
+        return s;
     }
 
     /**
@@ -372,7 +367,7 @@ import org.jax.mgi.shr.dbutils.types.TypeValidator;
      * @param stream the stream to dump on
      */
     public void dump(PrintStream stream) {
-			stream.println(this.toString());
+                        stream.println(this.toString());
     }
 
 

@@ -194,8 +194,8 @@ throws DBException, ConfigException
    */
   public boolean hasIncrementalKey() throws DBException
   {
-  	if (!metadataRead) this.getTableDefinitions();
-  	return this.isIncremental;
+        if (!metadataRead) this.getTableDefinitions();
+        return this.isIncremental;
   }
 
   /**
@@ -241,8 +241,8 @@ throws DBException, ConfigException
    * match expected number or error getting table metadata.
    * @throws DBException thrown if there is an error getting the meta data
    */
-  public void validateFields(Vector v, boolean autoStamp) throws DataException,
-      DBException {
+  public void validateFields(Vector v, boolean autoStamp)
+      throws DataException, DBException {
     // if auto-filling the user and date fields then additional
     // fields will be added after validation. But the field count
     // will have to be compensated for when validating.
@@ -349,8 +349,8 @@ throws DBException, ConfigException
 
   /**
    * get the next key value for the table and cache it. This value is cached
-   * and may not reflect the actual max key value in the table. That is if you
-   * call this method multiple times before doing
+   * and may not reflect the actual max key value in the table. That is if
+   * you call this method multiple times before doing
    * @assumes nothing
    * @effects the cached key value will be set
    * @throws DBException thrown if there is a two part key or if the key
@@ -386,10 +386,10 @@ throws DBException, ConfigException
     String sql = "SELECT MAX(" + keyName + ") FROM " + tableName;
     ResultsNavigator it = dataManager.executeQuery(sql);
     if (it.next()) {
-    	RowReference row = (RowReference)it.getCurrent();
-			Integer colData = row.getInt(1);
-			if (colData != null)
-    		cacheKey = colData.intValue();
+        RowReference row = (RowReference)it.getCurrent();
+                        Integer colData = row.getInt(1);
+                        if (colData != null)
+                cacheKey = colData.intValue();
     }
   }
 
@@ -529,6 +529,11 @@ throws DBException, ConfigException
 }
 
 // $Log$
+// Revision 1.3  2004/07/21 20:24:31  mbw
+// - fixed bug causing key value to start at 2
+// - added methods resetKey() and synchronizeKey()
+// - made some javadocs edits
+//
 // Revision 1.2  2004/03/29 19:54:28  mbw
 // made more compatible with non-sybase dbs
 //

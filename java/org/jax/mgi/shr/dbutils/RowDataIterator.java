@@ -45,7 +45,8 @@ public class RowDataIterator implements DataIterator
    * objects based on the rows of query results
    * @throws DBException thrown if there is an error within the database
    */
-  public RowDataIterator(ResultsNavigator nav, RowDataInterpreter interpreter)
+  public RowDataIterator(ResultsNavigator nav,
+                         RowDataInterpreter interpreter)
   throws DBException
   {
     this.nav = nav;
@@ -57,7 +58,8 @@ public class RowDataIterator implements DataIterator
   }
 
   /**
-   * return an indicator of whether or not there are any more results to process
+   * return an indicator of whether or not there are any more results to
+   * process
    * @assumes nothing
    * @effects nothing
    * @return true if thjere are more results to process, false otherwise

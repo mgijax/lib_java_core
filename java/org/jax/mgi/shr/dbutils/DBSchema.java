@@ -49,13 +49,14 @@ public class DBSchema
      */
     private static final String REGEX_KEY = "^sp_.*$";
     /**
-     * regular expression for locating isql go commands in the dbschema files
+     * regular expression for locating isql go commands in the dbschema
+     * files
      */
     private static final String REGEX_GO_COMMAND = "^[gG][oO]$";
 
     /**
-     * compiled regex pattern for locating drop index commands in the dbschema
-     * files
+     * compiled regex pattern for locating drop index commands in the
+     * dbschema files
      */
     private static final Pattern dropPattern =
         Pattern.compile(REGEX_DROP);
@@ -124,9 +125,10 @@ public class DBSchema
     }
 
     /**
-     * locates the drop index commands from the dbschema product for the given
-     * table and executes them in the database and if there are partitions
-     * defined for the given table then they need to be dropped in advance.
+     * locates the drop index commands from the dbschema product for the
+     * given table and executes them in the database and if there are
+     * partitions defined for the given table then they need to be dropped in
+     * advance.
      * @assumes nothing
      * @effects indexes will be dropped on the given table
      * @param pTablename table name
@@ -352,8 +354,8 @@ public class DBSchema
     }
 
     /**
-     * parse the dbschema file and extract the sql commands for creating indexes
-     * for the given table
+     * parse the dbschema file and extract the sql commands for creating
+     * indexes for the given table
      * @assumes nothing
      * @effects nothing
      * @param pTablename the given table name
@@ -375,13 +377,15 @@ public class DBSchema
             {
                 s = ((String)v1.get(i)).replaceAll(
                     "\\$(\\{)?+DBCLUSTIDXSEG(\\})?+", "seg0");
-                s = (s.replaceAll("\\$(\\{)?+DBNONCLUSTIDXSEG(\\})?+", "seg1"));
+                s = (s.replaceAll("\\$(\\{)?+DBNONCLUSTIDXSEG(\\})?+",
+                                  "seg1"));
             }
             else
             {
                 s = ((String)v1.get(i)).replaceAll(
                     "on \\$(\\{)?+DBCLUSTIDXSEG(\\})?+", "");
-                s = (s.replaceAll("on \\$(\\{)?+DBNONCLUSTIDXSEG(\\})?+", ""));
+                s = (s.replaceAll("on \\$(\\{)?+DBNONCLUSTIDXSEG(\\})?+",
+                                  ""));
                 s = (s.replaceAll("on system", ""));
                 s = (s.replaceAll("nonclustered index", "index"));
                 s = (s.replaceAll("clustered index", "index"));
@@ -411,8 +415,8 @@ public class DBSchema
             return v1;
         else
         {
-            // do text substition for non sybsase db to change sybase proc calls
-            // with alter table command
+            // do text substition for non sybsase db to change sybase proc
+            // calls with alter table command
             Vector v2 = new Vector();
             String s = null;
             for (int i = 0; i < v1.size(); i++)
@@ -430,7 +434,8 @@ public class DBSchema
                 if (command.equals("sp_primarykey"))
                 {
                     String alterTable =
-                        "ALTER TABLE tableName_ ADD PRIMARY KEY ( columnName_ )";
+                        "ALTER TABLE tableName_ ADD PRIMARY KEY " +
+                        "( columnName_ )";
                     alterTable = alterTable.replaceFirst("tableName_",
                         tableName);
                     alterTable = alterTable.replaceFirst("columnName_",
@@ -462,8 +467,8 @@ public class DBSchema
             return v1;
         else
         {
-            // do text substition for non sybsase db to change sybase proc calls
-            // with alter table command
+            // do text substition for non sybsase db to change sybase proc
+            // calls with alter table command
             Vector v2 = new Vector();
             String s = null;
             for (int i = 0; i < v1.size(); i++)
@@ -481,7 +486,8 @@ public class DBSchema
                 if (command.equals("sp_foreignkey"))
                 {
                     String alterTable =
-                        "ALTER TABLE tableName_ ADD FOREIGN KEY ( columnName_ )";
+                        "ALTER TABLE tableName_ ADD FOREIGN KEY " +
+                        "( columnName_ )";
                     alterTable = alterTable.replaceFirst("tableName_",
                         tableName);
                     alterTable = alterTable.replaceFirst("columnName_",
@@ -537,7 +543,8 @@ public class DBSchema
     }
 
     /**
-     * search the dbschema file and extracts the create trigger commands from it
+     * search the dbschema file and extracts the create trigger commands
+     * from it
      * @assumes nothing
      * @effects nothing
      * @param pTablename the name of the table
@@ -591,10 +598,12 @@ public class DBSchema
      * not be obtained fron the dbschema product.
      * @throws DBException thrown if there is an error with the database
      */
-    protected Vector getCreateCommands(String targetObject, String pTablename)
+    protected Vector getCreateCommands(String targetObject,
+                                       String pTablename)
         throws DBSchemaException
     {
-        String filename = calculateFilename(targetObject, "create", pTablename);
+        String filename = calculateFilename(targetObject, "create",
+                                            pTablename);
         String line = null;
         Vector allCommands = new Vector();
         StringBuffer command = new StringBuffer();
@@ -696,7 +705,8 @@ public class DBSchema
     protected String getCreatePartitionCommand(String pTablename)
         throws DBSchemaException
     {
-        String filename = calculateFilename("partition", "create", pTablename);
+        String filename = calculateFilename("partition", "create",
+                                            pTablename);
         Vector v = getCommands(filename, alterPattern);
         return (String)v.get(0);
     }
@@ -714,7 +724,8 @@ public class DBSchema
     protected String getDropPartitionCommand(String pTablename)
         throws DBSchemaException
     {
-        String filename = calculateFilename("partition", "drop", pTablename);
+        String filename = calculateFilename("partition", "drop",
+                                            pTablename);
         Vector v = getCommands(filename, alterPattern);
         return (String)v.get(0);
     }
@@ -785,8 +796,8 @@ public class DBSchema
      * calculate the file name for a file in the dbschema product given the
      * command noun (like 'table', 'index', etc) and the command verb (like
      * 'create' or 'drop') and the name of the table. The configuration
-     * parameter DBSCHEMA_INSTALLDIR is used as the directory name in which the
-     * dbschema product is installed.
+     * parameter DBSCHEMA_INSTALLDIR is used as the directory name in which
+     * the dbschema product is installed.
      * @assumes nothing
      * @effects nothing
      * @param pCommandNoun the sql command noun as in table or index
@@ -849,6 +860,9 @@ public class DBSchema
 
 }
 // $Log$
+// Revision 1.8  2004/07/21 19:33:07  mbw
+// added create trigger functionality along with create primary and foreign key functionality and also incorporated code to make more portable across different databases (namely MySQL and Oracle)
+//
 // Revision 1.7  2004/04/02 17:02:16  mbw
 // bug fix: fixed regex strings
 //
