@@ -1,3 +1,7 @@
+DATE: 01/04/2004
+STAFF: mbw
+CHANGES: bug fix on RowDataIterator from dbutils package
+
 TAG: lib_java_core-tr3007-BP
 DATE: 01/04/2005
 STAFF: mbw
