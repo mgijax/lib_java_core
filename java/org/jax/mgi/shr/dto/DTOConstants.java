@@ -186,10 +186,14 @@ public class DTOConstants
     public static String DatabaseVersion = "databaseVersion";
     public static String DatabaseDate = "databaseDate";
     public static String Notes = "notes";
+    public static String SearchToolResults = "searchToolResults";
 }
 
 /*
 * $Log$
+* Revision 1.4  2004/02/12 23:37:51  jw
+* Added Support for the sequence factory
+*
 * Revision 1.3  2004/02/11 16:28:16  jsb
 * Added ActualDB and ActualDBs
 *
