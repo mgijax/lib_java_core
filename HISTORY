@@ -1,3 +1,9 @@
+DATE: 07/30/2004
+STAFF: mbw
+CHANGES:
+BCPStrategy, BCP_Stream : added initBCPWriters(Vector) method
+BCP_Inline_Stream, BCP_Script_Stream, BCP_Batch_Stream: now exetends BCP_Stream
+
 TAG: lib_java_core-1-0-20
 DATE: 07/28/2004
 STAFF: mbw
