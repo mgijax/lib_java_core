@@ -122,7 +122,8 @@ import org.jax.mgi.shr.exception.ExceptionFactory;
           "org.jax.mgi.shr.shrdbutils.NullFilename";
       static {
         exceptionsMap.put(NullFilename, new IOUException (
-            "Filename cannot be null", false));
+            "The input filename was not configured. Expected INFILE_NAME.",
+            false));
       }
       /**
        * the provided record delimiter was empty
@@ -131,7 +132,7 @@ import org.jax.mgi.shr.exception.ExceptionFactory;
           "org.jax.mgi.shr.shrdbutils.EmptyDelimiter";
       static {
         exceptionsMap.put(EmptyDelimiter, new IOUException (
-            "Cannot match record seperator with an empty byte sequence.", 
+            "Cannot match record seperator with an empty byte sequence.",
             false));
       }
       /**

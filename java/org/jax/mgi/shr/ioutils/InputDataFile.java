@@ -464,7 +464,7 @@ public class InputDataFile
                 if (beginDelimiter == null)
                     // pass in end delimiter as a string
                     recordDataReader =
-                    new RecordDataReader(inputChannel, endDelimiter,
+                    new RecordDataReader(inputChannel, null, endDelimiter,
                                          bufferSize);
                 else
                     // pass in end & begin delimiters as strings
@@ -480,7 +480,7 @@ public class InputDataFile
                     // pass in the end delimiter as a byte sequence
                     recordDataReader =
                         new RecordDataReader(inputChannel,
-                                             endDelimiter.getBytes(),
+                                             null, endDelimiter.getBytes(),
                                              bufferSize);
                 }
                 else
