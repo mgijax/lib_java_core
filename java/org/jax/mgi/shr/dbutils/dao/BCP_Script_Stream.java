@@ -45,15 +45,6 @@ public class BCP_Script_Stream extends SQLStream {
    */
   public void close() throws DBException {
     try {
-      writer.execute();
-    }
-    catch (ScriptException e) {
-      DBExceptionFactory eFactory = new DBExceptionFactory();
-      DBException e2 = (DBException)
-          eFactory.getException(ExecuteScriptErr, e);
-      throw e2;
-    }
-    try {
       bcpMgr.executeBCP();
     }
     catch (MGIException e)
@@ -62,6 +53,15 @@ public class BCP_Script_Stream extends SQLStream {
       DBException e2 = (DBException)
           eFactory.getException(SQLStreamCloseErr, e);
       e2.bind(this.getClass().getName());
+      throw e2;
+    }
+    try {
+      writer.execute();
+    }
+    catch (ScriptException e) {
+      DBExceptionFactory eFactory = new DBExceptionFactory();
+      DBException e2 = (DBException)
+          eFactory.getException(ExecuteScriptErr, e);
       throw e2;
     }
 
