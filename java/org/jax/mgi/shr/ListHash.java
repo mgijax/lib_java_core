@@ -21,7 +21,6 @@ public class ListHash extends Hashtable {
 	* without merging the values, make sure to cast it to Object.
 	* Inserting a ListHash into another ListHash is NOT supported and will
 	* result in undefined behavoir and/or errors.
-	* @see org.jax.mgi.utils.ListHash#merge merge
 	* @param key The key to insert value at.
 	* @param value The object to be inserted.
 	* @return The new value stored at key (an ArrayList).
@@ -216,7 +215,6 @@ public class ListHash extends Hashtable {
 	* another ListHash.
 	* If the Map is a ListHash, and any are shared between the ListHashes,
 	* the ArrayLists will NOT be merged.
-	* @see org.jax.mgi.utils.ListHash#merge merge
 	* @param t the Map to be inserted.
 	*/
 	public void putAll(Map t) {

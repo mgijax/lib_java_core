@@ -3,17 +3,16 @@ package org.jax.mgi.shr.cache;
 import org.jax.mgi.shr.exception.ExceptionFactory;
 
 /**
- * @is An ExceptionFactory for cache exceptions.
+ * An ExceptionFactory for cache exceptions.
  * @has a hashmap of predefined CacheExceptions stored by a name key
  * @does looks up CacheExceptions by name
  * @author M Walker
- * @version 1.0
  */
 public class CacheExceptionFactory
     extends ExceptionFactory
 {
     /**
-     * a given RowDataInterpreter did not create a KeyValue object
+     * A given RowDataInterpreter did not create a KeyValue object
      */
     public static final String MissingKeyValue =
         "org.jax.mgi.shr.cache.MissingKeyValue";
@@ -25,7 +24,7 @@ public class CacheExceptionFactory
     }
 
     /**
-     * this is an unknown cache strategy type
+     * This is an unknown cache strategy type
      */
     public static final String UnknownStrategy =
         "org.jax.mgi.shr.cache.UnknownStrategy";
@@ -37,7 +36,7 @@ public class CacheExceptionFactory
     }
 
     /**
-     * Full cache not initialized
+     * Full cache was not initialized
      */
     public static final String InitializationErr =
         "org.jax.mgi.shr.cache.InitializationErr";

@@ -3,7 +3,7 @@ package org.jax.mgi.shr;
 import java.util.*;
 
 /**
- * @is a class that provides static methods for set operations
+ *  A class that provides static methods for set operations
  * @has
  *   <UL>
  *   <LI>A TwoTuple class representing one member of the set created by the
@@ -16,13 +16,12 @@ import java.util.*;
  *   </UL>
  * @company The Jackson Laboratory
  * @author jer
- * @version 1.0
  */
 
 public class Sets {
 
     /**
-     * @is an object that bundles a pair of Objects and can compare
+     *  an object that bundles a pair of Objects and can compare
      *     this TwoTuple to another TwoTuple for equality
      * @has
      *   <UL>
@@ -36,7 +35,6 @@ public class Sets {
      *   </UL>
      * @company The Jackson Laboratory
      * @author jer
-     * @version 1.0
      */
 
 	public static class TwoTuple {
@@ -83,7 +81,7 @@ public class Sets {
          * @assumes nothing
          * @effects Nothing
          * @param None
-         * @returns concatenation of both objects converted to a String
+         * @return concatenation of both objects converted to a String
          * @throws Nothing
          */
 
@@ -102,7 +100,7 @@ public class Sets {
       * @effects Nothing
       * @param a Set to add into
       * @param b Set to add from
-      * @returns a the Set we added into
+      * @return a the Set we added into
       * @throws Nothing
       */
 
@@ -116,7 +114,7 @@ public class Sets {
     * @effects Nothing
     * @param a Set to intersect into
     * @param b Set to intersect from
-    * @returns a the Set we intersected into
+    * @return a the Set we intersected into
     * @throws Nothing
     */
 
@@ -130,7 +128,7 @@ public class Sets {
      * @effects Nothing
      * @param a Set to difference into
      * @param b Set to difference from
-     * @returns a the Set we differenced into
+     * @return a the Set we differenced into
      * @throws Nothing
      */
 
@@ -144,7 +142,7 @@ public class Sets {
     * @effects Nothing
     * @param a Set
     * @param b Set
-    * @returns a new Set object representing the union of a and b
+    * @return a new Set object representing the union of a and b
     * @throws Nothing
     */
 
@@ -158,7 +156,7 @@ public class Sets {
     * @effects Nothing
     * @param a Set
     * @param b Set
-    * @returns a new Set object representing the intersection of a and b
+    * @return a new Set object representing the intersection of a and b
     * @throws Nothing
     */
 
@@ -172,7 +170,7 @@ public class Sets {
     * @effects Nothing
     * @param a Set
     * @param b Set
-    * @returns a new Set object representing the a - b
+    * @return a new Set object representing the a - b
     * @throws Nothing
     */
 
@@ -186,7 +184,7 @@ public class Sets {
     * @effects Nothing
     * @param a Set
     * @param b Set
-    * @returns true if a is a subset of b, else false
+    * @return true if a is a subset of b, else false
     * @throws Nothing
     */
 	public static boolean subsetOf(Set a, Set b){
@@ -202,7 +200,7 @@ public class Sets {
     * @effects Nothing
     * @param a Set
     * @param b Set
-    * @returns a set of TwoTuples, each containing a pair
+    * @return a set of TwoTuples, each containing a pair
     * of elements, one from set a and one from set b.
     * @throws Nothing
     */
