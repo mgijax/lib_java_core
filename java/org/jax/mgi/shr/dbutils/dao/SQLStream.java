@@ -1,6 +1,7 @@
 package org.jax.mgi.shr.dbutils.dao;
 
 import org.jax.mgi.shr.dbutils.DBException;
+import org.jax.mgi.shr.exception.MGIException;
 
 /**
  * An abstract class for performing database inserts, updates and deletes
@@ -54,7 +55,10 @@ public abstract class SQLStream implements DAOPersistent
    */
   public void delete(DAO dao) throws DBException
   {
-    this.deleteStrategy.delete(dao);
+      if (this.deleteStrategy != null)
+          this.deleteStrategy.delete(dao);
+      else
+          throw MGIException.getUnsupportedMethodException();
   }
 
   /**
@@ -68,7 +72,10 @@ public abstract class SQLStream implements DAOPersistent
    */
   public void update(DAO dao) throws DBException
   {
-    this.updateStrategy.update(dao);
+      if (this.updateStrategy != null)
+          this.updateStrategy.update(dao);
+      else
+          throw MGIException.getUnsupportedMethodException();
   }
 
   /**
@@ -82,7 +89,10 @@ public abstract class SQLStream implements DAOPersistent
    */
   public void insert(DAO dao) throws DBException
   {
-    this.insertStrategy.insert(dao);
+      if (this.insertStrategy != null)
+          this.insertStrategy.insert(dao);
+      else // not supported by parent class
+          throw MGIException.getUnsupportedMethodException();
   }
 
   /**

@@ -50,29 +50,6 @@ public class BCP_Stream
         super.setInsertStrategy(bcpStrategy);
     }
 
-    /**
-     * this method overrides the super class method by throwing an exception
-     * @assumes nothing
-     * @effects an exception will be thrown.
-     * @param dao the object to delete
-     * @throws DBException at all times
-     */
-    public void delete(DAO dao) throws DBException
-    {
-      throw MGIException.getUnsupportedMethodException();
-    }
-
-    /**
-     * this method overrides the super class method be throwing an exception
-     * @assumes nothing
-     * @effects an exception will be thrown.
-     * @param dao the object to update
-     * @throws DBException at all times
-     */
-    public void update(DAO dao) throws DBException
-    {
-      throw MGIException.getUnsupportedMethodException();
-    }
 
     /**
      * initialize all the writers up front in order to assure order
