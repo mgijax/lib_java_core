@@ -702,6 +702,8 @@ public class Configurator
         }
         else
             s = cm.get(name);
+        if (s != null && s.equals(""))
+            s = null;
         return s;
     }
 
@@ -787,6 +789,9 @@ public class Configurator
 
 }
 // $Log$
+// Revision 1.5  2004/08/04 14:18:08  mbw
+// added new method for getting a string array from the config file
+//
 // Revision 1.4  2004/07/21 18:38:31  mbw
 // implemented config prefixing in this class so that all base classes inherit this functionality
 // added getConfigRegex family of methods
