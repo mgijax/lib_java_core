@@ -36,7 +36,8 @@ public class RecordStampFactory {
    * @return the RecordStamp class
    * @throws DBException thrown if there is an error accessing the database
    */
-  public static RecordStamper getRecordStamp(Table table) throws DBException {
+  public static RecordStamper getRecordStamp(Table table)
+      throws DBException {
     RecordStamper stamp = null;
     /**
      * see if there is a column named _CreatedBy_key.

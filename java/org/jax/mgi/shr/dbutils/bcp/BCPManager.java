@@ -141,7 +141,8 @@ public class BCPManager {
    * @throws DBException thrown if there is an error accessing the
    * database
    */
-  public BCPManager(BCPManagerCfg config) throws ConfigException, DBException {
+  public BCPManager(BCPManagerCfg config)
+      throws ConfigException, DBException {
     configure(config);
   }
 
@@ -157,8 +158,8 @@ public class BCPManager {
    * @throws ConfigException thrown if there is an error during
    * configuration
    */
-  public BCPWriter getBCPWriter(Table table) throws BCPException, DBException,
-      ConfigException {
+  public BCPWriter getBCPWriter(Table table)
+      throws BCPException, DBException, ConfigException {
     BCPWriterCfg bcpCfg = new BCPWriterCfg();
     bcpCfg.setDefaultOkToRecordStamp(okToRecordStamp);
     bcpCfg.setDefaultOkToAutoFlush(okToAutoFlush);
@@ -189,8 +190,8 @@ public class BCPManager {
 
 
   /**
-   * get a BCPWriter object for a given table and apply the given configuration
-   * to the instance.
+   * get a BCPWriter object for a given table and apply the given
+   * configurationto the instance.
    * @assumes nothing
    * @effects a bcp file will be opened for writing
    * @param pTable the table object to bcp against.
@@ -218,8 +219,8 @@ public class BCPManager {
   }
 
   /**
-   * get a BCPWriter object for a given table and apply the given configuration
-   * to the instance.
+   * get a BCPWriter object for a given table and apply the given
+   * configuration to the instance.
    * @assumes nothing
    * @effects a bcp file will be opened for writing
    * @param pTable the table object to bcp against.
@@ -533,8 +534,8 @@ public class BCPManager {
   //}
 
   /**
-   * get a BCPWriter object for a given table and apply the given configuration
-   * to the instance.
+   * get a BCPWriter object for a given table and apply the given
+   * configuration to the instance.
    * @assumes nothing
    * @effects a bcp file will be opened for writing
    * @param pTable the table name to bcp against.
@@ -571,7 +572,8 @@ public class BCPManager {
    * @throws DBSchemaException thrown if there is an error obtainning DDL
    * commands, for example commands for dropping and creating indexes
    */
-  public void executeBCP() throws BCPException, DBException, DBSchemaException {
+  public void executeBCP()
+      throws BCPException, DBException, DBSchemaException {
     BCPWriter writer = null;
     for (Iterator it = allWriters.iterator(); it.hasNext(); ) {
       writer = (BCPWriter) it.next();
@@ -728,7 +730,8 @@ public class BCPManager {
 
   public FileImporter chooseFileImporter()
   {
-      if (this.connectionClass.equals("org.jax.mgi.shr.dbutils.MGIDriverManager"))
+      if (this.connectionClass.equals(
+        "org.jax.mgi.shr.dbutils.MGIDriverManager"))
       {
           return new FileImporterSybase();
       }
@@ -763,6 +766,12 @@ public class BCPManager {
   }
 }
 // $Log$
+// Revision 1.3  2004/07/21 21:03:56  mbw
+// - modified signatures for the getBCPWriter methods
+// - removed the getSQLDataManager and the setSQLDataManager methods
+// - added drop trigger functionality
+// - made compatible with nonSybase databases
+//
 // Revision 1.2  2004/01/16 17:26:48  mbw
 // formatting code only
 //

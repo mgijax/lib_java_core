@@ -393,9 +393,10 @@ public class BCPWriter {
 
 
   /**
-   * write a line to the bcp file using the given Vector, the contents of which
-   * correlate to the columns of the target database table. Each item will
-   * get validated against the column definitions for the given target table.
+   * write a line to the bcp file using the given Vector, the contents of
+   * which correlate to the columns of the target database table. Each item
+   * will get validated against the column definitions for the given target
+   * table.
    * @assumes nothing
    * @effects nothing
    * @param fields the vector of objects to be written to the bcp file
@@ -719,6 +720,11 @@ public class BCPWriter {
 }
 
 // $Log$
+// Revision 1.2  2004/07/21 21:08:13  mbw
+// - removed constructor which accepts SQLDataManager
+// - added dropping trigger functionality
+// - added remove newlines functionality
+//
 // Revision 1.1  2003/12/30 16:50:49  mbw
 // imported into this product
 //

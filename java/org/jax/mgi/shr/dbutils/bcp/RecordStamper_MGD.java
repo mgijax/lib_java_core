@@ -37,11 +37,12 @@ public class RecordStamper_MGD implements RecordStamper
    */
   private Integer userKey = null;
 
-	/**
-	 * the following constant defintions are exceptions thrown by this class
-	 */
-	private static final String UserNotFound =
-			BCPExceptionFactory.UserNotFound;
+  /**
+   * the following constant defintions are exceptions thrown by this
+   * class
+   */
+  private static final String UserNotFound =
+                        BCPExceptionFactory.UserNotFound;
 
   /**
    * return the string which represents the fields _CreatedBy_key,
@@ -51,25 +52,21 @@ public class RecordStamper_MGD implements RecordStamper
    * @return the record stamp string
    * @throws BCPException thrown if there is an error obtaining the user id
    */
-  public String getStamp(String delimiter) throws BCPException
-  {
-  	String name = null;
-    if (userKey == null)  // the User has not been found yet
-    {
-    	try
-    	{
-				RecordStampCfg cfg = new RecordStampCfg();
-				name = cfg.getJobStreamName();
-				userKey = cfg.getJobStreamKey();
-    	}
-    	catch (ConfigException e)
-    	{
-    		BCPExceptionFactory eFactory = new BCPExceptionFactory();
-				BCPException e2 = (BCPException)
-						eFactory.getException(UserNotFound, e);
-				e.bind(name);
-				throw e2;
-    	}
+  public String getStamp(String delimiter) throws BCPException {
+    String name = null;
+    if (userKey == null) { // the User has not been found yet
+      try {
+        RecordStampCfg cfg = new RecordStampCfg();
+        name = cfg.getJobStreamName();
+        userKey = cfg.getJobStreamKey();
+      }
+      catch (ConfigException e) {
+        BCPExceptionFactory eFactory = new BCPExceptionFactory();
+        BCPException e2 = (BCPException)
+            eFactory.getException(UserNotFound, e);
+        e.bind(name);
+        throw e2;
+      }
     }
     String timestamp =
         Converter.toString(new Timestamp(new Date().getTime()));
