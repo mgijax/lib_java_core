@@ -222,9 +222,8 @@ public class RecordStamper {
       e2.bind(rcd.getClass().getName());
       throw e2;
     }
-    rcd.setCreatedByKey(userKey);
+    rcd.setModifiedByKey(userKey);
     rcd.setModificationDate(t);
-    rcd.setCreationDate(t);
   }
 
   /**
