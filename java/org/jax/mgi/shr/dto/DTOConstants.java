@@ -130,6 +130,8 @@ public class DTOConstants
     public static String SeqIDs = "seqIDs";
     public static String LogicalDbKey = "logicalDbKey";
     public static String InterProTerms = "interProTerms";
+    public static String ActualDB = "actualDB";
+    public static String ActualDBs = "actualDBs";
 
     // Sequences -- constants dealing with sequence data
 
@@ -163,6 +165,9 @@ public class DTOConstants
 
 /*
 * $Log$
+* Revision 1.2  2004/02/10 16:10:23  jsb
+* Added many more definitions
+*
 * Revision 1.1  2003/12/30 16:56:28  mbw
 * imported into this product
 *
