@@ -12,12 +12,14 @@ public class TestRecordDataReader
   private String compareFilename = "MmCompare.data";
   private String compareFilename2 = "MmShortCompare.data";
   private String compareFilename4 = "MmShortCompare.begindel.data";
+  private String compareFilename5 = "MmShortCompare.begindel.regex.data";
   private String outputFilename = "MmTestFile.data";
   private DataInput1 dataInput1 = null;
   private DataInput2 dataInput2 = null;
   private DataCompare1 dataCompare1 = null;
   private DataCompare2 dataCompare2 = null;
   private DataCompare4 dataCompare4 = null;
+  private DataCompare5 dataCompare5 = null;
 
 
   public TestRecordDataReader(String name) {
@@ -37,11 +39,13 @@ public class TestRecordDataReader
     dataCompare1 = new DataCompare1(compareFilename);
     dataCompare2 = new DataCompare2(compareFilename2);
     dataCompare4 = new DataCompare4(compareFilename4);
+    dataCompare5 = new DataCompare5(compareFilename5);
     dataInput1.createFile();
     dataInput2.createFile();
     dataCompare1.createFile();
     dataCompare2.createFile();
     dataCompare4.createFile();
+    dataCompare5.createFile();
   }
 
   protected void tearDown() throws Exception {
@@ -150,7 +154,7 @@ public class TestRecordDataReader
     out.close();
     rdr.closeResources();
     in.close();
-    assertTrue(FileUtility.compare(outputFilename, compareFilename4));
+    assertTrue(FileUtility.compare(outputFilename, compareFilename5));
   }
 
 
