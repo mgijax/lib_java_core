@@ -297,7 +297,7 @@ public class DBSchema
             if (this.sqlmanager.isSybase())
             {
                 s = ((String)v1.get(i)).replaceAll(
-                    "\\$((\\{)??DBCLUSTIDXSEG(\\})??", "seg0");
+                    "\\$(\\{)??DBCLUSTIDXSEG(\\})??", "seg0");
                 s = (s.replaceAll("\\$(\\{)??DBNONCLUSTIDXSEG(\\})??", "seg1"));
             }
             else
@@ -637,6 +637,9 @@ public class DBSchema
 
 }
 // $Log$
+// Revision 1.5  2004/03/29 19:49:46  mbw
+// added compatibility with mysql databases
+//
 // Revision 1.4  2004/01/21 20:45:19  mbw
 // added the dropping and creating of partition functionality
 //
