@@ -15,7 +15,7 @@ import org.jax.mgi.shr.exception.ExceptionFactory;
        * a file could not be found
        */
       public static final String FileNotFoundErr =
-          "org.jax.mgi.shr.shrdbutils.FileNotFoundErr";
+          "org.jax.mgi.shr.ioutils.FileNotFoundErr";
       static {
         exceptionsMap.put(FileNotFoundErr, new IOUException (
             "File named ?? could not be found", false));
@@ -24,7 +24,7 @@ import org.jax.mgi.shr.exception.ExceptionFactory;
        * a file could not be opened
        */
       public static final String FileOpenErr =
-          "org.jax.mgi.shr.shrdbutils.FileOpenErr";
+          "org.jax.mgi.shr.ioutils.FileOpenErr";
       static {
         exceptionsMap.put(FileOpenErr, new IOUException (
             "Could not open file ??", false));
@@ -33,7 +33,7 @@ import org.jax.mgi.shr.exception.ExceptionFactory;
        * a file could not be read from
        */
       public static final String FileReadErr =
-          "org.jax.mgi.shr.shrdbutils.FileReadErr";
+          "org.jax.mgi.shr.ioutils.FileReadErr";
       static {
         exceptionsMap.put(FileReadErr, new IOUException (
             "Error reading from file ??", false));
@@ -42,7 +42,7 @@ import org.jax.mgi.shr.exception.ExceptionFactory;
        * a file could not be written to
        */
       public static final String FileWriteErr =
-          "org.jax.mgi.shr.shrdbutils.FileWriteErr";
+          "org.jax.mgi.shr.ioutils.FileWriteErr";
       static {
         exceptionsMap.put(FileWriteErr, new IOUException (
             "Could not write to file ??", false));
@@ -51,7 +51,7 @@ import org.jax.mgi.shr.exception.ExceptionFactory;
        * a file could not be created
        */
       public static final String FileCreateErr =
-          "org.jax.mgi.shr.shrdbutils.FileCreateErr";
+          "org.jax.mgi.shr.ioutils.FileCreateErr";
       static {
         exceptionsMap.put(FileCreateErr, new IOUException (
             "Could not create file ??", false));
@@ -60,7 +60,7 @@ import org.jax.mgi.shr.exception.ExceptionFactory;
        * a file could not be closed
        */
       public static final String FileCloseErr =
-          "org.jax.mgi.shr.shrdbutils.FileCloseErr";
+          "org.jax.mgi.shr.ioutils.FileCloseErr";
       static {
         exceptionsMap.put(FileCloseErr, new IOUException (
             "Could not close file named ??", false));
@@ -69,7 +69,7 @@ import org.jax.mgi.shr.exception.ExceptionFactory;
        * tried to read beyond end of file
        */
       public static final String NoRecordFound =
-          "org.jax.mgi.shr.shrdbutils.NoRecordFound";
+          "org.jax.mgi.shr.ioutils.NoRecordFound";
       static {
         exceptionsMap.put(NoRecordFound, new IOUException (
             "No record found", false));
@@ -78,7 +78,7 @@ import org.jax.mgi.shr.exception.ExceptionFactory;
        * could not read source data
        */
       public static final String DataReadEOF =
-          "org.jax.mgi.shr.shrdbutils.DataReadEOF";
+          "org.jax.mgi.shr.ioutils.DataReadEOF";
       static {
         exceptionsMap.put(DataReadEOF, new IOUException (
             "Could not read data source", false));
@@ -87,7 +87,7 @@ import org.jax.mgi.shr.exception.ExceptionFactory;
        * a data source could not be closed
        */
       public static final String CloseErr =
-          "org.jax.mgi.shr.shrdbutils.CloseErr";
+          "org.jax.mgi.shr.ioutils.CloseErr";
       static {
         exceptionsMap.put(CloseErr, new IOUException (
             "Could not close the data source", false));
@@ -97,7 +97,7 @@ import org.jax.mgi.shr.exception.ExceptionFactory;
        * record
        */
       public static final String FormatErr =
-          "org.jax.mgi.shr.shrdbutils.FormatErr";
+          "org.jax.mgi.shr.ioutils.FormatErr";
       static {
         exceptionsMap.put(FormatErr, new IOUException (
             "The following record was found to badly formatted:\n??"
@@ -108,7 +108,7 @@ import org.jax.mgi.shr.exception.ExceptionFactory;
        * record
        */
       public static final String InterpretErr =
-          "org.jax.mgi.shr.shrdbutils.InterpretErr";
+          "org.jax.mgi.shr.ioutils.InterpretErr";
       static {
         exceptionsMap.put(InterpretErr, new IOUException (
             "Could not instatiate new object based on the input data"
@@ -118,7 +118,7 @@ import org.jax.mgi.shr.exception.ExceptionFactory;
        * the filename was not specified
        */
       public static final String NullFilename =
-          "org.jax.mgi.shr.shrdbutils.NullFilename";
+          "org.jax.mgi.shr.ioutils.NullFilename";
       static {
         exceptionsMap.put(NullFilename, new IOUException (
             "The input filename was not configured. Expected INFILE_NAME.",
@@ -128,7 +128,7 @@ import org.jax.mgi.shr.exception.ExceptionFactory;
        * could not read from standard in
        */
       public static final String StdioErr =
-          "org.jax.mgi.shr.shrdbutils.StdioErr";
+          "org.jax.mgi.shr.ioutils.StdioErr";
       static {
         exceptionsMap.put(StdioErr, new IOUException (
             "Cannot read from standard in.", false));
