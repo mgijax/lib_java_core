@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.sql.ResultSetMetaData;
 
 /**
- * @is a class for creating a string from a RowReference
+ * A class for creating a string from a RowReference
  * @has a designated delimiter string for delimiting column output and
  * a ResultSetMetaData object for obtaining RowReference data
  * @does creates a String from a given RowReference
@@ -12,15 +12,16 @@ import java.sql.ResultSetMetaData;
 public class RowToStringInterpreter
     implements RowDataInterpreter {
     private String delimiter = null;
-    private ResultSetMetaData metadata = null;
     private String JDBCException = DBExceptionFactory.JDBCException;
-    public RowToStringInterpreter(String pDelimiter,
-                                  ResultSetMetaData pMetadata) {
-        metadata = pMetadata;
+    public RowToStringInterpreter() {
+        delimiter = "\t";
+    }
+    public RowToStringInterpreter(String pDelimiter) {
         delimiter = pDelimiter;
     }
 
     public Object interpret(RowReference rowReference) throws DBException {
+        ResultSetMetaData metadata = rowReference.getMetaData();
         StringBuffer s = new StringBuffer();
         if (delimiter == null)
             delimiter = "\t";
