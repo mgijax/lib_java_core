@@ -96,6 +96,7 @@ public class DTOConstants
     public static String RefsKeys = "refsKeys";
     public static String RefsTitle = "refsTitle";
     public static String References = "references";
+    public static String RefID = "referenceID";
 
     // gene ontology -- constants dealing with GO data
 
@@ -191,6 +192,9 @@ public class DTOConstants
 
 /*
 * $Log$
+* Revision 1.5  2004/02/17 17:18:50  jw
+* Added search tool support
+*
 * Revision 1.4  2004/02/12 23:37:51  jw
 * Added Support for the sequence factory
 *
