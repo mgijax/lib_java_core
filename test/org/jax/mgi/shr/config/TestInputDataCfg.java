@@ -12,7 +12,7 @@ import org.jax.mgi.shr.unitTest.*;
 public class TestInputDataCfg
     extends TestCase {
   private InputDataCfg fileCfg = null;
-  private FileUtility fileUtility = new FileUtility();
+  //private FileUtility fileUtility = new FileUtility();
   private String config1 = "config1";
 
   public static void main(String args[]) {
@@ -47,7 +47,7 @@ public class TestInputDataCfg
     if (fileCfg != null)
       fileCfg.reinit();
     fileCfg = null;
-    fileUtility.delete(config1);
+    FileUtility.delete(config1);
     super.tearDown();
   }
 

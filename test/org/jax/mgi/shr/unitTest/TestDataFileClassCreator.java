@@ -5,7 +5,6 @@ import java.io.*;
 
 public class TestDataFileClassCreator
     extends TestCase {
-  private DataFileClassCreator classCreator = null;
 
   private String inputData = "input.data";
   private String outputData = "output.data";
@@ -28,11 +27,9 @@ public class TestDataFileClassCreator
     File file = new File(javaFile);
     file.delete();
 
-    classCreator = new DataFileClassCreator();
   }
 
   protected void tearDown() throws Exception {
-    classCreator = null;
     File file;
     file = new File(inputData);
     file.delete();
@@ -46,7 +43,7 @@ public class TestDataFileClassCreator
   }
 
   public void testCreateClass() throws Exception {
-    classCreator.createClass(inputData, javaFile, null);
+      DataFileClassCreator.createClass(inputData, javaFile, null);
     String cmd = "javac " + javaFile;
     System.out.println(cmd);
     Process proc = Runtime.getRuntime().exec(cmd);
@@ -74,8 +71,7 @@ public class TestDataFileClassCreator
     Class c = Class.forName("enter_class_name_here");
     DataFileWriter dataWriter = (DataFileWriter)c.newInstance();
     dataWriter.createDataFile(outputData);
-    FileUtility util = new FileUtility();
-    assertTrue(util.compare(inputData, outputData));
+    assertTrue(FileUtility.compare(inputData, outputData));
   }
 
 }
