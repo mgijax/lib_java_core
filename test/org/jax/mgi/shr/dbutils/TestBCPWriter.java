@@ -41,6 +41,7 @@ public class TestBCPWriter
 
   protected void tearDown() throws Exception {
     tableCreator.dropDBtypes();
+    sqlman.closeResources();
     bCPWriter = null;
     manager = null;
     tablename = null;
@@ -126,20 +127,6 @@ public class TestBCPWriter
     assertEquals(pointer.getString(5), "goodbye");
     assertEquals(pointer.getFloat(6).floatValue(), (float) 1.1, 0.0001);
     assertEquals(pointer.getBoolean(7).booleanValue(), false);
-  }
-
-  public void testTruncateTable() throws Exception
-  {
-      System.setProperty("BCP_TRUNCATE_TABLE", "true");
-      tableCreator.createDBkeyed();
-      SQLDataManager sqlMgr = new SQLDataManager();
-      sqlMgr.executeUpdate("insert into TEST_DBKeyed values (1, '1')");
-      sqlMgr.executeUpdate("insert into TEST_DBKeyed values (2, '2')");
-      Table table = Table.getInstance("Test_DBKeyed", sqlMgr);
-      table.synchronizeKey();
-      assertEquals(table.getNextKey(), new Integer("3"));
-      BCPWriter writer = manager.getBCPWriter(table);
-      assertEquals(table.getNextKey(), new Integer("1"));
   }
 
 

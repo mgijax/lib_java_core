@@ -34,6 +34,7 @@ public class TestMultipleResults
 
   protected void tearDown() throws Exception {
     mgr.executeUpdate("drop table temp_table");
+    mgr.closeResources();
     multipleResults = null;
     mgr = null;
     super.tearDown();

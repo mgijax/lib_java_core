@@ -53,9 +53,11 @@ public class TestBindableException
     assertEquals("return value", expectedReturn, actualReturn);
   }
 
-  public void testPrintStackTrace() {
-    bindableException = new BindableException("The exception");
-    bindableException.printStackTrace();
-  }
+  // the following is a visual test only
+
+  //public void testPrintStackTrace() {
+    //bindableException = new BindableException("The exception");
+    //bindableException.printStackTrace();
+  //}
 
 }

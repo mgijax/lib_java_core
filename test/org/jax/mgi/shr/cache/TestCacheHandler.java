@@ -55,6 +55,8 @@ public class TestCacheHandler
   {
     handler = null;
     tblMgr.dropDBsimple();
+    tblMgr.close();
+    sqlMgr.closeResources();
     sqlMgr = null;
     tblMgr = null;
     handler = null;

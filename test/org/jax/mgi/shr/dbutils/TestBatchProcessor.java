@@ -22,13 +22,15 @@ public class TestBatchProcessor
         super.setUp();
         sqlMgr = new SQLDataManager();
         tc = new TableCreator(sqlMgr.getUrl(), sqlMgr.getDatabase(),
-                              sqlMgr.getUser(), sqlMgr.getPassword());
+                              sqlMgr.getUser(), sqlMgr.getPassword(),
+                              sqlMgr.getConnectionManagerClass());
         tc.createDBsimple();
     }
 
     protected void tearDown()
         throws Exception
     {
+        sqlMgr.closeResources();
         sqlMgr = null;
         tc.dropDBsimple();
         tc = null;
@@ -39,7 +41,7 @@ public class TestBatchProcessor
         throws Exception
     {
         BatchProcessor bp = sqlMgr.getBatchProcessor();
-        bp.setLogger(new ConsoleLogger());
+        //bp.setLogger(new ConsoleLogger());
         bp.addBatch("insert into TEST_DBsimple values (1, 'uno')");
         bp.executeBatch();
         ResultsNavigator nav = sqlMgr.executeQuery(
@@ -54,7 +56,7 @@ public class TestBatchProcessor
         throws Exception
     {
         BatchProcessor bp = sqlMgr.getBatchProcessor();
-        bp.setLogger(new ConsoleLogger());
+        //bp.setLogger(new ConsoleLogger());
         bp.addBatch("insert into TEST_DBsimple values (1, 'uno')");
         // force error
         bp.addBatch("bad sql");

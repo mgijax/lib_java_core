@@ -49,6 +49,7 @@ public class TestRecordStamp
   }
 
   protected void tearDown() throws Exception {
+      sqlMgr.closeResources();
     sqlMgr = null;
     bcpMgr = null;
     tableCreator = null;

@@ -9,7 +9,6 @@ public class TestSQLDataManager
   private SQLDataManager sqlman = null;
   private TableCreator tableCreator = null;
   private FileUtility fileUtility = new FileUtility();
-  private String config = "config1";
   private String originalConfigValue = null;
   private String query = "SELECT * FROM TEST_DBtypes";
   String insert = "INSERT INTO TEST_DBtypes " +
@@ -23,23 +22,6 @@ public class TestSQLDataManager
 
   protected void setUp() throws Exception {
     super.setUp();
-    String s =
-        "#format: sh\n" +
-        "DBSERVER=PROD_MGI\n" +
-        "DBNAME=mass_t\n" +
-        "DBUSER=scott\n" +
-        "DBURL=rohan.informatics.jax.org:4101\n" +
-        "DBPASSWORD=tiger\n" +
-        "DBPASSWORDFILE=/usr/local/mgi/dbutilities/.mgd_dbo_password\n" +
-        "SECONDARY_DBSERVER=PUB_MGI\n" +
-        "SECONDARY_DBNAME=radar\n" +
-        "SECONDARY_DBUSER=mickey\n" +
-        "SECONDARY_DBURL=rohan.informatics.jax.org:4100\n" +
-        "SECONDARY_DBPASSWORD=mantle\n" +
-        "SECONDARY_DBPASSWORDFILE=/usr/local/mgi/dbutilities/.mgd_dbo_password\n" +
-        "SECONDARY_DBSCHEMADIR=/usr/tmp\n";
-
-    FileUtility.createFile(config, s);
     sqlman = new SQLDataManager();
     tableCreator = new TableCreator(sqlman.getUrl(),
                                     sqlman.getDatabase(),
@@ -48,10 +30,10 @@ public class TestSQLDataManager
                                     sqlman.getConnectionManagerClass());
 
     tableCreator.createDBtypes();
-    // put three rows in the table
   }
 
   protected void tearDown() throws Exception {
+      sqlman.closeResources();
     sqlman = null;
     tableCreator.dropDBtypes();
     tableCreator = null;

@@ -3,6 +3,7 @@ package org.jax.mgi.shr.dbutils;
 import junit.framework.*;
 import java.util.*;
 import org.jax.mgi.shr.config.DatabaseCfg;
+import org.jax.mgi.shr.unitTest.*;
 
 public class TestDBSchema
     extends TestCase {
@@ -21,10 +22,41 @@ public class TestDBSchema
   }
 
   protected void tearDown() throws Exception {
+    sqlManager.closeResources();
     dBSchema = null;
     dbConfig = null;
     super.tearDown();
   }
+
+  public void testQuotedStrings() throws Exception
+  {
+      DBSchemaCreator.createTestTrigger(DBSchemaCreator.PROBLEM_QUOTE);
+      SQLDataManager sqlMgr = new SQLDataManager();
+      DBSchema schema = sqlMgr.getDBSchema();
+      try
+      {
+          schema.createTriggers("TEST_DBtrigger");
+          assertTrue(false); // should not get here
+      }
+      catch (DBSchemaException e)
+      {
+          assertTrue(true);
+      }
+      DBSchemaCreator.deleteTestTrigger();
+      sqlMgr.closeResources();
+  }
+
+  public void testCleanTrigger() throws Exception
+  {
+      DBSchemaCreator.createTestTrigger(DBSchemaCreator.CLEAN);
+      SQLDataManager sqlMgr = new SQLDataManager();
+      DBSchema schema = sqlMgr.getDBSchema();
+      schema.createTriggers("TEST_DBtrigger");
+      assertTrue(true);
+      DBSchemaCreator.deleteTestTrigger();
+      sqlMgr.closeResources();
+  }
+
 
   public void testRegex()
   {
@@ -75,16 +107,6 @@ public class TestDBSchema
   assertEquals(expectedReturn, actualReturn);
 }
 
-    public void testCreateTriggerCommand() throws Exception {
-        Vector v = dBSchema.getCreateTriggerCommands("ACC_MgiType");
-        String create = (String)v.get(0);
-        v = dBSchema.getDropTriggerCommands("ACC_MGIType");
-        String drop = (String)v.get(0);
-        //this.sqlManager.executeUpdate(drop);
-        //this.sqlManager.executeUpdate(create);
-        dBSchema.dropTriggers("ACC_MGIType");
-        dBSchema.createTriggers("ACC_MGIType");
-    }
 
 
 

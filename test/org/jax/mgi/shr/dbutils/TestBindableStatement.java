@@ -32,6 +32,8 @@ public class TestBindableStatement
   }
 
   protected void tearDown() throws Exception {
+      bindableStatement.close();
+      manager.closeResources();
     bindableStatement = null;
     tableCreator.dropDBtypes();
     tableCreator = null;

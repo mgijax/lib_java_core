@@ -1,5 +1,6 @@
 package org.jax.mgi.shr.config;
 
+import java.util.*;
 import junit.framework.*;
 import org.jax.mgi.shr.unitTest.*;
 
@@ -7,7 +8,8 @@ public class TestInputDataCfg
     extends TestCase {
   private InputDataCfg fileCfg = null;
   //private FileUtility fileUtility = new FileUtility();
-  private String config1 = "config1";
+  private String config = "config";
+  private String originalConfigValue = null;
 
   public static void main(String args[]) {
     junit.textui.TestRunner.run(suite());
@@ -33,20 +35,32 @@ public class TestInputDataCfg
         "SECONDARY_INFILE_END_DELIMITER=\\|\n" +
         "SECONDARY_INFILE_BUFFERSIZE=333\n";
 
-    FileUtility.createFile(config1, s);
+    FileUtility.createFile(config, s);
+    String configParm = System.getProperty("CONFIG");
+    if (configParm != null) {
+        originalConfigValue = configParm;
+        config = configParm + "," + config;
+    }
+    System.setProperty("CONFIG", config);
+    ConfigReinitializer.reinit();
+
 
   }
 
   protected void tearDown() throws Exception {
-    if (fileCfg != null)
-      fileCfg.reinit();
-    fileCfg = null;
-    FileUtility.delete(config1);
-    super.tearDown();
+      Properties p = System.getProperties();
+      if (originalConfigValue != null)
+          System.setProperty("CONFIG", originalConfigValue);
+      else
+          p.remove("CONFIG");
+      ConfigReinitializer.reinit();
+      fileCfg = null;
+      FileUtility.delete(config);
+      super.tearDown();
   }
 
   public void testGets() throws Exception {
-    System.setProperty("CONFIG", config1);
+    System.setProperty("CONFIG", config);
     fileCfg = new InputDataCfg();
     assertEquals(new Integer(2222), fileCfg.getBufferSize());
     assertEquals("^//", fileCfg.getBeginDelimiter());
@@ -54,7 +68,7 @@ public class TestInputDataCfg
   }
 
   public void testPrefixing() throws Exception {
-    System.setProperty("CONFIG", config1);
+    System.setProperty("CONFIG", config);
     fileCfg = new InputDataCfg("SECONDARY");
     assertEquals(new Integer(333), fileCfg.getBufferSize());
     assertEquals("\\|", fileCfg.getEndDelimiter());

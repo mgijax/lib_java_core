@@ -56,7 +56,7 @@ public class TestBCPManager1
     String configParm = System.getProperty("CONFIG");
     if (configParm != null) {
       originalConfigValue = configParm;
-      config = config + "," + configParm;
+      config = configParm + "," + config;
     }
     System.setProperty("CONFIG", config);
     ConfigReinitializer.reinit();
@@ -78,6 +78,7 @@ public class TestBCPManager1
   protected void tearDown() throws Exception {
     tableCreator.dropDBstamped_MGDOrg();
     tableCreator.dropDBtypes();
+    sqlManager.closeResources();
     bcpManager = null;
     sqlManager = null;
     FileUtility.delete(bcpFileTab);
@@ -85,6 +86,7 @@ public class TestBCPManager1
     FileUtility.delete(config);
     FileUtility.delete(table + ".bcp");
     v = null;
+    tableCreator.close();
     tableCreator = null;
     Properties p = System.getProperties();
     if (originalConfigValue != null)

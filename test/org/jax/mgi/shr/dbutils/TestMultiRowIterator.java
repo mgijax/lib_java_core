@@ -50,6 +50,8 @@ public class TestMultiRowIterator
 
   protected void tearDown() throws Exception {
     multiRowIterator = null;
+    sqlMgr.closeResources();
+    sqlMgr = null;
     super.tearDown();
   }
 

@@ -12,6 +12,7 @@ public class TestTable
   private Table table = null;
   private DataVector v;
   private TableCreator tableCreator = null;
+  private SQLDataManager sqlman = null;
 
   public TestTable(String name) {
     super(name);
@@ -19,13 +20,12 @@ public class TestTable
 
   protected void setUp() throws Exception {
     super.setUp();
-    SQLDataManager sqlman = new SQLDataManager();
+    sqlman = new SQLDataManager();
     tableCreator = new TableCreator(sqlman.getUrl(),
                                     sqlman.getDatabase(),
                                     sqlman.getUser(),
                                     sqlman.getPassword(),
                                     sqlman.getConnectionManagerClass());
-
     tableCreator.createDBtypes();
     table = Table.getInstance("TEST_DBTypes", sqlman);
     v = new DataVector();
@@ -41,6 +41,9 @@ public class TestTable
   protected void tearDown() throws Exception {
     table = null;
     tableCreator.dropDBtypes();
+    sqlman.closeResources();
+    sqlman = null;
+    tableCreator.close();
     tableCreator = null;
     v = null;
     super.tearDown();
@@ -254,6 +257,20 @@ public class TestTable
     table.resetKey();
     tableCreator.dropDBkeyed();
   }
+
+  public void testSynchronizeKey() throws Exception
+  {
+      tableCreator.createDBkeyed();
+      SQLDataManager sqlMgr = new SQLDataManager();
+      Table table = Table.getInstance("Test_DBKeyed", sqlMgr);
+      assertEquals(new Integer("1"), table.getNextKey());
+      sqlMgr.executeUpdate("insert into TEST_DBKeyed values (1, '1')");
+      sqlMgr.executeUpdate("insert into TEST_DBKeyed values (2, '2')");
+      assertEquals(new Integer("2"), table.getNextKey());
+      table.synchronizeKey();
+      assertEquals(new Integer("3"), table.getNextKey());
+  }
+
 
 
   private void checkValidationException() {

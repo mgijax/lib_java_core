@@ -57,8 +57,16 @@ public class TestConverter
     Integer actualReturn = Converter.toInteger(s);
     assertEquals("return value", expectedReturn, actualReturn.intValue());
     s = "1.0235";
-    actualReturn = Converter.toInteger(s);
-    assertTrue(false);
+    try
+    {
+        actualReturn = Converter.toInteger(s);
+        // should not get here
+        assertTrue(false);
+    }
+    catch (TypesException e)
+    {
+        assertTrue(true);
+    }
   }
 
   public void testStringToPrimitiveBoolean() throws Exception {

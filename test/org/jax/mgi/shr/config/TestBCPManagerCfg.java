@@ -1,5 +1,6 @@
 package org.jax.mgi.shr.config;
 
+import java.util.*;
 import junit.framework.*;
 import org.jax.mgi.shr.unitTest.*;
 
@@ -7,7 +8,8 @@ public class TestBCPManagerCfg
     extends TestCase {
   private BCPManagerCfg bCPManagerCfg = null;
   private FileUtility fileUtility = new FileUtility();
-  private String config1 = "config1";
+  private String config = "config";
+  private String originalConfigValue = null;
 
   public TestBCPManagerCfg(String name) {
     super(name);
@@ -39,23 +41,36 @@ public class TestBCPManagerCfg
         "SECONDARY_BCP_TRUNCATE_LOG=1\n" +
         "SECONDARY_BCP_DROP_INDEXES=true\n" +
         "SECONDARY_CREATED_BY=secondary loader\n" +
-        "SECONDARY_MODIFIED_BY=secondary loader"
-;
+        "SECONDARY_MODIFIED_BY=secondary loader";
 
-    FileUtility.createFile(config1, s);
+    FileUtility.createFile(config, s);
+    String configParm = System.getProperty("CONFIG");
+    if (configParm != null) {
+      originalConfigValue = configParm;
+      config = configParm + "," + config;
+    }
+    System.setProperty("CONFIG", config);
+    ConfigReinitializer.reinit();
+
   }
 
   protected void tearDown() throws Exception {
-    if (bCPManagerCfg != null) {
-      bCPManagerCfg.reinit();
-      bCPManagerCfg = null;
-    }
-    FileUtility.delete(config1);
+      Properties p = System.getProperties();
+      if (originalConfigValue != null)
+        System.setProperty("CONFIG", originalConfigValue);
+      else
+        p.remove("CONFIG");
+    ConfigReinitializer.reinit();
+    FileUtility.delete(config);
     super.tearDown();
   }
 
   public void testDefaults() throws Exception {
+      String configParm = System.getProperty("CONFIG");
+      Properties p = System.getProperties();
+      p.remove("CONFIG");
     bCPManagerCfg = new BCPManagerCfg();
+    bCPManagerCfg.reinit();
     assertEquals(".", bCPManagerCfg.getPathname());
     assertEquals("\t", bCPManagerCfg.getDelimiter());
     assertEquals(new Boolean(false), bCPManagerCfg.getPreventExecute());
@@ -64,12 +79,12 @@ public class TestBCPManagerCfg
     assertEquals(new Boolean(false), bCPManagerCfg.getRemoveAfterExecute());
     assertEquals(new Boolean(false), bCPManagerCfg.getOkToRecordStamp());
     assertEquals(System.getProperty("user.name"), bCPManagerCfg.getJobStream());
+    if (configParm != null)
+        System.setProperty("CONFIG", configParm);
   }
 
   public void testGets() throws Exception {
-    System.setProperty("CONFIG", config1);
     bCPManagerCfg = new BCPManagerCfg();
-    bCPManagerCfg.reinit();
     assertEquals("bcppath", bCPManagerCfg.getPathname());
     assertEquals("space", bCPManagerCfg.getDelimiter());
     assertEquals(new Boolean(true), bCPManagerCfg.getPreventExecute());
@@ -81,7 +96,6 @@ public class TestBCPManagerCfg
   }
 
   public void testPrefixing() throws Exception {
-    System.setProperty("CONFIG", config1);
     bCPManagerCfg = new BCPManagerCfg("SECONDARY");
     assertEquals("bcppath2", bCPManagerCfg.getPathname());
     assertEquals("tab", bCPManagerCfg.getDelimiter());
@@ -95,7 +109,6 @@ public class TestBCPManagerCfg
   }
 
   public void testBadBooleanString() throws Exception {
-    System.setProperty("CONFIG", config1);
     bCPManagerCfg = new BCPManagerCfg();
     try {
       Boolean test = bCPManagerCfg.getOkToTruncateLog();
