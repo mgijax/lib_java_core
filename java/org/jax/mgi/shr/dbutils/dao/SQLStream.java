@@ -93,5 +93,5 @@ public abstract class SQLStream implements DAOPersistent
    * @throws DBException thrown if there is an error trying to execute any
    * batch statements
    */
-  protected abstract void close() throws DBException;
+  public abstract void close() throws DBException;
 }
