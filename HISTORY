@@ -2,6 +2,7 @@ DATE: 04/14/2004
 STAFF: mbw
 CHANGES:
 1) bug fix in Configurator when creating new java objects from a config file
+2) now handles correctly if a parameter was set in one file and referenced in another
 
 DATE: 04/02/2004
 STAFF: mbw
