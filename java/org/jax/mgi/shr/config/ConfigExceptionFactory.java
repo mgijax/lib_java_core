@@ -3,12 +3,11 @@ package org.jax.mgi.shr.config;
 import org.jax.mgi.shr.exception.ExceptionFactory;
 
 /**
- * @is An ExceptionFactory.
+ * An ExceptionFactory for configuration related errors.
  * @has a hashmap of predefined ConfigExceptions stored by a name key
  * @does looks up ConfigExceptions by name
  * @company The Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 
 public class ConfigExceptionFactory extends ExceptionFactory {
@@ -51,7 +50,7 @@ public class ConfigExceptionFactory extends ExceptionFactory {
     exceptionsMap.put(FileNotFound, new ConfigException(
         "Could not find configuration file ??", false));
   }
-  
+
 	/**
 	 * invalid delimiter value found in configuration
 	 */
@@ -71,7 +70,7 @@ public class ConfigExceptionFactory extends ExceptionFactory {
     exceptionsMap.put(NewInstanceFailed, new ConfigException(
         "Could not create a new instance of class ??", false));
   }
-  
+
 	/**
 	 * the user could not be found in the MGI_USER table when trying to
 	 * lookup the key for the configured job stream name
@@ -85,6 +84,19 @@ public class ConfigExceptionFactory extends ExceptionFactory {
 				"was an exception accessing the database or configuration file",
 				false));
 	}
+
+    /**
+     * the configuration value did not match the required pattern
+     */
+    public static final String PatternMismatch =
+            "org.jax.mgi.shr.config.PatternMismatch";
+    static {
+        exceptionsMap.put(PatternMismatch, new ConfigException(
+                "The String value returned ?? for config value ?? did not " +
+                "match pattern the following pattern: ??",
+                false));
+    }
+
 
 
 }
