@@ -1,7 +1,18 @@
-DATE: 06/08/2004
+TAG: lib_java_core-1-0-19
+DATE: 07/28/2004
+STAFF: mbw
+CHANGES:
+See changes since last tag below
+
+DATE: 07/20/2004
 STAFF: mbw
 CHANGES:
 See tr 5965
+
+DATE: 07/07/2004
+STAFF: mbw
+CHANGES:
+Changed the way iterators are modeled in dbutils in order to come up with a common interface for iterating though both record data and query results data
 
 TAG: lib_java_core-1-0-18
 DATE: 06/08/2004
