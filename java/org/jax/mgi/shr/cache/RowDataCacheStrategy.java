@@ -48,7 +48,8 @@ abstract public class RowDataCacheStrategy
 
     /**
      * constructor
-     * @param sqlDataManager the SQLDataManager for performing database queries
+     * @param sqlDataManager the SQLDataManager for performing database
+     * queries
      */
     public RowDataCacheStrategy(SQLDataManager sqlDataManager)
     {
@@ -87,8 +88,8 @@ abstract public class RowDataCacheStrategy
         throws CacheException, DBException;
 
     /**
-     * set the logger for this instance. If not set then the logger is obtained
-     * from the SQLDataManager which was given in the constructor
+     * set the logger for this instance. If not set then the logger is
+     * obtained from the SQLDataManager which was given in the constructor
      * @effects log messages will be sent to this logger
      * @assumes nothing
      * @param logger the logger

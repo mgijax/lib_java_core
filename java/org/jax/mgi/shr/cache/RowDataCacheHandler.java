@@ -113,8 +113,8 @@ abstract public class RowDataCacheHandler
     }
 
     /**
-     * set the logger for this instance. If not set then the logger is obtained
-     * from the SQLDataManager which was given in the constructor
+     * set the logger for this instance. If not set then the logger is
+     * obtained from the SQLDataManager which was given in the constructor
      * @effects log messages will be sent to this logger
      * @assumes nothing
      * @param logger the logger
@@ -201,8 +201,8 @@ abstract public class RowDataCacheHandler
     public abstract RowDataInterpreter getRowDataInterpreter();
 
     /**
-     * forces the initialization of the internal cache which by default does not
-     * get initialized until a lookup is called.
+     * forces the initialization of the internal cache which by default does
+     * not get initialized until a lookup is called.
      * @assumes nothing
      * @effects the cache will be initialized
      * @throws DBException thrown if there is an error with the database
@@ -243,7 +243,8 @@ abstract public class RowDataCacheHandler
 
     /**
      * setup this instance
-     * @param cacheType the cache type from CacheConstants (either lazy or full)
+     * @param cacheType the cache type from CacheConstants (either lazy or
+     * full)
      * @param sqlDataManager the SQLDataManager to use
      * @throws CacheException thrown if there is an error with the cache
      */
