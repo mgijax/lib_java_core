@@ -13,13 +13,13 @@ package org.jax.mgi.shr.cache;
 import java.util.HashMap;
 import org.jax.mgi.shr.exception.MGIException;
 
-/** provides an enhanced implementation of the TextCache interface by starting
+/** Provides an enhanced implementation of the TextCache interface by starting
 *    with a standard DiskTextCache and then augmenting it with a memory-based
 *    cache as well for commonly requested items.  Since DiskTextCache is used,
 *    the same restrictions apply:  nothing else should be stored in the
 *    directory used for caching, and no slashes (/) should appear in the
 *    textTypes.
-* @is a TextCache with better performance than a standard DiskTextCache
+*  a TextCache with better performance than a standard DiskTextCache
 * @has a cache of items divided into various textTypes, each of which contains
 *    entries identified by an ID unique within that textType
 * @does standard operations specified by the TextCache interface
@@ -53,10 +53,6 @@ public class FastTextCache extends AbstractTextCache
     *	attempts to create it.
     * @param directoryName file system path to the directory for use in
     *    caching
-    * @purpose Constructs a FastTextCache object after performing some error
-    *	checking.  If the given caching directory does not exist, this method
-    *	attempts to create it.
-    * @return FastTextCache the instantiated object
     * @assumes nothing
     * @effects nothing
     * @throws MGIException if the given 'directoryName' does not
@@ -186,6 +182,9 @@ public class FastTextCache extends AbstractTextCache
 
 /*
 * $Log$
+* Revision 1.1  2003/12/30 16:49:51  mbw
+* imported into this product
+*
 * Revision 1.2  2003/12/01 13:19:56  jsb
 * Changes for JSAM code review
 *

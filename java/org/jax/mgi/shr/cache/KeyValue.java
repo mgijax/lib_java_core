@@ -1,13 +1,11 @@
 package org.jax.mgi.shr.cache;
 
 /**
- * @is a class for holding a key and a value object which is used by for
- * storing data obtained from a database query which is to be placed into
- * a mapping cache
- * @has a key and a value represented by a Object reference
+ * A class for holding a key and a value object which is used for
+ * storing data obtained from a database query into a mapped cache
+ * @has a key object and a value object
  * @does provides accessor methods for the key and the value object
  * @author MWalker
- * @version 1.0
  */
 public class KeyValue
 {

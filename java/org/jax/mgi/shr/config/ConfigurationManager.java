@@ -12,7 +12,7 @@ import java.io.IOException;
 
 
 /**
- * @is An object that looks up configuration parameters in the java system
+ * An object that looks up configuration parameters in the java system
  * properties along with a set of configuration files. It implements the
  * Singleton pattern.
  * @has The collection of java system properties and a set of
@@ -25,7 +25,6 @@ import java.io.IOException;
  * precedence.
  * @company The Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 
 public class ConfigurationManager {
@@ -145,6 +144,9 @@ public class ConfigurationManager {
 
 }
 // $Log$
+// Revision 1.2  2004/04/14 20:18:08  mbw
+// now reads multiple config files and handles parameters set in one to be refered by another
+//
 // Revision 1.1  2003/12/30 16:50:06  mbw
 // imported into this product
 //

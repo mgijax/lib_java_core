@@ -14,7 +14,7 @@ import java.util.HashMap;
 
 /** provides a mechanism for temporarily associating an object with a
 *    String identifier.
-* @is a cache for objects, each identified by a String identifer, and each
+* A cache for objects, each identified by a String identifer, and each
 *    with an expiration time at which it is no longer considered valid.
 * @has a mapping of String IDs to objects.  Each mapping can have an
 *    expiration time independent of all others.
@@ -229,7 +229,7 @@ public class ExpiringObjectCache
     /** serves as a container for an object and its expiration time.  This
     *    class is not meant for use outside the ExpiringObjectCache, so it
     *    is defined as a private inner class.
-    * @is one entry in an ExpiringObjectCache
+    *  one entry in an ExpiringObjectCache
     * @has an object and its expiration time
     * @does provides accessor methods to the attributes mentioned above.
     */
@@ -296,6 +296,9 @@ public class ExpiringObjectCache
 
 /*
 * $Log$
+* Revision 1.1  2003/12/30 16:49:50  mbw
+* imported into this product
+*
 * Revision 1.1  2003/12/01 13:16:48  jsb
 * Added per JSAM code review
 *

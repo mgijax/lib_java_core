@@ -14,7 +14,7 @@ import org.jax.mgi.shr.exception.MGIException;
 */
 
 /** handles generation of exceptions for the TextCache classes
-* @is an ExceptionFactory which has been customized to generate exceptions for
+*  an ExceptionFactory which has been customized to generate exceptions for
 *    the TextCache classes
 * @has a set of pre-defined named exceptions
 * @does Retrieves an exception corresponding to a given name.  Provides two
@@ -48,7 +48,7 @@ public class TextCacheExceptionFactory extends ExceptionFactory
     // problems creating a cache directory
     public static final String FAILED_CACHE_CREATION_EXC =
         "FailedCacheCreationException";
-    
+
     // cache directory specified is not really a directory
     public static final String NOT_DIR_EXC = "NotDirectoryException";
 
@@ -141,6 +141,9 @@ public class TextCacheExceptionFactory extends ExceptionFactory
 
 /*
 * $Log$
+* Revision 1.2  2004/02/25 20:21:07  mbw
+* fixed to eliminate compiler warnings
+*
 * Revision 1.1  2003/12/30 16:49:58  mbw
 * imported into this product
 *
