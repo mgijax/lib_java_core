@@ -15,13 +15,15 @@ public interface DataIterator
   /**
    * get the next object from the results
    * @return the next object from the query results
-   * @throws MGIException thrown if there is an error accessing the source data
+   * @throws MGIException thrown if there is an error accessing the source
+   * data
    */
    public Object next() throws MGIException;
 
    /**
     * close the results
-    * @throws MGIException thrown if there is an error accessing the source data
+    * @throws MGIException thrown if there is an error accessing the source
+    * data
     */
    public void close() throws MGIException;
 
