@@ -76,7 +76,7 @@ abstract public class RowDataCacheHandler
         throws
         CacheException
     {
-        init(cacheType, sqlDataManager, new ConsoleLogger());
+        setup(cacheType, sqlDataManager, new ConsoleLogger());
     }
     /**
      * constructor which accepts a cache type, SQLDataManager and a Logger
@@ -91,7 +91,7 @@ abstract public class RowDataCacheHandler
         throws
         CacheException
     {
-        init(cacheType, sqlDataManager, logger);
+        setup(cacheType, sqlDataManager, logger);
     }
     /**
      * prints the values from the cache onto the given output stream
@@ -167,18 +167,35 @@ abstract public class RowDataCacheHandler
     public abstract RowDataInterpreter getRowDataInterpreter();
 
     /**
-     * sets the internal reference of the cache which is defined in the
-     * base class
+     * initializes the internal cache which by design does not get initialized
+     * until a lookup is called
+     * @assumes nothing
+     * @effects the cache will be initialized
      * @param cache the cache
      * @throws DBException thrown if there is an error with the database
      * @throws CacheException thropwn if there is an error with the cache
      */
-    public void setCache(Map cache)
+    public void initCache()
+        throws DBException, CacheException
+    {
+        this.cacheStrategy.init(this.cache);
+    }
+
+    /**
+     * sets the internal reference of the cache and initializes it
+     * @assumes nothing
+     * @effects the cache will be initialized
+     * @param cache the cache
+     * @throws DBException thrown if there is an error with the database
+     * @throws CacheException thropwn if there is an error with the cache
+     */
+    public void initCache(Map cache)
         throws DBException, CacheException
     {
         this.cache = cache;
         this.cacheStrategy.init(cache);
     }
+
 
     /**
      * get the internal cache
@@ -192,8 +209,14 @@ abstract public class RowDataCacheHandler
         return this.cache;
     }
 
-
-    protected void init(int cacheType,
+    /**
+     * setup this instance
+     * @param cacheType
+     * @param sqlDataManager
+     * @param logger
+     * @throws CacheException
+     */
+    protected void setup(int cacheType,
                         SQLDataManager sqlDataManager,
                         Logger logger)
         throws CacheException
