@@ -239,6 +239,7 @@ public class ScriptWriter {
                  suffix + " -o " + path + File.separator + outfilename +
                  "." +
                  outsuffix + " -e";
+    logger.logDebug(cmd);
     try
     {
       close();
