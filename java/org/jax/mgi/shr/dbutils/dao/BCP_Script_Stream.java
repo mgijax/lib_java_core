@@ -19,23 +19,16 @@ import org.jax.mgi.shr.dbutils.bcp.BCPManager;
  * @author M Walker
  */
 public class BCP_Script_Stream
-    extends SQLStream
+    extends BCP_Stream
 {
     /**
      * the ScriptWriter to use
      */
-    private ScriptWriter writer = null;
-
-    /**
-     * the BCPManager to use
-     */
-    private BCPManager bcpMgr = null;
+    protected ScriptWriter writer = null;
 
     // the following constant defintions are exceptions thrown by this class
-    private static final String ExecuteScriptErr =
+    protected static final String ExecuteScriptErr =
         DBExceptionFactory.ExecuteScriptErr;
-    private static String SQLStreamCloseErr =
-        DBExceptionFactory.SQLStreamCloseErr;
 
     /**
      * constructor
@@ -48,12 +41,8 @@ public class BCP_Script_Stream
         throws
         DBException
     {
-        super();
-        this.writer = writer;
-        this.bcpMgr = bcpMgr;
+        super(sqlMgr, bcpMgr);
         ScriptStrategy scriptStrategy = new ScriptStrategy(writer);
-        BCPStrategy bcpStrategy = new BCPStrategy(sqlMgr, bcpMgr);
-        super.setInsertStrategy(bcpStrategy);
         super.setUpdateStrategy(scriptStrategy);
         super.setDeleteStrategy(scriptStrategy);
     }
@@ -67,18 +56,7 @@ public class BCP_Script_Stream
     public void close()
         throws DBException
     {
-        try
-        {
-            bcpMgr.executeBCP();
-        }
-        catch (MGIException e)
-        {
-            DBExceptionFactory eFactory = new DBExceptionFactory();
-            DBException e2 = (DBException)
-                eFactory.getException(SQLStreamCloseErr, e);
-            e2.bind(this.getClass().getName());
-            throw e2;
-        }
+        super.close();
         try
         {
             writer.execute();

@@ -17,18 +17,8 @@ import org.jax.mgi.shr.dbutils.bcp.BCPManager;
  * @author M Walker
  */
 public class BCP_Inline_Stream
-    extends SQLStream
+    extends BCP_Stream
 {
-    /**
-     * the BCPManager class for performing database inserts with bcp
-     */
-    private BCPManager bcpManager = null;
-
-    /*
-     * the following constant definitions are exceptions thrown by this class
-     */
-    private static String SQLStreamCloseErr =
-        DBExceptionFactory.SQLStreamCloseErr;
 
     /**
      * constructor
@@ -39,11 +29,8 @@ public class BCP_Inline_Stream
      */
     public BCP_Inline_Stream(SQLDataManager sqlMgr, BCPManager bcpMgr)
     {
-        super();
-        this.bcpManager = bcpMgr;
+        super(sqlMgr, bcpMgr);
         InlineStrategy inlineStrategy = new InlineStrategy(sqlMgr);
-        BCPStrategy bcpStrategy = new BCPStrategy(sqlMgr, bcpMgr);
-        super.setInsertStrategy(bcpStrategy);
         super.setUpdateStrategy(inlineStrategy);
         super.setDeleteStrategy(inlineStrategy);
     }
@@ -59,18 +46,7 @@ public class BCP_Inline_Stream
     public void close()
         throws DBException
     {
-        try
-        {
-            bcpManager.executeBCP();
-        }
-        catch (MGIException e)
-        {
-            DBExceptionFactory eFactory = new DBExceptionFactory();
-            DBException e2 = (DBException)
-                eFactory.getException(SQLStreamCloseErr, e);
-            e2.bind(this.getClass().getName());
-            throw e2;
-        }
+        super.close();
     }
 }
 

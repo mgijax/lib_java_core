@@ -19,23 +19,16 @@ import org.jax.mgi.shr.dbutils.bcp.BCPManager;
  * @author M Walker
  */
 public class BCP_Batch_Stream
-    extends SQLStream
+    extends BCP_Stream
 {
     /**
      * the BatchProcessor to use
      */
-    private BatchProcessor batch = null;
-
-    /**
-     * the BCPManager to use
-     */
-    private BCPManager bcpMgr = null;
+    protected BatchProcessor batch = null;
 
     // the following constant defintions are exceptions thrown by this class
-    private static final String ExecuteBatchErr =
+    protected static final String ExecuteBatchErr =
         DBExceptionFactory.ExecuteBatchErr;
-    private static String SQLStreamCloseErr =
-        DBExceptionFactory.SQLStreamCloseErr;
 
     /**
      * constructor
@@ -47,13 +40,10 @@ public class BCP_Batch_Stream
         throws
         DBException
     {
-        super();
-        this.bcpMgr = bcpMgr;
+        super(sqlMgr, bcpMgr);
         this.batch = sqlMgr.getBatchProcessor();
         BatchStrategy batchStrategy = new BatchStrategy(batch);
-        BCPStrategy bcpStrategy = new BCPStrategy(sqlMgr, bcpMgr);
         super.setUpdateStrategy(batchStrategy);
-        super.setInsertStrategy(bcpStrategy);
         super.setDeleteStrategy(batchStrategy);
     }
 
@@ -66,18 +56,7 @@ public class BCP_Batch_Stream
     public void close()
         throws DBException
     {
-        try
-        {
-            bcpMgr.executeBCP();
-        }
-        catch (MGIException e)
-        {
-            DBExceptionFactory eFactory = new DBExceptionFactory();
-            DBException e2 = (DBException)
-                eFactory.getException(SQLStreamCloseErr, e);
-            e2.bind(this.getClass().getName());
-            throw e2;
-        }
+        super.close();
         try
         {
             batch.executeBatch();
