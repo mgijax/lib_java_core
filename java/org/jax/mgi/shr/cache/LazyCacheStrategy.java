@@ -9,9 +9,9 @@ import org.jax.mgi.shr.log.Logger;
 import org.jax.mgi.shr.log.ConsoleLogger;
 
 /**
- * @is an extension of the RowDataCacheStrategy class that follows
- * the lazy cache pattern. That is it partially initializes a cache and adds
- * new entries to the cache from the database on lookup if they do not
+ * An extension of the RowDataCacheStrategy class that provides
+ * a lazy cache strategy for lookups. That is it partially initializes a cache
+ * and adds new entries to the cache from the database on lookup if they do not
  * already exist in the cache. This class is used by a LazyCacheLookup
  * object.
  * @has see RowDataCacheStrategy as this extends it to implement a lazy strategy
@@ -20,16 +20,12 @@ import org.jax.mgi.shr.log.ConsoleLogger;
  * and adds it to the cache.
  * @company The Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 
 public class LazyCacheStrategy
     extends RowDataCacheStrategy
 {
-    /**
-     * the logger to use
-     */
-    private Logger logger = null;
+
     /**
      * constructor
      * @param dataManager the SQLDataManager
@@ -37,17 +33,18 @@ public class LazyCacheStrategy
     public LazyCacheStrategy(SQLDataManager dataManager)
     {
         super(dataManager);
-        this.logger = new ConsoleLogger();
     }
+
 
     /**
      * constructor
      * @param dataManager the SQLDataManager
+     * @param logger the Logger to use.
      */
     public LazyCacheStrategy(SQLDataManager dataManager, Logger logger)
     {
         super(dataManager);
-        this.logger = logger;
+        super.setLogger(logger);
     }
 
 
@@ -68,7 +65,9 @@ public class LazyCacheStrategy
         String sql = super.cacheHandler.getPartialInitQuery();
         if (sql == null)
             return;
-        logger.logDebug("initializing cache with the following sql:\n" + sql);
+        if (super.debug)
+            super.logger.logDebug("initializing cache with the following " +
+                                  "sql:\n" + sql);
         ResultsNavigator nav = super.dataManager.executeQuery(sql);
         /**
          * The CacheStrategyHelper class is used to navigate through the query
@@ -76,7 +75,7 @@ public class LazyCacheStrategy
          */
         CacheStrategyHelper.putResultsInMap(nav, cache,
                                             this.cacheHandler,
-                                            this.logger);
+                                            this.logger, debug);
     }
 
     /**
@@ -106,13 +105,20 @@ public class LazyCacheStrategy
         else
             revisedKey = key;
         Object value = cache.get(revisedKey);
-        logger.logDebug("key found in cache: " + key);
         if (value != null)
+        {
+            if (super.debug)
+                super.logger.logDebug("key found in cache: " + key);
             return value;
+        }
         // value was not found, see if it is in the database
         String sql = this.cacheHandler.getAddQuery(key);
-        logger.logDebug("key not found in cache: " + key);
-        logger.logDebug("looking up key in database with the following sql:\n" + sql);
+        if (super.debug)
+        {
+            super.logger.logDebug("key not found in cache: " + key);
+            super.logger.logDebug(
+                "looking up key in database with the following sql:\n" + sql);
+        }
         ResultsNavigator nav = dataManager.executeQuery(sql);
         /**
          * The CacheStrategyHelper class is used to navigate through the query
@@ -120,19 +126,19 @@ public class LazyCacheStrategy
          */
         CacheStrategyHelper.putResultsInMap(nav, cache,
                                             this.cacheHandler,
-                                            this.logger);
+                                            this.logger, debug);
         // now retireve object from cache which can be null if it was not
         // found in the query results
         value = cache.get(revisedKey);
-        if (logger.isDebug())
+        if (super.debug)
         {
             if (value != null)
             {
-                logger.logDebug("key found: " + key);
+                super.logger.logDebug("key found: " + key);
             }
             else
             {
-                logger.logDebug("key not found: " + key);
+                super.logger.logDebug("key not found: " + key);
             }
         }
 

@@ -6,10 +6,11 @@ import org.jax.mgi.shr.dbutils.ResultsNavigator;
 import org.jax.mgi.shr.dbutils.DBException;
 import org.jax.mgi.shr.log.Logger;
 import org.jax.mgi.shr.log.ConsoleLogger;
+import org.jax.mgi.shr.config.LogCfg;
 
 /**
- * @is an extension of the RowDataCacheStrategy class that provides a full
- * cache pattern. That is it fully initializes a cache to provide all
+ * An extension of the RowDataCacheStrategy class that provides a full
+ * cache strategy for lookups. That is it fully initializes a cache to provide all
  * the data required for subsequent lookups. It does not add new entries
  * after the initialization. If a value is not found on
  * lookup, no additional searches on the database are made.
@@ -18,29 +19,34 @@ import org.jax.mgi.shr.log.ConsoleLogger;
  * up keys in the cache and returns null if not found.
  * @company The Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 public class FullCacheStrategy
     extends RowDataCacheStrategy
 {
-    /**
-     * the logger to use
-     */
-    private Logger logger = null;
     /*
      * the following are constants for exceptions thrown by this class
      */
     private static final String InitializationErr =
         CacheExceptionFactory.InitializationErr;
+
+    /**
+     * constructor
+     * @param dataManager the SQLDataManager
+     */
     public FullCacheStrategy(SQLDataManager dataManager)
     {
         super(dataManager);
-        this.logger = new ConsoleLogger();
     }
+
+    /**
+     * constructor
+     * @param dataManager the SQLDataManager
+     * @param logger the Logger to use.
+     */
     public FullCacheStrategy(SQLDataManager dataManager, Logger logger)
     {
         super(dataManager);
-        this.logger = logger;
+        super.setLogger(logger);
     }
 
 
@@ -66,7 +72,9 @@ public class FullCacheStrategy
                 (CacheException) eFactory.getException(InitializationErr);
             throw e;
         }
-        logger.logDebug("initializing cache with the following sql:\n" + sql);
+        if (super.debug)
+            super.logger.logDebug("initializing cache with the following " +
+                                  "sql:\n" + sql);
         ResultsNavigator nav = super.dataManager.executeQuery(sql);
         /**
          * The CacheStrategyHelper class is used to navigate through the query
@@ -74,7 +82,7 @@ public class FullCacheStrategy
          */
         CacheStrategyHelper.putResultsInMap(nav, cache,
                                             this.cacheHandler,
-                                            this.logger);
+                                            super.logger, super.debug);
     }
 
     /**
@@ -102,15 +110,15 @@ public class FullCacheStrategy
             target = key;
 
         Object o = cache.get(target);
-        if (logger.isDebug())
+        if (super.debug)
         {
             if (o != null)
             {
-                logger.logDebug("key found in cache: " + key);
+                super.logger.logDebug("key found in cache: " + key);
             }
             else
             {
-                logger.logDebug("key not found in cache: " + key);
+                super.logger.logDebug("key not found in cache: " + key);
             }
         }
         return o;
