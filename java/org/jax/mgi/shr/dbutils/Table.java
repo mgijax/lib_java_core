@@ -388,48 +388,15 @@ public class Table {
         e.bind(dataManager.getDatabase());
         throw e;
       }
-      /*
-       * get primary keys from the table. Since the keys were created
-       * using sp_primarykey then we cannot use the getPrimaryKeys()
-       * method on the database meta data object. Instead we need to
-       * call sp_keyhelp
+      /**
+       * Sybase key declaration is non standard in that it uses a Sybase
+       * stored procedure to define primary keys. A special case was required
+       * to obtain primary key metadata from JDBC 
        */
-      boolean foundKeys = false;
-      ResultSet rs2 = null;
-      Connection c = dataManager.getConnection();
-      if (dataManager.getConnectionManagerClass()
-          .equals("org.jax.mgi.shr.dbutils.MGIDriverManager")) {
-        CallableStatement cs =
-            c.prepareCall("sp_helpkey " + tableName,
-                          ResultSet.TYPE_FORWARD_ONLY,
-                          ResultSet.CONCUR_READ_ONLY);
-        try {
-          // an exception is thrown on the call to executeQuery
-          // if there are no keys defined for table
-          rs2 = cs.executeQuery();
-          foundKeys = true; // made it here implies keys were found
-        }
-        catch (SQLException e) {
-          // no primary key defined for table
-          foundKeys = false;
-        }
-        // store key column names into the primaryKeys vector
-        while (foundKeys && rs2.next()) {
-          String keyType = rs2.getString("keytype");
-          if (keyType.equals("primary")) {
-            String objectKeys = rs2.getString("object_keys");
-            // parse the string 'key1, key2, *, *, *, *, *'
-            StringTokenizer tokens = new StringTokenizer(objectKeys, ",");
-            while (tokens.hasMoreTokens()) {
-              String key = tokens.nextToken().trim();
-              if (!key.equals("*")) {
-                ColumnDef col = getColumnByName(key);
-                pKeyDefinitions.add(col);
-              }
-            }
-          }
-        }
-      }
+      if (dataManager.isSybase())
+        getSybasePrimaryKeys();
+      else
+          getPrimaryKeys(dbmd);
       // cache the next key value if there is a single valued incremental
       // primary key for this table. This call will set the isIncremental
       // class variable to true or false and if true, then cache the next
@@ -444,6 +411,61 @@ public class Table {
       e2.bind("access metadata for table " + tableName);
       throw e2;
     }
+  }
+
+  private void getPrimaryKeys(DatabaseMetaData metadata) throws SQLException
+  {
+      boolean foundKeys = false;
+      ResultSet rs = metadata.getPrimaryKeys(null, null, tableName);
+      while (rs.next())
+      {
+          String key = rs.getString("COLUMN_NAME");
+          ColumnDef col = getColumnByName(key);
+          pKeyDefinitions.add(col);
+      }
+  }
+
+  private void getSybasePrimaryKeys() throws DBException, SQLException
+  {
+      /*
+       * get primary keys from the table. Since the keys were created
+       * using sp_primarykey then we cannot use the getPrimaryKeys()
+       * method on the database meta data object. Instead we need to
+       * call sp_keyhelp
+       */
+      boolean foundKeys = false;
+      ResultSet rs = null;
+      Connection c = dataManager.getConnection();
+      CallableStatement cs =
+          c.prepareCall("sp_helpkey " + tableName,
+                        ResultSet.TYPE_FORWARD_ONLY,
+                        ResultSet.CONCUR_READ_ONLY);
+      try {
+        // an exception is thrown on the call to executeQuery
+        // if there are no keys defined for table
+        rs = cs.executeQuery();
+        foundKeys = true; // made it here implies keys were found
+      }
+      catch (SQLException e) {
+        // no primary key defined for table
+        foundKeys = false;
+      }
+      // store key column names into the primaryKeys vector
+      while (foundKeys && rs.next()) {
+        String keyType = rs.getString("keytype");
+        if (keyType.equals("primary")) {
+          String objectKeys = rs.getString("object_keys");
+          // parse the string 'key1, key2, *, *, *, *, *'
+          StringTokenizer tokens = new StringTokenizer(objectKeys, ",");
+          while (tokens.hasMoreTokens()) {
+            String key = tokens.nextToken().trim();
+            if (!key.equals("*")) {
+              ColumnDef col = getColumnByName(key);
+              pKeyDefinitions.add(col);
+            }
+          }
+        }
+      }
   }
 
 
@@ -466,6 +488,9 @@ public class Table {
 }
 
 // $Log$
+// Revision 1.1  2003/12/30 16:50:41  mbw
+// imported into this product
+//
 // Revision 1.2  2003/12/09 22:49:12  mbw
 // merged jsam branch onto the trunk
 //
