@@ -94,7 +94,14 @@ public class FullCacheStrategy
         {
             init(cache);
         }
-        Object o = cache.get(key);
+        Object target = null;
+        if (key instanceof String)
+            // make lookup case insensitive
+            target = ((String)key).toLowerCase();
+        else
+            target = key;
+
+        Object o = cache.get(target);
         if (logger.isDebug())
         {
             if (o != null)
@@ -106,6 +113,6 @@ public class FullCacheStrategy
                 logger.logDebug("key not found in cache: " + key);
             }
         }
-        return cache.get(key);
+        return o;
     }
 }

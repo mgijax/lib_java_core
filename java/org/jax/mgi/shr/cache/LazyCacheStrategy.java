@@ -100,7 +100,12 @@ public class LazyCacheStrategy
         {
             init(cache);
         }
-        Object value = cache.get(key);
+        Object revisedKey = null;
+        if (key instanceof String)
+            revisedKey = ((String)key).toLowerCase();
+        else
+            revisedKey = key;
+        Object value = cache.get(revisedKey);
         logger.logDebug("key found in cache: " + key);
         if (value != null)
             return value;
@@ -118,7 +123,7 @@ public class LazyCacheStrategy
                                             this.logger);
         // now retireve object from cache which can be null if it was not
         // found in the query results
-        value = cache.get(key);
+        value = cache.get(revisedKey);
         if (logger.isDebug())
         {
             if (value != null)

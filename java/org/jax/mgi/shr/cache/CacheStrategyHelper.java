@@ -155,6 +155,13 @@ public class CacheStrategyHelper
         checkForKeyValue(o, cacheHandler); // assure the object's a KeyValue
         KeyValue keyValue = (KeyValue) o;
         logger.logDebug("adding " + keyValue.getKey() + " to cache");
-        cache.put(keyValue.getKey(), keyValue.getValue());
+        Object key = keyValue.getKey();
+        Object revisedKey = null;
+        if (key instanceof String)
+            revisedKey = ((String)key).toLowerCase();
+        else
+            revisedKey = key;
+
+        cache.put(revisedKey, keyValue.getValue());
     }
 }
