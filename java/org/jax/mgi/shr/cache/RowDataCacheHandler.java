@@ -50,6 +50,8 @@ abstract public class RowDataCacheHandler
      */
     private static String UnknownStrategy =
         CacheExceptionFactory.UnknownStrategy;
+    private static String ConfigErr =
+        CacheExceptionFactory.ConfigErr;
     /**
      * the class used to create KeyValue objects from a database row
      * which is used by the cache strategy class for adding new entries
@@ -258,11 +260,16 @@ abstract public class RowDataCacheHandler
         {
             LogCfg logCfg = new LogCfg();
             CacheCfg cacheCfg = new CacheCfg();
-            LoggerFactory factory = logCfg.getLogerFactory();
+            LoggerFactory factory = logCfg.getLoggerFactory();
             logger = factory.getLogger();
             debug = cacheCfg.getDebug();
         }
-        catch (ConfigException e) {}
+        catch (ConfigException e)
+        {
+            CacheExceptionFactory f = new CacheExceptionFactory();
+            CacheException e2 = (CacheException)f.getException(ConfigErr, e);
+            throw e2;
+        }
 
         RowDataCacheStrategy strategy = null;
         switch (cacheType)
