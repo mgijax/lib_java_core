@@ -38,7 +38,9 @@ public class BCPStrategy
     /**
      * a map of BCPWriters indexed by the targeted table names.
      */
-    private HashMap bcpWriters = new HashMap();
+    private Vector bcpWriters = new Vector();
+
+    private boolean needToResetKey = false;
 
     /*
      * the following constant definitions are exceptions thrown by this class
@@ -56,6 +58,36 @@ public class BCPStrategy
     {
         sqlManager = sqlMgr;
         bcpManager = bcpMgr;
+    }
+
+    /**
+     * initialize all the writers up front in order to assure order
+     * when executing them and also to assure key values are properly
+     * cached in the Table clases based on the BCPWriter configuration
+     * parameter ok_to_truncate_table
+     * @assumes nothing
+     * @effects the keys will be reset if the BCPWriters are configured to
+     * truncate the tables and the order of executing the BCPWriters will
+     * be effected
+     * @param v a vector of Table classes in the order in which you want
+     * them executed
+     * @throws ConfigException thrown if there is an error accessing the
+     * configuration
+     * @throws DBException thrown if there is an error accessing the database
+     * @throws BCPException thrown if there is an error creating a new
+     * BCPWriter
+     */
+    public void initBCPWriters(Vector v)
+    throws ConfigException, DBException, BCPException
+    {
+        for (int i = 0; i < v.size(); i++)
+        {
+            Table table = (Table)v.get(i);
+            BCPWriterCfg cfg =
+                new BCPWriterCfg(table.getName().toUpperCase());
+            BCPWriter writer = bcpManager.getBCPWriter(table, cfg);
+            bcpWriters.add(writer);
+        }
     }
 
     /**
@@ -96,7 +128,9 @@ public class BCPStrategy
             }
             try
             {
-                writer = getWriter(table);
+                writer = getStoredWriter(table);
+                if (this.needToResetKey)
+
                 writer.write( (BCPTranslatable) dao);
             }
             catch (MGIException e)
@@ -111,10 +145,10 @@ public class BCPStrategy
     }
 
     /**
-     * get a BCPWriter for the given table from the hashmap and if it does
-     * not exist then create one and add it to the hasmap
+     * get a BCPWriter for the given table from the store and if it does
+     * not exist then create one and add it to the store
      * @assumes nothing
-     * @effects a new entry could be added to the internal hashmap
+     * @effects a new entry could be added to the internal store
      * @param table the given table
      * @throws DBException if there is an error with the database
      * @throws BCPException thrown if the BCPWriter could not be obtained
@@ -122,17 +156,23 @@ public class BCPStrategy
      * @throws ConfigException if there is an error configuring the BCPWriters
      * @return the corresponding BCPWriter
      */
-    private BCPWriter getWriter(Table table)
+    private BCPWriter getStoredWriter(Table table)
         throws BCPException, DBException, ConfigException
     {
-        BCPWriter writer = (BCPWriter) bcpWriters.get(table);
-        if (writer == null)
+        String tablename = table.getName();
+        for (int i = 0; i < this.bcpWriters.size(); i++)
         {
-            BCPWriterCfg cfg =
-                new BCPWriterCfg(table.getName().toUpperCase());
-            writer = bcpManager.getBCPWriter(table, cfg);
-            bcpWriters.put(table, writer);
+            BCPWriter writer = (BCPWriter)this.bcpWriters.get(i);
+            if ((writer).getTablename().equals(tablename))
+            {
+                return writer;
+            }
         }
+        // no writer found...create a new one and add it to the vector
+        BCPWriterCfg cfg =
+            new BCPWriterCfg(tablename.toUpperCase());
+        BCPWriter writer = bcpManager.getBCPWriter(table, cfg);
+        bcpWriters.add(writer);
         return writer;
     }
 }
