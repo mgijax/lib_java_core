@@ -5,6 +5,7 @@ package org.jax.mgi.shr.dbutils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLWarning;
 import java.sql.Connection;
 import java.sql.CallableStatement;
 import java.sql.Statement;
@@ -16,22 +17,24 @@ import java.io.BufferedReader;
 import org.jax.mgi.shr.config.DatabaseCfg;
 import org.jax.mgi.shr.config.DatabaseConfigurator;
 import org.jax.mgi.shr.config.ScriptWriterCfg;
+import org.jax.mgi.shr.config.LogCfg;
 import org.jax.mgi.shr.log.Logger;
 import org.jax.mgi.shr.log.LoggerFactory;
 import org.jax.mgi.shr.log.ConsoleLogger;
 import org.jax.mgi.shr.config.ConfigException;
 import org.jax.mgi.shr.timing.Stopwatch;
+import org.jax.mgi.shr.config.BCPManagerCfg;
+import org.jax.mgi.shr.dbutils.bcp.BCPManager;
 
 
 /**
- * @is An object that manages a database connection along with the
+ * An object that manages a database connection along with the
  * processing of SQL on the connection.
  * @has A database connection and a Logger.
  * @does Manages a single database connection and provides methods for
  * running SQL statements.
  * @company Jackson Laboratory
  * @author M. Walker
- * @version 1.0
  */
 
 public class SQLDataManager {
@@ -97,14 +100,16 @@ public class SQLDataManager {
    * the name of the LoggerFactory class used for instantiating a
    * LoggerFactory
    */
-  private String loggerFactoryClass = null;
+  private LoggerFactory loggerFactory = null;
 
   /**
    * a timer for displaying execution times in the debug log
    */
   private Stopwatch timer = new Stopwatch();
 
-
+  private String SYBASE_CM = "org.jax.mgi.shr.dbutils.MGIDriverManager";
+  private String ORACLE_CM = "org.jax.mgi.shr.dbutils.OrclConnection";
+  private String MYSQL_CM = "org.jax.mgi.shr.dbutils.MySqlConnection";
 
   // the following constant definitions are exceptions thrown by this class
   private static final String JDBCException =
@@ -123,6 +128,8 @@ public class SQLDataManager {
       DBExceptionFactory.StoredProcedureErr;
   private static final String ClassFornameErr =
         DBExceptionFactory.ClassFornameErr;
+  private static final String JDBCWarning =
+        DBExceptionFactory.JDBCWarning;
 
   /**
    * constructer which uses a DatabaseCfg object for obtaining
@@ -170,8 +177,11 @@ public class SQLDataManager {
 
   /**
    * constructer which takes all the parameters necessary for getting a
-   * connection. Any of these parameters can be null, in which case, they
-   * will use default values.
+   * JDBC connection and for performing bcp or scripting. Any of these
+   * parameters can be null, in which case, they
+   * will use default values. See
+   * <href="../config/DatabaseCfg.html">DatabaseCfg</href> for default values.
+   * @param pServer database server name (used for bcp or scripting)
    * @param pDatabase database name
    * @param pUser user name.
    * @param pPasswordFile password file name
@@ -191,6 +201,93 @@ public class SQLDataManager {
     if (pPasswordFile != null) passwordFile = pPasswordFile;
     connect();
   }
+
+  /**
+   * constructer which takes all the parameters necessary for getting a
+   * JDBC connection and for performing bcp or scripting and additionally
+   * accepts the name of a ConnectionManager class to use. Any of these
+   * parameters can be null, in which case, they
+   * will use default values. See
+   * <href="../config/DatabaseCfg.html">DatabaseCfg</href> for default values.
+   * @param pServer database server name (used for bcp or scripting)
+   * @param pDatabase database name
+   * @param pUser user name.
+   * @param pPasswordFile password file name
+   * @param pUrl database url
+   * @param pConnectionManagerClass the name of the class to use when making
+   * the connection
+   * @throws ConfigException thrown if there is an error obtainning
+   * configuration info
+   * @throws DBException if there is an error getting a connection
+   */
+  public SQLDataManager(String pServer, String pDatabase, String pUser,
+                        String pPasswordFile, String pUrl,
+                        String pConnectionManagerClass)
+      throws ConfigException, DBException {
+    configureExtended(new DatabaseCfg());
+    if (pServer != null) server = pServer;
+    if (pDatabase != null) database = pDatabase;
+    if (pUrl != null) url = pUrl;
+    if (pUser != null) user = pUser;
+    if (pPasswordFile != null) passwordFile = pPasswordFile;
+    if (pConnectionManagerClass != null)
+        connectionManagerClass = pConnectionManagerClass;
+    connect();
+  }
+
+
+  /**
+   * constructor which takes all the parameters necessary for getting a
+   * JDBC connection. Any of these parameters can be null, in which case, they
+   * will use default values. See
+   * <href="../config/DatabaseCfg.html">DatabaseCfg</href> for default values.
+   * @param pDatabase database name
+   * @param pUser user name.
+   * @param pPasswordFile password file name
+   * @param pUrl database url
+   * @throws ConfigException thrown if there is an error obtainning
+   * configuration info
+   * @throws DBException if there is an error getting a connection
+   */
+  public SQLDataManager(String pDatabase, String pUser,
+                        String pPasswordFile, String pUrl)
+      throws ConfigException, DBException {
+    configureExtended(new DatabaseCfg());
+    if (pDatabase != null) database = pDatabase;
+    if (pUrl != null) url = pUrl;
+    if (pUser != null) user = pUser;
+    if (pPasswordFile != null) passwordFile = pPasswordFile;
+    connect();
+  }
+
+  /**
+   * constructor which takes all the parameters necessary for getting a
+   * JDBC connection and additionally gets the name of the ConnectionManager
+   * class. Any of these parameters can be null, in which case, they
+   * will use default values. See
+   * <href="../config/DatabaseCfg.html">DatabaseCfg</href> for default values.
+   * @param pDatabase database name
+   * @param pUser user name.
+   * @param pPasswordFile password file name
+   * @param pUrl database url
+   * @param pConnectionManagerClass the name of the class to use when making
+   * the connection
+   * @throws ConfigException thrown if there is an error obtainning
+   * configuration info
+   * @throws DBException if there is an error getting a connection
+   */
+  public SQLDataManager(String pDatabase, String pUser,
+                        String pPasswordFile, String pUrl)
+      throws ConfigException, DBException {
+    configureExtended(new DatabaseCfg());
+    if (pDatabase != null) database = pDatabase;
+    if (pUrl != null) url = pUrl;
+    if (pUser != null) user = pUser;
+    if (pPasswordFile != null) passwordFile = pPasswordFile;
+    connect();
+  }
+
+
 
 
   /**
@@ -218,7 +315,7 @@ public class SQLDataManager {
    * future query results as scrollable cursers. By default this value is
    * false, and would need to be set to true to make query results
    * scrollable.
-   * @param pBool
+   * @param pBool true or false
    */
   public void setScrollable(boolean pBool) {
     if (pBool == true)
@@ -257,6 +354,16 @@ public class SQLDataManager {
    */
   public DBSchema getDBSchema() {
     return new DBSchema(this);
+  }
+
+  /**
+   * get a Table object for a given table name
+   * @param name the given table name
+   * @return the Table object for the given table name
+   */
+  public Table getTable(String name)
+  {
+      return Table.getInstance(name, this);
   }
 
 
@@ -373,6 +480,7 @@ public class SQLDataManager {
    * get the name of the ConnectionManager class this instance is using
    * @assumes nothing
    * @effects nothing
+   * @return the name of the connection manager class for this instance
    */
   public String getConnectionManagerClass() {
     return connectionManagerClass;
@@ -390,6 +498,11 @@ public class SQLDataManager {
     return autoCommit;
   }
 
+  /**
+   * get a BatchProcessor for processing batch sql
+   * @return a BatchProcessor
+   * @throws DBException thrown if there is an error with the database
+   */
   public BatchProcessor getBatchProcessor() throws DBException {
     Statement s = null;
     try {
@@ -400,6 +513,55 @@ public class SQLDataManager {
     }
     return new BatchProcessor(s);
   }
+
+  /**
+   * get a BCPManager for executing bcp
+   * @return a BCPManager
+   * @throws ConfigException thrown if there is an error with the configuration
+   * @throws DBException thrown if there is an error with the database
+   */
+  //public BCPManager getBCPManager()
+  //throws ConfigException, DBException
+  //{
+      //BCPManager bcp = new BCPManager();
+      //bcp.setSQLDataManager(this);
+      //return bcp;
+  //}
+
+  /**
+   * get a BCPManager for executing bcp
+   * @param cfg the configurator object from which to obtain configuration
+   * settings
+   * @return a BCPManager configured by given configurator
+   * @throws ConfigException thrown if there is an error with the configuration
+   * @throws DBException thrown if there is an error with the database
+   */
+  //public BCPManager getBCPManager(BCPManagerCfg cfg)
+      //throws ConfigException, DBException
+  //{
+      //BCPManager bcp = new BCPManager(cfg);
+      //bcp.setSQLDataManager(this);
+      //return bcp;
+  //}
+
+
+  /**
+   * get a BCPManager for executing bcp
+   * @param prefix the prefix to use when looking up configuration parameters.
+   * internall calls getBCPManager(new BCPManagerCfg(prefix))
+   * @return a BCPManager configured by parameters in the configuration file
+   * prefixed with the given prefix
+   * @throws ConfigException thrown if there is an error with the configuration
+   * @throws DBException thrown if there is an error with the database
+   */
+  //public BCPManager getBCPManager(String prefix)
+      //throws ConfigException, DBException
+  //{
+      //BCPManager bcp = new BCPManager(new BCPManagerCfg(prefix));
+      //bcp.setSQLDataManager(this);
+      //return bcp;
+  //}
+
 
   /**
    * commit the current transaction
@@ -488,7 +650,7 @@ public class SQLDataManager {
    * @effects a query will be executed against the database
    * @param sql the query statement
    * @return a ResultsNavigator for the query results
-   * @throws DBException
+   * @throws org.jax.mgi.shr.dbutils.DBException
    */
   public ResultsNavigator executeQuery(String sql) throws DBException {
     ResultSet rs = null;
@@ -506,8 +668,11 @@ public class SQLDataManager {
       rs = statement.executeQuery(sql);
     }
     catch (SQLException e) {
-      String msg = "execute query on the following sql string\n" + sql;
-      throw this.getJDBCException(msg, e);
+        if (!isOnlyWarning(e))
+        {
+            String msg = "execute query on the following sql string\n" + sql;
+            throw this.getJDBCException(msg, e);
+        }
     }
     ResultsNavigator iterator = new ResultsNavigator(rs, statement);
     if (logger.isDebug())
@@ -522,10 +687,11 @@ public class SQLDataManager {
      * execute the InterpretedQuery class
      * @assumes nothing
      * @effects a query will be executed against the database
-     * @param the InterpretedQuery class
+     * @param query the InterpretedQuery class which has a query and a
+     * RowDataInterpreter
      * @return a ResultsNavigator for the query results with the
      * InterpretedQuery object plugged into it as a RowDataInterpreter
-     * @throws DBException
+     * @throws org.jax.mgi.shr.dbutils.DBException
      */
     public ResultsNavigator executeQuery(InterpretedQuery query)
         throws DBException {
@@ -557,8 +723,11 @@ public class SQLDataManager {
       results = statement.executeUpdate(sql);
     }
     catch (SQLException e) {
-      String msg = "execute update on the following sql string\n" + sql;
-      throw this.getJDBCException(msg, e);
+        if (!isOnlyWarning(e))
+        {
+            String msg = "execute update on the following sql string\n" + sql;
+            throw this.getJDBCException(msg, e);
+        }
     }
     if (logger.isDebug())
     {
@@ -575,7 +744,7 @@ public class SQLDataManager {
    * @effects an sql statement will be executed against the database
    * @param sql the query statement
    * @return a Vector of update counts and/or ResultsNavigators
-   * @throws DBException
+   * @throws org.jax.mgi.shr.dbutils.DBException
    */
   public MultipleResults execute(String sql) throws DBException {
       if (logger.isDebug())
@@ -593,8 +762,11 @@ public class SQLDataManager {
       isResultSet = statement.execute(sql);
     }
     catch (SQLException e) {
-      String msg = "execute the following sql string\n" + sql;
-      throw this.getJDBCException(msg, e);
+      if (!isOnlyWarning(e))
+      {
+          String msg = "execute the following sql string\n" + sql;
+          throw this.getJDBCException(msg, e);
+      }
     }
     if (logger.isDebug())
     {
@@ -615,7 +787,7 @@ public class SQLDataManager {
    * error occurs accessing the database
    */
   public int executeSimpleProc(String pSPCallString) throws DBException {
-    int returnValue;
+    int returnValue = 0;
     try {
       this.checkConnection("execute a stored procedure");
       String sql = "{? = call " + pSPCallString + "}";
@@ -625,11 +797,14 @@ public class SQLDataManager {
       returnValue = cs.getInt(1);
     }
     catch (SQLException e) {
-      DBExceptionFactory eFactory = new DBExceptionFactory();
-      DBException e2 = (DBException)
-          eFactory.getException(StoredProcedureErr, e);
-      e2.bind(pSPCallString);
-      throw e2;
+        if (!isOnlyWarning(e))
+        {
+            DBExceptionFactory eFactory = new DBExceptionFactory();
+            DBException e2 = (DBException)
+                eFactory.getException(StoredProcedureErr, e);
+            e2.bind(pSPCallString);
+            throw e2;
+        }
     }
     return returnValue;
   }
@@ -640,7 +815,7 @@ public class SQLDataManager {
    * @assumes nothing
    * @effects nothing
    * @return the meta data
-   * @throws DBException
+   * @throws org.jax.mgi.shr.dbutils.DBException
    */
   public DatabaseMetaData getMetaData() throws DBException {
     this.checkConnection("access meta data");
@@ -762,8 +937,7 @@ public class SQLDataManager {
    */
   public boolean isSybase()
   {
-      if (getConnectionManagerClass()
-          .equals("org.jax.mgi.shr.dbutils.MGIDriverManager"))
+      if (getConnectionManagerClass().equals(SYBASE_CM))
       {
           return true;
       }
@@ -771,8 +945,49 @@ public class SQLDataManager {
       {
           return false;
       }
-
   }
+
+  /**
+   * return indicator of whether or not the current connection is a
+   * MySQL connection
+   * @assumes the user has set the configuration parameter DBCONNECTION_MANAGER
+   * or is accepting the default value which is a Sybase ConnectionManager.
+   * @effects nothing
+   * @return true is the connection is MySQL
+   */
+  public boolean isMySQL()
+  {
+      if (getConnectionManagerClass().equals(MYSQL_CM))
+      {
+          return true;
+      }
+      else
+      {
+          return false;
+      }
+  }
+
+  /**
+   * return indicator of whether or not the current connection is a
+   * Oracle connection
+   * @assumes the user has set the configuration parameter DBCONNECTION_MANAGER
+   * or is accepting the default value which is a Sybase ConnectionManager.
+   * @effects nothing
+   * @return true is the connection is Oracle
+   */
+  public boolean isOracle()
+  {
+      if (getConnectionManagerClass().equals(ORACLE_CM))
+      {
+          return true;
+      }
+      else
+      {
+          return false;
+      }
+  }
+
+
 
   /**
    * return a RowDataIterator for the given ResultSet
@@ -780,7 +995,7 @@ public class SQLDataManager {
    * @effects nothing
    * @param rs the ResultSet
    * @return a corresponding RowDataIterator
-   * @throws DBException
+   * @throws org.jax.mgi.shr.dbutils.DBException
    */
   protected ResultsNavigator getResultsNavigator(ResultSet rs)
       throws DBException {
@@ -792,8 +1007,10 @@ public class SQLDataManager {
    * @assumes nothing
    * @effects nothing
    * @param rs the ResultSet
+   * @param statement the Statement class which will be closed on calling
+   * close() for this instance of the ResultsNavigator
    * @return a corresponding RowDataIterator
-   * @throws DBException
+   * @throws org.jax.mgi.shr.dbutils.DBException
    */
   protected ResultsNavigator getResultsNavigator(ResultSet rs,
       Statement statement)
@@ -842,16 +1059,19 @@ public class SQLDataManager {
    * @assumes nothing
    * @effects internal values will be set
    * @param pConfig the configuration object
-   * @throws ConfigException throws if there is a configuration error
+   * @throws DBException throws if there is a database error
+   * @throws ConfigException thrown if there is an error with accessing
+   * configuration
    */
   private void configureExtended(DatabaseCfg pConfig)
       throws ConfigException, DBException {
     configureBase(pConfig);
     dbSchemaDir = pConfig.getDBSchemaDir();
     connectionManagerClass = pConfig.getConnectionManagerClass();
-    loggerFactoryClass = pConfig.getLoggerFactoryClass();
-    if (loggerFactoryClass != null) {
-      logger = instantiateLogger(loggerFactoryClass);
+    LogCfg logCfg = new LogCfg();
+    loggerFactory = logCfg.getLogerFactory();
+    if (loggerFactory != null) {
+      logger = loggerFactory.getLogger();
     }
   }
 
@@ -860,7 +1080,7 @@ public class SQLDataManager {
    * get a database connection
    * @assumes nothing
    * @effects a new connection will be made to the database
-   * @throws DBException
+   * @throws org.jax.mgi.shr.dbutils.DBException
    */
   private void connect() throws DBException {
     try {
@@ -974,9 +1194,32 @@ public class SQLDataManager {
   }
 
   /**
+   * checks the given SQLException to see if it is an instance of SQLWarning
+   * and if so log the warning to logger and return true else return false
+   * @assumes nothing
+   * @effects a log message will be logged to the error log
+   * @param e the SQLException
+   * @return true if the geven exception is an SQLWarning, false otherwise
+   */
+  private boolean isOnlyWarning(SQLException e)
+  {
+      if (e instanceof SQLWarning)
+      {
+          DBExceptionFactory eFactory = new DBExceptionFactory();
+          DBException e2 = (DBException)
+              eFactory.getException(JDBCWarning, e);
+          this.logger.logError(e2.toString());
+          return true;
+      }
+      else
+          return false;
+  }
+
+  /**
    * instantiate a Logger instance from a class name
-   * @param pClassName
-   * @return
+   * @param pClassName the class name of the Logger
+   * @return the Logger instance for the given class name
+   * @throws DBException thrown if there is a database error
    */
   private Logger instantiateLogger(String pClassName)
       throws DBException {
@@ -1015,6 +1258,9 @@ public class SQLDataManager {
 }
 
 // $Log$
+// Revision 1.6  2004/03/29 19:52:30  mbw
+// added isSybase() method
+//
 // Revision 1.5  2004/02/25 20:21:07  mbw
 // fixed to eliminate compiler warnings
 //
