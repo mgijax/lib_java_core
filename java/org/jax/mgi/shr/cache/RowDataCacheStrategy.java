@@ -7,85 +7,81 @@ import org.jax.mgi.shr.dbutils.SQLDataManager;
 import org.jax.mgi.shr.dbutils.DBException;
 
 /**
- * @is a the base class behind different types of RowDataCacheStrategy
- * classes, which include LazyCacheStrategy and FullCacheStrategy
+ * @is the base class behind different types of cache strategy classes,
+ * which currently include the LazyCacheStrategy and FullCacheStrategy. These
+ * classes provide the basic patterns for managing data between
+ * a cache and the database
  * @has a SQLDataManager for querying the database and a RowDataCacheHandler
  * for obtaining sql statements to query the database with.
- * @does initializes a given cache and provides a lookup method for
- * finding objects in the cache.
- * @abstract holds references for a SQLDataManager and a RowDataCacheHandler
- * and provides a constructor which accepts these references as parameters and
- * sets them. Subclasses will be responsible for implementing the
- * lookup(Object) method and the init(Map) method
+ * @does holds the reference to the RowDataCacheHandler class and the
+ * SQLDataManager and provides accessors for them.
+ * @abstract Subclasses will be responsible for implementing the
+ * lookup(Object) method and the init(Map) method which will differ between
+ * the LazyCacheStrategy and the FullCacheStrategy
  * @author MWalker
  * @version 1.0
  */
+abstract public class RowDataCacheStrategy
+{
+    /**
+     * the SQLDataManager to use
+     */
+    protected SQLDataManager dataManager;
+    /**
+     * the strategy class for handling the cache lookups
+     * @bidirectional*/
+    protected RowDataCacheHandler cacheHandler;
+    /**
+     * indicator of whether or not the cache was initialized
+     */
+    protected boolean hasBeenInitialized = false;
+    /**
+     * constructor
+     * @param sqlDataManager the SQLDataManager for performing database queries
+     */
+    public RowDataCacheStrategy(SQLDataManager sqlDataManager)
+    {
+        this.dataManager = sqlDataManager;
+    }
 
-abstract public class RowDataCacheStrategy {
 
-  /**
-   * the SQLDataManager to use
-   */
-  protected SQLDataManager dataManager;
+    /**
+     * lookup up a value in the cache with the given key
+     * @assumes nothing
+     * @effects nothing
+     * @param key the key to lookup
+     * @param cache the cache to look in
+     * @return the value found
+     * @throws CacheException thrown if there is an error interpreting
+     * results from the database query
+     * @throws DBException thrown if there is a database error when accessing
+     * the database
+     */
+    public abstract Object lookup(Object key, Map cache)
+        throws CacheException,
+        DBException;
 
-  /**
-   * the strategy class for handling the cache lookups
-   * @bidirectional*/
-  protected RowDataCacheHandler cacheHandler;
+    /**
+     * initialize the given cache with a query to the database
+     * @assumes nothing
+     * @effects places inital data into the cache
+     * @param cache the cache to initialize
+     * @throws CacheException thrown if there is an error interpreting the
+     * results from the database query
+     * @throws DBException thrown if there is an error while accessing the
+     * database
+     */
+    public abstract void init(Map cache)
+        throws CacheException, DBException;
 
-  /**
-   * indicator of whether or not the cache was initialized
-   */
-  protected boolean hasBeenInitialized = false;
-
-  /**
-   * constructor
-   * @param sqlDataManager the SQLDataManager for performing database queries
-   * @param cacheHandler the RowDataCacheHandler for obtaing sql to query
-   * the database with
-   */
-  public RowDataCacheStrategy(SQLDataManager sqlDataManager)
-  {
-    this.dataManager = sqlDataManager;
-  }
-
-  /**
-   * lookup up a value in the cache with the given key
-   * @assumes nothing
-   * @effects nothing
-   * @param key the key to lookup
-   * @param cache the cache to look in
-   * @return the value found
-   * @throws CacheException thrown if there is an error interpreting
-   * results from the database query
-   * @throws DBException thrown if there is a database error when accessing
-   * the database
-   */
-  public abstract Object lookup(Object key, Map cache)
-      throws CacheException, DBException;
-
-  /**
-   * initialize the given cache with a query to the database
-   * @assumes nothing
-   * @effects places inital data into the cache
-   * @param cache the cache to initialize
-   * @throws CacheException thrown if there is an error interpreting the
-   * results from the database query
-   * @throws DBException thrown if there is an error while accessing the
-   * database
-   */
-  public abstract void init(Map cache)
-      throws CacheException, DBException;
-
-  /**
-   * set the cache handler class reference
-   * @assumes nothing
-   * @effects the instance variable for the CacheHandler will be set
-   * @param handler the given CacheHandler
-   */
-  protected void setCacheHandler(RowDataCacheHandler handler)
-  {
-    this.cacheHandler = handler;
-  }
-
+    /**
+     * set the cache handler class reference
+     * @assumes nothing
+     * @effects the instance variable for the CacheHandler will be set
+     * @param handler the given CacheHandler
+     */
+    protected void setCacheHandler(RowDataCacheHandler handler)
+    {
+        this.cacheHandler = handler;
+    }
 }
