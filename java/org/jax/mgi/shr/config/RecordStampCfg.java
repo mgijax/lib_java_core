@@ -13,14 +13,13 @@ import org.jax.mgi.shr.exception.MGIException;
 import org.jax.mgi.dbs.SchemaConstants;
 
 /**
- * @is an object for configuring a RecordStamp parameters.
+ * An object for configuring a RecordStamp parameters.
  * @has a ConfigurationManager object
  * @does provides a method for getting the job stream name from the
  * configuration file or system properties and lookups up key values
  * in the MGI_User table for the configured JobStream name
  * @company Jackson Laboratory
  * @author M. Walker
- * @version 1.0
  */
 public class RecordStampCfg
     extends Configurator {
@@ -139,6 +138,15 @@ public class RecordStampCfg
         return value;
     }
 
+    /**
+     * A class for looking up key values in the database for a given user of
+     * the system
+     * @has an internal cache of user keys to user names
+     * @does maintains the internal cache and provoides lookup functiomality
+     * @company The Jackson Laboratory
+     * @author M Walker
+     *
+     */
     public class UserLookup
         extends FullCachedLookup {
         // internal cache
@@ -162,6 +170,12 @@ public class RecordStampCfg
          * @assumes nothing
          * @effects nothing
          * @return the userid
+         * @throws DBException thrown if there is an error accessing the
+         * database
+         * @throws CacheException thrown if there is an error accessing the
+         * cache
+         * @throws KeyNotFoundException thrown if the lookup fails to find a
+         * value
          */
         public Integer lookupByName(String name) throws DBException,
             CacheException, KeyNotFoundException {

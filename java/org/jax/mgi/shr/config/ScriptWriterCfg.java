@@ -1,13 +1,12 @@
 package org.jax.mgi.shr.config;
 
 /**
- * @is a class for configuring a ScriptWriter object
+ * A class for configuring a ScriptWriter object
  * @has accessor methods for accessing configuration parameters
  * @does lookups configuration parameters from the ConfigurationManagement
  * object
  * @company The Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 public class ScriptWriterCfg
     extends Configurator

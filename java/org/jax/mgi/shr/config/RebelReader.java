@@ -4,7 +4,7 @@
 package org.jax.mgi.shr.config;
 
 /**
- * @is an object that provides public accessor methods to any parameter
+ * An object that provides public accessor methods to any parameter
  * within a ConfigurationManager.
  * @has a reference to a ConfigurationManager
  * @does provides a way to lookup parameter values by name.
@@ -16,7 +16,6 @@ package org.jax.mgi.shr.config;
  * hardcoded parameter values confined to a single package.</p>
  * @company Jackson Laboratory
  * @author M. Walker
- * @version 1.0
  */
 
 public class RebelReader {
@@ -46,6 +45,9 @@ public class RebelReader {
 }
 
 // $Log$
+// Revision 1.1  2003/12/30 16:50:11  mbw
+// imported into this product
+//
 // Revision 1.2  2003/12/09 22:47:24  mbw
 // merged jsam branch onto the trunk
 //

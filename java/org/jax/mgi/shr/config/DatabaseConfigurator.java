@@ -1,12 +1,11 @@
 package org.jax.mgi.shr.config;
 
 /**
- * @is A configuration object for configuring a database connection
+ * A configuration object for configuring a database connection
  * @has configuration variables and accessor methods
  * @does provides values for data connection parameters
  * @company Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 
 public interface DatabaseConfigurator {

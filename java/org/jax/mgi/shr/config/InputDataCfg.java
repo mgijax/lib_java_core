@@ -5,7 +5,7 @@ package org.jax.mgi.shr.config;
 
 
 /**
- * @is an object for configuring an InputDataFile object.
+ * An object for configuring an InputDataFile object.
  * @has a set of InputDataFile configuration parameters and a
  * reference to a ConfigurationManager singleton object.
  * @does provides methods for getting configuration paramaters
@@ -16,7 +16,6 @@ package org.jax.mgi.shr.config;
  * the given string.
  * @company Jackson Laboratory
  * @author M. Walker
- * @version 1.0
  */
 
 public class InputDataCfg extends Configurator {
@@ -28,7 +27,7 @@ public class InputDataCfg extends Configurator {
 
   /**
    * default constructor
-   * throws ConfigException thrown if there is a configuration error
+   * @throws ConfigException thrown if there is a configuration error
    */
   public InputDataCfg() throws ConfigException {
     super();
@@ -39,7 +38,7 @@ public class InputDataCfg extends Configurator {
    * value is the string 'SECONDARY', then a call to getInputFileName()
    * will lookup the parameter SECONDARY_INFILE_NAME instead of INFILE_NAME.
    * @param pParameterPrefix the given prefix string
-   * @throws KnownException throws if there is a configuration error
+   * @throws ConfigException throws if there is a configuration error
    */
   public InputDataCfg(String pParameterPrefix) throws ConfigException {
     super();
@@ -84,6 +83,8 @@ public class InputDataCfg extends Configurator {
    * from the configuration file or system properties is INFILE_BUFFERSIZE.
    * The default value = 512000.
    * @return the configured buffer size
+   * @throws ConfigException thrown if there is an error accessing the
+   * configuration
    */
   public Integer getBufferSize() throws ConfigException {
     return getConfigInteger("INFILE_BUFFERSIZE",
@@ -102,14 +103,16 @@ public class InputDataCfg extends Configurator {
    * a boolean
    */
   public Boolean getOkToUseRegex() throws ConfigException {
-    return getConfigBoolean("INFILE_USE_REGEX", new Boolean(true));
+    return getConfigBoolean("INFILE_USE_REGEX", new Boolean(false));
   }
 
   /**
    * get the charset to use when decoding bytes. The parameter name read
    * from the configuration file or system properties is INFILE_CHARSET.
-   * The default value = "US-ASCII".
+   * The default value = "ISO-8859-1".
    * @return the charset to use
+   * @throws ConfigException thrown if there is an error accessing the
+   * configuration
    */
   public String getCharset() throws ConfigException {
     return getConfigString("INFILE_CHARSET", this.DEFAULT_CHARSET);
@@ -121,6 +124,9 @@ public class InputDataCfg extends Configurator {
 
 }
 // $Log$
+// Revision 1.4  2004/05/24 16:09:49  mbw
+// changed so that no defaults are provided on lookups for begin and end delimiters and also added the lookup for the charset parameter INFILE_CHARSET
+//
 // Revision 1.3  2004/02/10 16:30:01  mbw
 // added new begin delimiter parameter
 //
