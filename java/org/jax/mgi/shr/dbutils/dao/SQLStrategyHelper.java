@@ -16,7 +16,8 @@ public class SQLStrategyHelper
      * evaluating the string and determining if it starts with the 'exec'
      * keyword
      * @param sql the sql to evaluate
-     * @return true if the sql is a call to a stored procedure, false otherwise
+     * @return true if the sql is a call to a stored procedure, false
+     * otherwise
      */
     public static String convertToOtherProc(String sql)
     {

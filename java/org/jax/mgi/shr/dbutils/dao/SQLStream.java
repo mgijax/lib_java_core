@@ -75,8 +75,8 @@ public abstract class SQLStream implements DAOPersistent
    * insert the given DAO object in the database
    * @assumes nothing
    * @effects the given DAO will be inserted into the database
-   * or batched up to be inserted into the database, depending on the specific
-   * implementation
+   * or batched up to be inserted into the database, depending on the
+   * specific implementation
    * @param dao the object to insert
    * @throws DBException thrown if there is an error executing the insert
    */

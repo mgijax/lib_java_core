@@ -30,8 +30,8 @@ abstract public class DAO
     private boolean inDatabase;
 
     /**
-     * the flag which indicates whether or not this record has been bathced for
-     * update into the database
+     * the flag which indicates whether or not this record has been bathced
+     * for update into the database
      */
     private boolean inBatch;
 
@@ -91,7 +91,8 @@ abstract public class DAO
         throws DBException;
 
     /**
-     * return whether the record has been batched for insert into the database
+     * return whether the record has been batched for insert into the
+     * database
      * @assumes nothing
      * @effects nothing
      * @return true if the record has been batched for update in the database

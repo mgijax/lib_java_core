@@ -74,7 +74,8 @@ public class BCP_Stream
      * execute the bcp commands
      * @assumes nothing
      * @effects the bcp command is executed
-     * @throws DBException thrown if there is an error executing the bcp command
+     * @throws DBException thrown if there is an error executing the bcp
+     * command
      */
     public void close()
         throws DBException

@@ -11,7 +11,8 @@ import org.jax.mgi.shr.config.ConfigException;
  * @has a RecordStampCfg for looking up job stream names within the
  * configuration
  * @does determines what type of record stamp being implemented by the given
- * DAO (State) class and modifies the appropriate fields for update and insert
+ * DAO (State) class and modifies the appropriate fields for update and
+ * insert
  * @author mbw
  * @company The Jackson Laboratory
  */
@@ -45,8 +46,10 @@ public class RecordStamper
         {
             RecordStampExceptionFactory eFactory =
                 new RecordStampExceptionFactory();
-            RecordStampException e = (RecordStampException)
-                eFactory.getException(RecordStampExceptionFactory.UnknownType);
+            RecordStampException e =
+                (RecordStampException)
+                eFactory.getException(
+                              RecordStampExceptionFactory.UnknownType);
             e.bind(rcd.getClass().getName());
             throw e;
         }
@@ -79,8 +82,10 @@ public class RecordStamper
         {
             RecordStampExceptionFactory eFactory =
                 new RecordStampExceptionFactory();
-            RecordStampException e = (RecordStampException)
-                eFactory.getException(RecordStampExceptionFactory.UnknownType);
+            RecordStampException e =
+                (RecordStampException)
+                eFactory.getException(
+                           RecordStampExceptionFactory.UnknownType);
             e.bind(rcd.getClass().getName());
             throw e;
         }
@@ -168,7 +173,8 @@ public class RecordStamper
     }
 
     /**
-     * record stamp a RecordStampable_MGDRelease object for the insert operation
+     * record stamp a RecordStampable_MGDRelease object for the insert
+     * operation
      * @assumes nothing
      * @effects the given object will have it's user/time stamp fields
      * @param rcd the RecordStampable_MGDRelease object
@@ -206,7 +212,8 @@ public class RecordStamper
             RecordStampExceptionFactory eFactory =
                 new RecordStampExceptionFactory();
             RecordStampException e2 = (RecordStampException)
-                eFactory.getException(RecordStampExceptionFactory.ConfigErr, e);
+                eFactory.getException(
+                           RecordStampExceptionFactory.ConfigErr, e);
             e2.bind(rcd.getClass().getName());
             throw e2;
         }
@@ -277,7 +284,8 @@ public class RecordStamper
     }
 
     /**
-     * record stamp a RecordStampable_MGDRelease object for the update operation
+     * record stamp a RecordStampable_MGDRelease object for the update
+     * operation
      * @assumes nothing
      * @effects the given object will have it's user/time stamp fields
      * @param rcd the RecordStampable_MGDRelease object
@@ -312,7 +320,8 @@ public class RecordStamper
             RecordStampExceptionFactory eFactory =
                 new RecordStampExceptionFactory();
             RecordStampException e2 = (RecordStampException)
-                eFactory.getException(RecordStampExceptionFactory.ConfigErr, e);
+                eFactory.getException(
+                              RecordStampExceptionFactory.ConfigErr, e);
             e2.bind(rcd.getClass().getName());
             throw e2;
         }

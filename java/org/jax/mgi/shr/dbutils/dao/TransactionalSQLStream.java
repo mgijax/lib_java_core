@@ -32,7 +32,8 @@ public abstract class TransactionalSQLStream
     /**
      * rollback the current transaction
      * @assumes nothing
-         * @effects the current transaction will be roolbacked and a new transaction
+     * @effects the current transaction will be roolbacked and a new
+     * transaction
      * will be started if the class has transactions on.
      */
     public abstract void rollback();

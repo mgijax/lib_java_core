@@ -53,7 +53,8 @@ public class BCP_Inline_Stream
      * @assumes nothing
      * @effects the bcp command is executed for all BCPWriters created
      * through the BCPManager
-     * @throws DBException thrown if there is an error executing the bcp command
+     * @throws DBException thrown if there is an error executing the bcp
+     * command
      */
     public void close()
         throws DBException

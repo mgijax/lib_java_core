@@ -128,7 +128,8 @@ public class BCPStrategy
         BCPWriter writer = (BCPWriter) bcpWriters.get(table);
         if (writer == null)
         {
-            BCPWriterCfg cfg = new BCPWriterCfg(table.getName().toUpperCase());
+            BCPWriterCfg cfg =
+                new BCPWriterCfg(table.getName().toUpperCase());
             writer = bcpManager.getBCPWriter(table, cfg);
             bcpWriters.put(table, writer);
         }
