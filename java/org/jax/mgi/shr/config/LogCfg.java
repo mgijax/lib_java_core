@@ -54,7 +54,7 @@ public class LogCfg extends Configurator {
    * configuration
    */
 
-  public LoggerFactory getLogerFactory() throws ConfigException {
+  public LoggerFactory getLoggerFactory() throws ConfigException {
     return (LoggerFactory)getConfigObject("LOG_FACTORY", DEFAULT_FACTORY);
   }
 
