@@ -73,7 +73,7 @@ public class TableCreator {
    * columnC     int           not null
    * columnD     char(1)       null
    * columnE     text          null
-   * columnF     float(8)      null
+   * columnF     double(8)     null
    * columnG     bit           not null
    * </pre>
    *
@@ -88,7 +88,7 @@ public class TableCreator {
         + "columnC     int           null,"
         + "columnD     char(1)       null,"
         + "columnE     text          null,"
-        + "columnF     float(8)      null,"
+        + "columnF     double(8)     null,"
         + "columnG     bit           not null)";
     if (this.connectionManager.equals(ORACLE))
     {
@@ -178,7 +178,7 @@ public class TableCreator {
    * columnA           varchar(30) not null
    * columnB           datetime    not null
    * columnC           int         not null
-   * columnD           float       null
+   * columnD           double      null
    * createdBy         varchar(30) not null
    * modifiedBy        varchar(30) not null
    * creation_date     datetime    not null
@@ -193,7 +193,7 @@ public class TableCreator {
         + "columnA           varchar(30) not null,"
         + "columnB           datetime    not null,"
         + "columnC           int         not null,"
-        + "columnD           float       null,"
+        + "columnD           double      null,"
         + "createdBy         varchar(30) not null,"
         + "modifiedBy        varchar(30) not null,"
         + "creation_date     datetime    not null,"

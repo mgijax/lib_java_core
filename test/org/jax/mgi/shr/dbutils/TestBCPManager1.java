@@ -227,7 +227,7 @@ public class TestBCPManager1
     assertEquals(pointer.getInt(3), new Integer(12));
     assertEquals(pointer.getString(4), "-");
     assertEquals(pointer.getString(5), "goodbye");
-    assertEquals(pointer.getFloat(6).floatValue(), (float) 1.0, 0.0001);
+    assertEquals(pointer.getDouble(6).floatValue(), (float) 1.0, 0.0001);
     assertEquals(pointer.getBoolean(7).booleanValue(), false);
   }
 

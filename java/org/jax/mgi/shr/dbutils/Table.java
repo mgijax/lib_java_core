@@ -27,9 +27,9 @@ import org.jax.mgi.shr.config.ConfigException;
  * @does get the next incremental key value for the table and
  * validates a vector of data objects against the table meta data
  * in order to support record validation prior to running bcp. In validation
- * the following java types are supported: float, integer, String, boolean,
+ * the following java types are supported: double, integer, String, boolean,
  * and DateTime. The following Sybase types are supported:
- * char, varchar, int, float, datetime, bit, text
+ * char, varchar, int, double, datetime, bit, text
  * @company Jackson Laboratory
  * @author M Walker
  */
@@ -539,6 +539,12 @@ throws DBException, ConfigException
 }
 
 // $Log$
+// Revision 1.5.2.1  2004/12/02 19:27:01  mbw
+// changed use of floats to doubles
+//
+// Revision 1.5  2004/09/03 17:59:17  mbw
+// checks the cached Table instances and assures that all the connections are still good and now sets the next key to 0 even if the max key is less than zero
+//
 // Revision 1.4  2004/07/26 16:44:43  mbw
 // formatting only
 //

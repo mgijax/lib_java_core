@@ -21,7 +21,7 @@ import org.jax.mgi.shr.timing.Stopwatch;
  * @has PreparedStatement handle and a SQLDataManager and the sql string
  * @does binds and executes PreparedStatements. Data binding is limited
  * to the following data types:
- * Integer, Float, Timestamp, String and Boolean.
+ * Integer, Double, Timestamp, String and Boolean.
  * @company Jackson Laboratory
  * @author M. Walker
  */
@@ -103,9 +103,9 @@ public class BindableStatement {
             preparedStatement.setInt(
                 i + 1, ( (Integer) currentObject).intValue());
           }
-          else if (currentObject instanceof Float) {
-            preparedStatement.setFloat(i + 1,
-                ( (Float) currentObject).floatValue());
+          else if (currentObject instanceof Double) {
+            preparedStatement.setDouble(i + 1,
+                ( (Double) currentObject).doubleValue());
           }
           else if (currentObject instanceof Timestamp) {
             preparedStatement.setTimestamp(
@@ -161,12 +161,12 @@ public class BindableStatement {
    * see java.sql.PreparedStatement javadocs
    * @throws DBException if an error occurs with the database
    */
-  public void setFloat(int i, float x) throws DBException {
+  public void setDouble(int i, double x) throws DBException {
     try {
-      preparedStatement.setFloat(i, x);
+      preparedStatement.setDouble(i, x);
     }
     catch (SQLException e) {
-      throw getJDBCException("set float value " + x + " for column " + i +
+      throw getJDBCException("set double value " + x + " for column " + i +
               "in sql string '" + sql + "'", e);
     }
     bindVariables.set(i - 1, Converter.wrap(x));
@@ -406,6 +406,12 @@ public class BindableStatement {
 
 }
 // $Log$
+// Revision 1.6.2.1  2004/12/02 19:27:00  mbw
+// changed use of floats to doubles
+//
+// Revision 1.6  2004/10/22 18:54:53  mbw
+// now checks DBDEBUG parameter to see if sql should be logged
+//
 // Revision 1.5  2004/07/26 16:38:49  mbw
 // formatting only
 //

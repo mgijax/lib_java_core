@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.Properties;
 import java.util.Iterator;
 import java.util.Map;
-import org.jax.mgi.shr.config.ConfigException;
-import org.jax.mgi.shr.dbutils.DBException;
+import org.jax.mgi.shr.exception.MGIException;
 import org.jax.mgi.shr.dbutils.SQLDataManager;
 import org.jax.mgi.shr.dbutils.ResultsNavigator;
 import org.jax.mgi.shr.dbutils.RowReference;
 import org.jax.mgi.shr.dbutils.Table;
+import org.jax.mgi.shr.dbutils.DBSchema;
 import org.jax.mgi.shr.dbutils.dao.BCP_Stream;
 import org.jax.mgi.shr.dbutils.dao.Inline_Stream;
 import org.jax.mgi.shr.dbutils.dao.SQLStream;
@@ -35,14 +35,16 @@ public class TestManager
     private SQLStream stageStream = null;
     private SQLStream cleanStream = null;
     private Vector stagedData = null;
+    private DBSchema schema = null;
     private Properties properties = System.getProperties();
     private HashMap changedProperties = null;
     private HashMap newProperties = null;
 
-    public TestManager() throws ConfigException, DBException
+    public TestManager() throws MGIException
     {
         sqlMgr = new SQLDataManager();
         bcpMgr = new BCPManager();
+        this.schema = new DBSchema(sqlMgr);
         this.stageStream = new BCP_Stream(sqlMgr, bcpMgr);
         this.cleanStream = new Inline_Stream(sqlMgr);
         this.stagedData = new Vector();
@@ -50,25 +52,25 @@ public class TestManager
         this.newProperties = new HashMap();
     }
 
-    public void stageData(DAO dao) throws DBException
+    public void stageData(DAO dao) throws MGIException
     {
         stagedData.add(dao);
         stageStream.insert(dao);
     }
 
-    public void commitStage() throws DBException
+    public void commitStage() throws MGIException
     {
         this.stageStream.close();
     }
 
-    public void cleanStage() throws DBException
+    public void cleanStage() throws MGIException
     {
         for (int i = 0; i < stagedData.size(); i++)
             this.cleanStream.delete((DAO)stagedData.get(i));
         this.cleanStream.close();
     }
 
-    public void deleteObject(DAO dao) throws DBException
+    public void deleteObject(DAO dao) throws MGIException
     {
         this.cleanStream.delete(dao);
     }
@@ -96,13 +98,13 @@ public class TestManager
         }
     }
 
-    public void cleanAll() throws DBException
+    public void cleanAll() throws MGIException
     {
         this.cleanStage();
         this.cleanConfig();
     }
 
-    public int countObjects(String tablename) throws DBException
+    public int countObjects(String tablename) throws MGIException
     {
         String sql = "select * from " + tablename;
         ResultsNavigator nav = sqlMgr.executeQuery(sql);
@@ -116,11 +118,17 @@ public class TestManager
         return cnt;
     }
 
-    public void resetKey(String tablename) throws Exception
+    public void resetKey(String tablename) throws MGIException
     {
         Table table = Table.getInstance(tablename);
         table.resetKey();
     }
 
+    public void truncateTable(String tablename) throws MGIException
+    {
+        if (this.sqlMgr.getDatabase().indexOf("test") == -1)
+            throw new MGIException("Database name must contain the string 'test' in order to perform table truncation");
 
+        this.schema.truncateTable(tablename);
+    }
 }

@@ -12,7 +12,7 @@ import java.text.ParseException;
 /**
  *  A static object which handles java data type conversions for a known set
  * of java data types. The following types are supported:<br>
- * int, float, boolean, Integer, Float, Boolean, String and Timestamp
+ * int, double, boolean, Integer, Double, Boolean, String and Timestamp
  * @has Static methods for doing java data type conversions.
  * @does Converts input between java types and strings and between
  * primitive types and the wrapper classes.<br>
@@ -48,8 +48,8 @@ public class Converter {
    * @param input primitive
    * @return wrapper type
    */
-  public static Float wrap(float input) {
-    return new Float(input);
+  public static Double wrap(double input) {
+    return new Double(input);
   }
 
   /**
@@ -75,7 +75,7 @@ public class Converter {
    * @param input data for conversion
    * @return data converted to String
    */
-  public static String toString(float input) {
+  public static String toString(double input) {
     return wrap(input).toString();
   }
 
@@ -107,7 +107,7 @@ public class Converter {
    * @param input data for conversion
    * @return data converted to String
    */
-  public static String toString(Float input) {
+  public static String toString(Double input) {
       if (input == null)
           return null;
     return input.toString();
@@ -153,8 +153,8 @@ public class Converter {
       return (String)input;
     else if (input instanceof Integer)
       return toString((Integer)input);
-    else if (input instanceof Float)
-      return toString((Float)input);
+    else if (input instanceof Double)
+      return toString((Double)input);
     else if (input instanceof Timestamp)
       return toString((Timestamp)input);
     else if (input instanceof Boolean)
@@ -214,9 +214,9 @@ public class Converter {
    * clause or where clause of a sql statement. This method is designed
    * to assist in dynamic sql generation.
    * @param input a given value to be formatted as a sql fragment
-   * @return the float value as an unquoted string
+   * @return the double value as an unquoted string
    */
-  public static String toSQLString(Float input) {
+  public static String toSQLString(Double input) {
     return input.toString();
   }
 
@@ -262,18 +262,18 @@ public class Converter {
    * @return data converted to primitive
    * @throws TypesException thrown if there is an error in conversion
    */
-  public static float toPrimitiveFloat(String s)
+  public static double toPrimitiveDouble(String s)
   throws TypesException
   {
     try {
-      return (new Float(s)).floatValue();
+      return (new Double(s)).doubleValue();
     }
     catch (NumberFormatException e) {
       TypesExceptionFactory factory = new TypesExceptionFactory();
       TypesException e2 =
           (TypesException)factory.getException(MalformedString);
       e2.bind(s);
-      e2.bind("float");
+      e2.bind("double");
       throw e2;
     }
   }
@@ -314,21 +314,21 @@ public class Converter {
 
   /**
    *
-   * convert data from String to Float
+   * convert data from String to Double
    * @param s data for conversion
    * @return new object converted
    * @throws TypesException
    */
-  public static Float toFloat(String s) throws TypesException {
+  public static Double toDouble(String s) throws TypesException {
     try {
-      return new Float(s);
+      return new Double(s);
     }
     catch (NumberFormatException e) {
       TypesExceptionFactory factory = new TypesExceptionFactory();
       TypesException e2 =
           (TypesException)factory.getException(MalformedString, e);
       e2.bind(s);
-      e2.bind("Float");
+      e2.bind("Double");
       throw e2;
     }
   }
@@ -425,6 +425,12 @@ public class Converter {
 }
 
 // $Log$
+// Revision 1.4.4.1  2004/12/02 19:27:11  mbw
+// changed use of floats to doubles
+//
+// Revision 1.4  2004/07/21 20:51:58  mbw
+// javadocs edits only
+//
 // Revision 1.3  2004/05/05 16:47:49  mbw
 // now returning "null" in all toString methods if the object being converted is null
 //

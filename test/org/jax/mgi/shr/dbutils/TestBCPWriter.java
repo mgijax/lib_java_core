@@ -72,7 +72,7 @@ public class TestBCPWriter
     assertEquals(pointer.getInt(3).intValue(), 12345);
     assertEquals(pointer.getString(4), "-");
     assertEquals(pointer.getString(5), "goodbye");
-    assertEquals(pointer.getFloat(6).floatValue(), (float) 1.1, 0.0001);
+    assertEquals(pointer.getDouble(6).floatValue(), (float) 1.1, 0.0001);
     assertEquals(pointer.getBoolean(7).booleanValue(), false);
   }
 
@@ -99,7 +99,7 @@ public class TestBCPWriter
     assertEquals(pointer.getInt(3).intValue(), 12);
     assertEquals(pointer.getString(4), "-");
     assertEquals(pointer.getString(5), "goodbye");
-    assertEquals(pointer.getFloat(6).floatValue(), (float) 1.0, 0.0001);
+    assertEquals(pointer.getDouble(6).floatValue(), (float) 1.0, 0.0001);
     assertEquals(pointer.getBoolean(7).booleanValue(), false);
   }
 
@@ -125,7 +125,7 @@ public class TestBCPWriter
     assertEquals(pointer.getInt(3).intValue(), 12345);
     assertEquals(pointer.getString(4), "-");
     assertEquals(pointer.getString(5), "goodbye");
-    assertEquals(pointer.getFloat(6).floatValue(), (float) 1.1, 0.0001);
+    assertEquals(pointer.getDouble(6).floatValue(), (float) 1.1, 0.0001);
     assertEquals(pointer.getBoolean(7).booleanValue(), false);
   }
 

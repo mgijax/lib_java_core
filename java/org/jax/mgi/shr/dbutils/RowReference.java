@@ -20,7 +20,7 @@ import org.jax.mgi.shr.log.Logger;
  * @has The JDBC ResultSet object and a pointer to the current row
  * @does provides controlled access to the current row of data of a
  * ResultSet. Only direct access to the following data types are provided:
- * Integer, Float, String, Timestamp and Boolean. All other types can be
+ * Integer, Double, String, Timestamp and Boolean. All other types can be
  * accessed indirectly through the getObject methods.
  * @company Jackson Laboratory
  * @author M. Walker
@@ -84,17 +84,17 @@ public class RowReference
    * see java.sql.ResultSet javadocs
    * @throws DBException thrown if there is an error with the database
    */
-  public Float getFloat(int columnIndex) throws DBException {
+  public Double getDouble(int columnIndex) throws DBException {
     try {
-      float f = rs.getFloat(columnIndex);
+      double f = rs.getDouble(columnIndex);
       if (rs.wasNull())
         return null;
       else
-        return new Float(f);
+        return new Double(f);
     }
     catch (SQLException e) {
       throw getJDBCException(
-          "get float value from column index " + columnIndex, e);
+          "get double value from column index " + columnIndex, e);
     }
   }
 
@@ -102,17 +102,17 @@ public class RowReference
    * see java.sql.ResultSet javadocs
    * @throws DBException thrown if there is an error with the database
    */
-  public Float getFloat(String columnName) throws DBException {
+  public Double getDouble(String columnName) throws DBException {
     try {
-      float f = rs.getFloat(columnName);
+      double f = rs.getDouble(columnName);
       if (rs.wasNull())
         return null;
       else
-        return new Float(f);
+        return new Double(f);
     }
     catch (SQLException e) {
       throw getJDBCException(
-          "get float value from column name " + columnName, e);
+          "get double value from column name " + columnName, e);
     }
   }
 
@@ -402,6 +402,12 @@ public class RowReference
 
 
 // $Log$
+// Revision 1.2.4.1  2004/12/02 19:27:01  mbw
+// changed use of floats to doubles
+//
+// Revision 1.2  2004/07/21 19:52:12  mbw
+// javadocs edits only
+//
 // Revision 1.1  2003/12/30 16:50:36  mbw
 // imported into this product
 //

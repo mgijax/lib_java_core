@@ -44,10 +44,10 @@ public class TestConverter
     assertTrue(false);
   }
 
-  public void testStringToFloat() throws Exception {
+  public void testStringToDouble() throws Exception {
     String s = "1.8767564";
     float expectedReturn = (float)1.8767564;
-    Float actualReturn = Converter.toFloat(s);
+    Double actualReturn = Converter.toDouble(s);
     assertEquals(expectedReturn, actualReturn.floatValue(), (float)0.0001);
   }
 
@@ -76,11 +76,11 @@ public class TestConverter
     assertEquals("return value", expectedReturn, actualReturn);
   }
 
-  public void testStringToPrimitiveFloat() throws Exception {
+  public void testStringToPrimitiveDouble() throws Exception {
     String s = "1.098";
-    float expectedReturn = (float)1.098;
-    float actualReturn = Converter.toPrimitiveFloat(s);
-    assertEquals(expectedReturn, actualReturn, (float)0.0001);
+    double expectedReturn = (double)1.098;
+    double actualReturn = Converter.toPrimitiveDouble(s);
+    assertEquals(expectedReturn, actualReturn, (double)0.0001);
   }
 
   public void testStringToPrimitiveInt() throws Exception {
@@ -113,9 +113,9 @@ public class TestConverter
     assertEquals("return value", expectedReturn, actualReturn);
   }
 
-  public void testToStringFromFloat() {
-    Float input = new Float((float)1.0987865611111);
-    String expectedReturn = "1.0987866";
+  public void testToStringFromDouble() {
+    Double input = new Double(1.0987865611111);
+    String expectedReturn = "1.0987865611111";
     String actualReturn = Converter.toString(input);
     assertEquals("return value", expectedReturn, actualReturn);
   }
@@ -143,9 +143,9 @@ public class TestConverter
     assertEquals("return value", expectedReturn, actualReturn);
   }
 
-  public void testToStringFromPrimitiveFloat() {
-    float input = (float)4.12341111111;
-    String expectedReturn = "4.123411";
+  public void testToStringFromPrimitiveDouble() {
+    double input = (double)4.12341111111;
+    String expectedReturn = "4.12341111111";
     String actualReturn = Converter.toString(input);
     assertEquals("return value", expectedReturn, actualReturn);
   }
@@ -164,11 +164,11 @@ public class TestConverter
     assertEquals("return value", expectedReturn, actualReturn);
   }
 
-  public void testWrapFloat() {
-    float input = 0;
-    Float expectedReturn = new Float(0);
-    Float actualReturn = Converter.wrap(input);
-    assertEquals("return value", expectedReturn.floatValue(), actualReturn.floatValue(), 0);
+  public void testWrapDouble() {
+    double input = 0;
+    Double expectedReturn = new Double(0);
+    Double actualReturn = Converter.wrap(input);
+    assertEquals("return value", expectedReturn.doubleValue(), actualReturn.doubleValue(), 0);
   }
 
   public void testWrapInt() {
