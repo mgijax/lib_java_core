@@ -1,3 +1,13 @@
+TAG: lib_java_core-1-0-5
+DATE: 02/11/2004
+STAFF: mbw
+CHANGES: tag for development build (see changes since last tag)
+
+DATE: 02/12/04
+STAFF: mbw
+CHANGES:
+1) reviewed cache package to assure closes were happening on jdbc resources
+
 TAG: lib_java_core-1-0-4
 DATE: 02/11/2004
 STAFF: sc
