@@ -1,3 +1,9 @@
+DATE: 02/19/2004
+STAFF: mbw
+CHANGES:
+1) modified database caching classes
+2) bug fix: added creation of default Logger to SQLDataManager(DatabaseConfigurator) contructor
+
 TAG: lib_java_core-1-0-7
 DATE: 02/18/2004
 STAFF: jsb
