@@ -1,3 +1,9 @@
+TAG: lib_java_core-1-0-9
+DATE: 03/04/2004
+STAFF: mbw
+CHANGES:
+1) changes made to the ioutils package to handle begin delimiters as well as end delimiters
+
 TAG: lib_java_core-1-0-8
 DATE: 02/19/2004
 STAFF: sc
