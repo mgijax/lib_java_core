@@ -3,17 +3,14 @@ package org.jax.mgi.shr.unitTest;
 import java.sql.SQLException;
 import java.sql.Connection;
 import java.sql.Statement;
-
 import org.jax.mgi.shr.dbutils.ConnectionManager;
-
-
 
 /**
  * <p>IS: An object for creating database tables used in java unit
  * testing.</p>
  * <p>HAS: an database connection and methods for creating database tables.
  * A couple generic table definitions are provided. One is called DBTypes which
- * has a column for each data type expected to be encountered in an application.
+     * has a column for each data type expected to be encountered in an application.
  * The other is called TEST_DBgeneric and is meant to represent a generic table
  * encountered in applications which consist of the common fields createdBy,
  * modifiedBy, creation_date and modification_date. Additionally a method is
@@ -25,38 +22,30 @@ import org.jax.mgi.shr.dbutils.ConnectionManager;
  * @author M Walker
  * @version 1.0
  */
-
 public class TableCreator {
-
   private Connection conn = null;
-
   private String DEFAULT_CONNECTION_MANAGER =
-                "org.jax.mgi.shr.dbutils.MGIDriverManager";
+      "org.jax.mgi.shr.dbutils.MGIDriverManager";
+  /**
+   * default constructor
+   * @throws KnownException
+   */
+  public TableCreator(String url, String database,
+                      String user, String password) throws Exception {
+    conn =
+        getConnection(url, database, user, password, DEFAULT_CONNECTION_MANAGER);
+  }
 
   /**
    * default constructor
    * @throws KnownException
    */
   public TableCreator(String url, String database,
-                      String user, String password)
-      throws Exception {
+                      String user, String password,
+                      String connectionManagerClass) throws Exception {
     conn =
-        getConnection(url, database, user, password, DEFAULT_CONNECTION_MANAGER);
+        getConnection(url, database, user, password, connectionManagerClass);
   }
-
-
-        /**
-         * default constructor
-         * @throws KnownException
-         */
-        public TableCreator(String url, String database,
-                                                                                        String user, String password,
-                                                                                        String connectionManagerClass)
-                        throws Exception {
-                conn =
-                        getConnection(url, database, user, password, connectionManagerClass);
-        }
-
 
   /**
    * creates a table that consisting of all expected data types with the
@@ -97,63 +86,61 @@ public class TableCreator {
     dropTable(sqlDrop);
   }
 
-        /**
-         * creates a table with the following definition:
-         * <pre>
-         * CREATE TABLE TEST_DBsimple
-         * columnA           int         not null
-         * columnB           varchar(30) null
-         * </pre>
-         * @throws KnownException
-         */
-        public void createDBsimple() throws Exception {
-                String sqlDrop = "DROP TABLE TEST_DBsimple";
-                String sqlCreate =
-                                "CREATE TABLE TEST_DBsimple ("
-                                + "columnA           int         not null,"
-                                + "columnB           varchar(30) null)";
-                createTable(sqlDrop, sqlCreate);
-        }
+  /**
+   * creates a table with the following definition:
+   * <pre>
+   * CREATE TABLE TEST_DBsimple
+   * columnA           int         not null
+   * columnB           varchar(30) null
+   * </pre>
+   * @throws KnownException
+   */
+  public void createDBsimple() throws Exception {
+    String sqlDrop = "DROP TABLE TEST_DBsimple";
+    String sqlCreate =
+        "CREATE TABLE TEST_DBsimple ("
+        + "columnA           int         not null,"
+        + "columnB           varchar(30) null)";
+    createTable(sqlDrop, sqlCreate);
+  }
 
+  /**
+   * drop the table TEST_DBsimple
+   * @throws KnownException
+   */
+  public void dropDBsimple() throws Exception {
+    String sqlDrop = "DROP TABLE TEST_DBsimple";
+    dropTable(sqlDrop);
+  }
 
-        /**
-         * drop the table TEST_DBsimple
-         * @throws KnownException
-         */
-        public void dropDBsimple() throws Exception {
-                String sqlDrop = "DROP TABLE TEST_DBsimple";
-                dropTable(sqlDrop);
-        }
+  /**
+   * creates a table with a primary key column of type int and
+   * with the following definition:
+   * <pre>
+   * CREATE TABLE TEST_DBkeyedInt
+   * columnA           int         not null primary key
+   * columnB           varchar(30) null
+   * <br>
+   * </pre>
+   * @throws KnownException
+   */
+  public void createDBkeyedInt() throws Exception {
+    String sqlDrop = "DROP TABLE TEST_DBkeyedInt";
+    String sqlCreate =
+        "CREATE TABLE TEST_DBkeyedInt ("
+        + "columnA           int         primary key,"
+        + "columnB           varchar(30) null)";
+    createTable(sqlDrop, sqlCreate);
+  }
 
-        /**
-         * creates a table with a primary key column of type int and
-         * with the following definition:
-         * <pre>
-         * CREATE TABLE TEST_DBkeyedInt
-         * columnA           int         not null primary key
-         * columnB           varchar(30) null
-         * <br>
-         * </pre>
-         * @throws KnownException
-         */
-        public void createDBkeyedInt() throws Exception {
-                String sqlDrop = "DROP TABLE TEST_DBkeyedInt";
-                String sqlCreate =
-                                "CREATE TABLE TEST_DBkeyedInt ("
-                                + "columnA           int         primary key,"
-                                + "columnB           varchar(30) null)";
-                createTable(sqlDrop, sqlCreate);
-        }
-
-
-        /**
-         * drop the table TEST_DBKeyedInt
-         * @throws KnownException
-         */
-        public void dropDBkeyedInt() throws Exception {
-                String sqlDrop = "DROP TABLE TEST_DBkeyedInt";
-                dropTable(sqlDrop);
-        }
+  /**
+   * drop the table TEST_DBKeyedInt
+   * @throws KnownException
+   */
+  public void dropDBkeyedInt() throws Exception {
+    String sqlDrop = "DROP TABLE TEST_DBkeyedInt";
+    dropTable(sqlDrop);
+  }
 
   /**
    * creates a table which models original tables in MGD which have record
@@ -195,9 +182,6 @@ public class TableCreator {
     String sqlDrop = "DROP TABLE TEST_DBstamped_MGDOrg";
     dropTable(sqlDrop);
   }
-
-
-
 
   /**
    * creates a table which models tables in MGD which have record
@@ -279,7 +263,6 @@ public class TableCreator {
    * modification_date datetime    not null
    * </pre>
    */
-
   public void createDBstamped_MGDDate() throws Exception {
     String sqlDrop = "DROP TABLE TEST_DBstamped_MGDDate";
     String sqlCreate =
@@ -313,7 +296,6 @@ public class TableCreator {
    * release_date      datetime    not null
    * </pre>
    */
-
   public void createDBstamped_MGDRelease() throws Exception {
     String sqlDrop = "DROP TABLE TEST_DBstamped_MGDRelease";
     String sqlCreate =
@@ -395,10 +377,8 @@ public class TableCreator {
     dropTable(sqlDrop);
   }
 
-
-
   /**
-   * execute the given drop table and create table commands. The drop command is
+       * execute the given drop table and create table commands. The drop command is
    * run in advance of create to compensate for the scenario where the table
    * already exists in the database.
    * @param drop drop table command
@@ -418,7 +398,7 @@ public class TableCreator {
   }
 
   /**
-   * will execute the given drop table command to be used when cleaning up at the
+       * will execute the given drop table command to be used when cleaning up at the
    * completion of a unit test run.
    * @param drop the drop table command
    * @throws KnownException
@@ -430,26 +410,24 @@ public class TableCreator {
 
   private Connection getConnection(String url, String database,
                                    String user, String password,
-                                   String connectionManagerClass)
-    throws SQLException {
-                ConnectionManager connectionManager = null;
-                Connection conn = null;
-                try {
-                        Class c = Class.forName(connectionManagerClass);
-                        connectionManager = (ConnectionManager) c.newInstance();
-                        conn = connectionManager.getConnection(database, user, password, url);
-                }
-                catch (ClassNotFoundException e) {
-                        throw new SQLException(e.getMessage());
-                }
-                catch (IllegalAccessException e) {
-                        throw new SQLException(e.getMessage());
-                }
-                catch (InstantiationException e) {
-                        throw new SQLException(e.getMessage());
-                }
-                return conn;
+                                   String connectionManagerClass) throws
+      SQLException {
+    ConnectionManager connectionManager = null;
+    Connection conn = null;
+    try {
+      Class c = Class.forName(connectionManagerClass);
+      connectionManager = (ConnectionManager) c.newInstance();
+      conn = connectionManager.getConnection(database, user, password, url);
+    }
+    catch (ClassNotFoundException e) {
+      throw new SQLException(e.getMessage());
+    }
+    catch (IllegalAccessException e) {
+      throw new SQLException(e.getMessage());
+    }
+    catch (InstantiationException e) {
+      throw new SQLException(e.getMessage());
+    }
+    return conn;
   }
-
-
 }
