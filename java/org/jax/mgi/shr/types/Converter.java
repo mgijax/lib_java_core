@@ -98,6 +98,8 @@ public class Converter {
    * @return data converted to String
    */
   public static String toString(Integer input) {
+      if (input == null)
+          return null;
     return input.toString();
   }
 
@@ -107,6 +109,8 @@ public class Converter {
    * @return data converted to String
    */
   public static String toString(Float input) {
+      if (input == null)
+          return null;
     return input.toString();
   }
 
@@ -116,6 +120,8 @@ public class Converter {
    * @return data converted to String whose value will be either "0" or "1"
    */
   public static String toString(Boolean input) {
+      if (input == null)
+          return null;
     if (input.booleanValue())
       return "1";
     else
@@ -128,6 +134,8 @@ public class Converter {
    * @return data converted to String
    */
   public static String toString(Timestamp input) {
+      if (input == null)
+          return null;
     return input.toString();
   }
 
@@ -140,6 +148,8 @@ public class Converter {
    * @throws TypesException thrown if there is an error in conversion
    */
   public static String objectToString(Object input) throws TypesException {
+      if (input == null)
+          return null;
     if (input instanceof String)
       return (String)input;
     else if (input instanceof Integer)
@@ -415,6 +425,9 @@ public class Converter {
 }
 
 // $Log$
+// Revision 1.2  2003/12/31 18:26:36  mbw
+// added new toSQLString methods
+//
 // Revision 1.1  2003/12/30 16:56:53  mbw
 // imported into this product
 //
