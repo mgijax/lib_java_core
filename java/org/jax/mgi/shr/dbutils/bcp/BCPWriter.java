@@ -23,7 +23,7 @@ import org.jax.mgi.shr.dbutils.Table;
 
 
 /**
- * @is an object that creates a bcp file and writes records to it.
+ *  An object that creates a bcp file and writes records to it.
  * @has <br>
  * <UL>
  * <LI> an instance of a Table object which represents the target table
@@ -41,7 +41,6 @@ import org.jax.mgi.shr.dbutils.Table;
  * database errors in advance of executing the bcp command.
  * @company Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 
 public class BCPWriter {
@@ -87,9 +86,17 @@ public class BCPWriter {
    */
   private boolean okToTruncateTable = false;
   /*
-   * option to drop indexex before executing bcp
+   * option to drop indexes before executing bcp
    */
   private boolean okToDropIndexes = false;
+  /*
+   * option to drop triggers before executing bcp
+   */
+  private boolean okToDropTriggers = false;
+  /*
+   * option to replace newlines with spaces in text fields
+   */
+  private boolean okToRemoveNewlines = false;
   /*
    * a vector of sql statements to execute before running bcp
    */
@@ -157,7 +164,7 @@ public class BCPWriter {
 
   /**
    * set whether or not to drop indexes before executing the bcp command. If
-   * this value is tru, then indexes will be recreated afterwards.
+   * this value is true, then indexes will be recreated afterwards.
    * @assumes nothing
    * @effects the internal value of the okToDropIndexes flag will be set
    * @param boolValue true or false
@@ -165,6 +172,18 @@ public class BCPWriter {
   public void setOkToDropIndexes(boolean boolValue) {
     okToDropIndexes = boolValue;
   }
+
+  /**
+   * set whether or not to drop triggers before executing the bcp command. If
+   * this value is true, then triggers will be recreated afterwards.
+   * @assumes nothing
+   * @effects the internal value of the okToDropTriggers flag will be set
+   * @param boolValue true or false
+   */
+  public void setOkToDropTriggers(boolean boolValue) {
+    okToDropIndexes = boolValue;
+  }
+
 
   /**
    * set the option which designates whether to automatically
@@ -189,6 +208,19 @@ public class BCPWriter {
   public void setOkToAutoFlush(boolean boolParam) {
     okToAutoFlush = boolParam;
   }
+
+  /**
+   * set the option which designates whether to automatically
+   * replace newlines with spaces in text fields, overriding the value found
+   * in the configuration file or system properties.
+   * @assumes nothing
+   * @effects the internal value of the okToRemoveNewlines flag will be set.
+   * @param boolParam true or false
+   */
+  public void setOkToRemoveNewlines(boolean boolParam) {
+    okToRemoveNewlines = boolParam;
+  }
+
 
 
   /**
@@ -299,6 +331,18 @@ public class BCPWriter {
     return okToDropIndexes;
   }
 
+  /**
+   * get the value of the attribute which designates whether to automatically
+   * drop triggers before running bcp.
+   * @assumes nothing
+   * @effects nothing
+   * @return true or false
+   */
+  public boolean getOkToDropTriggers() {
+    return okToDropTriggers;
+  }
+
+
 
   /**
    * get the value of the attribute which designates whether to automatically
@@ -333,6 +377,18 @@ public class BCPWriter {
     return okToAutoFlush;
   }
 
+  /**
+   * get the value of the attribute which designates whether to automatically
+   * replace newline characters with spaces in text fields.
+   * @assumes nothing
+   * @effects nothing
+   * @return true or false
+   */
+  public boolean getOkToRemoveNewlines() {
+    return this.okToRemoveNewlines;
+  }
+
+
 
 
 
@@ -356,7 +412,6 @@ public class BCPWriter {
     if (!isValid) {
       throw (BCPException) eFactoryBCP.getException(InvalidBCPWriter);
     }
-    String name = table.getName();
     /*
      * This method allows a vector of vectors to be passed in which
      * indicates that more than one line is to be written to the bcp file.
@@ -429,8 +484,6 @@ public class BCPWriter {
    * @param pTable the Table object representing the target database
    * table.
    * @param pBcpmanager the BCPManager object which performs the bcp
-   * @param pSqlDataManager the SQLDataManager for use in validating
-   * bcp records
    * @param pLogger the DataLoadLogger instance
    * @param pCfg the configuration through which to configure the BCPWriter
    * @throws BCPException thrown if the bcp file cannot be opened
@@ -448,41 +501,14 @@ public class BCPWriter {
     sqlmanager = table.getSQLDataManager();
     okToDropIndexes = pCfg.getOkToDropIndexes().booleanValue();
     okToTruncateTable = pCfg.getOkToTruncateTable().booleanValue();
+    if (okToTruncateTable)
+    {
+        // reset table class to start key at 1
+        table.resetKey();
+    }
     okToRecordStamp = pCfg.getOkToRecordStamp().booleanValue();
     okToAutoFlush = pCfg.getOkToAutoFlush().booleanValue();
-    preSql = pCfg.getPreSQL();
-    postSql = pCfg.getPostSQL();
-    createBCPFile(table.getName());
-  }
-
-  /**
-   * the constructor which accepts the table name and BCPManager objects
-   * @assumes nothing
-   * @effects nothing
-   * @param pTable the table name for the target database table.
-   * @param pBcpmanager the BCPManager object which performs the bcp
-   * @param pSqlDataManager the SQLDataManager for use in validating
-   * bcp records
-   * @param pLogger the DataLoadLogger instance
-   * @param pCfg the configuration through which to configure the BCPWriter
-   * @throws BCPException thrown if the bcp file cannot be opened
-   * @throws DBException if database meta data cannot be obtained for
-   * the table
-   * @throws ConfigException thrown if there is an error when trying to
-   * configure the BCPWriter
-   */
-  protected BCPWriter(String pTable, BCPManager pBcpmanager,
-                      Logger pLogger, BCPWriterCfg pCfg)
-      throws BCPException, DBException, ConfigException {
-    SQLDataManager sqlman = pBcpmanager.getSQLDataManager();
-    table = Table.getInstance(pTable, sqlman);
-    logger = pLogger;
-    bcpmanager = pBcpmanager;
-    sqlmanager = table.getSQLDataManager();
-    okToDropIndexes = pCfg.getOkToDropIndexes().booleanValue();
-    okToTruncateTable = pCfg.getOkToTruncateTable().booleanValue();
-    okToRecordStamp = pCfg.getOkToRecordStamp().booleanValue();
-    okToAutoFlush = pCfg.getOkToAutoFlush().booleanValue();
+    okToRemoveNewlines = pCfg.getOkToRemoveNewlines().booleanValue();
     preSql = pCfg.getPreSQL();
     postSql = pCfg.getPostSQL();
     createBCPFile(table.getName());
@@ -551,15 +577,23 @@ public class BCPWriter {
       if (currentObject == null)
         element = "";
       else
-        try {
-          element = Converter.objectToString(currentObject);
-        }
-        catch (TypesException e) {
-          BCPExceptionFactory eFactory = new BCPExceptionFactory();
-          BCPException e2 = (BCPException)
-              eFactory.getException(StringConversionErr, e);
-          throw e2;
-        }
+      {
+          if (this.okToRemoveNewlines && currentObject instanceof String)
+          {
+              currentObject = ((String)currentObject).replaceAll("\\n", " ");
+          }
+          try
+          {
+              element = Converter.objectToString(currentObject);
+          }
+          catch (TypesException e)
+          {
+              BCPExceptionFactory eFactory = new BCPExceptionFactory();
+              BCPException e2 = (BCPException)
+                  eFactory.getException(StringConversionErr, e);
+              throw e2;
+          }
+      }
       if (bcpLine == null) { // it has not yet been written to
         bcpLine = new StringBuffer();
         bcpLine.append(element);
@@ -685,6 +719,9 @@ public class BCPWriter {
 }
 
 // $Log$
+// Revision 1.1  2003/12/30 16:50:49  mbw
+// imported into this product
+//
 // Revision 1.2  2003/12/09 22:49:21  mbw
 // merged jsam branch onto the trunk
 //
