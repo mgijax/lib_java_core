@@ -695,12 +695,16 @@ public class RcdFile
         * @param separator String to use to join multiple values together
         * @return <tt>String</tt> representation of the values for the given
 	*    field <tt>name</tt>, using the given <tt>separator</tt> between
-        *    multiple values
+        *    multiple values.  If there is no value for this tag, return null.
         */
         public String getString (String name, String separator)
         {
-	    return StringLib.join ((Vector) this.values.get (name),
-					separator);
+            Vector vals = (Vector) this.values.get(name);
+            String retval = null;
+            if (vals != null) {
+                retval = StringLib.join (vals,separator);
+            }
+            return retval;
         }
 
 	/* ---------------------------------------------------------------- */
@@ -714,7 +718,12 @@ public class RcdFile
         */
         public Iterator getIterator (String name)
         {
-	    return ((Vector) this.values.get (name)).iterator();
+            Vector vals = (Vector) this.values.get(name);
+            Iterator retval = null;
+            if (vals != null) {
+                retval = vals.iterator();
+            }
+            return retval;
         }
 
 	/* ---------------------------------------------------------------- */
@@ -727,7 +736,12 @@ public class RcdFile
         */
         public Vector getVector (String name)
         {
-	    return (Vector) ((Vector) this.values.get (name)).clone();
+            Vector vals = (Vector) this.values.get(name);
+            Vector retval = null;
+            if (vals != null) {
+                retval = (Vector)vals.clone();
+            }
+            return retval;
         }
 
 	/* ---------------------------------------------------------------- */
