@@ -14,9 +14,11 @@ public class TestInputDataFile
   private String inFile1 = "test" + del + "MmShort.data";
   private String inFile2 = "test" + del + "Mm.data";
   private String inFile3 = "test" + del + "MmAllCaps.data";
+  private String inFile4 = "test" + del + "fasta.data";
   private String compareFile1 = "test" + del + "MmShortCompare.data";
   private String compareFile2 = "test" + del + "MmCompare.data";
   private String compareFile3 = "test" + del + "MmAllCapsCompare.data";
+  private String compareFile4 = "test" + del + "fastaCompare.data";
   private String outputFilename = "MmTestFile.data";
 
   public TestInputDataFile(String name) {
@@ -75,14 +77,14 @@ public class TestInputDataFile
     }
     out.close();
     i.close();
-    assertTrue(FileUtility.compare(outputFilename, compareFile2));
     Properties p = System.getProperties();
     p.remove("INFILE_END_DELIMITER");
     p.remove("INFILE_NAME");
     ConfigReinitializer.reinit();
+    assertTrue(FileUtility.compare(outputFilename, compareFile2));
   }
 
-  public void testGetIterator() throws Exception {
+  public void testdataInput3() throws Exception {
     inputFile =
         new InputDataFile(inFile3);
     BufferedWriter out = new BufferedWriter(new FileWriter(outputFilename));
@@ -97,6 +99,28 @@ public class TestInputDataFile
     i.close();
     assertTrue(FileUtility.compare(outputFilename, compareFile3));
   }
+
+  public void testDataInput4() throws Exception {
+      System.setProperty("INFILE_BEGIN_DELIMITER", "^>");
+      System.setProperty("INFILE_USE_REGEX", "true");
+      inputFile =
+          new InputDataFile(inFile4);
+      BufferedWriter out = new BufferedWriter(new FileWriter(outputFilename));
+      RecordDataIterator i = inputFile.getIterator();
+      while (i.hasNext()) {
+        String s = (String)i.next();
+        out.write(s);
+        out.write("-----------------------------------------------\n");
+      }
+      out.close();
+      i.close();
+      Properties p = System.getProperties();
+      p.remove("INFILE_BEGIN_DELIMITER");
+      p.remove("INFILE_USE_REGEX");
+      ConfigReinitializer.reinit();
+      assertTrue(FileUtility.compare(outputFilename, compareFile4));
+  }
+
 
   public void testIterator1() throws Exception {
       FileUtility.createFile("testInput",
