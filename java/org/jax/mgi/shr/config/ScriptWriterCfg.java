@@ -188,4 +188,41 @@ public class ScriptWriterCfg
     {
         return getConfigBoolean("SCP_REMOVE_AFTER_EXECUTE", new Boolean(false));
     }
+
+    /**
+     * get the value of the option which designates whether to remove the output
+     * file after executing. The parameter name read from the configuration
+     * file or system properties is SCP_REMOVE_OUTFILE_AFTER_EXECUTE. The value
+     * can be yes,  no, true or false and the case of the letters are ignored.
+     * The default value is false.
+     * @return true if it is ok to remove the output file after executing the
+     * script or false otherwise
+     * @throws ConfigException throws if configuration value does not represent
+     * a boolean
+     */
+    public Boolean getRemoveOutputAfterExecute()
+        throws ConfigException
+    {
+        return getConfigBoolean("SCP_REMOVE_OUTFILE_AFTER_EXECUTE",
+                                new Boolean(false));
+    }
+
+
+    /**
+     * get the value of the option which designates whether to flush
+     * io buffer on each write to the script file. The parameter name read
+     * from the configuration file or system properties is
+     * SCP_OK_TO_AUTOFLUSH. The value can be yes, no, true or false and the
+     * case of the letters are ignored. The default value is false.
+     * @return true if it is ok to flush io buffer on each write or
+     * false otherwise
+     * @throws ConfigException throws if configuration value does not represent
+     * a boolean
+     */
+    public Boolean getOkToAutoFlush()
+        throws ConfigException
+    {
+        return getConfigBoolean("SCP_OK_TO_AUTOFLUSH", new Boolean(false));
+    }
+
 }
