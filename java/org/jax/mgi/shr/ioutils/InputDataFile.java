@@ -13,9 +13,10 @@ import org.jax.mgi.shr.exception.MGIException;
 public class InputDataFile
 {
 
-  // the default record delimiter as a java regular expression
-  // this delimiter will cause each line to be a record
-  private String delimiter = null;
+  // the record begin and end delimiters as strings. These will be interpreted
+  // as a java regular expression unless the INFILE_USE_REGEX is set to false
+  private String endDelimiter = null;
+  private String beginDelimiter = null;
 
   // the size of the internal buffer
   private int bufferSize;
@@ -67,7 +68,8 @@ public class InputDataFile
   /**
    * constructor which allows overridding default values with a configuration
    * object. If parameters are not found then the defaults are used. The
-   * default delimiter is so that each line is treated as a separate record.
+   * default end delimiter is such that each line is treated as a separate
+   * record.
    * The default buffer size is 512000.
    * @param config the configuration class
    * @throws IOUException thrown if an error occurs during configuration
@@ -102,15 +104,25 @@ public class InputDataFile
   }
 
   /**
-   * override the configured value for the delimiter which is the
-   * regular expression used for delimiting records.
+   * override the configured value for the end delimiter
    * @assumes nothing
-   * @effects the record delimiter will be set
-   * @param pDelimiter the record delimiter
+   * @effects the record end delimiter will be set
+   * @param endDelimiter the record end delimiter
    */
-  public void setDelimiter(String delimiter) {
-    this.delimiter = readMetaChars(delimiter);
+  public void setEndDelimiter(String endDelimiter) {
+    this.endDelimiter = readMetaChars(endDelimiter);
   }
+
+  /**
+   * override the configured value for the end delimiter
+   * @assumes nothing
+   * @effects the record end delimiter will be set
+   * @param endDelimiter the record end delimiter
+   */
+  public void setBeginDelimiter(String beginDelimiter) {
+    this.beginDelimiter = readMetaChars(beginDelimiter);
+  }
+
 
   /**
    * set whether or not to use regular expressions when performing
@@ -124,11 +136,19 @@ public class InputDataFile
   }
 
   /**
-   * return the delimiter
-   * @return the delimiter
+   * return the end delimiter
+   * @return the end delimiter
    */
-  public String getDelimiter() {
-    return this.delimiter;
+  public String getEndDelimiter() {
+    return this.endDelimiter;
+  }
+
+  /**
+   * return the begin delimiter
+   * @return the begin delimiter
+   */
+  public String getBeginDelimiter() {
+    return this.beginDelimiter;
   }
 
   /**
@@ -198,7 +218,8 @@ public class InputDataFile
    */
   private void configure(InputDataCfg pConfig)
       throws IOUException, ConfigException {
-    this.delimiter = readMetaChars(pConfig.getEndDelimiter());
+    this.endDelimiter = readMetaChars(pConfig.getEndDelimiter());
+    this.beginDelimiter = readMetaChars(pConfig.getBeginDelimiter());
     this.bufferSize = pConfig.getBufferSize().intValue();
     this.useRegex = pConfig.getOkToUseRegex().booleanValue();
     if (this.filename == null)
@@ -225,7 +246,7 @@ public class InputDataFile
       s = s.replaceAll("\\\\n", "\n");
       s = s.replaceAll("\\\\t", "\t");
       s = s.replaceAll("\\\\r", "\r");
-      s = s.replaceAll("\\\\", "\\");
+      //s = s.replaceAll("\\\\", "\\");
     }
     return s;
   }
@@ -325,6 +346,8 @@ public class InputDataFile
           exceptionState = true;
           break;
         }
+        if (record == null)
+            return false;
         if (interpreter.isValid(record)) {
           // cache the record and return true
           cache = record;
@@ -430,22 +453,53 @@ public class InputDataFile
      * @effects a new RecordDataReader will be instantiated
      * @throws IOUException thrown if there
      */
-    private void setupReader() throws IOUException {
-      try {
-        if (useRegex)  // pass in record delimiter as a string
-          recordDataReader =
-            new RecordDataReader(inputChannel, delimiter, bufferSize);
-        else  // pass in the delimiter as a byte sequence
-          recordDataReader =
-            new RecordDataReader(inputChannel,delimiter.getBytes(), bufferSize);
-      }
-      catch (IOException e) {
-        IOUException ke = (IOUException)
-            exceptionFactory.getException(DataReadEOF, e);
-        throw ke;
-      }
+    private void setupReader()
+        throws IOUException
+    {
+        try
+        {
+            if (useRegex)
+            {
+                if (beginDelimiter == null)
+                    // pass in end delimiter as a string
+                    recordDataReader =
+                    new RecordDataReader(inputChannel, endDelimiter,
+                                         bufferSize);
+                else
+                    // pass in end & begin delimiters as strings
+                    recordDataReader =
+                    new RecordDataReader(inputChannel, beginDelimiter,
+                                         endDelimiter,
+                                         bufferSize);
+            }
+            else
+            {
+                if (beginDelimiter == null)
+                {
+                    // pass in the end delimiter as a byte sequence
+                    recordDataReader =
+                        new RecordDataReader(inputChannel,
+                                             endDelimiter.getBytes(),
+                                             bufferSize);
+                }
+                else
+                {
+                    // pass in the begin & end delimiters as byte sequences
+                    recordDataReader =
+                        new RecordDataReader(inputChannel,
+                                             beginDelimiter.getBytes(),
+                                             endDelimiter.getBytes(),
+                                             bufferSize);
+                }
+            }
+        }
+        catch (IOException e)
+        {
+            IOUException ke = (IOUException)
+                exceptionFactory.getException(DataReadEOF, e);
+            throw ke;
+        }
     }
-
   }
 
 }
