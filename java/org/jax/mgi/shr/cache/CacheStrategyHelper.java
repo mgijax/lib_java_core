@@ -96,6 +96,7 @@ public class CacheStrategyHelper
                 resultObj = iterator.next();
                 putObjectInCache(resultObj, cache, cacheHandler, logger);
             }
+            iterator.close();
         }
         else
         {
@@ -109,8 +110,8 @@ public class CacheStrategyHelper
                 putObjectInCache(navigator.getCurrent(),
                                  cache, cacheHandler, logger);
             }
+            navigator.close();
         }
-
     }
 
 
