@@ -25,7 +25,7 @@ public class CacheHandlerTestSubclass
         throws CacheException, DBException
     {
         super(cacheType, sqlMgr);
-        setCache(cache);
+        initCache(cache);
     }
 
     public String getPartialInitQuery()
