@@ -117,7 +117,7 @@ abstract public class RowDataCacheStrategy
      */
     public void setDebug(boolean debug)
     {
-        this.debug = true;
+        this.debug = debug;
     }
 
     /**
