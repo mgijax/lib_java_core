@@ -84,7 +84,7 @@ public class TestRecordDataReader
   public void testMultiLineRecord() throws IOException {
     BufferedWriter out = new BufferedWriter(new FileWriter(outputFilename));
     FileInputStream in = new FileInputStream(inputFilename);
-    RecordDataReader rdr = new RecordDataReader(in.getChannel(), null, "^\\|\\|", 512000);
+    RecordDataReader rdr = new RecordDataReader(in.getChannel(), null, "^\\|\\|", "US-ASCII", 512000);
     while (rdr.hasNext()) {
       String s = rdr.next();
       out.write(s);
@@ -100,7 +100,7 @@ public class TestRecordDataReader
       String del = "||";
     BufferedWriter out = new BufferedWriter(new FileWriter(outputFilename));
     FileInputStream in = new FileInputStream(inputFilename);
-    RecordDataReader rdr = new RecordDataReader(in.getChannel(), null, del.getBytes(), 512000);
+    RecordDataReader rdr = new RecordDataReader(in.getChannel(), null, del.getBytes(), "US-ASCII", 512000);
     while (rdr.hasNext()) {
       String s = rdr.next();
       if (s.getBytes().length > 1)
@@ -121,7 +121,7 @@ public class TestRecordDataReader
   public void testSingleLineRecord() throws IOException {
     BufferedWriter out = new BufferedWriter(new FileWriter(outputFilename));
     FileInputStream in = new FileInputStream(inputFilename2);
-    RecordDataReader rdr = new RecordDataReader(in.getChannel(), null, "$", 512000);
+    RecordDataReader rdr = new RecordDataReader(in.getChannel(), null, "$", "US-ASCII", 512000);
     while (rdr.hasNext()) {
       String s = rdr.next();
       out.write(s);
@@ -140,7 +140,7 @@ public class TestRecordDataReader
     FileInputStream in = new FileInputStream(inputFilename2);
     RecordDataReader rdr =
         new RecordDataReader(in.getChannel(), beginDel.getBytes(),
-                             endDel.getBytes(), 2);
+                             endDel.getBytes(), "US-ASCII", 2);
     while (rdr.hasNext()) {
       String s = rdr.next();
       if (s != null)
@@ -162,7 +162,7 @@ public class TestRecordDataReader
     FileInputStream in = new FileInputStream(inputFilename2);
     RecordDataReader rdr =
         new RecordDataReader(in.getChannel(), beginDel,
-                             endDel, 2);
+                             endDel, "US-ASCII", 2);
     while (rdr.hasNext()) {
       String s = rdr.next();
       if (s != null)
@@ -184,7 +184,7 @@ public class TestRecordDataReader
     BufferedWriter out = new BufferedWriter(new FileWriter(outputFilename));
     FileInputStream in = new FileInputStream(inputFilename2);
     RecordDataReader rdr =
-        new RecordDataReader(in.getChannel(), null, del.getBytes(), 2);
+        new RecordDataReader(in.getChannel(), null, del.getBytes(), "US-ASCII", 2);
     while (rdr.hasNext()) {
       String s = rdr.next();
       out.write(s);
@@ -202,7 +202,7 @@ public class TestRecordDataReader
       BufferedWriter out = new BufferedWriter(new FileWriter(outputFilename));
       FileInputStream in = new FileInputStream(inputFilename);
       RecordDataReader rdr =
-        new RecordDataReader(in.getChannel(), del.getBytes(), null, 2);
+        new RecordDataReader(in.getChannel(), del.getBytes(), null, "US-ASCII", 2);
     while (rdr.hasNext())
     {
         String s = rdr.next();
@@ -221,7 +221,7 @@ public class TestRecordDataReader
       BufferedWriter out = new BufferedWriter(new FileWriter(outputFilename));
       FileInputStream in = new FileInputStream(inputFilename3);
       RecordDataReader rdr =
-        new RecordDataReader(in.getChannel(), del, null, 2);
+        new RecordDataReader(in.getChannel(), del, null, "US-ASCII", 2);
     while (rdr.hasNext())
     {
         String s = rdr.next();
