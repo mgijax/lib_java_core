@@ -26,6 +26,16 @@ public class TestDBSchema
     super.tearDown();
   }
 
+  public void testRegex()
+  {
+      String s = "on ${DBCLUSTIDXSEG}";
+      String s2 = "on $DBCLUSTIDXSEG";
+      s = s.replaceAll("\\$(\\{)?+DBCLUSTIDXSEG(\\})?+", "seg0");
+      s2 = s2.replaceAll("\\$(\\{)?+DBCLUSTIDXSEG(\\})?+", "seg0");
+      assertEquals("on seg0", s);
+      assertEquals("on seg0", s);
+  }
+
 
   public void testCreateIndexCommand() throws Exception {
     Vector returnVector = dBSchema.getCreateIndexCommands("ACC_AccessionMax");
@@ -64,6 +74,17 @@ public class TestDBSchema
   String expectedReturn = "alter table ACC_Accession unpartition";
   assertEquals(expectedReturn, actualReturn);
 }
+
+    public void testCreateTriggerCommand() throws Exception {
+        Vector v = dBSchema.getCreateTriggerCommands("ACC_MgiType");
+        String create = (String)v.get(0);
+        v = dBSchema.getDropTriggerCommands("ACC_MGIType");
+        String drop = (String)v.get(0);
+        //this.sqlManager.executeUpdate(drop);
+        //this.sqlManager.executeUpdate(create);
+        dBSchema.dropTriggers("ACC_MGIType");
+        dBSchema.createTriggers("ACC_MGIType");
+    }
 
 
 

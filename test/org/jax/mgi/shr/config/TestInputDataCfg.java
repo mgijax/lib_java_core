@@ -27,10 +27,10 @@ public class TestInputDataCfg
     String s =
         "#format: sh\n" +
         "INFILE_NAME=testfile\n" +
-        "INFILE_DELIMITER=^//\n" +
+        "INFILE_BEGIN_DELIMITER=^//\n" +
         "INFILE_BUFFERSIZE=2222\n" +
         "SECONDARY_INFILE_NAME=testfile2\n" +
-        "SECONDARY_INFILE_DELIMITER=\\|\n" +
+        "SECONDARY_INFILE_END_DELIMITER=\\|\n" +
         "SECONDARY_INFILE_BUFFERSIZE=333\n";
 
     FileUtility.createFile(config1, s);
@@ -48,15 +48,15 @@ public class TestInputDataCfg
   public void testGets() throws Exception {
     System.setProperty("CONFIG", config1);
     fileCfg = new InputDataCfg();
-    assertEquals("2222", fileCfg.getBufferSize());
-    assertEquals("^//", fileCfg.getEndDelimiter());
+    assertEquals(new Integer(2222), fileCfg.getBufferSize());
+    assertEquals("^//", fileCfg.getBeginDelimiter());
     assertEquals("return value", "testfile", fileCfg.getInputFileName());
   }
 
   public void testPrefixing() throws Exception {
     System.setProperty("CONFIG", config1);
     fileCfg = new InputDataCfg("SECONDARY");
-    assertEquals("333", fileCfg.getBufferSize());
+    assertEquals(new Integer(333), fileCfg.getBufferSize());
     assertEquals("\\|", fileCfg.getEndDelimiter());
     assertEquals("return value", "testfile2", fileCfg.getInputFileName());
 
