@@ -5,13 +5,12 @@ import java.io.PrintStream;
 import org.jax.mgi.shr.dbutils.types.TypeValidator;
 
   /**
-   * @is a column definition for a given database table
+   * A column definition for a given database table
    * @has attributes associated with the definition of the column
    * @does provides accessors and modifiers for the attributes of a
    * column definition.
    * @company Jackson Laboratory
    * @author M Walker
-   * @version 1.0
    */
 
   public class ColumnDef implements Cloneable {
@@ -25,11 +24,12 @@ import org.jax.mgi.shr.dbutils.types.TypeValidator;
     String schema = null;
     String table = null;
     TypeValidator validator = null;
-    
+
     /**
      * clone method
      * @assumes nothing
      * @effects a new ColumnDef object will be created
+     * @return the clone for this instance
      */
     public Object clone()
     {
@@ -45,8 +45,8 @@ import org.jax.mgi.shr.dbutils.types.TypeValidator;
     	col.setSchema(this.getSchema());
     	col.setSize(this.getSize());
     	col.setTable(this.getTable());
-    	col.setTypeName(this.getTypeName());   
-    	return col;	
+    	col.setTypeName(this.getTypeName());
+    	return col;
     }
 
     /**
@@ -55,7 +55,7 @@ import org.jax.mgi.shr.dbutils.types.TypeValidator;
      * @effects the internal catalog value will be set
      * @param s the name of the catalog
      */
-    public void setCatalog(String s) {
+    protected void setCatalog(String s) {
       catalog = s;
     }
 
@@ -65,7 +65,7 @@ import org.jax.mgi.shr.dbutils.types.TypeValidator;
      * @effects the internal schema value will be set
      * @param s the name of the schema
      */
-    public void setSchema(String s) {
+    protected void setSchema(String s) {
      schema = s;
     }
 
@@ -75,7 +75,7 @@ import org.jax.mgi.shr.dbutils.types.TypeValidator;
      * @effects the internal table value will be set
      * @param s the name of the table
      */
-    public void setTable(String s) {
+    protected void setTable(String s) {
       table = s;
     }
 
@@ -85,7 +85,7 @@ import org.jax.mgi.shr.dbutils.types.TypeValidator;
      * @effects the internal name value will be set
      * @param s the name of the column
      */
-    public void setName(String s) {
+    protected void setName(String s) {
       name = s;
     }
 
@@ -95,17 +95,17 @@ import org.jax.mgi.shr.dbutils.types.TypeValidator;
      * @effects the internal typeName value will be set
      * @param s the name of th edata type
      */
-    public void setTypeName(String s) {
+    protected void setTypeName(String s) {
       typeName = s;
     }
-    
+
 		/**
 		 * set the value of the data type
 		 * @assumes nothing
 		 * @effects the internal typeName value will be set
-		 * @param s the name of th edata type
+		 * @param i the name of the data type
 		 */
-		public void setType(int i) {
+		protected void setType(int i) {
 			type = i;
 		}
 
@@ -115,7 +115,7 @@ import org.jax.mgi.shr.dbutils.types.TypeValidator;
      * @effects the internal size value will be set
      * @param i the column size
      */
-    public void setSize(int i) {
+    protected void setSize(int i) {
       size = i;
     }
 
@@ -125,7 +125,7 @@ import org.jax.mgi.shr.dbutils.types.TypeValidator;
      * @effects the internal decimalSize value will be set
      * @param i the decimal size
      */
-    public void setDecimalSize(int i) {
+    protected void setDecimalSize(int i) {
       decimalSize = i;
     }
 
@@ -133,10 +133,10 @@ import org.jax.mgi.shr.dbutils.types.TypeValidator;
      * set whether the column allows null
      * @assumes nothing
      * @effects the internal isNullable value will be set
-     * @param s the boolean indicator for whether the column accepts null. 
+     * @param s the boolean indicator for whether the column accepts null.
      * In Sybase it is the string 'yes'
      */
-    public void setNullable(String s) {
+    protected void setNullable(String s) {
       nullable = s;
     }
 
@@ -159,7 +159,7 @@ import org.jax.mgi.shr.dbutils.types.TypeValidator;
     public int getType() {
       return type;
     }
-    
+
 		/**
 		 * get the name of the type
 		 * @assumes nothing
@@ -232,7 +232,7 @@ import org.jax.mgi.shr.dbutils.types.TypeValidator;
     public String getTable() {
       return table;
     }
-    
+
     /**
      * get the name of the java type by which this column is represented
      * @assumes the following mapping will be used:
@@ -274,7 +274,7 @@ import org.jax.mgi.shr.dbutils.types.TypeValidator;
     	}
     	return name;
     }
-    
+
 		/**
 		 * get the name of the given column in a format used during code generation
 		 * @assumes nothing
@@ -294,13 +294,13 @@ import org.jax.mgi.shr.dbutils.types.TypeValidator;
 					if (!firstConcat)
 					{
 						// capitalize subsequent substrings during concat operation
-					  newPart = 
+					  newPart =
 					    part.substring(0,1).toUpperCase().concat(part.substring(1));
 					}
 					else
 					{
 						// dont capitalize the first substring
-						newPart = 
+						newPart =
 						  part.substring(0,1).toLowerCase().concat(part.substring(1));
 					}
 					if (cgName == null)
@@ -320,21 +320,32 @@ import org.jax.mgi.shr.dbutils.types.TypeValidator;
 			   cgName = cgName + "Val";
 			return cgName;
 		}
-		
+
+        /**
+         * get the name of the setter method for this column to be used for
+         * the automated creation of java bean classes with common accessor
+         * methods
+         * @return the name of the setter method for this column
+         */
 		public String getSetterCGName()
 		{
 			String cgName = getCGName();
-			return "set" + 
+			return "set" +
 			       cgName.substring(0, 1).toUpperCase().concat(cgName.substring(1));
 		}
-		
+        /**
+         * get the name of the setter method for this column to be used for
+         * the automated creation of java bean classes with common accessor
+         * methods
+         * @return the name of the setter method for this column
+         */
 		public String getGetterCGName()
 		{
 			String cgName = getCGName();
-			return "get" + 
+			return "get" +
 			       cgName.substring(0, 1).toUpperCase().concat(cgName.substring(1));
 		}
-		
+
 
     /**
      * get a TypeValidator for this column
@@ -345,16 +356,24 @@ import org.jax.mgi.shr.dbutils.types.TypeValidator;
     public TypeValidator getTypeValidator() {
       return TypeValidator.newInstance(this);
     }
-    
+
+    /**
+     * get the String representation of this instance
+     * @return the String representation for this instance
+     */
     public String toString() {
     	String s = getName() + " : " + getTypeName();
-    	
+
     	return s;
     }
-    
+
+    /**
+     * dump the String representation of this instance to the given stream
+     * @param stream the stream to dump on
+     */
     public void dump(PrintStream stream) {
 			stream.println(this.toString());
     }
-    
+
 
   }
