@@ -163,8 +163,8 @@ public class BCPManager {
     BCPWriterCfg bcpCfg = new BCPWriterCfg();
     bcpCfg.setDefaultOkToRecordStamp(okToRecordStamp);
     bcpCfg.setDefaultOkToAutoFlush(okToAutoFlush);
-    if (bcpCfg.getOkToTruncateTable().booleanValue())
-        table.resetKey(); // reset table class to start key at 1
+    //if (bcpCfg.getOkToTruncateTable().booleanValue())
+        //table.resetKey(); // reset table class to start key at 1
     return getBCPWriter(table, bcpCfg);
   }
 
@@ -211,8 +211,8 @@ public class BCPManager {
     cfg.setDefaultOkToAutoFlush(okToAutoFlush);
     cfg.setDefaultOkToDropIndexes(this.okToDropIndexes);
     cfg.setDefaultOkToTruncateTable(this.okToTruncateTable);
-    if (cfg.getOkToTruncateTable().booleanValue())
-        table.resetKey(); // reset table class to start key at 1
+    //if (cfg.getOkToTruncateTable().booleanValue())
+        //table.resetKey(); // reset table class to start key at 1
     BCPWriter writer = new BCPWriter(table, this, logger, cfg);
     allWriters.add(writer);
     return writer;
@@ -767,6 +767,9 @@ public class BCPManager {
   }
 }
 // $Log$
+// Revision 1.5  2004/07/28 18:15:35  mbw
+// javadocs only
+//
 // Revision 1.4  2004/07/26 16:58:29  mbw
 // formatting only
 //

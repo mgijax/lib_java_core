@@ -502,11 +502,11 @@ public class BCPWriter {
     sqlmanager = table.getSQLDataManager();
     okToDropIndexes = pCfg.getOkToDropIndexes().booleanValue();
     okToTruncateTable = pCfg.getOkToTruncateTable().booleanValue();
-    if (okToTruncateTable)
-    {
+    //if (okToTruncateTable)
+    //{
         // reset table class to start key at 1
-        table.resetKey();
-    }
+        //table.resetKey();
+    //}
     okToRecordStamp = pCfg.getOkToRecordStamp().booleanValue();
     okToAutoFlush = pCfg.getOkToAutoFlush().booleanValue();
     okToRemoveNewlines = pCfg.getOkToRemoveNewlines().booleanValue();
@@ -720,6 +720,9 @@ public class BCPWriter {
 }
 
 // $Log$
+// Revision 1.3  2004/07/26 16:58:30  mbw
+// formatting only
+//
 // Revision 1.2  2004/07/21 21:08:13  mbw
 // - removed constructor which accepts SQLDataManager
 // - added dropping trigger functionality
