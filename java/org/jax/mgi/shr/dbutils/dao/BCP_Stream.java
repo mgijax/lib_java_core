@@ -1,10 +1,15 @@
 package org.jax.mgi.shr.dbutils.dao;
 
+import java.util.Vector;
+
 import org.jax.mgi.shr.exception.MGIException;
 import org.jax.mgi.shr.dbutils.DBException;
 import org.jax.mgi.shr.dbutils.SQLDataManager;
 import org.jax.mgi.shr.dbutils.DBExceptionFactory;
 import org.jax.mgi.shr.dbutils.bcp.BCPManager;
+import org.jax.mgi.shr.dbutils.bcp.BCPException;
+import org.jax.mgi.shr.config.ConfigException;
+
 
 /**
  * A SQLStream for doing inserts with bcp. Updates and deletes cannot be
@@ -22,12 +27,12 @@ public class BCP_Stream
     /**
      * the BCPManager class for performing database inserts with bcp
      */
-    private BCPManager bcpManager = null;
+    protected BCPManager bcpManager = null;
 
     /*
      * the following constant definitions are exceptions thrown by this class
      */
-    private static String SQLStreamCloseErr =
+    protected static String SQLStreamCloseErr =
         DBExceptionFactory.SQLStreamCloseErr;
 
     /**
@@ -67,6 +72,29 @@ public class BCP_Stream
     public void update(DAO dao) throws DBException
     {
       throw MGIException.getUnsupportedMethodException();
+    }
+
+    /**
+     * initialize all the writers up front in order to assure order
+     * when executing them and also to assure key values are properly
+     * cached in the Table clases based on the BCPWriter configuration
+     * parameter ok_to_truncate_table.
+     * @assumes nothing
+     * @effects the keys will be reset if the BCPWriters are configured to
+     * truncate the tables and the order of executing the BCPWriters will
+     * be effected
+     * @param v a vector of Table classes in the order in which you want
+     * them executed
+     * @throws ConfigException thrown if there is an error accessing the
+     * configuration
+     * @throws DBException thrown if there is an error accessing the database
+     * @throws BCPException thrown if there is an error creating a new
+     * BCPWriter
+     */
+    public void initBCPWriters(Vector v)
+    throws ConfigException, DBException, BCPException
+    {
+        ((BCPStrategy)super.insertStrategy).initBCPWriters(v);
     }
 
 
