@@ -8,12 +8,11 @@ package org.jax.mgi.shr.cache;
  * @author mbw
  * @version 1.0
  */
-
 public class CacheConstants
 {
-	/**
-	 * the following defines the types of cache strategies available
-	 */
-	public static final int LAZY_CACHE = 1;
-	public static final int FULL_CACHE = 2;
+    /**
+     * the following defines the types of cache strategies available
+     */
+    public static final int LAZY_CACHE = 1;
+    public static final int FULL_CACHE = 2;
 }

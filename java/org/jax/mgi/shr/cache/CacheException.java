@@ -1,6 +1,5 @@
 package org.jax.mgi.shr.cache;
 
-
 import org.jax.mgi.shr.exception.MGIException;
 
 /**
@@ -11,11 +10,11 @@ import org.jax.mgi.shr.exception.MGIException;
  * @author M Walker
  * @version 1.0
  */
-
-public class CacheException extends MGIException {
-  public CacheException(String pMessage, boolean pDataRelated) {
-    super(pMessage, pDataRelated);
-  }
-
-
+public class CacheException
+    extends MGIException
+{
+    public CacheException(String pMessage, boolean pDataRelated)
+    {
+        super(pMessage, pDataRelated);
+    }
 }
