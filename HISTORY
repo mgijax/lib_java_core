@@ -1,3 +1,8 @@
+TAG:lib_java_core-1-0-26
+DATE: 10/11/2004
+STAFF: mbw
+CHANGES: the ScriptWriter now logs script command before execution
+
 TAG:lib_java_core-1-0-25
 DATE: 10/11/2004
 STAFF: mbw
