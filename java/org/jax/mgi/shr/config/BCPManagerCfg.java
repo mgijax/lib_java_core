@@ -5,7 +5,7 @@ package org.jax.mgi.shr.config;
 
 
 /**
- * @is an object for configuring a BCPManager.
+ * An object for configuring a BCPManager.
  * @has a set of BCPManager configuration parameters and a reference to
  * a ConfigurationManager
  * @does provides methods for getting configuration paramaters
@@ -13,13 +13,15 @@ package org.jax.mgi.shr.config;
  * not configured.
  * @company Jackson Laboratory
  * @author M. Walker
- * @version 1.0
  */
 
 public class BCPManagerCfg extends Configurator {
 
   private String DEFAULT_PATH = ".";
   private String DEFAULT_DELIMITER = "\t";
+
+  private String DEFAULT_CONNECTION_MANAGER =
+      "org.jax.mgi.shr.dbutils.MGIDriverManager";
 
 
   /**
@@ -159,7 +161,7 @@ public class BCPManagerCfg extends Configurator {
   public Boolean getOkToTruncateLog() throws ConfigException {
     return getConfigBoolean("BCP_TRUNCATE_LOG", new Boolean(false));
   }
-  
+
 	/**
 	 * get the value of the option which designates whether to automatically
 	 * drop indexes before running bcp. If this is set to true, then the
@@ -177,6 +179,24 @@ public class BCPManagerCfg extends Configurator {
 		return getConfigBoolean("BCP_DROP_INDEXES", new Boolean(false));
 	}
 
+    /**
+     * get the value of the option which designates whether to automatically
+     * drop triggers before running bcp. If this is set to true, then the
+     * configuration variable DBSCHEMA_INSTALLDIR should be set in order to
+     * locate the directory where the schema product for this database is
+     * located. The parameter name read from the configuration file for setting
+     * this option is BCP_DROP_TRIGGERS and its default is false. This value
+     * provides the initial parameter setting for a BCPWriter and can be
+     * overridden with a BCPWriterCfg object or within the BCPwriter instance.
+     * @return true or false
+     * @throws ConfigException throws if configuration value does not represent
+     * a boolean
+     */
+    public Boolean getOkToDropTriggers() throws ConfigException {
+        return getConfigBoolean("BCP_DROP_TRIGGERS", new Boolean(false));
+    }
+
+
 
 	/**
 	 * get the value of the option which designates whether to automatically
@@ -192,6 +212,20 @@ public class BCPManagerCfg extends Configurator {
 	public Boolean getOkToTruncateTable() throws ConfigException {
 		return getConfigBoolean("BCP_TRUNCATE_TABLE", new Boolean(false));
 	}
+
+    /**
+     * get the name of the ConnectionManager class used for instantiating
+     * a ConnectionManager instance which is used for obtaining a connection
+     * to the database. The name of the configuration parameter is
+     * DBCONNECTION_MANAGER. The default value if not set is
+     * org.jax.mgi.shr.dbutils.MGIDriverManager
+     * @return the name of the ConnectionManager class
+     */
+    public String getConnectionManagerClass() {
+      return getConfigString("DBCONNECTION_MANAGER",
+                             DEFAULT_CONNECTION_MANAGER);
+    }
+
 
   /**
    * get the string which is used as the value of the created_by field
@@ -253,10 +287,15 @@ public class BCPManagerCfg extends Configurator {
     setApplyPrefix(true);
     return value;
   }
+
+
 }
 
 
 // $Log$
+// Revision 1.1  2003/12/30 16:50:02  mbw
+// imported into this product
+//
 // Revision 1.4  2003/12/09 22:48:38  mbw
 // merged jsam branch onto the trunk
 //
