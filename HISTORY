@@ -1,3 +1,14 @@
+DATE: 04/14/2004
+STAFF: mbw
+CHANGES:
+1) bug fix in Configurator when creating new java objects from a config file
+
+DATE: 04/02/2004
+STAFF: mbw
+CHANGES:
+1) DatabaseCfg - fixed default name of dbo password file to reflect new naming convention
+2) DBSchema - made misc bug fixes on regular expressions used there
+
 TAG: lib_java_core-1-0-13
 DATE: 04/06/2004
 STAFF: sc
