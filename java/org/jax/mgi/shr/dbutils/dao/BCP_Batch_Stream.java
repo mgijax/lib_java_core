@@ -19,65 +19,76 @@ import org.jax.mgi.shr.dbutils.bcp.BCPManager;
  * @author M Walker
  * @version 1.0
  */
+public class BCP_Batch_Stream
+    extends SQLStream
+{
+    /**
+     * the BatchProcessor to use
+     */
+    private BatchProcessor batch = null;
 
-public class BCP_Batch_Stream extends SQLStream {
-  /**
-   * the BatchProcessor to use
-   */
-  private BatchProcessor batch = null;
-  /**
-   * the BCPManager to use
-   */
-  private BCPManager bcpMgr = null;
+    /**
+     * the BCPManager to use
+     */
+    private BCPManager bcpMgr = null;
 
-  // the following constant defintions are exceptions thrown by this class
-  private static final String ExecuteBatchErr =
-      DBExceptionFactory.ExecuteBatchErr;
-  private static String SQLStreamCloseErr =
-      DBExceptionFactory.SQLStreamCloseErr;
+    // the following constant defintions are exceptions thrown by this class
+    private static final String ExecuteBatchErr =
+        DBExceptionFactory.ExecuteBatchErr;
+    private static String SQLStreamCloseErr =
+        DBExceptionFactory.SQLStreamCloseErr;
 
-  /**
-   * constructor
-   * @param sqlMgr the SQLDataManager to use
-   * @param bcpMgr the BCPManager to use
-   */
-  public BCP_Batch_Stream(SQLDataManager sqlMgr, BCPManager bcpMgr) throws
-      DBException {
-    super();
-    this.bcpMgr = bcpMgr;
-    this.batch = sqlMgr.getBatchProcessor();
-    BatchStrategy batchStrategy = new BatchStrategy(batch);
-    BCPStrategy bcpStrategy = new BCPStrategy(bcpMgr);
-    super.setUpdateStrategy(batchStrategy);
-    super.setInsertStrategy(bcpStrategy);
-    super.setDeleteStrategy(batchStrategy);
-  }
-
-  /**
-   * execute the bcp commands followed by the batch statements
-   */
-  public void close() throws DBException {
-    try {
-      batch.executeBatch();
-    }
-    catch (BatchException e) {
-      DBExceptionFactory eFactory = new DBExceptionFactory();
-      DBException e2 = (DBException)
-          eFactory.getException(ExecuteBatchErr, e);
-      throw e2;
-    }
-    try {
-      bcpMgr.executeBCP();
-    }
-    catch (MGIException e)
+    /**
+     * constructor
+     * @param sqlMgr the SQLDataManager to use
+     * @param bcpMgr the BCPManager to use
+     * @throws DBException thrown if there is an error accessing the database
+     */
+    public BCP_Batch_Stream(SQLDataManager sqlMgr, BCPManager bcpMgr)
+        throws
+        DBException
     {
-      DBExceptionFactory eFactory = new DBExceptionFactory();
-      DBException e2 = (DBException)
-          eFactory.getException(SQLStreamCloseErr, e);
-      e2.bind(this.getClass().getName());
-      throw e2;
+        super();
+        this.bcpMgr = bcpMgr;
+        this.batch = sqlMgr.getBatchProcessor();
+        BatchStrategy batchStrategy = new BatchStrategy(batch);
+        BCPStrategy bcpStrategy = new BCPStrategy(bcpMgr);
+        super.setUpdateStrategy(batchStrategy);
+        super.setInsertStrategy(bcpStrategy);
+        super.setDeleteStrategy(batchStrategy);
     }
 
-  }
-
+    /**
+     * execute the bcp commands followed by the batch statements
+     * @assumes nothing
+     * @effects data will be modified in bulk within the database
+     * @throws DBException thrown if there is an error accessing the database
+     */
+    public void close()
+        throws DBException
+    {
+        try
+        {
+            bcpMgr.executeBCP();
+        }
+        catch (MGIException e)
+        {
+            DBExceptionFactory eFactory = new DBExceptionFactory();
+            DBException e2 = (DBException)
+                eFactory.getException(SQLStreamCloseErr, e);
+            e2.bind(this.getClass().getName());
+            throw e2;
+        }
+        try
+        {
+            batch.executeBatch();
+        }
+        catch (BatchException e)
+        {
+            DBExceptionFactory eFactory = new DBExceptionFactory();
+            DBException e2 = (DBException)
+                eFactory.getException(ExecuteBatchErr, e);
+            throw e2;
+        }
+    }
 }

@@ -11,31 +11,35 @@ import org.jax.mgi.shr.dbutils.DBException;
  * @author M. Walker
  * @version 1.0
  */
+public interface SQLTranslatable
+{
+    /**
+     * get the sql for update
+     * @assumes nothing
+     * @effects nothing
+     * @return the update sql string
+     * @throws DBException thrown if there is an error accessing the database
+     */
+    String getUpdateSQL()
+        throws DBException;
 
+    /**
+     * get the sql for delete
+     * @assumes nothing
+     * @effects nothing
+     * @return the delete sql string
+     * @throws DBException thrown if there is an error accessing the database
+     */
+    String getDeleteSQL()
+        throws DBException;
 
-public interface SQLTranslatable {
-
-  /**
-   * get the sql for update
-   * @assumes nothing
-   * @effects nothing
-   * @return update sql
-   */
-  String getUpdateSQL() throws DBException;
-
-  /**
-   * get the sql for delete
-   * @assumes nothing
-   * @effects nothing
-   * @return the delete sql
-   */
-  String getDeleteSQL() throws DBException;
-
-  /**
-   * get the sql for insert
-   * @assumes nothing
-   * @effects nothing
-   * @return the insert sql
-   */
-  String getInsertSQL() throws DBException;
+    /**
+     * get the sql for insert
+     * @assumes nothing
+     * @effects nothing
+     * @return the insert sql string
+     * @throws DBException thrown if there is an error accessing the database
+     */
+    String getInsertSQL()
+        throws DBException;
 }

@@ -4,8 +4,10 @@ import org.jax.mgi.shr.dbutils.DBException;
 
 /**
  * @is an abstract class for performing database inserts, updates and deletes
- * using strategy classes which can be plugged in to handle database operations
- * @has an InsertStrategy, UpdateStrategy and a DeleteStrategy
+ * using strategy classes which can be plugged in to handle the particular
+ * database operations
+ * @has an InsertStrategy, UpdateStrategy and a DeleteStrategy for performing
+ * the database operations
  * @does routes the DAO object to the correct strategy
  * @company The Jackson Laboratory
  * @author M Walker
@@ -18,17 +20,6 @@ public abstract class SQLStream implements DAOPersistent
   protected InsertStrategy insertStrategy = null;
   protected UpdateStrategy updateStrategy = null;
   protected DeleteStrategy deleteStrategy = null;
-
-  public SQLStream() {}
-
-  public SQLStream(InsertStrategy insertStrategy,
-                   UpdateStrategy updateStrategy,
-                   DeleteStrategy deleteStrategy)
-  {
-    this.insertStrategy = insertStrategy;
-    this.updateStrategy = updateStrategy;
-    this.deleteStrategy = deleteStrategy;
-  }
 
   protected void setInsertStrategy(InsertStrategy insertStrategy)
   {
