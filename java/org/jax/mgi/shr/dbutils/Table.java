@@ -132,12 +132,20 @@ throws DBException, ConfigException
    * @param sqlMgr the SQLDataManager
    * @return the Table instance
    */
-  public static Table getInstance(String tableName, SQLDataManager sqlMgr) {
+  public static Table getInstance(String tableName, SQLDataManager sqlMgr)
+  throws DBException
+    {
     String hashEntryName = sqlMgr.getDatabase() + tableName;
     Table table = (Table) tablePool.get(hashEntryName);
     if (table == null) {
       table = new Table(tableName, sqlMgr);
       tablePool.put(hashEntryName, table);
+    }
+    else
+    {
+        // make sure connection is still open
+        SQLDataManager mgr = table.getSQLDataManager();
+        mgr.reconnect();
     }
     return table;
   }
@@ -386,10 +394,12 @@ throws DBException, ConfigException
     String sql = "SELECT MAX(" + keyName + ") FROM " + tableName;
     ResultsNavigator it = dataManager.executeQuery(sql);
     if (it.next()) {
-        RowReference row = (RowReference)it.getCurrent();
-                        Integer colData = row.getInt(1);
-                        if (colData != null)
-                cacheKey = colData.intValue();
+        RowReference row = (RowReference) it.getCurrent();
+        Integer colData = row.getInt(1);
+        if (colData != null)
+            cacheKey = colData.intValue();
+        if (cacheKey < 0)
+            cacheKey = 0;
     }
   }
 
@@ -529,6 +539,9 @@ throws DBException, ConfigException
 }
 
 // $Log$
+// Revision 1.4  2004/07/26 16:44:43  mbw
+// formatting only
+//
 // Revision 1.3  2004/07/21 20:24:31  mbw
 // - fixed bug causing key value to start at 2
 // - added methods resetKey() and synchronizeKey()
