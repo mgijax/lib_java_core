@@ -205,7 +205,7 @@ public class SQLDataManager {
   /**
    * constructer which takes all the parameters necessary for getting a
    * JDBC connection and for performing bcp or scripting and additionally
-   * accepts the name of a ConnectionManager class to use. Any of these
+   * accepts the ConnectionManager class to use. Any of these
    * parameters can be null, in which case, they
    * will use default values. See
    * <href="../config/DatabaseCfg.html">DatabaseCfg</href> for default values.
@@ -214,15 +214,14 @@ public class SQLDataManager {
    * @param pUser user name.
    * @param pPasswordFile password file name
    * @param pUrl database url
-   * @param pConnectionManagerClass the name of the class to use when making
-   * the connection
+   * @param pConnectionManager the class to use when making the connection
    * @throws ConfigException thrown if there is an error obtainning
    * configuration info
    * @throws DBException if there is an error getting a connection
    */
   public SQLDataManager(String pServer, String pDatabase, String pUser,
                         String pPasswordFile, String pUrl,
-                        String pConnectionManagerClass)
+                        ConnectionManager pConnectionManager)
       throws ConfigException, DBException {
     configureExtended(new DatabaseCfg());
     if (pServer != null) server = pServer;
@@ -230,8 +229,8 @@ public class SQLDataManager {
     if (pUrl != null) url = pUrl;
     if (pUser != null) user = pUser;
     if (pPasswordFile != null) passwordFile = pPasswordFile;
-    if (pConnectionManagerClass != null)
-        connectionManagerClass = pConnectionManagerClass;
+    if (pConnectionManager != null)
+        connectionManager = pConnectionManager;
     connect();
   }
 
@@ -270,20 +269,22 @@ public class SQLDataManager {
    * @param pUser user name.
    * @param pPasswordFile password file name
    * @param pUrl database url
-   * @param pConnectionManagerClass the name of the class to use when making
-   * the connection
+   * @param pConnectionManager the class to use when making the connection
    * @throws ConfigException thrown if there is an error obtainning
    * configuration info
    * @throws DBException if there is an error getting a connection
    */
   public SQLDataManager(String pDatabase, String pUser,
-                        String pPasswordFile, String pUrl)
+                        String pPasswordFile, String pUrl,
+                        ConnectionManager pConnectionManager)
       throws ConfigException, DBException {
     configureExtended(new DatabaseCfg());
     if (pDatabase != null) database = pDatabase;
     if (pUrl != null) url = pUrl;
     if (pUser != null) user = pUser;
     if (pPasswordFile != null) passwordFile = pPasswordFile;
+    if (pConnectionManager != null)
+        connectionManager = pConnectionManager;
     connect();
   }
 
@@ -1258,6 +1259,14 @@ public class SQLDataManager {
 }
 
 // $Log$
+// Revision 1.7  2004/07/21 20:13:06  mbw
+// - added new constructors
+// - no longer throws SQLWarnings
+// - added a getTable(String) method
+// - removed all forms of the getBCPManager methods
+// - added a isMySQL() and isOracle() methods
+// - now gets Logger from the LoggerFactory
+//
 // Revision 1.6  2004/03/29 19:52:30  mbw
 // added isSybase() method
 //
