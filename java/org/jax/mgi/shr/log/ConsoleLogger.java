@@ -1,22 +1,18 @@
-/*
- * Created on Oct 9, 2003
- *
- * To change the template for this generated file go to
- * Window>Preferences>Java>Code Generation>Code and Comments
- */
 package org.jax.mgi.shr.log;
 
 /**
- * @author mbw
+ * <p>@is a Logger class for logging to the console</p>
+ * <p>@has nothing</p>
+ * <p>@does routes log mess</p>
+ * <p>@company The Jackson Laboratory</p>
+ * @author not attributable
  *
- * To change the template for this generated type comment go to
- * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class ConsoleLogger implements Logger
 {
-	
+
 	private boolean debugOn = false;
-	
+
 	/**
 	 * log an informational message to the logger
 	 * @assumes nothing
