@@ -31,6 +31,9 @@ public class InputDataFile
   // the default filename from which to read records
   private String filename = null;
 
+  // the charset to use when decoding input byte streams
+  private String charset = null;
+
   // the exception factory
   private IOUExceptionFactory exceptionFactory = new IOUExceptionFactory();
 
@@ -222,6 +225,7 @@ public class InputDataFile
     this.beginDelimiter = readMetaChars(pConfig.getBeginDelimiter());
     this.bufferSize = pConfig.getBufferSize().intValue();
     this.useRegex = pConfig.getOkToUseRegex().booleanValue();
+    this.charset = pConfig.getCharset();
     if (this.filename == null)
         // filename may not have been defined through constructor
         // get from configuration
@@ -465,12 +469,12 @@ public class InputDataFile
                     // pass in end delimiter as a string
                     recordDataReader =
                     new RecordDataReader(inputChannel, null, endDelimiter,
-                                         bufferSize);
+                                         charset, bufferSize);
                 else
                     // pass in end & begin delimiters as strings
                     recordDataReader =
                     new RecordDataReader(inputChannel, beginDelimiter,
-                                         endDelimiter,
+                                         endDelimiter, charset,
                                          bufferSize);
             }
             else
@@ -481,7 +485,7 @@ public class InputDataFile
                     recordDataReader =
                         new RecordDataReader(inputChannel,
                                              null, endDelimiter.getBytes(),
-                                             bufferSize);
+                                             charset, bufferSize);
                 }
                 else
                 {
@@ -490,7 +494,7 @@ public class InputDataFile
                         new RecordDataReader(inputChannel,
                                              beginDelimiter.getBytes(),
                                              endDelimiter.getBytes(),
-                                             bufferSize);
+                                             charset, bufferSize);
                 }
             }
         }
