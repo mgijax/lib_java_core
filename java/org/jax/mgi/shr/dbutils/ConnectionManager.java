@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
- * @is an object which handles obtaining connections from the database
+ * An object which handles obtaining connections from the database
  * @has nothing
  * @does gets a database connection
  * @company The Jackson Laboratory

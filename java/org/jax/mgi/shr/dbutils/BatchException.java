@@ -5,18 +5,18 @@ import java.sql.Statement;
 import org.jax.mgi.shr.exception.MGIException;
 
 /**
- * @is An MGIException which represents an error in bcp processing
+ * An MGIException which represents an error in jdbc batch processing
  * @has an exception message, a data related indicator and a parent
  * exception which can be null.
  * @does nothing
  * @author M Walker
- * @version 1.0
+ * @company The Jackson Laboratory
  */
 
 public class BatchException extends MGIException {
 
   private int [] updateCounts;
-  
+
   public static final int UNAVAILABLE = Statement.SUCCESS_NO_INFO;
   public static final int ERROR = Statement.EXECUTE_FAILED;
 

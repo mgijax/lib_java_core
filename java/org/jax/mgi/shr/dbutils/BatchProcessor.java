@@ -8,13 +8,12 @@ import java.util.Vector;
 import org.jax.mgi.shr.log.Logger;
 
 /**
- * @is a class for handling jdbc batch execution
+ * A class for handling jdbc batch execution
  * @has a Statement class
  * @does stores a batch of sql statements and executes them all with one
  * network call to the database
  * @company The Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 
 public class BatchProcessor
@@ -66,8 +65,8 @@ public class BatchProcessor
     }
 
     /**
-     * set the logger to use for error reporting which is initialized to the
-     * same logger from the SQLDataManager this instance was derived from
+     * override the logger to use for error reporting which is initialized to
+     * the same logger from the SQLDataManager this instance was derived from
      * @assumes nothing
      * @effects all subsequent logging will use the given Logger
      * @param logger the Logger
@@ -114,7 +113,9 @@ public class BatchProcessor
      * execute the batch of sql
      * @assumes nothing
      * @effects nothing
+     * @return the array of counts for each update from the batch
      * @throws DBException thrown if there is an error in the database
+     * @throws BatchException thrown if there is a batch exception
      */
     public int[] executeBatch()
         throws DBException, BatchException
@@ -188,6 +189,7 @@ public class BatchProcessor
      * @assumes nothing
      * @effects the resources are freed and the processor will no longer
      * be available for operations
+     * @throws DBException thrown if there is an error with the database
      */
     public void close()
         throws DBException

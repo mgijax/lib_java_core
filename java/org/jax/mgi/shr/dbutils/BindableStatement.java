@@ -16,7 +16,7 @@ import org.jax.mgi.shr.timing.Stopwatch;
 
 
 /**
- * @is A proxy class for the JDBC PreparedStatement which integrates with
+ * A proxy class for the JDBC PreparedStatement which integrates with
  * other in-house packages for exception handling and logging.
  * @has PreparedStatement handle and a SQLDataManager and the sql string
  * @does binds and executes PreparedStatements. Data binding is limited
@@ -24,7 +24,6 @@ import org.jax.mgi.shr.timing.Stopwatch;
  * Integer, Float, Timestamp, String and Boolean.
  * @company Jackson Laboratory
  * @author M. Walker
- * @version 1.0
  */
 
 public class BindableStatement {
@@ -327,6 +326,7 @@ public class BindableStatement {
    * free up JDBC resources
    * @assumes nothing
    * @effects JDBC resources will be freed
+   * @throws DBException thrown if there is an error with the database
    */
   public void close() throws DBException
   {
@@ -402,6 +402,9 @@ public class BindableStatement {
 
 }
 // $Log$
+// Revision 1.3  2004/02/11 21:13:24  mbw
+// added time stats to debug logging
+//
 // Revision 1.2  2004/02/10 14:54:39  mbw
 // added close method
 //
