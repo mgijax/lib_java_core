@@ -1,9 +1,10 @@
-DATE: 11/05/2004
+TAG:lib_java_core-assembly-2
+DATE: 12/02/2004
 STAFF: mbw
 CHANGES: now supports double precision instead of single
 
 TAG:lib_java_core-assembly-1
-DATE: 11/05/2004
+DATE: 12/02/2004
 STAFF: mbw
 CHANGES: 1) bug fix in Configuration class: now throws exception when it cannot resolve a configuration parameter
          2) continued initial development of TestManager
