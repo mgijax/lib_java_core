@@ -17,7 +17,7 @@ public class DBExceptionFactory
    * an error occurred when trying to connect to the database
    */
   public static final String ConnectErr =
-      "org.jax.mgi.shr.shrdbutils.ConnectErr";
+      "org.jax.mgi.shr.dbschema.ConnectErr";
   static {
     exceptionsMap.put(ConnectErr, new DBException(
         "Could not open database connection", false));
@@ -27,7 +27,7 @@ public class DBExceptionFactory
    * an error occurred when trying to close a database connection
    */
   public static final String CloseErr =
-      "org.jax.mgi.shr.shrdbutils.CloseErr";
+      "org.jax.mgi.shr.dbschema.CloseErr";
   static {
     exceptionsMap.put(CloseErr, new DBException(
         "Could not close database connection", false));
@@ -37,7 +37,7 @@ public class DBExceptionFactory
    * a read was attempted past the end of a ResultSet
    */
   public static final String PastEndOfResultSet =
-      "org.jax.mgi.shr.shrdbutils.PastEndOfResultSet";
+      "org.jax.mgi.shr.dbschema.PastEndOfResultSet";
   static {
     exceptionsMap.put(PastEndOfResultSet, new DBException(
         "Attempt to access beyond the end of result set", false));
@@ -47,7 +47,7 @@ public class DBExceptionFactory
    * the database password could not be retrived from the password file
    */
   public static final String PasswordNotRetrieved =
-      "org.jax.mgi.shr.shrdbutils.PasswordNotRetrieved";
+      "org.jax.mgi.shr.dbschema.PasswordNotRetrieved";
   static {
     exceptionsMap.put(PasswordNotRetrieved, new DBException(
         "Could not retrieve password from password file ??", false));
@@ -57,7 +57,7 @@ public class DBExceptionFactory
    * Metadata could not be accessed
    */
   public static final String NoTableDefinitions =
-      "org.jax.mgi.shr.shrdbutils.NoTableDefinitions";
+      "org.jax.mgi.shr.dbschema.NoTableDefinitions";
   static {
     exceptionsMap.put(NoTableDefinitions, new DBException(
         "Could not retrieve metadata for table ?? in " +
@@ -68,7 +68,7 @@ public class DBExceptionFactory
    * More than one incremental key was found defined for this table
    */
   public static final String UnexpectedKeyCount =
-      "org.jax.mgi.shr.shrdbutils.UnexpectedKeyCount";
+      "org.jax.mgi.shr.dbschema.UnexpectedKeyCount";
   static {
     exceptionsMap.put(UnexpectedKeyCount, new DBException(
         "Expected a single primary key for table ?? " +
@@ -81,7 +81,7 @@ public class DBExceptionFactory
    * Primary key type is not an incremental type
    */
   public static final String UnexpectedKeyType =
-      "org.jax.mgi.shr.shrdbutils.UnexpectedKeyType";
+      "org.jax.mgi.shr.dbschema.UnexpectedKeyType";
   static {
     exceptionsMap.put(UnexpectedKeyType, new DBException(
         "Expected a primary key of type Interger " +
@@ -92,7 +92,7 @@ public class DBExceptionFactory
    * A SQLException was thrown from a JDBC call
    */
   public static final String JDBCException =
-      "org.jax.mgi.shr.shrdbutils.JDBCException";
+      "org.jax.mgi.shr.dbschema.JDBCException";
   static {
     exceptionsMap.put(JDBCException, new DBException(
         "An SQLException was thrown during a JDBC call " +
@@ -103,7 +103,7 @@ public class DBExceptionFactory
    * An SQLWarning was thrown from a JDBC call
    */
   public static final String JDBCWarning =
-      "org.jax.mgi.shr.shrdbutils.JDBCWarning";
+      "org.jax.mgi.shr.dbschema.JDBCWarning";
   static {
     exceptionsMap.put(JDBCWarning, new DBException(
         "An SQLWarning was thrown during a JDBC call", false));
@@ -114,7 +114,7 @@ public class DBExceptionFactory
    * An unexpected condition occurred which should be reported as a bug
    */
   public static final String UnexpectedCondition =
-      "org.jax.mgi.shr.shrdbutils.UnexpectedCondition";
+      "org.jax.mgi.shr.dbschema.UnexpectedCondition";
   static {
     exceptionsMap.put(UnexpectedCondition, new DBException(
         "An unexpected error occured while trying to " +
@@ -125,7 +125,7 @@ public class DBExceptionFactory
    * An unhandled data type was attempted to be processed
    */
   public static final String UnhandledDataType =
-      "org.jax.mgi.shr.shrdbutils.UnhandledDataType";
+      "org.jax.mgi.shr.dbschema.UnhandledDataType";
   static {
     exceptionsMap.put(UnhandledDataType, new DBException(
         "Unhandled datatype: ??", false));
@@ -135,7 +135,7 @@ public class DBExceptionFactory
    * An unhandled Sybase column type was found in meta data
    */
   public static final String UnhandledSybaseType =
-      "org.jax.mgi.shr.shrdbutils.UnhandledSybaseType";
+      "org.jax.mgi.shr.dbschema.UnhandledSybaseType";
   static {
     exceptionsMap.put(UnhandledSybaseType, new DBException(
         "Unhandled Sybase data type found in meta data: type number ??",
@@ -146,7 +146,7 @@ public class DBExceptionFactory
    * Operation attempted on a closed connection
    */
   public static final String ConnectionClosed =
-      "org.jax.mgi.shr.shrdbutils.ConnectionClosed";
+      "org.jax.mgi.shr.dbschema.ConnectionClosed";
   static {
     exceptionsMap.put(ConnectionClosed, new DBException(
         "Connection is closed: cannot ??",
@@ -157,7 +157,7 @@ public class DBExceptionFactory
    * Operation attempted on a closed resource
    */
   public static final String ResourceClosed =
-      "org.jax.mgi.shr.shrdbutils.ResourceClosed";
+      "org.jax.mgi.shr.dbschema.ResourceClosed";
   static {
     exceptionsMap.put(ResourceClosed, new DBException(
         "Resource is closed: cannot ??", false));
@@ -333,7 +333,7 @@ public class DBExceptionFactory
    * could not instantiate a RowDataInterpreter class by the given name
    */
   public static final String InterpreterInstanceErr =
-      "org.jax.mgi.shr.dbutils.InterpreterInstanceErr";
+      "org.jax.mgi.shr.dbschema.InterpreterInstanceErr";
   static {
     exceptionsMap.put(InterpreterInstanceErr, new DBException(
         "Could not create instance of class ??", false));
@@ -343,7 +343,7 @@ public class DBExceptionFactory
    * unexpected format of stored procedure call
    */
   public static final String StoredProcFormatErr =
-      "org.jax.mgi.shr.dbutils.StoredProcFormatErr";
+      "org.jax.mgi.shr.dbschema.StoredProcFormatErr";
   static {
     exceptionsMap.put(StoredProcFormatErr, new DBException(
         "Unexpected format for stored procedure call: ??", false));
