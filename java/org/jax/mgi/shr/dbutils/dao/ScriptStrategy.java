@@ -50,6 +50,7 @@ public class ScriptStrategy
   	try 
   	{
 			writer.write(sql);
+      writer.go();
   	}
 		catch (ScriptException e)
 		{
@@ -74,6 +75,7 @@ public class ScriptStrategy
 		try 
 		{
 			writer.write(sql);
+      writer.go();
 		}
 		catch (ScriptException e)
 		{
@@ -93,10 +95,11 @@ public class ScriptStrategy
    */
   public void insert(DAO dbComponent) throws DBException
   { 
-		String sql = ((SQLTranslatable)dbComponent).getDeleteSQL();
+		String sql = ((SQLTranslatable)dbComponent).getInsertSQL();
 		try 
 		{
 			writer.write(sql);
+      writer.go();
 		}
 		catch (ScriptException e)
 		{
