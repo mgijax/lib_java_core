@@ -279,7 +279,7 @@ public class Configuration
         BufferedReader infile = new BufferedReader (new FileReader (myFile));
         line = infile.readLine();
         if (line == null)		// if there's no line, it was an
-	{                                                            	// empty file, so bail out
+	{                                                                    	// empty file, so bail out
             infile.close();
             return;
         }
@@ -480,12 +480,16 @@ public class Configuration
         // if we've recursed through all our allowed steps, then give up
         if (steps == 0)
         {
-            throw new IllegalArgumentException ("Cannot resolve: " + name);
+            throw new IllegalArgumentException("Cannot resolve: " + name);
         }
 
         // retrieve the raw value associated with 'name', as read from the
         // configuration file and stored in this.options
         value = (String) this.options.get(name);
+        if (value == null)
+        {
+            throw new IllegalArgumentException("Cannot resolve: " + name);
+        }
         start = value.indexOf ("${");
 
         // we need to process all instances of ${...} citations, not just
@@ -569,7 +573,7 @@ public class Configuration
     public static Configuration load (String filename)
         throws IOException, FileNotFoundException
     {
-	return Configuration.load (filename, true);
+    return Configuration.load (filename, true);
     }
 
     /** gets the Configuration object associated with the file at the given
@@ -637,6 +641,9 @@ public class Configuration
     private static Hashtable loaded = new Hashtable();
 }
 // $Log$
+// Revision 1.3  2004/04/14 20:18:08  mbw
+// now reads multiple config files and handles parameters set in one to be refered by another
+//
 // Revision 1.2  2004/02/17 19:03:22  jsb
 // Added additional load() method to bypass cache.  is backward-compatible
 //
