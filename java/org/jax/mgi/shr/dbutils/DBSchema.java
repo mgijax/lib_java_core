@@ -372,7 +372,7 @@ public class DBSchema {
       throw e2;
     }
     String s = new String(command);
-    s = (s.replaceFirst("\\$\\{DBTABLESEGMENT\\}", "seg0"));
+    s = (s.replaceFirst("\\$\\{DBTABLESEGMENT\\}", "mgd_seg_0"));
     return s;
   }
 
@@ -510,6 +510,9 @@ public class DBSchema {
 }
 
 // $Log$
+// Revision 1.4.4.1  2004/01/26 17:01:35  mbw
+// changed names of database segments for cluster and nonclustered indexes
+//
 // Revision 1.4  2004/01/21 20:45:19  mbw
 // added the dropping and creating of partition functionality
 //
