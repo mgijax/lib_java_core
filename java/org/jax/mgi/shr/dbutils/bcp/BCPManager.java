@@ -22,14 +22,15 @@ import org.jax.mgi.shr.dbutils.SQLDataManager;
 import org.jax.mgi.shr.dbutils.Table;
 
 /**
- * @is an object for executing the Sybase bcp command against multiple
- * tables in the database.
+ * An object for executing the Sybase bcp command against tables in the
+ * database.
  * @has <br>
  * <UL>
  * <LI>a set of configuration parameters and a BCPManagerCfg object
  * for reading these parameters from the configuration files and system
  * properties.
- * <LI>A SQLDatabaseManager for handling DDL database calls.
+ * <LI>A SQLDatabaseManager for handling DDL database calls such as 'drop
+ * triggers', 'drop indexes', etc.
  * <LI>A BCPWriter class for each table it is to execute against.
  * <LI>A logger for logging informational and debug messages
  * </UL>
@@ -37,13 +38,12 @@ import org.jax.mgi.shr.dbutils.Table;
  * command for each file.
  * @company Jackson Laboratory
  * @author M. Walker
- * @version 1.0
  */
 public class BCPManager {
   /*
    * the SQLDataManager used for executing DDL commands before and after bcp
    */
-  private SQLDataManager sqlmanager = null;
+  //private SQLDataManager sqlmanager = null;
   /*
    * the logger instance
    */
@@ -93,9 +93,17 @@ public class BCPManager {
    */
   private boolean okToDropIndexes;
   /*
+   * option to drop triggers before executing bcp
+   */
+  private boolean okToDropTriggers;
+  /*
    * option to truncate table before executing bcp
    */
   private boolean okToTruncateTable;
+  /**
+   * class for handling database connections ... indicator of system
+   */
+  private String connectionClass = null;
   /*
    * bcp exception factory used to store and obtain bcp exceptions
    */
@@ -138,15 +146,102 @@ public class BCPManager {
   }
 
   /**
-   * set the SQLDataManager used for record validation and DDL calls.
+   * get a BCPWriter object for a given table
    * @assumes nothing
-   * @effects the internal reference to the SQLDAtaManager will be set.
-   * @param pSqlmanager the SQLDataManager object through which this
-   * object should access the database
+   * @effects a bcp file will be opened for writing
+   * @param pTable the table object
+   * @return the BCPWriter for the given table
+   * @throws BCPException thrown if the bcp file cannot be created
+   * @throws DBException thrown if database metadata cannot be obtained for
+   * the table
+   * @throws ConfigException thrown if there is an error during
+   * configuration
    */
-  public void setSQLDataManager(SQLDataManager pSqlmanager) {
-    sqlmanager = pSqlmanager;
+  public BCPWriter getBCPWriter(Table table) throws BCPException, DBException,
+      ConfigException {
+    BCPWriterCfg bcpCfg = new BCPWriterCfg();
+    bcpCfg.setDefaultOkToRecordStamp(okToRecordStamp);
+    bcpCfg.setDefaultOkToAutoFlush(okToAutoFlush);
+    if (bcpCfg.getOkToTruncateTable().booleanValue())
+        table.resetKey(); // reset table class to start key at 1
+    return getBCPWriter(table, bcpCfg);
   }
+
+  /**
+   * get a BCPWriter object for a given table name
+   * @assumes nothing
+   * @effects a bcp file will be opened for writing
+   * @param pTable the name of the table
+   * @param sqlMgr the SQLDataManager to use
+   * @return the BCPWriter for the given table
+   * @throws BCPException thrown if the bcp file cannot be created
+   * @throws DBException thrown if database metadata cannot be obtained for
+   * the table
+   * @throws ConfigException thrown if there is an error during
+   * configuration
+   */
+  public BCPWriter getBCPWriter(String tableName, SQLDataManager sqlMgr)
+      throws BCPException, DBException, ConfigException
+  {
+    Table table = Table.getInstance(tableName, sqlMgr);
+    return getBCPWriter(table);
+  }
+
+
+  /**
+   * get a BCPWriter object for a given table and apply the given configuration
+   * to the instance.
+   * @assumes nothing
+   * @effects a bcp file will be opened for writing
+   * @param pTable the table object to bcp against.
+   * @param pCfg the configuration object through which to configure the
+   * BCPWriter
+   * @return a BCPWriter for the given table
+   * @throws BCPException thrown if the bcp file cannot be created
+   * @throws DBException if database meta data cannot be obtained for
+   * the table
+   * @throws ConfigException thrown if there is an error when trying to
+   * configure the BCPWriter object
+   *
+   */
+  public BCPWriter getBCPWriter(Table table, BCPWriterCfg pCfg) throws
+      BCPException, DBException, ConfigException {
+    pCfg.setDefaultOkToRecordStamp(okToRecordStamp);
+    pCfg.setDefaultOkToAutoFlush(okToAutoFlush);
+    pCfg.setDefaultOkToDropIndexes(this.okToDropIndexes);
+    pCfg.setDefaultOkToTruncateTable(this.okToTruncateTable);
+    if (pCfg.getOkToTruncateTable().booleanValue())
+        table.resetKey(); // reset table class to start key at 1
+    BCPWriter writer = new BCPWriter(table, this, logger, pCfg);
+    allWriters.add(writer);
+    return writer;
+  }
+
+  /**
+   * get a BCPWriter object for a given table and apply the given configuration
+   * to the instance.
+   * @assumes nothing
+   * @effects a bcp file will be opened for writing
+   * @param pTable the table object to bcp against.
+   * @param pCfg the configuration object through which to configure the
+   * BCPWriter
+   * @return a BCPWriter for the given table
+   * @throws BCPException thrown if the bcp file cannot be created
+   * @throws DBException if database meta data cannot be obtained for
+   * the table
+   * @throws ConfigException thrown if there is an error when trying to
+   * configure the BCPWriter object
+   *
+   */
+  public BCPWriter getBCPWriter(String tableName,
+                                SQLDataManager sqlMgr,
+                                BCPWriterCfg pCfg)
+      throws BCPException, DBException, ConfigException
+  {
+      Table table = Table.getInstance(tableName, sqlMgr);
+      return getBCPWriter(table, pCfg);
+  }
+
 
   /**
    * set the Logger instance
@@ -157,6 +252,7 @@ public class BCPManager {
   public void setLogger(Logger pLogger) {
     logger = pLogger;
   }
+
 
   /**
    * set the name of the path where bcp files should be created, overriding
@@ -269,18 +365,27 @@ public class BCPManager {
   }
 
   /**
-   * get the SQLDataManager instance set for this object.
+   * set the option which designates whether to automatically
+   * drop indexes before doing a bcp, overriding the value found in the
+   * configuration file or system properties.
    * @assumes nothing
-   * @effects nothing
-   * @return the SQLDataManager.
+   * @effects the internal value of the okToDropIndexes flag will be set.
+   * @param boolParam true or false
    */
-  public SQLDataManager getSQLDataManager() throws DBException, ConfigException {
-    // if the SQLDataManager instance is null, then create a default one
-    SQLDataManager sqlMgrRef = sqlmanager;
-    if (sqlMgrRef == null) {
-      sqlMgrRef = new SQLDataManager();
-    }
-    return sqlMgrRef;
+  public void setOkToDropIndexes(boolean boolParam) {
+    okToDropIndexes = boolParam;
+  }
+
+  /**
+   * set the option which designates whether to automatically
+   * drop triggers before doing a bcp, overriding the value found in the
+   * configuration file or system properties.
+   * @assumes nothing
+   * @effects the internal value of the okToDropTriggers flag will be set.
+   * @param boolParam true or false
+   */
+  public void setOkToDropTriggers(boolean boolParam) {
+    okToDropTriggers = boolParam;
   }
 
   /**
@@ -360,6 +465,30 @@ public class BCPManager {
 
   /**
    * get the value of the option which designates whether to automatically
+   * drop indexes before running bcp.
+   * @assumes nothing
+   * @effects nothing
+   * @return true or false
+   */
+  public boolean getOkToDropIndexes() {
+    return okToDropIndexes;
+  }
+
+  /**
+   * get the value of the option which designates whether to automatically
+   * drop triggers before running bcp.
+   * @assumes nothing
+   * @effects nothing
+   * @return true or false
+   */
+  public boolean getOkToDropTriggers() {
+    return okToDropTriggers;
+  }
+
+
+
+  /**
+   * get the value of the option which designates whether to automatically
    * add the fields createdBy, modifiedBy and the the fields
    * modification_date and creation_date when doing a bcp write.
    * @assumes nothing
@@ -381,52 +510,6 @@ public class BCPManager {
     return okToAutoFlush;
   }
 
-  /**
-   * get a BCPWriter object for a given table
-   * @assumes nothing
-   * @effects a bcp file will be opened for writing
-   * @param pTable the table object
-   * @return the BCPWriter for the given table
-   * @throws BCPException thrown if the bcp file cannot be created
-   * @throws DBException thrown if database metadata cannot be obtained for
-   * the table
-   * @throws ConfigException thrown if there is an error during
-   * configuration
-   */
-  public BCPWriter getBCPWriter(Table pTable) throws BCPException, DBException,
-      ConfigException {
-    BCPWriterCfg bcpCfg = new BCPWriterCfg();
-    bcpCfg.setDefaultOkToRecordStamp(okToRecordStamp);
-    bcpCfg.setDefaultOkToAutoFlush(okToAutoFlush);
-    return getBCPWriter(pTable, bcpCfg);
-  }
-
-  /**
-   * get a BCPWriter object through which a client class can create
-   * bcp files.
-   * @assumes nothing
-   * @effects a bcp file will be opened for writing
-   * @param pTable the table object to bcp against.
-   * @param pCfg the configuration object through which to configure the
-   * BCPWriter
-   * @return a BCPWriter for the given table
-   * @throws BCPException thrown if the bcp file cannot be created
-   * @throws DBException if database meta data cannot be obtained for
-   * the table
-   * @throws ConfigException thrown if there is an error when trying to
-   * configure the BCPWriter object
-   *
-   */
-  public BCPWriter getBCPWriter(Table pTable, BCPWriterCfg pCfg) throws
-      BCPException, DBException, ConfigException {
-    pCfg.setDefaultOkToRecordStamp(okToRecordStamp);
-    pCfg.setDefaultOkToAutoFlush(okToAutoFlush);
-    pCfg.setDefaultOkToDropIndexes(this.okToDropIndexes);
-    pCfg.setDefaultOkToTruncateTable(this.okToTruncateTable);
-    BCPWriter writer = new BCPWriter(pTable, this, logger, pCfg);
-    allWriters.add(writer);
-    return writer;
-  }
 
   /**
    * get a BCPWriter object for a given table
@@ -440,20 +523,22 @@ public class BCPManager {
    * @throws ConfigException thrown if there is an error during
    * configuration
    */
-  public BCPWriter getBCPWriter(String pTable) throws BCPException, DBException,
-      ConfigException {
-    BCPWriterCfg bcpCfg = new BCPWriterCfg();
-    bcpCfg.setDefaultOkToRecordStamp(okToRecordStamp);
-    bcpCfg.setDefaultOkToAutoFlush(okToAutoFlush);
-    return getBCPWriter(pTable, bcpCfg);
-  }
+  //public BCPWriter getBCPWriter(String pTable, SQLDataManager sqlMgr)
+      //throws BCPException, DBException,
+      //ConfigException {
+    //BCPWriterCfg bcpCfg = new BCPWriterCfg();
+    //bcpCfg.setDefaultOkToRecordStamp(okToRecordStamp);
+    //bcpCfg.setDefaultOkToAutoFlush(okToAutoFlush);
+    //return getBCPWriter(pTable, sqlMgr, bcpCfg);
+  //}
 
   /**
-   * get a BCPWriter object through which a client class can create
-   * bcp files.
+   * get a BCPWriter object for a given table and apply the given configuration
+   * to the instance.
    * @assumes nothing
    * @effects a bcp file will be opened for writing
    * @param pTable the table name to bcp against.
+   * @param sqlMgr the SQLDataManager to use
    * @param pCfg the configuration object through which to configure the
    * BCPWriter
    * @return a BCPWriter for the given table
@@ -464,16 +549,19 @@ public class BCPManager {
    * configure the BCPWriter object
    *
    */
-  public BCPWriter getBCPWriter(String pTable, BCPWriterCfg pCfg) throws
-      BCPException, DBException, ConfigException {
-    pCfg.setDefaultOkToRecordStamp(this.okToRecordStamp);
-    pCfg.setDefaultOkToAutoFlush(this.okToAutoFlush);
-    pCfg.setDefaultOkToDropIndexes(this.okToDropIndexes);
-    pCfg.setDefaultOkToTruncateTable(this.okToTruncateTable);
-    BCPWriter writer = new BCPWriter(pTable, this, logger, pCfg);
-    allWriters.add(writer);
-    return writer;
-  }
+  //public BCPWriter getBCPWriter(String pTable,
+                                //SQLDataManager sqlMgr,
+                                //BCPWriterCfg pCfg)
+      //throws
+      //BCPException, DBException, ConfigException {
+    //pCfg.setDefaultOkToRecordStamp(this.okToRecordStamp);
+    //pCfg.setDefaultOkToAutoFlush(this.okToAutoFlush);
+    //pCfg.setDefaultOkToDropIndexes(this.okToDropIndexes);
+    //pCfg.setDefaultOkToTruncateTable(this.okToTruncateTable);
+    //BCPWriter writer = new BCPWriter(pTable, this, sqlMgr, logger, pCfg);
+    //allWriters.add(writer);
+    //return writer;
+  //}
 
   /**
    * execute all the existing bcp files
@@ -491,7 +579,7 @@ public class BCPManager {
     }
     for (Iterator it = allWriters.iterator(); it.hasNext(); ) {
       writer = (BCPWriter) it.next();
-      executeBCPFile(writer);
+      executeBCP(writer);
       // invalidate the writer
       writer.setIsValid(false);
     }
@@ -518,6 +606,7 @@ public class BCPManager {
     this.okToTruncateLog = pConfig.getOkToTruncateLog().booleanValue();
     this.okToDropIndexes = pConfig.getOkToDropIndexes().booleanValue();
     this.okToTruncateTable = pConfig.getOkToTruncateTable().booleanValue();
+    this.connectionClass = pConfig.getConnectionManagerClass();
   }
 
   /**
@@ -533,28 +622,19 @@ public class BCPManager {
    * @throws DBSchemaException thrown if there is an error running DDL
    * commands using the DBSchema product
    */
-  private void executeBCPFile(BCPWriter bcpWriter) throws BCPException,
+  private void executeBCP(BCPWriter bcpWriter) throws BCPException,
       DBException, DBSchemaException {
+      // check attributes to see if the bcp command should not be performed
+      if (preventExecute)
+        return;
     SQLDataManager sqlmanager = bcpWriter.getTable().getSQLDataManager();
-    String server = sqlmanager.getServer();
-    String db = sqlmanager.getDatabase();
-    String user = sqlmanager.getUser();
-    String pwFile = sqlmanager.getPasswordFile();
     DBSchema dbSchema = new DBSchema(sqlmanager);
     String file = bcpWriter.getFilename();
     String table = bcpWriter.getTablename();
-    String cmd = "cat " + pwFile + " | bcp " + db + ".." + table +
-        " in " + file + " -c -S " + server + " -U " + user +
-        " -t " + convertDelimiter(delimiter);
-    int exitCode = 0;
-    // check attributes to see if the bcp command should not be performed
-    if (preventExecute)
-      return;
     // execute any sql pre bcp as designated in the bcpWriter
     if (logger != null)
       logger.logInfo(table + ": Execute any configured pre-SQL statements");
-    executeSql(bcpWriter.getPreSql(),
-               bcpWriter.getTable().getSQLDataManager());
+    executeSql(bcpWriter.getPreSql(), sqlmanager);
     if (bcpWriter.getOkToTruncateTable()) {
       if (logger != null)
         logger.logInfo(table + ": Truncate table");
@@ -569,73 +649,46 @@ public class BCPManager {
           logger.logInfo(table + ": Drop indexes on table");
         dbSchema.dropIndexes(table);
       }
-      RunCommand runner = new RunCommand();
+      if (bcpWriter.getOkToDropTriggers()) {
+        if (logger != null)
+          logger.logInfo(table + ": Drop triggers on table");
+        dbSchema.dropTriggers(table);
+      }
       try {
-        if (logger != null)
-          logger.logInfo(table + ": Execute the bcp command: " + cmd);
-        runner.setCommand(cmd);
-        exitCode = runner.run();
+          FileImporter fileImporter = chooseFileImporter();
+          fileImporter.importFile(file, table,
+                                  convertDelimiter(delimiter),
+                                  sqlmanager, logger);
       }
-      // if execeptions are thrown from the RunCommand class,
-      // try and recreate the indexes if they were dropped and
-      // throw a new BCPException
-      catch (InterruptedException e) {
+      // if execeptions are caught, try and recreate any indexes or triggers
+      // that were dropped and throw the Exception
+      catch (BCPException e) {
         // need to recreate indexes if they were dropped
         if (bcpWriter.getOkToDropIndexes()) {
           if (logger != null)
             logger.logInfo(table + ": Create indexes on table");
           dbSchema.createIndexes(table);
         }
-        BCPException e2 = (BCPException)
-            exceptionFactory.getException(InterruptErr, e);
-        e2.bind(cmd);
-        throw e2;
-      }
-      catch (IOException e) {
-        BCPException e2 = (BCPException)
-            exceptionFactory.getException(IOErr, e);
-        e2.bind(cmd);
-        // need to recreate indexes if they were dropped
-        if (bcpWriter.getOkToDropIndexes()) {
+        if (bcpWriter.getOkToDropTriggers()) {
           if (logger != null)
-            logger.logInfo(table + ": Create indexes on table");
-          dbSchema.createIndexes(table);
+            logger.logInfo(table + ": Create triggers on table");
+          dbSchema.createTriggers(table);
         }
-        throw e2;
+        throw e;
       }
-      // The RunCommand executed without exception although the exit code
-      // may still indicate an error has occurred. Log the contents of
-      // standard out and standard error
-      String msgErr = null;
-      String msgOut = null;
-      if ( (msgErr = runner.getStdErr()) != null)
-        logger.logInfo(msgErr);
-      if ( (msgOut = runner.getStdOut()) != null) {
-        if (logger != null)
-          logger.logInfo(msgOut);
-      }
-      // exit code of non-zero indicates an error occurred while running bcp.
-      // recreate indexes if they were dropped and throw a BCPException
-      if (exitCode != 0) {
-        BCPException e2 = (BCPException)
-            exceptionFactory.getException(NonZeroErr);
-        e2.bind(cmd);
-        // need to recreate indexes if they were dropped
-        if (bcpWriter.getOkToDropIndexes()) {
-          if (logger != null)
-            logger.logInfo(table + ": Create indexes on table");
-          dbSchema.createIndexes(table);
-        }
-        throw e2;
-      }
-      // All is OK...The bcp command ran with zero exit code.
-      //
-      // recreate indexes if they were dropped in advance of running bcp
+      // All is OK...The import ran without exception.
+      // recreate indexes and triggers if they were dropped in advance
       if (bcpWriter.getOkToDropIndexes()) {
         if (logger != null)
           logger.logInfo(table + ": Create indexes on table");
         dbSchema.createIndexes(table);
       }
+      if (bcpWriter.getOkToDropTriggers()) {
+        if (logger != null)
+          logger.logInfo(table + ": Create triggers on table");
+        dbSchema.createTriggers(table);
+      }
+
     }
     // execute any sql post bcp as designated in the bcpWriter
     if (logger != null)
@@ -660,6 +713,7 @@ public class BCPManager {
    * @assumes nothing
    * @effects an sql statment will executed in the database
    * @param v the vector of sql strings
+   * @param sqlmanager the SQLDataManager to use
    * @throws DBException thrown if there is an sql exception
    */
   private void executeSql(Vector v, SQLDataManager sqlmanager) throws
@@ -670,6 +724,16 @@ public class BCPManager {
         sqlmanager.executeUpdate(sql);
       }
     }
+  }
+
+  public FileImporter chooseFileImporter()
+  {
+      if (this.connectionClass.equals("org.jax.mgi.shr.dbutils.MGIDriverManager"))
+      {
+          return new FileImporterSybase();
+      }
+      else
+          return new FileImporterMySQL();
   }
 
   /**
@@ -699,6 +763,9 @@ public class BCPManager {
   }
 }
 // $Log$
+// Revision 1.2  2004/01/16 17:26:48  mbw
+// formatting code only
+//
 // Revision 1.1  2003/12/30 16:50:46  mbw
 // imported into this product
 //
