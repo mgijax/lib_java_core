@@ -326,8 +326,9 @@ public class InputDataFile
       // the only way to get out of this cached state is to call next()
       if (cachedState)
         return true;
-      // if no Interpreter is defined, then all records are considered valid
-      if (interpreter == null)
+      // if no Interpreter is defined and no begin delimiter is being used,
+      // then all records are considered valid
+      if (interpreter == null && beginDelimiter == null)
         return recordDataReader.hasNext();
 
       // if an Interpreter is defined then find the next valid record
