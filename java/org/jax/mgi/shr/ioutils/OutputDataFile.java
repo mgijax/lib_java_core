@@ -5,7 +5,9 @@ package org.jax.mgi.shr.ioutils;
 
 import java.io.IOException;
 import java.io.FileWriter;
-import java.util.Vector;
+import java.io.File;
+import java.util.Collection;
+import java.util.Iterator;
 
 import org.jax.mgi.shr.config.ConfigException;
 import org.jax.mgi.shr.config.LogCfg;
@@ -212,7 +214,7 @@ public class OutputDataFile
      * @return Nothing
      * @throws IOUException if an error occurs finding or opening the file.
      */
-    public void write(Vector list)
+    public void write(Collection list)
         throws IOUException
     {
         // If the vector is empty, just return.
@@ -222,17 +224,15 @@ public class OutputDataFile
 
         // Write each string in the vector to the output file.
         //
-        for (int i=0; i<list.size(); i++)
+        boolean firstItem = true;
+        for (Iterator i = list.iterator(); i.hasNext();)
         {
             try
             {
-                writer.write((String)list.get(i));
-
-                // If it is not the last string and a delimiter has been
-                // specified, write a delimiter before the next field.
-                //
-                if (i < (list.size() - 1) && delimiter != null)
+                if (!firstItem)
                     writer.write(delimiter);
+                writer.write((String)i.next());
+                firstItem = false;
             }
             catch (IOException e)
             {
@@ -255,6 +255,35 @@ public class OutputDataFile
             throw ke;
         }
     }
+
+    /**
+     * Write a vector of strings to the output file.
+     * @assumes Nothing
+     * @effects Nothing
+     * @param None
+     * @return Nothing
+     * @throws IOUException if an error occurs finding or opening the file.
+     */
+    public void write(OutputFormat formatable)
+        throws IOUException
+    {
+        String s = formatable.format();
+
+        // Write a newline character to the output file.
+        //
+        try
+        {
+            writer.write(s);
+            writer.write(CRT);
+        }
+        catch (IOException e)
+        {
+            IOUException ke = (IOUException)
+                exceptionFactory.getException(FileWriteErr, e);
+            throw ke;
+        }
+    }
+
 
     /**
      * Close the output file.
@@ -282,6 +311,9 @@ public class OutputDataFile
 
 
 //  $Log$
+//  Revision 1.1.2.1  2005/01/05 14:26:56  dbm
+//  New
+//
 //
 /**************************************************************************
 *
