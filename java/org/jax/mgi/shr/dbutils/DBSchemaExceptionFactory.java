@@ -58,6 +58,19 @@ public class DBSchemaExceptionFactory extends ExceptionFactory {
         "File search returned unexpected string value " +
         "'??' from file ??. Could be an internal bug", false));
   }
+  /**
+   * Could not process line with nested quotation marks
+   */
+  public static final String NestedQuotesErr =
+      "org.jax.mgi.shr.dbschema.NestedQuotesErr";
+  static {
+    exceptionsMap.put(NestedQuotesErr, new DBSchemaException(
+        "An error occured while processing create ?? on table ??. " +
+        "The following text could not be processed due to nested " +
+        "quotation marks. To avoid this error, create nested quotations " +
+        "using two single quotes instead of one and create encompassing " +
+        "quotations using single quotes: \n??", false));
+  }
 
 
 
