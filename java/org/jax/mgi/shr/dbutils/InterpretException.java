@@ -3,7 +3,7 @@ package org.jax.mgi.shr.dbutils;
 import org.jax.mgi.shr.exception.MGIException;
 
 /**
- * @is An MGIException which represents an error in data interpreting
+ * An MGIException which represents an error in data interpreting
  * which can arise when implementing the interpret method within the
  * RowDataInterpreter interface or the interpretKey method of the
  * MultiRowDataInterpreter interface. It is basically used as a way to wrap
@@ -12,7 +12,6 @@ import org.jax.mgi.shr.exception.MGIException;
  * @has an exception message and a parent exception of type MGIException
  * @does nothing
  * @author M Walker
- * @version 1.0
  */
 
 public class InterpretException extends MGIException {

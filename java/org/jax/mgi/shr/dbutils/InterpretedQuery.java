@@ -1,18 +1,20 @@
-/*
- * Created on Sep 23, 2003
- *
- * To change the template for this generated file go to
- * Window>Preferences>Java>Code Generation>Code and Comments
- */
 package org.jax.mgi.shr.dbutils;
 
 /**
- * @author mbw
  *
- * To change the template for this generated type comment go to
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * A combination of query and the corresponding RowDataInterpreter.
+ * @has a query string and implements RowDataInterpreter
+ * @does provides a database query and an interpret method for the results.
+ * @company The Jackson Laboratory
+ * @author MWalker
+ *
  */
+
 public interface InterpretedQuery extends RowDataInterpreter
 {
+    /**
+     * get the sql query string
+     * @return the sql query string
+     */
 	public String getQuery();
 }

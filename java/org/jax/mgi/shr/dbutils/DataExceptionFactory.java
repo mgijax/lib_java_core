@@ -3,12 +3,11 @@ package org.jax.mgi.shr.dbutils;
 import org.jax.mgi.shr.exception.ExceptionFactory;
 
 /**
- * @is An ExceptionFactory.
+ * An ExceptionFactory for storing DataExceptions.
  * @has a hashmap of predefined DataExceptions stored by a name key
  * @does looks up DataExceptions by name
  * @company The Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 
 public class DataExceptionFactory extends ExceptionFactory {
@@ -59,7 +58,7 @@ public class DataExceptionFactory extends ExceptionFactory {
       "Value '??' is too large for column ??", true));
   }
   /**
-   * the data type is not handled ny this conversion routine
+   * the data type is not handled by this conversion routine
    */
   public static final String UnhandledConversion =
       "org.jax.mgi.shr.shrdbutils.UnhandledConversion";

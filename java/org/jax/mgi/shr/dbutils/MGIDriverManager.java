@@ -10,7 +10,6 @@
  * Copyright:    Copyright (c) 2000 The Jackson Laboratory <p>
  * Company:      Mouse Genome Informatics<p>
  * @author       gld
- * @version      $Revision$
  */
 
 package org.jax.mgi.shr.dbutils;
@@ -24,11 +23,10 @@ import java.sql.*;
 import javax.naming.*;
 
 /**
-* MGIDriverManager is a customized "DriverManager" that MGIers use to get
-* database connections. It is not a subclass of jdbc2.DriverManager because
+* MGIDriverManager is a customized ConnectionManager class that MGIers use to
+* get database connections. It is not a subclass of jdbc2.DriverManager because
 * that class has a private constructor, and can thus not be derived from.
 * @author gld
-* @version
 */
 public class MGIDriverManager implements ConnectionManager
 {
@@ -83,8 +81,6 @@ public class MGIDriverManager implements ConnectionManager
        *  Loads the database driver. Must be called prior to using getConnection().
        *  requires: nothing
        *  modifies: nothing
-       *  @param void
-       *  @return void
        */
       public static void init()
       {
@@ -104,7 +100,7 @@ public class MGIDriverManager implements ConnectionManager
        * @param database the name of the database
        * @param user the name of the user for the login account
        * @param password the password for the login account
-       * @param directDatabaseURL
+       * @param directDatabaseURL the url for the JDBC connection
        * @return the connection
        * @throws SQLException thrown if there is an error connecting to the
        * database
@@ -134,6 +130,9 @@ public class MGIDriverManager implements ConnectionManager
 }
 
 // $Log$
+// Revision 1.1  2003/12/30 16:50:30  mbw
+// imported into this product
+//
 // Revision 1.4  2003/12/09 22:49:02  mbw
 // merged jsam branch onto the trunk
 //
