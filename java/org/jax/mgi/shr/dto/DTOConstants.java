@@ -177,7 +177,17 @@ public class DTOConstants
     public static String Library = "library";
     public static String LastAnnotationUpdate = "lastAnnotationUpdate";
     public static String LastSequenceUpdate = "lastSequenceUpdate";
+    public static String SequenceCount = "sequenceCount";
+    public static String RepDNASeq = "repDNASeq";
+    public static String RepRNASeq = "repRNASeq";
+    public static String RepProteinSeq = "repProteinSeq";
 
+
+	// Assembly Coordinates -- constants for dealing with the assembly
+	public static String IsAssembly = "isAssembly";
+	public static String Strand = "strand";
+	public static String StartCoord = "startCoord";
+	public static String StopCoord = "stopCoord";
 
     // URLs -- constants dealing with URLs
 
@@ -203,6 +213,9 @@ public class DTOConstants
 
 /*
 * $Log$
+* Revision 1.10  2004/07/21 20:25:52  mbw
+* javadocs edits only
+*
 * Revision 1.9  2004/06/25 11:10:27  jsb
 * added three constants for AlleleType*, for TR5750
 *
