@@ -120,7 +120,7 @@ public class ResultsNavigator {
    * @return the RowReference object for the current row.
    * @throws DBException thrown if there is a JDBC Exception
    */
-  public RowReference getCurrentRef() throws DBException {
+  public RowReference getRowReference() throws DBException {
     return new RowReference(rs);
   }
 
@@ -361,6 +361,9 @@ public class ResultsNavigator {
 }
 
 // $Log$
+// Revision 1.2  2004/01/07 18:09:36  mbw
+// added new method getCurrentRef
+//
 // Revision 1.1  2003/12/30 16:50:34  mbw
 // imported into this product
 //
