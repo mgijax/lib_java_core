@@ -1,0 +1,575 @@
+TAG: lib_java_core-1-0-0
+DATE: 12/12/2003
+STAFF: mbw
+CHANGES: The initial release 
+
+# This product is a merging of many existing java library products into one core product.
+# The HISTORY files from all the precurser products have been concatenated into this one. See
+# below for details of histories pertaining to these precurser products.
+
+
+############################################
+#####  history for lib_java_cache ##########
+############################################
+
+
+TAG: lib_java_cache-1-0-0
+DATE: 12/01/2003
+STAFF: jsb
+RELEASE: alpha
+CHANGES:
+1) changes per JSAM code review
+
+TAG: initial
+DATE: 07/03/2003
+STAFF: jsb
+RELEASE: alpha
+CHANGES:
+1) moved four files from org.jax.mgi.shr
+2) added FastTextCache.java
+
+
+############################################
+#####  history for lib_java_config #########
+############################################
+
+
+
+TAG: lib_java_config-1-1-0
+DATE: 12/09/2003
+STAFF: mbw
+RELEASE: development
+CHANGES: merged jsam branch onto the trunk
+
+TAG: lib_java_config-1-0-3-jsam-3
+DATE: 05/14/2003
+STAFF: mbw
+RELEASE: development
+CHANGES: milestone tag for completed version
+
+TAG: lib_java_config-1-0-3-jsam-2
+DATE: 04/25/2003
+STAFF: mbw
+RELEASE: development
+CHANGES: incorporated comments from design reviews
+
+TAG: lib_java_config-1-0-3-jsam-1
+DATE: 02/11/2003
+STAFF: dbm
+RELEASE: development
+CHANGES: add BaseCfg.java  MGIDBObjectCfg.java ParameterNotFoundException.java RDRDBObjectCfg.java RPCICloneCfg.java
+
+TAG: lib_java_config-1-0-3
+DATE: 01/24/2003
+STAFF: lec
+RELEASE: development
+CHANGES: tag prior to JSAM branch
+
+TAG: lib_java_config-1-0-2
+DATE: 01/17/2003
+STAFF: mbw
+RELEASE: development
+CHANGES: tweaked javadoc
+
+TAG: lib_java_config-1-0-1
+DATE: 01/13/2003
+STAFF: sc
+RELEASE: development
+CHANGES: added class Configuration
+
+
+TAG: lib_java_config-1-0-0
+DATE: 01/13/2003
+STAFF: sc
+RELEASE: development
+CHANGES:Added initial tag 1-0-0
+
+
+############################################
+#####  history for lib_java_dto ############
+############################################
+
+
+
+TAG: lib_java_dto-1-0-0
+DATE: 12/01/2003
+STAFF: jsb
+RELEASE: alpha
+CHANGES:
+1) changes per JSAM code review
+
+TAG: initial
+DATE: 07/03/2003
+STAFF: jsb
+RELEASE: alpha
+CHANGES:
+1) initial addition
+
+
+############################################
+#####  history for lib_java_exception ######
+############################################
+
+
+
+TAG: lib_java_exception-1-0-3
+DATE: 05/14/2003
+STAFF: mbw
+RELEASE:
+CHANGES: milestone tag for completed version
+
+TAG: lib_java_exception-1-0-2
+DATE: 04/25/2003
+STAFF: mbw
+RELEASE:
+CHANGES:
+1) implemented cloning of MGIExceptions
+
+
+TAG: lib_java_exception-1-0-1
+DATE: 04/25/2003
+STAFF: mbw
+RELEASE:
+CHANGES:
+1) initial tag
+
+
+############################################
+#####  history for lib_java_ioutils ########
+############################################
+
+
+
+TAG: lib_java_ioutils-1-0-5-jsam-8
+DATE: 05/14/2003
+STAFF: mbw
+RELEASE: development
+CHANGES: milestone tag for completed version
+
+TAG: lib_java_ioutils-1-0-5-jsam-7
+DATE: 05/12/2003
+STAFF: mbw
+RELEASE: development
+CHANGES: incorporated comments from design review
+
+TAG: lib_java_ioutils-1-0-5-jsam-6
+DATE: 04/28/2003
+STAFF: mbw
+RELEASE: development
+CHANGES: incorporated new exception handling design
+
+TAG: lib_java_ioutils-1-0-5-jsam-5
+DATE: 04/25/2003
+STAFF: mbw
+RELEASE: development
+CHANGES: incorporated comments from design reviews
+
+TAG: lib_java_ioutils-1-0-5-jsam-4
+DATE: 02/17/2003
+STAFF: mbw
+RELEASE: development
+CHANGES: removed one constructor and added a new one
+
+TAG: lib_java_ioutils-1-0-5-jsam-3
+DATE: 02/05/2003
+STAFF: sc
+RELEASE: development
+CHANGES: changed InstreamDataManager.next() to 
+         catch FileFormatException; throw as IOException
+
+TAG: lib_java_ioutils-ls-1-0-5-jsam-2
+DATE: 02/05/2003
+STAFF: sc
+RELEASE: development
+CHANGES: added FileFormat Exception and changed RecordDataInterpreter.interpret
+         signature to throw FileFormatException
+
+TAG: lib_java_ioutils-1-0-6
+NOTE: above tag is part of jsam branch; this represents lib_java_ioutils-1-0-5-jsam-1
+DATE: 01/31/2003
+STAFF: mbw
+RELEASE: development
+CHANGES: changes made for performance improvements
+
+TAG: lib_java_ioutils-1-0-5
+DATE: 01/24/2003
+STAFF: lec
+RELEASE: development
+CHANGES: tag prior to JSAM branch
+
+TAG: lib_java_ioutils-1-0-4
+DATE: 01/24/2003
+STAFF: mbw
+RELEASE: development
+CHANGES: incorporated a reference to the DataLoadLogger
+
+TAG: lib_java_ioutils-1-0-3
+DATE: 01/21/2003
+STAFF: mbw
+RELEASE: development
+CHANGES: modified interface signature for RecordDataInterpreter
+
+TAG: lib_java_ioutils-1-0-2
+DATE: 01/17/2003
+STAFF: mbw
+RELEASE: development
+CHANGES: tweaked javadoc
+
+TAG: lib_java_ioutils-1-0-1
+DATE: 01/14/2003
+STAFF: mbw
+RELEASE: development
+CHANGES: changed names of configuration parameters
+
+TAG: lib_java_ioutils-1-0-0
+DATE: 01/13/2003
+STAFF: sc
+RELEASE: development
+CHANGES: initial tag
+
+
+############################################
+#####  history for lib_java_log ############
+############################################
+
+
+
+TAG: lib_java_log-1-0-10
+DATE: 12/01/2003
+STAFF: jsb
+RELEASE: development
+CHANGES: changes to logDesign.fm doc after JSAM WI code review
+
+TAG: lib_java_log-1-0-9
+DATE: 05/20/2003
+STAFF: lec
+RELEASE: development
+CHANGES: tag after mering lib_java_log-1-0-6-jsam branch into trunk
+
+TAG: lib_java_log-1-0-8
+DATE: 05/13/2003
+STAFF: mbw
+RELEASE: development
+CHANGES: milestone tag for completed version
+
+TAG: lib_java_log-1-0-7
+DATE: 04/24/2003
+STAFF: mbw
+RELEASE: development
+CHANGES: incorporated comments from code reviews
+
+TAG: lib_java_log-1-0-6
+DATE: 01/24/2003
+STAFF: lec
+RELEASE: development
+CHANGES: tag prior to JSAM branch
+
+TAG: lib_java_log-1-0-5
+DATE: 01/24/2003
+STAFF: mbw
+RELEASE: development
+CHANGES: added new class for tracking standard messages
+
+TAG: lib_java_log-1-0-4
+DATE: 01/17/2003
+STAFF: mbw
+RELEASE: development
+CHANGES: tweaked javadoc
+
+TAG: lib_java_log-1-0-3
+DATE: 01/14/2003
+STAFF: mbw
+RELEASE: development
+CHANGES: changed name of configuration parameters
+
+TAG: lib_java_log-1-0-2
+DATE: 01/13/2003
+STAFF: sc
+RELEASE: development
+CHANGES: LogNamingCfg.java - removed: import org.jax.mgi.shr.log.DataLoadLogger;
+
+TAG: lib_java_log-1-0-1
+DATE: 01/13/2003
+STAFF: sc
+RELEASE: development
+CHANGES: LogNamingCfg.java - removed:
+         private static String LOGGER_CLASS = DataLoadLogger.class.getName();
+         No longer used.
+
+TAG: lib_java_log-1-0-0
+DATE: 01/13/2003
+STAFF: sc
+RELEASE: development
+CHANGES: initial tag
+
+
+############################################
+#####  history for lib_java_shr ############
+############################################
+
+
+TAG: lib_java_shr-1-0-0
+DATE: 02/13/2003
+STAFF: sc
+RELEASE:
+CHANGES:
+1) Initial tag
+
+TAG: initial
+DATE: 11/21/2002
+STAFF: jsb
+RELEASE:
+CHANGES:
+1) Initial tag 
+
+
+########################################
+#####  history for lib_java_shr ########
+########################################
+
+
+
+TAG: lib_java_shr-1-0-0
+DATE: 02/13/2003
+STAFF: sc
+RELEASE:
+CHANGES:
+1) Initial tag
+
+TAG: initial
+DATE: 11/21/2002
+STAFF: jsb
+RELEASE:
+CHANGES:
+1) Initial tag 
+
+
+##############################################
+#####  history for lib_java_shrdatetime ######
+##############################################
+
+
+
+TAG: lib_java_shrdatetime-1-0-0
+DATE: 03/25/02
+STAFF: sc
+RELEASE:
+CHANGES:
+1) Initial tag 
+
+
+
+##############################################
+#####  history for lib_java_shrdbutils #######
+##############################################
+
+
+
+TAG: lib_java_shrdbutils-1-1-0
+DATE: 12/09/2003
+STAFF: mbw
+RELEASE: Development
+CHANGES: merged the jsam branch onto the trunk
+
+TAG: lib_java_shrdbutils-jsam-6
+DATE: 07/24/2003
+STAFF: mbw
+RELEASE: Development
+CHANGES: allowed way to create scrollable cursers
+
+TAG: lib_java_shrdbutils-jsam-5
+DATE: 06/03/2003
+STAFF: mbw
+RELEASE: Development
+CHANGES: added support for 
+1) transaction management
+2) simple stored procedures
+3) JDBC execute() method
+
+TAG: lib_java_shrdbutils-1-0-7-jsam-4
+DATE: 05/13/2003
+STAFF: mbw
+RELEASE: Development
+CHANGES: milestone tag for completed version
+
+TAG: lib_java_shrdbutils-1-0-7-jsam-3
+DATE: 05/7/2003
+STAFF: mbw
+RELEASE: Development
+CHANGES: incorporated changes from design review
+
+
+TAG: lib_java_shrdbutils-1-0-7-jsam-2
+DATE: 04/24/2003
+STAFF: mbw
+RELEASE: Development
+CHANGES: changed to reflect new design of exception handling classes
+
+
+TAG: lib_java_shrdbutils-1-0-7-jsam-1-0-0
+DATE: 02/04/2003
+STAFF: dbm
+RELEASE: Development
+CHANGES: general bug fixes
+  
+TAG: lib_java_shrdbutils-1-0-7
+DATE: 01/24/2003
+STAFF: lec
+RELEASE: Development
+CHANGES: tag prior to JSAM branch
+  
+TAG: lib_java_shrdbutils-1-0-6
+DATE: 01/24/2003
+STAFF: mbw
+RELEASE: Development
+CHANGES: modified classes to handle data validation.
+incorporated a reference to DataLoadLogger in SQLDataManager and BCPManager
+  
+
+TAG: lib_java_shrdbutils-1-0-5
+DATE: 01/17/2003
+STAFF: mbw
+RELEASE: Development
+CHANGES: tweaked javadoc
+
+TAG: lib_java_shrdbutils-1-0-4
+DATE: 01/14/2003
+STAFF: mbw
+RELEASE:
+CHANGES: changed the name of the configuration parameters
+
+
+TAG: lib_java_shrdbutils-1-0-3
+DATE: 01/13/2003
+STAFF: sc
+RELEASE:
+CHANGES:
+1) changed structure of the product under. 'src' is now 'java' and the 
+   dirs under 'java' reflect the package structure.
+2) added 'test' and 'system_docs' directories
+3) java/org/jax/mgi/shr/config - contains new config stuff for dbutils
+4) java/org/jax/mgi/shr/dbutils - contains dbutils stuff 
+5) created 'legacy' directory to hold old mgidrivermgr stuff
+6) Install - changed reference to src directory to new name: java
+
+TAG: lib_java_shrdbutils-1-0-2
+DATE: 01/17/2002
+STAFF: sc
+RELEASE:
+CHANGES:
+1) Changed name of jar file in Install script from mgidrvmgr.jar to 
+   dbshrutils.jar
+
+TAG: lib_java_shrdbutils-1-0-1
+DATE: 01/17/2002
+STAFF: sc
+RELEASE:
+CHANGES:
+1) initial tag
+
+
+
+###########################################
+#####  history for lib_java_shrunix #######
+###########################################
+
+
+
+TAG: lib_java_shrunix-2-0-1
+DATE: 02/07/03
+STAFF: sc
+RELEASE:
+CHANGES:
+1) Fixed bug in RunCommand. read lines from process' stdout and stderr while
+   proc.wait(); buffer was getting full when waiting til process was done. this
+   caused the process to wait forever.
+
+TAG: lib_java_shrunix-2-0-0
+DATE: 04/30/02
+STAFF: sc
+RELEASE:
+CHANGES:
+1) Added UpdateFileMgr
+
+TAG: lib_java_shrunix-1-0-3
+DATE: 01/30/02
+STAFF: sc
+RELEASE:
+CHANGES:
+1) fixed bug in Install script
+
+TAG: lib_java_shrunix-1-0-2
+DATE: 01/10/02
+STAFF: sc
+RELEASE:
+CHANGES:
+1) Added Install script
+
+TAG: lib_java_shrunix-1-0-1
+DATE: 01/03/02
+STAFF: sc
+RELEASE:
+CHANGES:
+1) Initial tag after code review
+
+
+############################################
+#####  history for lib_java_stringutil #####
+############################################
+
+
+TAG: lib_java_stringutil-1-0-0
+DATE: 07/03/2003
+STAFF: jsb
+RELEASE: alpha
+CHANGES:
+1) fixed bug in Sprintf.java where a 9 in a specification wasn't handled right
+
+TAG: initial
+DATE: 07/03/2003
+STAFF: jsb
+RELEASE: alpha
+CHANGES:
+1) initial addition
+
+
+##########################################
+#####  history for lib_java_timing #######
+##########################################
+
+
+
+TAG: lib_java_timing-1-0-0
+DATE: 12/01/2003
+STAFF: jsb
+RELEASE: alpha
+CHANGES:
+1) changes per JSAM WI code review
+
+TAG: initial
+DATE: 07/03/2003
+STAFF: jsb
+RELEASE: alpha
+CHANGES:
+1) initial addition
+
+
+##########################################
+#####  history for lib_java_types ########
+##########################################
+
+
+
+TAG: lib_java_types-1-0-2
+DATE: 05/13/2003
+STAFF: mbw
+RELEASE:
+CHANGES: milestone tag for completed version
+
+TAG: lib_java_types-1-0-1
+DATE: 04/25/2003
+STAFF: mbw
+RELEASE:
+CHANGES:
+1) initial tag
+
