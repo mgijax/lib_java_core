@@ -12,17 +12,21 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.io.IOException;
 import java.io.FileInputStream;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+
+import org.jax.mgi.shr.timing.Stopwatch;
+import org.jax.mgi.shr.log.Logger;
 
 
 /**
- * @is An object that iterates through a file as a collection of
+ * An object that iterates through a file as a collection of
  * records.
  * @has a file and a record delimiter.
- * @does Manages the separating of data from an input file into records
- * based on a given record delimiter.
+ * @does Manages the delimiting of data from an input file into individual
+ * records
  * @company Jackson Laboratory
  * @author M. Walker
- * @version 1.0
  */
 
 public class RecordDataReader {
@@ -57,13 +61,20 @@ public class RecordDataReader {
   // records
   private boolean okToUseBeginDelimiter;
 
+  // logger for debug
+  private Logger logger = null;
+
+
 
   /**
    * constructor which allows controlling the size of the internal buffer and
    * forces regular expression matching
    * @param in the input stream to read
-   * @param delimiter the regular expression used for delimiting records
+   * @param beginDelimiter the regular expression used for begin delimiter
+   * @param endDelimiter the regular expression used for end delimiter
+   * @param charset the character set when decoding bytes from the input file
    * @param bufferSize the value to set on the internal buffer size
+   * @param logger the Logger to use for debugging
    * @throws IOException thrown if the channel cannot be read from
    */
 
@@ -71,7 +82,8 @@ public class RecordDataReader {
                           String beginDelimiter,
                           String endDelimiter,
                           String charset,
-                          int bufferSize)
+                          int bufferSize,
+                          Logger logger)
   throws IOException {
     this.channel = in;
     this.beginDelimiter = beginDelimiter;
@@ -80,6 +92,7 @@ public class RecordDataReader {
     this.decoder = (Charset.forName(charset)).newDecoder();
     // create nio buffer to specified size
     this.byteBuffer = ByteBuffer.allocate(bufferSize);
+    this.logger = logger;
     // clear and prepare the nio buffer for reading
     prepareNewBuffer();
   }
@@ -88,16 +101,20 @@ public class RecordDataReader {
      * constructor which allows controlling the size of the internal buffer and
      * providing the begin and end delimiters as byte arrays
      * @param in the input stream to read
-     * @param matchSequence the byte array used for delimiting records
+     * @param matchSequenceBegin the byte array used for begin delimiter
+     * @param matchSequenceEnd the byte array used for end delimiter
+     * @param charset the character set when decoding bytes from the input file
      * @param bufferSize the value to set on the internal buffer size
-     * @throws IOException
+     * @param logger the Logger to use for debugging
+     * @throws IOException thrown if there is an error accessing the file
      */
 
     public RecordDataReader(ReadableByteChannel in,
                             byte[] matchSequenceBegin,
                             byte[] matchSequenceEnd,
                             String charset,
-                            int bufferSize)
+                            int bufferSize,
+                            Logger logger)
     throws IOException {
       this.channel = in;
       this.matchSequenceBegin = matchSequenceBegin;
@@ -106,6 +123,7 @@ public class RecordDataReader {
       this.decoder = (Charset.forName(charset)).newDecoder();
       // create nio buffer to specified size
       this.byteBuffer = ByteBuffer.allocate(bufferSize);
+      this.logger = logger;
       // clear and prepare the nio buffer for reading
       prepareNewBuffer();
     }
@@ -145,11 +163,17 @@ public class RecordDataReader {
    * @throws IOException thrown if the channel cannot be read from
    */
   private void prepareNewBuffer() throws IOException {
+      Stopwatch watch = new Stopwatch();
+      watch.start();
+
     byteBuffer.clear();
     channel.read(byteBuffer);
     // prepare the buffer for reading
     byteBuffer.flip();
     bufferReader.initBuffer();
+
+      watch.stop();
+      logger.logDebug("prepareNewBuffer : " + watch.time());
   }
 
 
@@ -198,7 +222,7 @@ public class RecordDataReader {
   }
 
   /**
-   * @is implements the BufferReader interface and reads the byte buffer
+   *  implements the BufferReader interface and reads the byte buffer
    * byte by byte and finds the record seperator by a direct comparison to
    * the given byte sequence. This class provides greater performance over
    * the RegexReader
@@ -380,7 +404,11 @@ public class RecordDataReader {
                           startPosition);
                       int currentPosition = byteBuffer.position();
                       byteBuffer.position(startPosition);
+                      Stopwatch watch = new Stopwatch();
+                      watch.start();
                       decoder.decode(byteBuffer, charBuffer, true);
+                      watch.stop();
+                      logger.logDebug("decoder.decode() : " + watch.time());
                       byteBuffer.position(currentPosition);
                       /**
                        * set or append the current record instance variable.
@@ -739,7 +767,7 @@ public class RecordDataReader {
   }  // end ByteReader class
 
   /**
-   * @is implements the BufferReader interface and provides an interpretation
+   *  implements the BufferReader interface and provides an interpretation
    * of the byte buffer as characters and uses regular expressions as record
    * delimiters
    * @has a character view of the byte buffer and a regular expression for
@@ -775,6 +803,7 @@ public class RecordDataReader {
 
       /**
        * constructor
+       * @throws IOException thrown if there is an io error
        */
       public RegexReader() throws IOException
       {
@@ -834,13 +863,14 @@ public class RecordDataReader {
                       if (matcher.find())
                       {
                           firstLine = currentLine.toString();
-                          state = FOUND_DEL;
                           if (!firstMatch)
                           {
+                              state = FOUND_DEL;
                               currentLine = null;
                               break;
                           }
-                          firstMatch = false;
+                          else
+                              firstMatch = false;
                           state = LOOKING_DEL;
                       }
                       currentRecord =
@@ -856,6 +886,15 @@ public class RecordDataReader {
                   prepareNewBuffer();
                 }
               }
+              if (state == LOOKING_DEL)
+              {
+                  /**
+                   * we reached end of buffer without finding the delimiter.
+                   * add the current line to the record before returning
+                   */
+                  currentRecord =
+                          currentRecord.concat((currentLine.toString()));
+              }
               return currentRecord;
 
           }
@@ -865,6 +904,7 @@ public class RecordDataReader {
       {
           public String getRecord() throws IOException
           {
+
               // start a new record
               currentRecord = null;
 
@@ -1059,6 +1099,8 @@ public class RecordDataReader {
       // the line consist of characters between the line buffer position
       // which was created at the start of the line and the current byte
       // buffer position which is currently at the end of the line.
+      Stopwatch watch = new Stopwatch();
+      watch.start();
 
       CharBuffer charBuffer = CharBuffer.allocate(
           byteBuffer.position() - lineBuffer.position());
@@ -1070,9 +1112,23 @@ public class RecordDataReader {
         currentLine = currentLine.toString().concat(
             ( (CharBuffer) charBuffer.position(0)).toString());
 
+            watch.stop();
+            logger.logDebug("decoder.decode() : " + watch.time());
+
+
     }
   } // end RegexReader class
 
+  /**
+   * A strategy for finding records based on the combination of a begin and
+   * end delimiter.
+   * @has nothing
+   * @does provides the getRecord() which obtains the next record from an input
+   * file.
+   * @company The Jackson Laboratory
+   * @author M Walker
+   *
+   */
   public interface DelimiterStrategy
   {
       public String getRecord() throws IOException;
@@ -1080,6 +1136,9 @@ public class RecordDataReader {
 
 }
 // $Log$
+// Revision 1.7  2004/05/24 16:13:17  mbw
+// now accepts charset as a constructor parameter
+//
 // Revision 1.6  2004/03/29 20:00:11  mbw
 // now allowing any combination of begin/end delimiters
 //
