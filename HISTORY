@@ -1,3 +1,8 @@
+TAG:lib_java_core-1-0-28
+DATE: 10/12/2004
+STAFF: mbw
+CHANGES: removed additional debug statements from the RecordDataReader class
+
 TAG:lib_java_core-1-0-27
 DATE: 10/12/2004
 STAFF: mbw
