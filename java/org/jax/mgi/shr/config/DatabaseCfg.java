@@ -138,9 +138,24 @@ public class DatabaseCfg
                            DEFAULT_CONNECTION_MANAGER);
   }
 
+  /**
+   * get whether or not to log debug messages
+   * The parameter name read from the configuration file or system properties
+   * is DBDEBUG. The default value is false.
+   * @return true if debug messages are to be logged, otherwise false
+   * @throws ConfigException
+   */
+  public Boolean getDebug() throws ConfigException
+  {
+      return this.getConfigBoolean("DBDEBUG", new Boolean(false));
+  }
+
 
 }
 // $Log$
+// Revision 1.4  2004/08/25 20:25:01  mbw
+// changed test on default values to reflect use of new "live" directory
+//
 // Revision 1.3  2004/07/21 19:08:50  mbw
 // removed the use of parameter prefixing from this class since it was recently moved to the base class
 //
