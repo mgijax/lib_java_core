@@ -1,3 +1,9 @@
+DATE: 8/4/2004
+STAFF: mbw
+CHANGES:
+1) removed the restKey call to the Table class from inside the BCPManager 
+2) added new method in Configurator for getting an array of STrings as a configuration value.
+
 TAG:lib_java_core-1-0-21
 DATE: 8/4/2004
 STAFF: jsb
