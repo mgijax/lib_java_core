@@ -1,3 +1,8 @@
+DATE: 8/26/2004
+STAFF: sc
+CHANGES:
+1) BCP_Script_Stream - script writer needed to be initialized in constructor
+
 DATE: 8/25/2004
 STAFF: mbw
 CHANGES: 
