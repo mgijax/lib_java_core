@@ -55,7 +55,7 @@ public class TestInputDataCfg
     System.setProperty("CONFIG", config1);
     fileCfg = new InputDataCfg();
     assertEquals("2222", fileCfg.getBufferSize());
-    assertEquals("^//", fileCfg.getDelimiter());
+    assertEquals("^//", fileCfg.getEndDelimiter());
     assertEquals("return value", "testfile", fileCfg.getInputFileName());
   }
 
@@ -63,7 +63,7 @@ public class TestInputDataCfg
     System.setProperty("CONFIG", config1);
     fileCfg = new InputDataCfg("SECONDARY");
     assertEquals("333", fileCfg.getBufferSize());
-    assertEquals("\\|", fileCfg.getDelimiter());
+    assertEquals("\\|", fileCfg.getEndDelimiter());
     assertEquals("return value", "testfile2", fileCfg.getInputFileName());
 
   }
