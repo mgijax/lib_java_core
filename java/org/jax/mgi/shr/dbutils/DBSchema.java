@@ -41,7 +41,10 @@ public class DBSchema {
    */
   private static final String REGEX_CREATE =
       "^[cC][rR][eE][aA][tT][eE] .*";
-
+  /**
+   * regular expression for locating alter table commands in the dbschema files
+   */
+  private static final String REGEX_ALTER = "^[aA][lL][tT][eE][rR] .*$";
   /**
    * regular expression for locating isql go commands in the dbschema files
    */
@@ -59,6 +62,12 @@ public class DBSchema {
    */
   private static final Pattern createPattern =
       Pattern.compile(REGEX_CREATE);
+  /**
+   * compiled regex pattern for locating alter table commands in the
+   * dbschema files
+   */
+  private static final Pattern alterPattern =
+      Pattern.compile(REGEX_ALTER);
   /**
    * compiled regex pattern for locating isql go commands in the dbschema
    * files used when locating the end of a create table command.
@@ -95,32 +104,52 @@ public class DBSchema {
 
   /**
    * locates the drop index commands from the dbschema product for the given
-   * table and executes them in the database.
+   * table and executes them in the database and if there are partitions
+   * defined for the given table then they need to be dropped in advance.
    * @assumes nothing
    * @effects indexes will be dropped on the given table
    * @param pTablename table name
-   * @throws DBSchemaException
-   * @throws DBException
+   * @throws DBSchemaException thrown if there is an error accessing the
+   * files within the dbschema product
+   * @throws DBException thrown if there is an error with the database
    */
   public void dropIndexes(String pTablename)
       throws DBSchemaException, DBException  {
-    Vector sql = getDropIndexCommands(pTablename);
-    executeSql(sql);
+    Vector sqlIndex = getDropIndexCommands(pTablename);
+    String sqlPartition = null;
+    try // if exception then assume no partitions are defined
+    {
+      sqlPartition = getDropPartitionCommand(pTablename);
+    }
+    catch (DBSchemaException e) {}
+    if (sqlPartition != null)
+      sqlmanager.executeUpdate(sqlPartition);
+    executeSqlVector(sqlIndex);
   }
 
   /**
    * locates the create index commands from the dbschema product for the
-   * given table and executes them in the database.
+   * given table and executes them in the database and if there are partitions
+   * defined for the given table then they need to be created in advance.
    * @assumes nothing
    * @effects indexes will be created for the given table
    * @param pTablename table name
-   * @throws DBSchemaException
-   * @throws DBException
+   * @throws DBSchemaException thrown if there is an error accessing the
+   * files within the dbschema product
+   * @throws DBException thrown if there is an error with the database
    */
   public void createIndexes(String pTablename)
       throws DBSchemaException, DBException  {
-    Vector sql = getCreateIndexCommands(pTablename);
-    executeSql(sql);
+    Vector sqlIndex = getCreateIndexCommands(pTablename);
+    String sqlPartition = null;
+    try // if exception then assume no partitions are defined
+    {
+      sqlPartition = getCreatePartitionCommand(pTablename);
+    }
+    catch (DBSchemaException e) {}
+    if (sqlPartition != null)
+      sqlmanager.executeUpdate(sqlPartition);
+    executeSqlVector(sqlIndex);
   }
 
   /**
@@ -129,8 +158,9 @@ public class DBSchema {
    * @assumes nothing
    * @effects a new table will be created in the database
    * @param pTablename table name
-   * @throws DBSchemaException
-   * @throws DBException
+   * @throws DBSchemaException thrown if there is an error accessing the
+   * files within the dbschema product
+   * @throws DBException thrown if there is an error with the database
    */
   public void createTable(String pTablename)
       throws DBSchemaException, DBException {
@@ -144,27 +174,61 @@ public class DBSchema {
    * @assumes nothing
    * @effects a table will be dropped from the database
    * @param pTablename table name
-   * @throws DBException
+   * @throws DBException thrown if there is an error with the database
    */
   public void dropTable(String pTablename) throws DBException {
     String command = "drop table " + pTablename;
     Vector v = new Vector();
     v.add(command);
-    executeSql(v);
+    executeSqlVector(v);
   }
+
+  /**
+   * locates the create partition command from the dbschema product for the
+   * given table and executes it in the database.
+   * @assumes nothing
+   * @effects partitions will be added to the table
+   * @param pTablename table name
+   * @throws DBSchemaException thrown if there is an error accessing the
+   * files within the dbschema product
+   * @throws DBException thrown if there is an error with the database
+   */
+  public void createPartition(String pTablename)
+      throws DBSchemaException, DBException {
+    String command = getCreatePartitionCommand(pTablename);
+    sqlmanager.executeUpdate(command);
+  }
+
+  /**
+   * locates the drop partition command from the dbschema product for the
+   * given table and executes it in the database.
+   * @assumes nothing
+   * @effects partitions will be dropped from the table
+   * @param pTablename table name
+   * @throws DBSchemaException thrown if there is an error accessing the
+   * files within the dbschema product
+   * @throws DBException thrown if there is an error with the database
+   */
+  public void dropPartition(String pTablename)
+      throws DBSchemaException, DBException {
+    String command = getDropPartitionCommand(pTablename);
+    sqlmanager.executeUpdate(command);
+  }
+
+
 
   /**
    * truncates the transaction log for the configured database.
    * @assumes nothing
    * @effects a table will be truncated
    * @param pTablename table name
-   * @throws DBException
+   * @throws DBException thrown if there is an error with the database
    */
   public void truncateTable(String pTablename) throws DBException {
     String command = "truncate table " + pTablename;
     Vector v = new Vector();
     v.add(command);
-    executeSql(v);
+    executeSqlVector(v);
   }
 
   /**
@@ -178,8 +242,10 @@ public class DBSchema {
     String command = "dump transaction " + dbname + " with truncate_only";
     Vector v = new Vector();
     v.add(command);
-    executeSql(v);
+    executeSqlVector(v);
   }
+
+
 
   /**
    * get the sql commands for creating indexes for the given table
@@ -190,7 +256,7 @@ public class DBSchema {
    * @throws DBSchemaException thrown if the create index commands could
    * not be obtained fron the dbschema product
    */
-  public Vector getCreateIndexCommands(String pTablename)
+  protected Vector getCreateIndexCommands(String pTablename)
       throws DBSchemaException {
     String filename = calculateFilename("index", "create", pTablename);
     Vector v1 = getCommands(filename, createPattern);
@@ -214,7 +280,7 @@ public class DBSchema {
    * @throws DBSchemaException thrown if the drop index commands could
    * not be obtained fron the dbschema product
    */
-  public Vector getDropIndexCommands(String pTablename)
+  protected Vector getDropIndexCommands(String pTablename)
       throws DBSchemaException {
     String filename = calculateFilename("index", "drop", pTablename);
     return getCommands(filename, dropPattern);
@@ -230,7 +296,7 @@ public class DBSchema {
    * not be obtained fron the dbschema product.
    * @throws DBException thrown if there is an error with the database
    */
-  public String getCreateTableCommand(String pTablename)
+  protected String getCreateTableCommand(String pTablename)
       throws DBSchemaException {
     String filename = calculateFilename("table", "create", pTablename);
     String line = null;
@@ -263,8 +329,8 @@ public class DBSchema {
             goMatcher = goPattern.matcher(line);
             if (!goMatcher.matches()) {
               // disregarding the use of table segments
-              if (line.indexOf("DBTABLESEGMENT") != -1)
-                continue;
+              //if (line.indexOf("DBTABLESEGMENT") != -1)
+                //continue;
               command.append(" " + line);
             }
             else {
@@ -305,8 +371,43 @@ public class DBSchema {
       e2.bind(filename);
       throw e2;
     }
-    return new String(command);
+    String s = new String(command);
+    s = (s.replaceFirst("\\$\\{DBTABLESEGMENT\\}", "seg0"));
+    return s;
   }
+
+  /**
+   * get the sql command for creating partitions for the given table
+   * @assumes nothing
+   * @effects nothing
+   * @param pTablename the given table name
+   * @return the sql string from the dbschema file
+   * @throws DBSchemaException thrown if the create partition command could
+   * not be obtained fron the dbschema product
+   */
+  protected String getCreatePartitionCommand(String pTablename)
+      throws DBSchemaException {
+    String filename = calculateFilename("partition", "create", pTablename);
+    Vector v = getCommands(filename, alterPattern);
+    return (String)v.get(0);
+  }
+
+  /**
+   * get the sql command for dropping partitions for the given table
+   * @assumes nothing
+   * @effects nothing
+   * @param pTablename the given table name
+   * @return the sql string from the dbschema file
+   * @throws DBSchemaException thrown if the drop partition command could
+   * not be obtained fron the dbschema product
+   */
+  protected String getDropPartitionCommand(String pTablename)
+      throws DBSchemaException {
+    String filename = calculateFilename("partition", "drop", pTablename);
+    Vector v = getCommands(filename, alterPattern);
+    return (String)v.get(0);
+  }
+
 
   /**
    * searches a file and extracts lines which match the given regular
@@ -398,16 +499,20 @@ public class DBSchema {
    * @param pCommands a vector of sql commands
    * @throws DBException
    */
-  protected void executeSql(Vector pCommands) throws DBException {
+  protected void executeSqlVector(Vector pCommands) throws DBException {
     for (Iterator it = pCommands.iterator(); it.hasNext(); ) {
       String command = (String)it.next();
       int rtn = sqlmanager.executeUpdate(command);
     }
   }
 
+
 }
 
 // $Log$
+// Revision 1.3  2004/01/21 19:24:45  mbw
+// consolidated the command search strings
+//
 // Revision 1.2  2004/01/14 17:59:49  sc
 // changed getCreateIndexCommands to replace environ var reference with new segment names
 //
