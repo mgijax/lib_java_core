@@ -15,11 +15,13 @@ import java.util.StringTokenizer;
 
 import org.jax.mgi.shr.dbutils.bcp.RecordStampFactory;
 import org.jax.mgi.shr.dbutils.types.TypeValidator;
+import org.jax.mgi.shr.dbutils.DBExceptionFactory;
 import org.jax.mgi.shr.dbutils.bcp.RecordStamper;
+import org.jax.mgi.shr.config.ConfigException;
 
 
 /**
- * @is An object that represents a table from the database.
+ * An object that represents a table from the database.
  * @has A table name and the table meta data. A SQLDataManager
  * for obtaining table meta data.
  * @does get the next incremental key value for the table and
@@ -30,7 +32,6 @@ import org.jax.mgi.shr.dbutils.bcp.RecordStamper;
  * char, varchar, int, float, datetime, bit, text
  * @company Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 
 public class Table {
@@ -97,13 +98,38 @@ public class Table {
       DBExceptionFactory.UnexpectedCondition;
   private static final String UnexpectedKeyCount =
       DBExceptionFactory.UnexpectedKeyCount;
+  private static final String InterpreterInstanceErr =
+      DBExceptionFactory.InterpreterInstanceErr;
+
+  /**
+ * get a Table object from the instance pool for the given table name
+ * @assumes nothing
+ * @effects a new Table instance will be created and placed in the pool
+ * if one does not already exist.
+ * @param tableName the name of the table
+ * @return the Table instance
+ */
+public static Table getInstance(String tableName)
+throws DBException, ConfigException
+{
+    SQLDataManager sqlMgr = new SQLDataManager();
+  String hashEntryName = sqlMgr.getDatabase() + tableName;
+  Table table = (Table) tablePool.get(hashEntryName);
+  if (table == null) {
+    table = new Table(tableName, sqlMgr);
+    tablePool.put(hashEntryName, table);
+  }
+  return table;
+}
+
 
   /**
    * get a Table object from the instance pool for the given table name
-   * @assumes: nothing
-   * @effects: a new Table instance will be created and placed in the pool
+   * @assumes nothing
+   * @effects a new Table instance will be created and placed in the pool
    * if one does not already exist.
    * @param tableName the name of the table
+   * @param sqlMgr the SQLDataManager
    * @return the Table instance
    */
   public static Table getInstance(String tableName, SQLDataManager sqlMgr) {
@@ -149,6 +175,7 @@ public class Table {
   /**
    * get the RecordStamp class for creating user/time stamps by the BCPManager
    * @return the RecordStamp object for this table
+   * @throws DBException thrown if there is an error with the database
    */
   public RecordStamper getRecordStamp() throws DBException {
     // calculate the RecordStamp
@@ -163,7 +190,7 @@ public class Table {
    * @assumes nothing
    * @effects nothing
    * @return true if class has a single part incremental key, false otherwise
-   * @throws DBException
+   * @throws org.jax.mgi.shr.dbutils.DBException
    */
   public boolean hasIncrementalKey() throws DBException
   {
@@ -176,6 +203,7 @@ public class Table {
    * the given name
    * @param name the given column name to search on
    * @return true if there is a column with that name, false otherwise
+   * @throws DBException thrown if there is an error with the database
    */
   public boolean hasColumnName(String name) throws DBException {
     if (!metadataRead)
@@ -193,6 +221,7 @@ public class Table {
    * set the RecordStamp class used for creating user/time stamps by the
    * BCPManager.
    * @param stamp the given RecordStamp class
+   * @throws DBException thrown if there is an error with the database
    */
   public void setRecordStamp(RecordStamper stamp) throws DBException {
     recordStamp = stamp;
@@ -252,6 +281,7 @@ public class Table {
    * @assumes nothing
    * @effects nothing
    * @return a vector of column definitions
+   * @throws DBException thrown if there is an error with the database
    */
   public Vector getColumnDefinitions() throws DBException {
     if (!metadataRead)
@@ -268,6 +298,7 @@ public class Table {
    * @assumes nothing
    * @effects nothing
    * @return a vector of primary key column definitions
+   * @throws DBException thrown if there is an error with the database
    */
   public Vector getPrimaryKeyDefinitions() throws DBException {
     if (!metadataRead)
@@ -283,7 +314,8 @@ public class Table {
      * get the next key value for the table from cache. This value is cached
      * and may not reflect the actual max key value in the table. This
      * method cannot be used in a mutithreaded nonconcurrent application.
-     * @assumes nothing
+     * @assumes that this method is not running concurrently in more than one
+     * thread
      * @effects the cached key value will be incremented
      * @return the cached maximum key value + 1
      * @throws DBException thrown if there is a two part key or if the key
@@ -302,18 +334,29 @@ public class Table {
       return new Integer(++cacheKey);
     }
 
+    /**
+     * set the primary key to start at 1
+     * @assumes nothing
+     * @effects the call to getNextKey() will return 1
+     */
+    public void resetKey()
+    {
+        this.cacheKey = 0;
+    }
+
+
 
 
   /**
-   * get the next key value for the table and cache it. This value is cached and may not
-   * reflect the actual max key value in the table. That is if you call this
-   * method multiple times before doing
+   * get the next key value for the table and cache it. This value is cached
+   * and may not reflect the actual max key value in the table. That is if you
+   * call this method multiple times before doing
    * @assumes nothing
    * @effects the cached key value will be set
    * @throws DBException thrown if there is a two part key or if the key
    * is not an integer
    */
-  private void cacheNextKey() throws DBException {
+  public void synchronizeKey() throws DBException {
     int nextKey = 0;
     // if there is a multivalued key then caching the next key value
     // is not appropriate.
@@ -348,9 +391,6 @@ public class Table {
 			if (colData != null)
     		cacheKey = colData.intValue();
     }
-    // if no rows found then set next key to 1
-    if (cacheKey == 0)
-      cacheKey = 1;
   }
 
   /**
@@ -360,7 +400,7 @@ public class Table {
    * key information, this code uses the sp_helpkey procedure.
    * @assumes nothing
    * @effects the internal column definitions will be set
-   * @throws DBException
+   * @throws org.jax.mgi.shr.dbutils.DBException
    */
   private void getTableDefinitions() throws DBException {
     try {
@@ -391,7 +431,7 @@ public class Table {
       /**
        * Sybase key declaration is non standard in that it uses a Sybase
        * stored procedure to define primary keys. A special case was required
-       * to obtain primary key metadata from JDBC 
+       * to obtain primary key metadata from JDBC
        */
       if (dataManager.isSybase())
         getSybasePrimaryKeys();
@@ -401,7 +441,7 @@ public class Table {
       // primary key for this table. This call will set the isIncremental
       // class variable to true or false and if true, then cache the next
       // key value.
-      cacheNextKey();
+      synchronizeKey();
       // indicate that metadata has been read
       metadataRead = true;
     }
@@ -423,6 +463,7 @@ public class Table {
           ColumnDef col = getColumnByName(key);
           pKeyDefinitions.add(col);
       }
+
   }
 
   private void getSybasePrimaryKeys() throws DBException, SQLException
@@ -488,6 +529,9 @@ public class Table {
 }
 
 // $Log$
+// Revision 1.2  2004/03/29 19:54:28  mbw
+// made more compatible with non-sybase dbs
+//
 // Revision 1.1  2003/12/30 16:50:41  mbw
 // imported into this product
 //
