@@ -4,6 +4,7 @@
 package org.jax.mgi.shr.ioutils;
 
 import java.io.IOException;
+import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.File;
 import java.util.Collection;
@@ -40,11 +41,17 @@ public class OutputDataFile
 
     // The name of the output file to write to.
     //
-    private FileWriter writer = null;
+    private BufferedWriter writer = null;
 
     // A logger for logging messages.
     //
     private Logger logger = null;
+
+    /*
+     * option to auto-flush the buffer after each bcp write
+     */
+    private boolean okToAutoFlush;
+
 
     // The exception factory.
     //
@@ -166,7 +173,7 @@ public class OutputDataFile
      * @effects Nothing
      * @param pConfig The configuration object from which to configure this
      *                object.
-     * @return Nothing
+     * @return
      * @throws ConfigException if there is a configuration error.
      * @throws IOUException if an error occurs finding or opening the file.
      */
@@ -175,6 +182,7 @@ public class OutputDataFile
     {
         this.filename = pConfig.getOutputFileName();
         this.delimiter = pConfig.getDelimiter();
+        this.okToAutoFlush = pConfig.getOkToAutoFlush().booleanValue();
 
         LogCfg cfg = new LogCfg();
         LoggerFactory factory = cfg.getLoggerFactory();
@@ -196,7 +204,7 @@ public class OutputDataFile
         //
         try
         {
-            writer = new FileWriter(filename);
+            writer = new BufferedWriter(new FileWriter(filename));
         }
         catch (IOException e)
         {
@@ -204,14 +212,14 @@ public class OutputDataFile
                 exceptionFactory.getException(FileOpenErr, e);
             throw ke;
         }
+        return;
     }
 
     /**
-     * Write a vector of strings to the output file.
+     * Write a collection of strings to the output file.
      * @assumes Nothing
      * @effects Nothing
-     * @param None
-     * @return Nothing
+     * @param list the collection of Strings to write
      * @throws IOUException if an error occurs finding or opening the file.
      */
     public void write(Collection list)
@@ -247,6 +255,8 @@ public class OutputDataFile
         try
         {
             writer.write(CRT);
+            if (this.okToAutoFlush)
+                writer.flush();
         }
         catch (IOException e)
         {
@@ -258,16 +268,15 @@ public class OutputDataFile
 
     /**
      * Write a vector of strings to the output file.
-     * @assumes Nothing
-     * @effects Nothing
-     * @param None
-     * @return Nothing
+     * @assumes a newline is wanted after writing the object
+     * @effects new output will be written to the file
+     * @param OutputFormat the format object to write
      * @throws IOUException if an error occurs finding or opening the file.
      */
-    public void write(OutputFormat formatable)
+    public void write(OutputFormat format)
         throws IOUException
     {
-        String s = formatable.format();
+        String s = format.format();
 
         // Write a newline character to the output file.
         //
@@ -275,6 +284,36 @@ public class OutputDataFile
         {
             writer.write(s);
             writer.write(CRT);
+            if (this.okToAutoFlush)
+                writer.flush();
+        }
+        catch (IOException e)
+        {
+            IOUException ke = (IOUException)
+                exceptionFactory.getException(FileWriteErr, e);
+            throw ke;
+        }
+    }
+
+
+    /**
+     * Write a string to the output file.
+     * @assumes a newline is wanted after the write
+     * @effects new output will be written to the file
+     * @param s the string to write
+     * @throws IOUException if an error occurs finding or opening the file.
+     */
+    public void write(String s)
+        throws IOUException
+    {
+        // Write a newline character to the output file.
+        //
+        try
+        {
+            writer.write(s);
+            writer.write(CRT);
+            if (this.okToAutoFlush)
+                writer.flush();
         }
         catch (IOException e)
         {
@@ -311,6 +350,9 @@ public class OutputDataFile
 
 
 //  $Log$
+//  Revision 1.1.2.2  2005/01/07 17:08:34  mbw
+//  created way for OutputDataFile to write any object using the OutputFormat interface
+//
 //  Revision 1.1.2.1  2005/01/05 14:26:56  dbm
 //  New
 //
