@@ -16,6 +16,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Date;
+import org.jax.mgi.shr.stringutil.Sprintf;
 
 /** provides a mechanism for use in simplistic profiling of code.  "Simplistic
 *   profiling" means that a programmer can use a TimeStamper to collect and
@@ -210,13 +211,23 @@ public class TimeStamper
 	    totalTime = 1.0;		// need to avoid divide-by-0 errors
 	}
 
+	String template = "%s %7.2f %6.2f %4.1f% %s\n";
+
 	for (int i = 0; i < messageCount; i++)
 	{
 	    msg = (TimeStampedMessage) this.messages.get(i);
 	    myTime = msg.getSeconds();
 	    elapsedTime = myTime - lastTime;
 
-	    sb.append (msg.getDateTime());
+	    sb.append (Sprintf.sprintf (template, 
+		msg.getDateTime(),
+		new Double(myTime),
+		new Double(elapsedTime),
+		new Double(100.0 * elapsedTime / totalTime),
+		msg.getMessage()
+		) );
+
+/*	    sb.append (msg.getDateTime());
 	    sb.append (" ");
 	    sb.append (df.format (myTime));
 	    sb.append (" ");
@@ -226,7 +237,7 @@ public class TimeStamper
 	    sb.append (" ");
 	    sb.append (msg.getMessage());
 	    sb.append ("\n");
-
+*/
 	    lastTime = myTime;
 	}
 
@@ -261,6 +272,9 @@ public class TimeStamper
 
 /*
 * $Log$
+* Revision 1.1  2003/12/30 16:56:50  mbw
+* imported into this product
+*
 * Revision 1.1  2003/12/01 13:01:22  jsb
 * Added as part of JSAM code review
 *
