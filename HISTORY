@@ -1,3 +1,7 @@
+DATE: 01/05/2004
+STAFF: dbm
+CHANGES: added DataOutputFile and support classes
+
 DATE: 01/04/2004
 STAFF: mbw
 CHANGES: bug fix on RowDataIterator from dbutils package
