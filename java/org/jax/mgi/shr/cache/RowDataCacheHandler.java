@@ -204,4 +204,16 @@ abstract public class RowDataCacheHandler
         strategy.setCacheHandler(this);
         this.cacheStrategy = strategy;
     }
+
+    /**
+     * get the internal cache
+     * @assumes nothing
+     * @effects nothing
+     * @return the internal cache
+     * @return
+     */
+    protected Map getCache()
+    {
+        return this.cache;
+    }
 }
