@@ -1,3 +1,10 @@
+DATE: 9/30/2004
+STAFF: mbw
+CHANGES:
+1) configurtaion classes treat empty config values as null
+2) the SQLDataManager is now configurable for turning debug on/off
+3) incorporated code review comments (see TR5965)
+
 DATE: 9/08/2004
 STAFF: mbw
 CHANGES:
