@@ -1,3 +1,10 @@
+DATE: 02/10/04
+STAFF: mbw
+CHANGES: 
+1) reviewed dbutils code to assure methods were available to close jdbc resources
+2) added begin delimiter to ioutils
+
+
 TAG: lib_java_core-1-0-3
 DATE: 01/21/2004
 STAFF: mbw
