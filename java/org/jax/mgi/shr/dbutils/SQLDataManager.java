@@ -10,8 +10,6 @@ import java.sql.CallableStatement;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.DatabaseMetaData;
-import java.util.Vector;
-import java.util.Iterator;
 import java.io.FileReader;
 import java.io.BufferedReader;
 
@@ -995,6 +993,9 @@ public class SQLDataManager {
 }
 
 // $Log$
+// Revision 1.4  2004/02/19 16:55:30  mbw
+// added creation of default logger in SQLDataManager(DatabaseConfigurator) constructor
+//
 // Revision 1.3  2004/02/11 21:13:43  mbw
 // added time stats to debug logging
 //

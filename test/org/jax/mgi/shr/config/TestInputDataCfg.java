@@ -1,12 +1,6 @@
 package org.jax.mgi.shr.config;
 
 import junit.framework.*;
-import java.util.Properties;
-import java.util.Enumeration;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.File;
 import org.jax.mgi.shr.unitTest.*;
 
 public class TestInputDataCfg
@@ -39,7 +33,7 @@ public class TestInputDataCfg
         "SECONDARY_INFILE_DELIMITER=\\|\n" +
         "SECONDARY_INFILE_BUFFERSIZE=333\n";
 
-    fileUtility.createFile(config1, s);
+    FileUtility.createFile(config1, s);
 
   }
 

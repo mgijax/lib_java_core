@@ -11,7 +11,6 @@ package org.jax.mgi.shr.timing;
 */
 
 import java.util.Vector;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -272,6 +271,9 @@ public class TimeStamper
 
 /*
 * $Log$
+* Revision 1.2  2004/02/10 16:11:36  jsb
+* Updated formatting of output
+*
 * Revision 1.1  2003/12/30 16:56:50  mbw
 * imported into this product
 *

@@ -2,7 +2,6 @@ package org.jax.mgi.shr.unix;
 
 import java.io.*;
 import java.util.*;
-import org.jax.mgi.shr.unix.*;  // for RunCommand
 
 public class BufferedLargeFileWriter 
 {

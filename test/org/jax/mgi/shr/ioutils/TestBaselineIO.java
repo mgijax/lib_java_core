@@ -14,7 +14,6 @@ import java.nio.channels.FileChannel;
 import java.nio.ByteBuffer;
 
 import org.jax.mgi.shr.timing.Stopwatch;
-import org.jax.mgi.shr.config.InputDataCfg;
 
 public class TestBaselineIO extends TestCase {
 

@@ -2,7 +2,6 @@ package org.jax.mgi.shr.cache;
 
 import java.util.Vector;
 
-import java.util.HashMap;
 import org.jax.mgi.shr.dbutils.MultiRowInterpreter;
 import org.jax.mgi.shr.dbutils.RowDataInterpreter;
 import org.jax.mgi.shr.dbutils.RowReference;

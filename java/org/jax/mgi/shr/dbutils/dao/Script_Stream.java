@@ -1,7 +1,5 @@
 package org.jax.mgi.shr.dbutils.dao;
 
-import org.jax.mgi.shr.exception.MGIException;
-import org.jax.mgi.shr.dbutils.SQLDataManager;
 import org.jax.mgi.shr.dbutils.DBException;
 import org.jax.mgi.shr.dbutils.DBExceptionFactory;
 import org.jax.mgi.shr.dbutils.ScriptWriter;

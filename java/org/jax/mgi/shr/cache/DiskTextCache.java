@@ -1,13 +1,11 @@
 package org.jax.mgi.shr.cache;
 
-import java.util.Vector;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import org.jax.mgi.shr.stringutil.Sprintf;
 import org.jax.mgi.shr.exception.MGIException;
 
 /** The <tt>DiskTextCache</tt> class uses a directory in the file system to

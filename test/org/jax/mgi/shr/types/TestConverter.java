@@ -3,7 +3,6 @@ package org.jax.mgi.shr.types;
 import junit.framework.*;
 import java.sql.*;
 import java.text.*;
-import org.jax.mgi.shr.types.*;
 
 public class TestConverter
     extends TestCase {

@@ -1,7 +1,6 @@
 package org.jax.mgi.shr.unitTest;
 
 import junit.framework.*;
-import java.io.*;
 
 public class TestConfigFileCreator
     extends TestCase {

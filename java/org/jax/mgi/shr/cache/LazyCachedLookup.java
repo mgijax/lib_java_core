@@ -2,7 +2,6 @@ package org.jax.mgi.shr.cache;
 
 import org.jax.mgi.shr.exception.MGIException;
 import org.jax.mgi.shr.dbutils.SQLDataManager;
-import org.jax.mgi.shr.cache.RowDataCacheHandler;
 import org.jax.mgi.shr.cache.CacheException;
 import org.jax.mgi.shr.log.Logger;
 

@@ -1,6 +1,5 @@
 package org.jax.mgi.shr.unitTest;
 
-import java.io.IOException;
 
 /**
  * <p>IS: A class used to create a database config file on the fly for use

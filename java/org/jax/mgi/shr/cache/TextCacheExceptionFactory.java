@@ -5,7 +5,6 @@ package org.jax.mgi.shr.cache;
 * $Name$
 */
 
-import java.util.HashMap;
 import org.jax.mgi.shr.exception.ExceptionFactory;
 import org.jax.mgi.shr.exception.MGIException;
 
@@ -142,6 +141,9 @@ public class TextCacheExceptionFactory extends ExceptionFactory
 
 /*
 * $Log$
+* Revision 1.1  2003/12/30 16:49:58  mbw
+* imported into this product
+*
 * Revision 1.1  2003/12/01 13:16:48  jsb
 * Added per JSAM code review
 *

@@ -4,7 +4,6 @@
 package org.jax.mgi.shr.exception;
 
 import java.io.ByteArrayOutputStream;
-import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 
 /**
@@ -113,6 +112,9 @@ public class MGIException
 
 }
 // $Log$
+// Revision 1.2  2004/01/05 18:31:35  mbw
+// bug fix: now setOkToStackTrace() should be working
+//
 // Revision 1.1  2003/12/30 16:56:32  mbw
 // imported into this product
 //
