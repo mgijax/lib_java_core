@@ -1,3 +1,18 @@
+TAG:lib_java_core-1-0-25
+DATE: 10/11/2004
+STAFF: mbw
+CHANGES:
+1) added a getKeys() method to ConfigurationManager
+2) added the methods to obtain float values from the configuration
+3) added 2 new configuration getter methods to the ScriptWriterCfg class
+4) altered message in DBExceptionFactory for script execution error
+5) added new exceptions to the ScriptExceptionFactory
+6) ScriptWriter now correctly names script output files 
+7) added functionality in ScriptWriter to parse script output file for errors and now throws an exception during
+   execute if errors exist within the output file
+
+
+
 TAG:lib_java_core-1-0-24
 DATE: 10/01/2004
 STAFF: mbw
