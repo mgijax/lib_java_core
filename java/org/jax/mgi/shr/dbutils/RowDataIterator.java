@@ -95,7 +95,8 @@ public class RowDataIterator implements DataIterator
       if (done) // there are no more rows left in the ResultsNavigator
       {
           DBExceptionFactory factory = new DBExceptionFactory();
-          DBException e = (DBException)factory.getException(PastEndOfResultSet);
+          DBException e =
+              (DBException)factory.getException(PastEndOfResultSet);
           throw e;
       }
 
