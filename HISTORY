@@ -1,3 +1,8 @@
+TAG: lib_java_core-RPCI-1
+DATE: 01/26/2004
+STAFF: mbw
+CHANGES: changed hardcoded names for cluster and nonclustered database segments
+
 TAG: lib_java_core-RPCI_BP
 TAG: lib_java_core-1-0-2_BP
 DATE: 01/21/2004
