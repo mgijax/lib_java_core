@@ -3,20 +3,19 @@ package org.jax.mgi.shr.dbutils;
 import java.util.Vector;
 
 /**
- * @is an object which iterates in a forward direction through a given set
+ * An object which iterates in a forward direction through a given set
  * of query results and returns objects based on multiple rows
  * @has a ResultsNavigator for parsing through the query results and a
  * MultiRowDataInterpreter for creating objects based on multiple rows
  * @does it looks out for a sequential group of rows which contain the same
  * key value and will create a java data object based on that group of rows.
  * The getNext() method is provided for iterating through the results which
- * is iteratively called, returning the next object, until it return nulls
- * indicating that there are no more objects.
+ * is iteratively called, returning the next object, until the call to hasNext()
+ * returns false.
  * @author M Walker
- * @version 1.0
  */
 
-public class MultiRowIterator implements ResultsIterator
+public class MultiRowIterator implements DataIterator
 {
   /**
    * the ResultsNavigator used for iterating through the query results
@@ -61,11 +60,21 @@ public class MultiRowIterator implements ResultsIterator
       done = true;
   }
 
+  /**
+   * return an indicator of whether or not there are any more results to process
+   * @return true if thjere are more results to process, false otherwise
+   */
   public boolean hasNext()
   {
       return !done;
   }
 
+  /**
+   * close the ResultsNavigator
+   * @assumes nothing
+   * @effects the ResultsNavigator will be closed
+   * @throws DBException
+   */
   public void close() throws DBException
   {
     nav.close();
