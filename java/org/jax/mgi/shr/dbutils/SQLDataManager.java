@@ -364,6 +364,7 @@ public class SQLDataManager {
    * @return the Table object for the given table name
    */
   public Table getTable(String name)
+  throws DBException
   {
       return Table.getInstance(name, this);
   }
@@ -1269,6 +1270,9 @@ public class SQLDataManager {
 }
 
 // $Log$
+// Revision 1.9  2004/07/26 16:34:46  mbw
+// formatting only
+//
 // Revision 1.8  2004/07/22 18:31:43  mbw
 // bug fix: changed constructors accepting alternative ConnectionManagers from accepting ConnectionManager names (String) to ConnectionManager instances
 //
