@@ -10,7 +10,7 @@ import java.text.ParseException;
 
 
 /**
- * @is A static object which handles java data type conversions for a known set
+ *  A static object which handles java data type conversions for a known set
  * of java data types. The following types are supported:<br>
  * int, float, boolean, Integer, Float, Boolean, String and Timestamp
  * @has Static methods for doing java data type conversions.
@@ -19,7 +19,6 @@ import java.text.ParseException;
  *
  * @company Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 
 
@@ -348,8 +347,9 @@ public class Converter {
 
   /**
    *
-   * convert data from String to Timestamp. the string format accepted is
-   * any of the following patterns, with or without the time segments:<br>
+   * Convert data from String to Timestamp.
+   * The string format accepted is any of the following patterns, with or
+   * without the time segments:<br>
    * yyyy-mm-dd hh:mm:ss.fffffffff<br>
    * yyyy/mm/dd hh:mm:ss.fffffffff
    * @param s data for conversion
@@ -425,6 +425,9 @@ public class Converter {
 }
 
 // $Log$
+// Revision 1.3  2004/05/05 16:47:49  mbw
+// now returning "null" in all toString methods if the object being converted is null
+//
 // Revision 1.2  2003/12/31 18:26:36  mbw
 // added new toSQLString methods
 //

@@ -3,12 +3,11 @@ package org.jax.mgi.shr.types;
 import org.jax.mgi.shr.exception.ExceptionFactory;
 
 /**
- * @is An ExceptionFactory which returns TypesExceptions.
+ *  An ExceptionFactory which returns TypesExceptions.
  * @has a hashmap of Exceptions
  * @does nothing
  * @company Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 
 public class TypesExceptionFactory extends ExceptionFactory {
@@ -36,6 +35,9 @@ public class TypesExceptionFactory extends ExceptionFactory {
 }
 
 // $Log$
+// Revision 1.1  2003/12/30 16:56:55  mbw
+// imported into this product
+//
 // Revision 1.3  2003/05/22 15:50:54  mbw
 // javadocs edits
 //

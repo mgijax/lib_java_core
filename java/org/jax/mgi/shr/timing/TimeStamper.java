@@ -25,7 +25,7 @@ import org.jax.mgi.shr.stringutil.Sprintf;
 *   addition to a date/time for each message, we also keep a run-time (to the
 *   millisecond level) for each entry, noting how long into the program's run
 *   the message was recorded.
-* @is see description above
+*  see description above
 * @has a List of TimeStampedMessage objects
 * @does provides public methods to...
 *    <OL>
@@ -161,7 +161,7 @@ public class TimeStamper
     }
 
     /* -------------------------------------------------------------------- */
-    
+
     /** represent this object and its collected messages as a String.  This
     *   String will include embedded '\n' characters to delimit individual
     *   lines.
@@ -218,7 +218,7 @@ public class TimeStamper
 	    myTime = msg.getSeconds();
 	    elapsedTime = myTime - lastTime;
 
-	    sb.append (Sprintf.sprintf (template, 
+	    sb.append (Sprintf.sprintf (template,
 		msg.getDateTime(),
 		new Double(myTime),
 		new Double(elapsedTime),
@@ -271,6 +271,9 @@ public class TimeStamper
 
 /*
 * $Log$
+* Revision 1.3  2004/02/25 20:21:09  mbw
+* fixed to eliminate compiler warnings
+*
 * Revision 1.2  2004/02/10 16:11:36  jsb
 * Updated formatting of output
 *

@@ -7,15 +7,15 @@ import org.jax.mgi.shr.exception.MGIException;
 
 
 /**
- * @is An object which evaluates records from files and acts as an object
- * factory for java objects based on the record data.
+ * An object which evaluates records from input files to determine whether or
+ * not they are valid for processing and creates java data objects based on the
+ * input record.
  * @has nothing
  * @does evaluates a given record from a file and indicates whether the
  * record should be considered valid and also instantiates java objects based
- * on the contents a given record from a file.
+ * on the contents a given record.
  * @company Jackson Laboratory
  * @author M. Walker
- * @version 1.0
  */
 
 
@@ -26,7 +26,7 @@ public interface RecordDataInterpreter {
    * on the record contents.
    * @param in the record string
    * @return newly created data object
-   * @throws RecordFormatException thrown if the record format is unexpected
+   * @throws MGIException thrown if the record format is unexpected
    */
   public java.lang.Object interpret(String in) throws MGIException;
 
@@ -40,6 +40,9 @@ public interface RecordDataInterpreter {
   public boolean isValid(String in);
 }
 // $Log$
+// Revision 1.1  2003/12/30 16:56:37  mbw
+// imported into this product
+//
 // Revision 1.7  2003/11/04 15:24:09  mbw
 // no change
 //

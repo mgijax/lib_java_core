@@ -8,16 +8,15 @@ import java.io.FileReader;
 import java.io.IOException;
 
 /**
- * <p>IS: A class for providing on the fly test file creation and comparison
- * methods used in java unit testing.</p>
- * <p>HAS: static methods for general purpose file utilities to support
- * java unit testing.</p>
- * <p>DOES: provides methods for managing the lifecycle of test files used in
+ * @is A class for providing on the fly test file creation and comparison
+ * methods used in java unit testing.
+ * @has static methods for general purpose file utilities to support
+ * java unit testing.
+ * @does provides methods for managing the lifecycle of test files used in
  * java unit testing programs along with providing general file utility methods
- * like file comparison.</p>
- * <p>Company: Jackson Laboratory</p>
+ * like file comparison.
+ * @company Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 
 public class FileUtility {
@@ -97,7 +96,7 @@ public class FileUtility {
   /**
    * return whether the file exists
    * @param filename the name of the file to be tested for
-   * @return
+   * @return true if the file exists and false otherwise
    */
   public static boolean doesExist(String filename) {
     File file = new File(filename);

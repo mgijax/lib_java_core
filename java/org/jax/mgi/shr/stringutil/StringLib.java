@@ -34,7 +34,7 @@ public class StringLib {
 
     /** return the first String contained in 'array', or null if 'array'
     *    contains no strings
-    * @parm array an array of Strings
+    * @param array an array of Strings
     * @return String
     * @assumes nothing
     * @effects nothing
@@ -259,7 +259,7 @@ public class StringLib {
     /* -------------------------------------------------------------------- */
 
     /** build and return a String with the contents of <tt>s</tt> at the
-    *		right, padded out to the given <tt>width</tt> by adding 
+    *		right, padded out to the given <tt>width</tt> by adding
     *		copies of the <tt>pad</tt> character to the <I>left</I> side
     * @return <tt>String</tt> with length >= <tt>width</tt>
     */
@@ -283,7 +283,7 @@ public class StringLib {
     /* -------------------------------------------------------------------- */
 
     /** build and return a String with the contents of <tt>s</tt> at the
-    *		left, padded out to the given <tt>width</tt> by adding 
+    *		left, padded out to the given <tt>width</tt> by adding
     *		copies of the <tt>pad</tt> character to the <I>right</I> side
     * @return <tt>String</tt> with length >= <tt>width</tt>
     */

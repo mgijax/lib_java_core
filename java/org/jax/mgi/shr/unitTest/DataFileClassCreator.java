@@ -8,7 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /**
- * <p>IS: An application that can convert any data file into a file writer
+ * @is An application that can convert any data file into a file writer
  * class which contains a method to recreate the data file during unit testing.
  * The application is run as follows:
  * java org.jax.mgi.shr.unitTest.DataFileClassCreator <input filename> <output classname> [package name].
@@ -17,12 +17,11 @@ import java.io.IOException;
  * compiled class will belong to. This newly created source file is compiled and then
  * the resulting class is subsequently used in a unit test program for recreating the
  * data file on the fly.
- * <p>HAS: an input file</p>
- * <p>DOES: creates a java source file for compiling into a class that can
+ * @has an input file
+ * @does creates a java source file for compiling into a class that can
  * recreate the input file on demand.
- * <p>Company: Jackson Laboratory</p>
+ * @company Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 
 public class DataFileClassCreator {

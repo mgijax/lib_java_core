@@ -1,12 +1,11 @@
 package org.jax.mgi.shr.log;
 
 /**
- * @is A basic logger interface
+ *  A basic logger interface
  * @has nothing
  * @does logs messages of three types: info, error and debug
  * @company The Jackson Labatory
  * @author M Walker
- * @version 1.0
  */
 
 public interface Logger {

@@ -6,8 +6,9 @@ package org.jax.mgi.shr.types;
 import java.util.Vector;
 
 /**
- * @is An extension of the java.util.vector class which include methods
- * for adding java primitives
+ * An extension of the java.util.vector class which include methods
+ * for adding java primitives which automatically convert them to their
+ * corresponding wrapper classes
  * @has nothing.
  * @does provides additional convienence methods that provide vector
  * functionality for adding, removing and locating primitive types int,
@@ -15,7 +16,6 @@ import java.util.Vector;
  * types before Vector operations are performed.
  * @company Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 
 public class DataVector extends Vector {
@@ -215,6 +215,9 @@ public class DataVector extends Vector {
 }
 
 // $Log$
+// Revision 1.1  2003/12/30 16:56:54  mbw
+// imported into this product
+//
 // Revision 1.6  2003/06/04 17:10:10  mbw
 // javadoc edits
 //

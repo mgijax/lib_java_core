@@ -12,7 +12,7 @@ package org.jax.mgi.shr.timing;
 
 /** counts down from a given number of seconds to zero, allowing one to check
 *   to see if the time has elapsed yet or not.
-* @is a timer which counts down a certain number of seconds, stopping when it
+*  a timer which counts down a certain number of seconds, stopping when it
 *   reaches zero.
 * @has a <tt>double</tt> number of seconds to count down (the "timeout"), a
 *    <tt>double</tt> number of seconds remaining, and an indicator for whether
@@ -35,8 +35,9 @@ public class Countdown
     // constructors
     ///////////////
 
-    /** standard constructor. instantiates a <tt>Countdown</tt> with the
-    *    given 'timeOut'.
+   /**
+    * standard constructor which instantiates a <tt>Countdown</tt> with the
+    * given 'timeOut'.
     * @param timeOut specifies the number of seconds from which to count down
     * @assumes nothing
     * @effects nothing
@@ -55,7 +56,8 @@ public class Countdown
     // public methods
     /////////////////
 
-    /** restarts the countdown timer. uses the most recently set timeout value
+    /** restarts the countdown timer.
+     * uses the most recently set timeout value
     * @return nothing
     * @assumes nothing
     * @effects nothing
@@ -119,7 +121,7 @@ public class Countdown
     //////////////////
     // private methods
     //////////////////
-    
+
     /** private -- get the current system time, expressed in milliseconds.
     * @return double the current system time in milliseconds.
     * @assumes nothing
@@ -155,6 +157,9 @@ public class Countdown
 
 /*
 * $Log$
+* Revision 1.1  2003/12/30 16:56:48  mbw
+* imported into this product
+*
 * Revision 1.2  2003/12/01 13:02:11  jsb
 * Minor efficiency tweak as part of JSAM code review
 *

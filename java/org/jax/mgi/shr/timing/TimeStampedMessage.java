@@ -11,9 +11,9 @@ package org.jax.mgi.shr.timing;
 */
 
 /** encapsulates one entry from a TimeStamper
-* @is one message with associated timestamps
+*  one message with associated timestamps
 * @has a message String, a date/time String, and a double representing the
-*    number of seconds which had elapsed by the time this message was 
+*    number of seconds which had elapsed by the time this message was
 *    recorded.
 * @does provides accessor methods for the three pieces mentioned above.
 */
@@ -31,7 +31,7 @@ public class TimeStampedMessage
 
     // elapsed time (during the program run) at which the message was recorded
     private double totalSec = 0.0D;
-    
+
     /* -------------------------------------------------------------------- */
 
     /////////////////
@@ -99,6 +99,9 @@ public class TimeStampedMessage
 
 /*
 * $Log$
+* Revision 1.1  2003/12/30 16:56:50  mbw
+* imported into this product
+*
 * Revision 1.1  2003/12/01 13:01:21  jsb
 * Added as part of JSAM code review
 *
