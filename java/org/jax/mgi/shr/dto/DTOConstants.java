@@ -209,10 +209,14 @@ public class DTOConstants
     public static String DatabaseDate = "databaseDate";
     public static String Notes = "notes";
     public static String SearchToolResults = "searchToolResults";
+    public static String GlossaryKey = "glossaryKey";
 }
 
 /*
 * $Log$
+* Revision 1.11  2004/10/21 17:47:45  jw
+* Changes for the 3.1 assembly release
+*
 * Revision 1.10  2004/07/21 20:25:52  mbw
 * javadocs edits only
 *
