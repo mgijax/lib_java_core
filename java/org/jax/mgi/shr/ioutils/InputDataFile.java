@@ -8,7 +8,20 @@ import java.io.FileInputStream;
 
 import org.jax.mgi.shr.config.ConfigException;
 import org.jax.mgi.shr.config.InputDataCfg;
+import org.jax.mgi.shr.config.LogCfg;
+import org.jax.mgi.shr.log.Logger;
+import org.jax.mgi.shr.log.LoggerFactory;
 import org.jax.mgi.shr.exception.MGIException;
+
+/**
+ * An class that represents an input file.
+ * @has configurable parameters such as begin and end delimiters, buffersize and
+ * character set.
+ * @does provides the ability to iterate over objects from the input file
+ * @company The Jackson Laboratory
+ * @author M Walker
+ *
+ */
 
 public class InputDataFile
 {
@@ -34,12 +47,13 @@ public class InputDataFile
   // the charset to use when decoding input byte streams
   private String charset = null;
 
+  // a Logger for logging debug messages
+  private Logger logger = null;
+
   // the exception factory
   private IOUExceptionFactory exceptionFactory = new IOUExceptionFactory();
 
   // the following are the exceptions that are thrown
-  private static final String EmptyDelimiter =
-      IOUExceptionFactory.EmptyDelimiter;
   private static final String DataReadEOF =
       IOUExceptionFactory.DataReadEOF;
   private static final String CloseErr =
@@ -71,9 +85,9 @@ public class InputDataFile
   /**
    * constructor which allows overridding default values with a configuration
    * object. If parameters are not found then the defaults are used. The
-   * default end delimiter is such that each line is treated as a separate
-   * record.
-   * The default buffer size is 512000.
+   * default delimiters are such that each line is treated as a separate
+   * record. The default buffer size is 512000. And the default character set
+   * is ISO-8859-1
    * @param config the configuration class
    * @throws IOUException thrown if an error occurs during configuration
    * @throws ConfigException thrown if there is an error reading the
@@ -86,7 +100,10 @@ public class InputDataFile
   /**
    * constructor which allows specifying the filename at runtime and
    * would override any specified filename value from the configuration.
+   * @param filename the name of the file to process
    * @throws IOUException thown if file cannot be configured and opened
+   * @throws ConfigException thrown if there is an error accessing the
+   * configuration
    */
   public InputDataFile(String filename)
   throws IOUException, ConfigException {
@@ -100,7 +117,7 @@ public class InputDataFile
    * override the configured value for the buffer size
    * @assumes nothing
    * @effects will set the internal buffer size to the given value
-   * @param pBufferSize the buffer size
+   * @param bufferSize the buffer size
    */
   public void setBufferSize(int bufferSize) {
     this.bufferSize = bufferSize;
@@ -120,7 +137,7 @@ public class InputDataFile
    * override the configured value for the end delimiter
    * @assumes nothing
    * @effects the record end delimiter will be set
-   * @param endDelimiter the record end delimiter
+   * @param beginDelimiter the record begin delimiter
    */
   public void setBeginDelimiter(String beginDelimiter) {
     this.beginDelimiter = readMetaChars(beginDelimiter);
@@ -223,9 +240,18 @@ public class InputDataFile
       throws IOUException, ConfigException {
     this.endDelimiter = readMetaChars(pConfig.getEndDelimiter());
     this.beginDelimiter = readMetaChars(pConfig.getBeginDelimiter());
-    this.bufferSize = pConfig.getBufferSize().intValue();
     this.useRegex = pConfig.getOkToUseRegex().booleanValue();
+    if (this.beginDelimiter == null && this.endDelimiter == null)
+    {
+        // apply defaults so that each line is treated as a record
+        this.endDelimiter = "\n";
+        this.useRegex = false;
+    }
+    this.bufferSize = pConfig.getBufferSize().intValue();
     this.charset = pConfig.getCharset();
+    LogCfg cfg = new LogCfg();
+    LoggerFactory factory = cfg.getLogerFactory();
+    this.logger = factory.getLogger();
     if (this.filename == null)
         // filename may not have been defined through constructor
         // get from configuration
@@ -257,7 +283,7 @@ public class InputDataFile
 
 
   /**
-   * @is An object that iterates through records in a file
+   *  An object that iterates through records in a file
    * @has A reference to a RecordDataReader for reading records and a
    * RecordDataInterpreter for creating java objects from the records
    * @does Iterates through the records in a file and returns a java data
@@ -265,7 +291,6 @@ public class InputDataFile
    * the record is unparsed and returned as a String object.
    * @company Jackson Lab
    * @author MWalker
-   * @version 1.0
    */
 
   protected class InputSourceIterator implements RecordDataIterator {
@@ -353,7 +378,7 @@ public class InputDataFile
         }
         if (record == null)
             return false;
-        if (interpreter.isValid(record)) {
+        if (interpreter == null || interpreter.isValid(record)) {
           // cache the record and return true
           cache = record;
           cachedState = true;
@@ -374,6 +399,8 @@ public class InputDataFile
      * file.
      * @throws IOUException thrown if there is an IO exception or this
      * method is called after the end of the file has been reached.
+     * @throws RecordFormatException thrown if there is an error parsing the
+     * input record
      */
 
     public java.lang.Object next() throws IOUException, RecordFormatException {
@@ -465,37 +492,22 @@ public class InputDataFile
         {
             if (useRegex)
             {
-                if (beginDelimiter == null)
-                    // pass in end delimiter as a string
-                    recordDataReader =
-                    new RecordDataReader(inputChannel, null, endDelimiter,
-                                         charset, bufferSize);
-                else
-                    // pass in end & begin delimiters as strings
-                    recordDataReader =
+                recordDataReader =
                     new RecordDataReader(inputChannel, beginDelimiter,
                                          endDelimiter, charset,
-                                         bufferSize);
+                                         bufferSize, logger);
             }
-            else
+            else // delimiters are byte arrays
             {
-                if (beginDelimiter == null)
-                {
-                    // pass in the end delimiter as a byte sequence
-                    recordDataReader =
-                        new RecordDataReader(inputChannel,
-                                             null, endDelimiter.getBytes(),
-                                             charset, bufferSize);
-                }
-                else
-                {
-                    // pass in the begin & end delimiters as byte sequences
-                    recordDataReader =
-                        new RecordDataReader(inputChannel,
-                                             beginDelimiter.getBytes(),
-                                             endDelimiter.getBytes(),
-                                             charset, bufferSize);
-                }
+                byte[] begin = null;
+                byte[] end = null;
+                if (beginDelimiter != null)
+                    begin = beginDelimiter.getBytes();
+                if (endDelimiter != null)
+                    end = endDelimiter.getBytes();
+                recordDataReader =
+                    new RecordDataReader(inputChannel, begin, end,
+                                         charset, bufferSize, logger);
             }
         }
         catch (IOException e)
