@@ -4,15 +4,11 @@ import org.jax.mgi.shr.dbutils.BatchProcessor;
 import org.jax.mgi.shr.dbutils.DBException;
 
 /**
- * @is a class which implements the InsertStrategy, UpdateStrategy,
+ * A class which implements the InsertStrategy, UpdateStrategy,
  * and DeleteStrategy using JDBC batch
  * @has a BatchProcessor.
- * @does casts the given DAO to a SQLTranslatable from which to
- * obtain the sql statements and executes the sql for either insert, update or
- * delete as a batch statement.
- * @copyright Jackson Lab
+ * @does extracts SQL from a DAO object and executes the SQL in batch.
  * @author M Walker
- * @version 1.0
  */
 public class BatchStrategy
     implements DeleteStrategy, InsertStrategy, UpdateStrategy
@@ -42,7 +38,7 @@ public class BatchStrategy
         throws DBException
     {
         String sql = ( (SQLTranslatable) dao).getUpdateSQL();
-        batch.addBatch(sql);
+        batch.addBatch(SQLStrategyHelper.convertToJDBCProc(sql));
     }
 
     /**
@@ -57,7 +53,7 @@ public class BatchStrategy
         throws DBException
     {
         String sql = ( (SQLTranslatable) dao).getDeleteSQL();
-        batch.addBatch(sql);
+        batch.addBatch(SQLStrategyHelper.convertToJDBCProc(sql));
     }
 
     /**
@@ -72,6 +68,6 @@ public class BatchStrategy
         throws DBException
     {
         String sql = ( (SQLTranslatable) dao).getDeleteSQL();
-        batch.addBatch(sql);
+        batch.addBatch(SQLStrategyHelper.convertToJDBCProc(sql));
     }
 }
