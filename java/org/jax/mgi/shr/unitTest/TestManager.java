@@ -8,6 +8,9 @@ import java.util.Map;
 import org.jax.mgi.shr.config.ConfigException;
 import org.jax.mgi.shr.dbutils.DBException;
 import org.jax.mgi.shr.dbutils.SQLDataManager;
+import org.jax.mgi.shr.dbutils.ResultsNavigator;
+import org.jax.mgi.shr.dbutils.RowReference;
+import org.jax.mgi.shr.dbutils.Table;
 import org.jax.mgi.shr.dbutils.dao.BCP_Stream;
 import org.jax.mgi.shr.dbutils.dao.Inline_Stream;
 import org.jax.mgi.shr.dbutils.dao.SQLStream;
@@ -27,6 +30,8 @@ import org.jax.mgi.shr.dbutils.bcp.BCPManager;
 
 public class TestManager
 {
+    private SQLDataManager sqlMgr = null;
+    private BCPManager bcpMgr = null;
     private SQLStream stageStream = null;
     private SQLStream cleanStream = null;
     private Vector stagedData = null;
@@ -36,8 +41,8 @@ public class TestManager
 
     public TestManager() throws ConfigException, DBException
     {
-        SQLDataManager sqlMgr = new SQLDataManager();
-        BCPManager bcpMgr = new BCPManager();
+        sqlMgr = new SQLDataManager();
+        bcpMgr = new BCPManager();
         this.stageStream = new BCP_Stream(sqlMgr, bcpMgr);
         this.cleanStream = new Inline_Stream(sqlMgr);
         this.stagedData = new Vector();
@@ -61,6 +66,11 @@ public class TestManager
         for (int i = 0; i < stagedData.size(); i++)
             this.cleanStream.delete((DAO)stagedData.get(i));
         this.cleanStream.close();
+    }
+
+    public void deleteObject(DAO dao) throws DBException
+    {
+        this.cleanStream.delete(dao);
     }
 
     public void setConfig(String name, String value)
@@ -91,4 +101,26 @@ public class TestManager
         this.cleanStage();
         this.cleanConfig();
     }
+
+    public int countObjects(String tablename) throws DBException
+    {
+        String sql = "select * from " + tablename;
+        ResultsNavigator nav = sqlMgr.executeQuery(sql);
+        int cnt = 0;
+        while (nav.next())
+        {
+            RowReference row = nav.getRowReference();
+            cnt++;
+        }
+        nav.close();
+        return cnt;
+    }
+
+    public void resetKey(String tablename) throws Exception
+    {
+        Table table = Table.getInstance(tablename);
+        table.resetKey();
+    }
+
+
 }
