@@ -13,17 +13,15 @@ import java.io.IOException;
 import java.io.FileNotFoundException;
 
 /**
- * @is An object that runs DDL commands from the dbschema
- * product which include create table, create index, drop index, etc.
+ * An object that runs DDL commands from the dbschema
+ * product, including create table, create index, drop index, etc.
  * @has A SQLDataManager object for running sql and obtaining the
  * dbschema installation directory.
- * @does Opens files from the dbshema product and locates the sql
+ * @does Searches files from the dbshema product, locating the sql
  * commands for creating tables, creating and dropping indexes, etc and
  * executes them through JDBC.
- *
- * @company Jackson Laboratory
+ * @company The Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 
 public class DBSchema
@@ -115,6 +113,17 @@ public class DBSchema
     }
 
     /**
+     * get the SQLDataManager for this instance
+     * @assumes nothing
+     * @effects nothing
+     * @return the SQLDataManager for this instance
+     */
+    public SQLDataManager getSQLDataManager()
+    {
+        return this.sqlmanager;
+    }
+
+    /**
      * locates the drop index commands from the dbschema product for the given
      * table and executes them in the database and if there are partitions
      * defined for the given table then they need to be dropped in advance.
@@ -168,12 +177,41 @@ public class DBSchema
         executeSqlVector(sqlIndex);
     }
 
-    public void createKeys(String pTablename)
+    /**
+     * create the primary key(s) in the given table
+     * @param pTablename name of the table
+     * @assumes the primary key command in the dbschema product uses
+     * sp_primarykey
+     * @effects nothing
+     * @throws DBSchemaException thrown if there is an error accessing the
+     * dbschema product
+     * @throws DBException thrown if there is an error accessing the database
+     */
+    public void createPKeys(String pTablename)
         throws DBSchemaException, DBException
     {
-        Vector commands = getCreateKeyCommands(pTablename);
+        Vector commands = getCreatePKeyCommands(pTablename);
         executeSqlVector(commands);
     }
+
+    /**
+     * create the foreign key(s) in the given table
+     * @param pTablename name of the table
+     * @assumes the primary key command in the dbschema product uses
+     * sp_foreignkey
+     * @effects nothing
+     * @throws DBSchemaException thrown if there is an error accessing the
+     * dbschema product
+     * @throws DBException thrown if there is an error accessing the database
+     */
+
+    public void createFKeys(String pTablename)
+        throws DBSchemaException, DBException
+    {
+        Vector commands = getCreateFKeyCommands(pTablename);
+        executeSqlVector(commands);
+    }
+
 
     /**
      * locates the create index command from the dbschema product for the
@@ -189,6 +227,8 @@ public class DBSchema
         throws DBSchemaException, DBException
     {
         String command = getCreateTableCommand(pTablename);
+        if (sqlmanager.isOracle())
+            command = this.convertToOracle(command);
         sqlmanager.executeUpdate(command);
     }
 
@@ -208,6 +248,42 @@ public class DBSchema
         v.add(command);
         executeSqlVector(v);
     }
+
+    /**
+     * locates the create trigger commands from the dbschema product for the
+     * given table and executes them in the database.
+     * @assumes nothing
+     * @effects new triggers will be created in the database
+     * @param pTablename table name
+     * @throws DBSchemaException thrown if there is an error accessing the
+     * files within the dbschema product
+     * @throws DBException thrown if there is an error with the database
+     */
+    public void createTriggers(String pTablename)
+        throws DBSchemaException, DBException
+    {
+        Vector commands = getCreateTriggerCommands(pTablename);
+        executeSqlVector(commands);
+    }
+
+    /**
+     * executes the drop trigger commands for the given table name in the
+     * database.
+     * @assumes nothing
+     * @effects triggers will be drpped from the database
+     * @param pTablename table name
+     * @throws DBException thrown if there is an error with the database
+     * @throws DBSchemaException thrown if there is an error running the
+     * DBSchema product
+     */
+    public void dropTriggers(String pTablename)
+        throws DBSchemaException, DBException
+    {
+        Vector commands = getDropTriggerCommands(pTablename);
+        executeSqlVector(commands);
+    }
+
+
 
     /**
      * locates the create partition command from the dbschema product for the
@@ -276,7 +352,8 @@ public class DBSchema
     }
 
     /**
-     * get the sql commands for creating indexes for the given table
+     * parse the dbschema file and extract the sql commands for creating indexes
+     * for the given table
      * @assumes nothing
      * @effects nothing
      * @param pTablename the given table name
@@ -315,9 +392,9 @@ public class DBSchema
     }
 
     /**
-     * get the sql commands for creating primary and foreign keys for the given
-     * table
-     * @assumes the regular expression pattern sp_[(primary)(foreign)] is used
+     * parse the dbschema file and extract the sql commands for creating
+     * primary and foreign keys for the given table
+     * @assumes the regular expression pattern sp_primarykey
      * to locate the command from the dbschema product
      * @effects nothing
      * @param pTablename the given table name
@@ -325,14 +402,14 @@ public class DBSchema
      * @throws DBSchemaException thrown if the create index commands could
      * not be obtained fron the dbschema product
      */
-    protected Vector getCreateKeyCommands(String pTablename)
+    protected Vector getCreatePKeyCommands(String pTablename)
         throws DBSchemaException
     {
         String filename = calculateFilename("key", "create", pTablename);
         Vector v1 = getCommands(filename, keyPattern);
         if (this.sqlmanager.isSybase())
             return v1;
-        else // mysql
+        else
         {
             // do text substition for non sybsase db to change sybase proc calls
             // with alter table command
@@ -350,7 +427,7 @@ public class DBSchema
                 {
                     columnName = columnName.concat(", " + tokens[j]);
                 }
-                if (command.equals("sp_primarykey")) // no foreign keys in mysql
+                if (command.equals("sp_primarykey"))
                 {
                     String alterTable =
                         "ALTER TABLE tableName_ ADD PRIMARY KEY ( columnName_ )";
@@ -366,7 +443,60 @@ public class DBSchema
     }
 
     /**
-     * get the sql commands for dropping indexes for the given table
+     * parse the dbschema file and extract the sql commands for creating
+     * foreign keys for the given table
+     * @assumes the regular expression pattern sp_foreignkey is used
+     * to locate the command from the dbschema product
+     * @effects nothing
+     * @param pTablename the given table name
+     * @return a vector of sql commands from the dbschema file
+     * @throws DBSchemaException thrown if the create index commands could
+     * not be obtained fron the dbschema product
+     */
+    protected Vector getCreateFKeyCommands(String pTablename)
+        throws DBSchemaException
+    {
+        String filename = calculateFilename("key", "create", pTablename);
+        Vector v1 = getCommands(filename, keyPattern);
+        if (this.sqlmanager.isSybase())
+            return v1;
+        else
+        {
+            // do text substition for non sybsase db to change sybase proc calls
+            // with alter table command
+            Vector v2 = new Vector();
+            String s = null;
+            for (int i = 0; i < v1.size(); i++)
+            {
+                s = ((String)v1.get(i));
+                String[] tokens = s.split(",");
+                String[] subtokens = tokens[0].split(" ");
+                String tableName = subtokens[1];
+                String command = subtokens[0];
+                String columnName = tokens[1];
+                for (int j = 2; j < tokens.length; j++)
+                {
+                    columnName = columnName.concat(", " + tokens[j]);
+                }
+                if (command.equals("sp_foreignkey"))
+                {
+                    String alterTable =
+                        "ALTER TABLE tableName_ ADD FOREIGN KEY ( columnName_ )";
+                    alterTable = alterTable.replaceFirst("tableName_",
+                        tableName);
+                    alterTable = alterTable.replaceFirst("columnName_",
+                        columnName);
+                    v2.add(alterTable);
+                }
+            }
+            return v2;
+        }
+    }
+
+
+    /**
+     * searched the dbschema file and extracts the sql commands for dropping
+     * indexes for the given table
      * @assumes nothing
      * @effects nothing
      * @param pTablename the given table name
@@ -382,7 +512,7 @@ public class DBSchema
     }
 
     /**
-     * search the given file and extract the create table command form it
+     * search the dbschema file and extracts the create table command from it
      * @assumes nothing
      * @effects nothing
      * @param pTablename the name of the table
@@ -394,8 +524,79 @@ public class DBSchema
     protected String getCreateTableCommand(String pTablename)
         throws DBSchemaException
     {
-        String filename = calculateFilename("table", "create", pTablename);
+        Vector commandsFound = getCreateCommands("table", pTablename);
+        String s = (String)commandsFound.get(0);
+        if (this.sqlmanager.isSybase())
+            s = (s.replaceFirst("\\$(\\{)?+DBTABLESEGMENT(\\})?+", "seg0"));
+        else
+        {
+            s = (s.replaceFirst("on \\$(\\{)?+DBTABLESEGMENT(\\})?+", ""));
+            s = (s.replaceFirst("on seg\\d", ""));
+        }
+        return s;
+    }
+
+    /**
+     * search the dbschema file and extracts the create trigger commands from it
+     * @assumes nothing
+     * @effects nothing
+     * @param pTablename the name of the table
+     * @return the create trigger commands
+     * @throws DBSchemaException thrown if the create trigger commands could
+     * not be obtained fron the dbschema product.
+     * @throws DBException thrown if there is an error with the database
+     */
+    protected Vector getCreateTriggerCommands(String pTablename)
+        throws DBSchemaException
+    {
+        Vector v = new Vector();
+        Vector commands = getCreateCommands("trigger", pTablename);
+        for (int i = 0; i < commands.size(); i++)
+        {
+            String s = ((String)commands.get(i)).replaceAll("\"", "'");
+            v.add(s);
+        }
+        return v;
+    }
+
+    /**
+     * search the dbschema file and extract the sql commands for dropping
+     * triggers for the given table
+     * @assumes nothing
+     * @effects nothing
+     * @param pTablename the given table name
+     * @return a vector of sql commands from the dbschema file
+     * @throws DBSchemaException thrown if the drop trigger commands could
+     * not be obtained fron the dbschema product
+     */
+    protected Vector getDropTriggerCommands(String pTablename)
+        throws DBSchemaException
+    {
+        String filename = calculateFilename("trigger", "drop", pTablename);
+        return getCommands(filename, dropPattern);
+    }
+
+
+
+    /**
+     * search the given file and extract any create commands ('create table',
+     * 'create trigger', 'create procedure') from it.
+     * @assumes nothing
+     * @effects nothing
+     * @param targetObject the target object of the create command such as
+     * 'table', 'trigger', etc.
+     * @param pTablename the name of the table
+     * @return the vector of create commands
+     * @throws DBSchemaException thrown if the create commands could
+     * not be obtained fron the dbschema product.
+     * @throws DBException thrown if there is an error with the database
+     */
+    protected Vector getCreateCommands(String targetObject, String pTablename)
+        throws DBSchemaException
+    {
+        String filename = calculateFilename(targetObject, "create", pTablename);
         String line = null;
+        Vector allCommands = new Vector();
         StringBuffer command = new StringBuffer();
         Pattern commandPattern = createPattern;
         Pattern goPattern = goCommandPattern;
@@ -424,16 +625,13 @@ public class DBSchema
                 {
                     command.append(line);
                     boolean foundGoCommand = false;
-                    // found create table command, now look for go command
+                    // found create trigger command, now look for go command
                     while ((line = in.readLine()) != null)
                     {
                         line = line.trim();
                         goMatcher = goPattern.matcher(line);
                         if (!goMatcher.matches())
                         {
-                            // disregarding the use of table segments
-                            //if (line.indexOf("DBTABLESEGMENT") != -1)
-                            //continue;
                             command.append(" " + line);
                         }
                         else
@@ -450,6 +648,7 @@ public class DBSchema
                         e2.bind(filename);
                         throw e2;
                     }
+                    allCommands.add(new String(command));
                     break;
                 }
             }
@@ -480,19 +679,13 @@ public class DBSchema
             e2.bind(filename);
             throw e2;
         }
-        String s = new String(command);
-        if (this.sqlmanager.isSybase())
-            s = (s.replaceFirst("\\$(\\{)?+DBTABLESEGMENT(\\})?+", "seg0"));
-        else
-        {
-            s = (s.replaceFirst("on \\$(\\{)?+DBTABLESEGMENT(\\})?+", ""));
-            s = (s.replaceFirst("on seg\\d", ""));
-        }
-        return s;
+        return allCommands;
     }
 
+
     /**
-     * get the sql command for creating partitions for the given table
+     * parse the dbschema file and extract the sql command for creating
+     * partitions for the given table
      * @assumes nothing
      * @effects nothing
      * @param pTablename the given table name
@@ -509,7 +702,8 @@ public class DBSchema
     }
 
     /**
-     * get the sql command for dropping partitions for the given table
+     * searches the dbschema file and extract the sql command for dropping
+     * partitions for the given table
      * @assumes nothing
      * @effects nothing
      * @param pTablename the given table name
@@ -589,9 +783,9 @@ public class DBSchema
 
     /**
      * calculate the file name for a file in the dbschema product given the
-     * command noun, like table, index, etc, and the command verb, like create
-     * or drop, and the table name. The configuration parameter
-     * DBSCHEMA_INSTALLDIR is used as the directory name in which the
+     * command noun (like 'table', 'index', etc) and the command verb (like
+     * 'create' or 'drop') and the name of the table. The configuration
+     * parameter DBSCHEMA_INSTALLDIR is used as the directory name in which the
      * dbschema product is installed.
      * @assumes nothing
      * @effects nothing
@@ -635,8 +829,29 @@ public class DBSchema
         }
     }
 
+    /**
+     * convert create database command to use Oracle datatypes
+     * @assumes nothing
+     * @effects nothing
+     * @param sql the 'create table' command
+     * @return revised 'create table' command using Oracle datatypes
+     */
+    private String convertToOracle(String sql)
+    {
+        String newsql = null;
+        newsql = sql.replaceAll("varchar", "varchar2");
+        newsql = newsql.replaceAll("datetime", "date");
+        newsql = newsql.replaceAll("text", "long");
+        newsql = newsql.replaceAll("bit", "smallint");
+        return newsql;
+    }
+
+
 }
 // $Log$
+// Revision 1.7  2004/04/02 17:02:16  mbw
+// bug fix: fixed regex strings
+//
 // Revision 1.6  2004/04/02 16:00:33  mbw
 // bug fix: fixed regex string
 //
