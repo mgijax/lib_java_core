@@ -84,9 +84,10 @@ public class MGIException
    * constructor.
    * @assumes Nothing
    * @effects Nothing.
-   * @param pMessage The text of the exception message which can contain bind
+   * @param message The text of the exception message which can contain bind
    * variables utilizing the string '??'.
-   * @param pDataRelated Indicates whether or not the exception is an
+   * @param dataRelated Indicates whether or not the exception is an
+   * @param e the parent exception
    * error in the data.
    */
   public MGIException(String message, boolean dataRelated,
@@ -163,6 +164,12 @@ public class MGIException
 
 }
 // $Log$
+// Revision 1.4  2004/07/21 20:40:29  mbw
+// - made setName(String) protected
+// - added new constructors
+// - moved functionality to set stack trace from this class to ExceptionFactory class
+// - made some javadocs edits
+//
 // Revision 1.3  2004/02/25 20:21:09  mbw
 // fixed to eliminate compiler warnings
 //

@@ -46,7 +46,7 @@ public class DataFileClassCreator {
   /**
    * create a java source file which can be compiled into a java class which
    * can subsequently be used to recreate a known data file.
-   * @param inParma the input file which is eventually recreated on the
+   * @param inParm the input file which is eventually recreated on the
    * call to the resultant class created by this method.
    * @param outParm the name of the source file which is to be created
    * @param pkgParm the name of the package that the resultant class should be
