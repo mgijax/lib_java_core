@@ -108,7 +108,16 @@ public class ResultsNavigator {
   public java.lang.Object getCurrent() throws DBException {
     Object interpretedItem = null;
     if (interpreter != null)
-      interpretedItem = interpreter.interpret(rowref);
+    {
+        try
+        {
+            interpretedItem = interpreter.interpret(rowref);
+        }
+        catch (InterpretException e)
+        {
+
+        }
+    }
     else
       interpretedItem = rowref;
     return interpretedItem;
@@ -363,6 +372,9 @@ public class ResultsNavigator {
 }
 
 // $Log$
+// Revision 1.4  2004/01/16 17:54:57  mbw
+// made RowReference a class variable
+//
 // Revision 1.2  2004/01/07 18:09:36  mbw
 // added new method getCurrentRef
 //

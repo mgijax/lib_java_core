@@ -24,7 +24,8 @@ public interface MultiRowInterpreter extends RowDataInterpreter
    * @return the key of the given RowReference
    * @throws DBException thrown if there is an error accessing data
    */
-  public Object interpretKey(RowReference row) throws DBException;
+  public Object interpretKey(RowReference row)
+      throws DBException, InterpretException;
 
   /**
    * create a new single java object which represents the given
@@ -36,6 +37,6 @@ public interface MultiRowInterpreter extends RowDataInterpreter
    * @return the new java object
    * @throws DBException thrown if there is an error accessing data
    */
-  public Object interpretRows(Vector v) throws DBException;
+  public Object interpretRows(Vector v) throws InterpretException;
 }
 

@@ -27,10 +27,13 @@ public interface RowDataInterpreter {
    * RowReference data.
    */
   public java.lang.Object interpret(RowReference rowReference)
-      throws DBException;
+      throws DBException, InterpretException;
 
 }
 // $Log$
+// Revision 1.1  2003/12/30 16:50:35  mbw
+// imported into this product
+//
 // Revision 1.3  2003/12/09 22:49:07  mbw
 // merged jsam branch onto the trunk
 //

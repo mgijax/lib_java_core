@@ -35,6 +35,12 @@ public class MultiRowIterator implements ResultsIterator
    */
   private boolean done = false;
 
+  /*
+   * the following constant definitions are exceptions thrown by this class
+   */
+  private static String InterpretErr = DBExceptionFactory.InterpretErr;
+
+
   /**
    * the constructor
    * @assumes nothing
@@ -57,7 +63,7 @@ public class MultiRowIterator implements ResultsIterator
 
   public boolean hasNext()
   {
-	  return !done;
+      return !done;
   }
 
   public void close() throws DBException
@@ -92,8 +98,20 @@ public class MultiRowIterator implements ResultsIterator
      * get the current row and add it to the vector
      */
     RowReference initialRef = (RowReference)nav.getCurrent();
-    Object initialObject = interp.interpret(initialRef);
-    Object initialKey = interp.interpretKey(initialRef);
+    Object initialObject = null;
+    Object initialKey = null;
+    try
+    {
+        initialObject = interp.interpret(initialRef);
+        initialKey = interp.interpretKey(initialRef);
+    }
+    catch (InterpretException e)
+    {
+        DBExceptionFactory eFactory = new DBExceptionFactory();
+        DBException e2 = (DBException)
+            eFactory.getException(InterpretErr, e);
+        throw e2;
+    }
     v.add(initialObject);
 
     /**
@@ -103,8 +121,20 @@ public class MultiRowIterator implements ResultsIterator
     while (nav.next())
     {
       RowReference thisRef = (RowReference)nav.getCurrent();
-      Object thisObject = interp.interpret(thisRef);
-      Object thisKey = interp.interpretKey(thisRef);
+      Object thisObject = null;
+      Object thisKey = null;
+      try
+      {
+          thisObject = interp.interpret(thisRef);
+          thisKey = interp.interpretKey(thisRef);
+      }
+      catch (InterpretException e)
+      {
+          DBExceptionFactory eFactory = new DBExceptionFactory();
+          DBException e2 = (DBException)
+              eFactory.getException(InterpretErr, e);
+          throw e2;
+      }
       if (thisKey.toString().equals(initialKey.toString()))
       {
         v.add(thisObject);
@@ -115,7 +145,17 @@ public class MultiRowIterator implements ResultsIterator
          * call the interpretRows() method and return the created
          * object to the caller
          */
-        nextObject = interp.interpretRows(v);
+        try
+        {
+            nextObject = interp.interpretRows(v);
+        }
+        catch (InterpretException e)
+        {
+            DBExceptionFactory eFactory = new DBExceptionFactory();
+            DBException e2 = (DBException)
+                eFactory.getException(InterpretErr, e);
+            throw e2;
+        }
         return nextObject;
       }
     }
@@ -125,7 +165,18 @@ public class MultiRowIterator implements ResultsIterator
      * created object to the caller
      */
     done = true;
-    nextObject = interp.interpretRows(v);
+    try
+    {
+        nextObject = interp.interpretRows(v);
+    }
+    catch (InterpretException e)
+    {
+        DBExceptionFactory eFactory = new DBExceptionFactory();
+        DBException e2 = (DBException)
+            eFactory.getException(InterpretErr, e);
+        throw e2;
+    }
+
     return nextObject;
   }
 

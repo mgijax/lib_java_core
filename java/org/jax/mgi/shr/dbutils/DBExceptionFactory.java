@@ -304,5 +304,19 @@ public class DBExceptionFactory
         "There was a failure when trying to access the configuration", false));
   }
 
+  /**
+   * a failure occured during the implementation of one of the interpret
+   * methods provided from either RowDataInterpreter or MultiRowInterpreter
+   */
+  public static final String InterpretErr =
+      "org.jax.mgi.shr.dbutils.InterpretErr";
+  static {
+    exceptionsMap.put(InterpretErr, new DBException(
+        "The ResultsNavigator could not obtain the next row due to " +
+        "an implementation error with the interpret method. See nested " +
+        "exception message for more details.", false));
+  }
+
+
 
 }
