@@ -12,12 +12,10 @@ package org.jax.mgi.shr.dbutils.dao;
 public class SQLStrategyHelper
 {
     /**
-     * return whether or not the given sql is a call to a stored procedure by
-     * evaluating the string and determining if it starts with the 'exec'
-     * keyword
+     * convert the JDBC syntax for a stored procedure call (using the "call"
+     * command) to the isql syntax (using the "exec" command)
      * @param sql the sql to evaluate
-     * @return true if the sql is a call to a stored procedure, false
-     * otherwise
+     * @return the converted command
      */
     public static String convertToOtherProc(String sql)
     {
@@ -36,6 +34,12 @@ public class SQLStrategyHelper
             return sql;
     }
 
+    /**
+     * convert the isql syntax for a stored procedure call (using the "call"
+     * command) to the JDBC syntax (using the "exec" command)
+     * @param sql the sql to evaluate
+     * @return the converted command
+     */
     public static String convertToJDBCProc(String sql)
     {
         if (sql.startsWith("exec "))

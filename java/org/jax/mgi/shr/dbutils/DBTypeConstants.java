@@ -6,7 +6,8 @@ package org.jax.mgi.shr.dbutils;
 import java.sql.Types;
 
 /**
- * A class that stores constants representint Sybase data types.
+ * A class that stores constants which represent the various Sybase data types
+ * that are "supported" by the framework.
  * @has a set of static constants with symbolic names.
  * @does provides a list of symbolic names used to identify Sybase
  * data types and assigns to them the corresponding constant values from
@@ -51,6 +52,9 @@ public class DBTypeConstants {
 }
 
 // $Log$
+// Revision 1.3  2004/07/21 19:37:52  mbw
+// reverted back to values for Sybase database
+//
 // Revision 1.2  2004/07/21 19:34:31  mbw
 // javadocs only
 //
