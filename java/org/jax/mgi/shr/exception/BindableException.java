@@ -64,7 +64,7 @@ public class BindableException extends Exception implements Cloneable {
    */
   public void bind (String s)
   {
-  	// metachars need to be dealt with...
+        // metachars need to be dealt with...
     s = s.replace('$', '@');
     message = matcher.replaceFirst(s);
     matcher = pattern.matcher(message);
@@ -81,16 +81,16 @@ public class BindableException extends Exception implements Cloneable {
   public String toString() {
     return message;
   }
-  
-	/**
-	 * set the exception message.
-	 * @assumes Nothing
-	 * @effects Nothing
-	 * @param The exception message(s).
-	 */
-	public void appendMessage(String message) {
-		this.message = this.message + "\n" + message;
-	}
+
+  /**
+   * append to the exception message.
+   * @assumes Nothing
+   * @effects Nothing
+   * @param The exception message(s).
+   */
+  public void appendMessage(String message) {
+    this.message = this.message + "\n" + message;
+  }
 
   /**
    * Override the getMessage method of the Throwable class to
@@ -119,8 +119,22 @@ public class BindableException extends Exception implements Cloneable {
     return newException;
   }
 
+  /**
+   * replace the message with the given message
+   * @assumes nothing
+   * @effects the message in the MGIException will be replaced
+   * @param message the given message
+   */
+  protected void replaceMessage(String message)
+  {
+    this.message = message;
+  }
+
 }
 // $Log$
+// Revision 1.1  2003/12/30 16:56:30  mbw
+// imported into this product
+//
 // Revision 1.13  2003/10/03 16:43:45  mbw
 // comments
 //
