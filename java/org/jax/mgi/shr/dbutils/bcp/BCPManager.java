@@ -150,7 +150,7 @@ public class BCPManager {
    * get a BCPWriter object for a given table
    * @assumes nothing
    * @effects a bcp file will be opened for writing
-   * @param pTable the table object
+   * @param table the table object
    * @return the BCPWriter for the given table
    * @throws BCPException thrown if the bcp file cannot be created
    * @throws DBException thrown if database metadata cannot be obtained for
@@ -172,7 +172,7 @@ public class BCPManager {
    * get a BCPWriter object for a given table name
    * @assumes nothing
    * @effects a bcp file will be opened for writing
-   * @param pTable the name of the table
+   * @param tableName the name of the table
    * @param sqlMgr the SQLDataManager to use
    * @return the BCPWriter for the given table
    * @throws BCPException thrown if the bcp file cannot be created
@@ -194,8 +194,8 @@ public class BCPManager {
    * configurationto the instance.
    * @assumes nothing
    * @effects a bcp file will be opened for writing
-   * @param pTable the table object to bcp against.
-   * @param pCfg the configuration object through which to configure the
+   * @param table the table object to bcp against.
+   * @param cfg the configuration object through which to configure the
    * BCPWriter
    * @return a BCPWriter for the given table
    * @throws BCPException thrown if the bcp file cannot be created
@@ -205,15 +205,15 @@ public class BCPManager {
    * configure the BCPWriter object
    *
    */
-  public BCPWriter getBCPWriter(Table table, BCPWriterCfg pCfg) throws
+  public BCPWriter getBCPWriter(Table table, BCPWriterCfg cfg) throws
       BCPException, DBException, ConfigException {
-    pCfg.setDefaultOkToRecordStamp(okToRecordStamp);
-    pCfg.setDefaultOkToAutoFlush(okToAutoFlush);
-    pCfg.setDefaultOkToDropIndexes(this.okToDropIndexes);
-    pCfg.setDefaultOkToTruncateTable(this.okToTruncateTable);
-    if (pCfg.getOkToTruncateTable().booleanValue())
+    cfg.setDefaultOkToRecordStamp(okToRecordStamp);
+    cfg.setDefaultOkToAutoFlush(okToAutoFlush);
+    cfg.setDefaultOkToDropIndexes(this.okToDropIndexes);
+    cfg.setDefaultOkToTruncateTable(this.okToTruncateTable);
+    if (cfg.getOkToTruncateTable().booleanValue())
         table.resetKey(); // reset table class to start key at 1
-    BCPWriter writer = new BCPWriter(table, this, logger, pCfg);
+    BCPWriter writer = new BCPWriter(table, this, logger, cfg);
     allWriters.add(writer);
     return writer;
   }
@@ -223,8 +223,9 @@ public class BCPManager {
    * configuration to the instance.
    * @assumes nothing
    * @effects a bcp file will be opened for writing
-   * @param pTable the table object to bcp against.
-   * @param pCfg the configuration object through which to configure the
+   * @param tableName the table object to bcp against.
+   * @param sqlMgr the SQLDataManager to use
+   * @param cfg the configuration object through which to configure the
    * BCPWriter
    * @return a BCPWriter for the given table
    * @throws BCPException thrown if the bcp file cannot be created
@@ -236,11 +237,11 @@ public class BCPManager {
    */
   public BCPWriter getBCPWriter(String tableName,
                                 SQLDataManager sqlMgr,
-                                BCPWriterCfg pCfg)
+                                BCPWriterCfg cfg)
       throws BCPException, DBException, ConfigException
   {
       Table table = Table.getInstance(tableName, sqlMgr);
-      return getBCPWriter(table, pCfg);
+      return getBCPWriter(table, cfg);
   }
 
 
@@ -766,6 +767,9 @@ public class BCPManager {
   }
 }
 // $Log$
+// Revision 1.4  2004/07/26 16:58:29  mbw
+// formatting only
+//
 // Revision 1.3  2004/07/21 21:03:56  mbw
 // - modified signatures for the getBCPWriter methods
 // - removed the getSQLDataManager and the setSQLDataManager methods

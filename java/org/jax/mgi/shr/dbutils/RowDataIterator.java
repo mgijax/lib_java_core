@@ -41,8 +41,8 @@ public class RowDataIterator implements DataIterator
    * @assumes nothing
    * @effects nothing
    * @param nav the query results through which to iterate
-   * @param interp the MultiRowDataInterpreter used for creating java data
-   * objects based on the rows of query results
+   * @param interpreter the MultiRowDataInterpreter used for creating java
+   * data objects based on the rows of query results
    * @throws DBException thrown if there is an error within the database
    */
   public RowDataIterator(ResultsNavigator nav,
