@@ -7,7 +7,7 @@ import java.util.Vector;
 import java.util.StringTokenizer;
 
 /**
- * @is an object for configuring a BCPWriter.
+ * An object for configuring a BCPWriter.
  * @has a set of BCPWriter configuration parameters and a reference to
  * a ConfigurationManager
  * @does provides methods for getting configuration paramaters
@@ -15,7 +15,6 @@ import java.util.StringTokenizer;
  * not configured.
  * @company Jackson Laboratory
  * @author M. Walker
- * @version 1.0
  */
 public class BCPWriterCfg
     extends Configurator {
@@ -31,9 +30,14 @@ public class BCPWriterCfg
     private boolean DEFAULT_OK_TO_TRUNCATE_TABLE = false;
     /**
      * default value. This value can be changed by the protected
-     * method setDefaultOkTodropIndexes()
+     * method setDefaultOkToDropIndexes()
      */
     private boolean DEFAULT_OK_TO_DROP_INDEXES = false;
+    /**
+     * default value. This value can be changed by the protected
+     * method setDefaultOkToDropTriggers()
+     */
+    private boolean DEFAULT_OK_TO_DROP_TRIGGERS = false;
     /**
      * default value. This value can be changed by the protected
      * method setDefaultOkToAutoFlush()
@@ -62,7 +66,7 @@ public class BCPWriterCfg
     /**
      * get the value of the option which designates whether to automatically
      * drop indexes before running bcp. If this is set to true, then the
-     * configuration variable DBSCHEMA_INSTALLDIR should be set in order to
+     * configuration variable DBSCHEMADIR should be set in order to
      * locate the directory where the schema product for this database is
      * located. The parameter name read from the configuration file for setting
      * this option is BCP_DROP_INDEXES and its default is false. This value
@@ -76,6 +80,25 @@ public class BCPWriterCfg
         return getConfigBoolean("BCP_DROP_INDEXES",
                                 new Boolean(DEFAULT_OK_TO_DROP_INDEXES));
     }
+
+    /**
+     * get the value of the option which designates whether to automatically
+     * drop triggers before running bcp. If this is set to true, then the
+     * configuration variable DBSCHEMADIR should be set in order to
+     * locate the directory where the schema product for this database is
+     * located. The parameter name read from the configuration file for setting
+     * this option is BCP_DROP_TRIGGERS and its default is false. This value
+     * provides the initial parameter setting for a BCPWriter and can be
+     * changed for any instance of a BCPWriter
+     * @return true or false
+     * @throws ConfigException throws if configuration value does not represent
+     * a boolean
+     */
+    public Boolean getOkToDropTriggers() throws ConfigException {
+        return getConfigBoolean("BCP_DROP_TRIGGERS",
+                                new Boolean(DEFAULT_OK_TO_DROP_TRIGGERS));
+    }
+
 
     /**
      * get the value of the option which designates whether to automatically
@@ -134,6 +157,20 @@ public class BCPWriterCfg
 
     /**
      * get the value of the option which designates whether to automatically
+     * replace newline characters in text fields with spaces. The parameter
+     * name read from the configuration file for setting
+     * this option is BCP_OK_TO_REMOVE_NEWLINES and its default is false.
+     * @return true if it is ok to remove newlines, false otherwise
+     * @throws ConfigException thrown if configuration value does not represent
+     * a boolean
+     */
+    public Boolean getOkToRemoveNewlines() throws ConfigException {
+        return getConfigBoolean("BCP_OK_TO_REMOVE_NEWLINES",
+                                new Boolean(false));
+    }
+
+    /**
+     * get the value of the option which designates whether to automatically
      * flush a buffer after each bcp write. The
      * default value is taken from the corresponding setting in the parent
      * BCPManager object.
@@ -148,7 +185,7 @@ public class BCPWriterCfg
 
     /**
      * set the default value for the option which designates whether to
-     * perform automatic record stamping.This method is primarily used by
+     * perform automatic record stamping. This method is primarily used by
      * the BCPManager for setting the default values of a new
      * BCPWriter based on the current BCPManager settings.
      * @param bool true if the default is to always apply record stamping,
@@ -173,7 +210,7 @@ public class BCPWriterCfg
 
     /**
      * set the default value for the option which designates whether to
-     * automatically truncate the table before each bcp write. This method is
+     * automatically truncate the table before executing bcp. This method is
      * primarily used by the BCPManager for setting the default values of a new
      * BCPWriter based on the current BCPManager settings.
      * @param bool true if the default is to always truncate the table,
@@ -185,7 +222,7 @@ public class BCPWriterCfg
 
     /**
      * set the default value for the option which designates whether to
-     * automatically drop indexes before each bcp write. This method is
+     * automatically drop indexes before executing bcp. This method is
      * primarily used by the BCPManager for setting the default values of a new
      * BCPWriter based on the current BCPManager settings.
      * @param bool true if the default is to always drop indexes,
@@ -194,6 +231,20 @@ public class BCPWriterCfg
     public void setDefaultOkToDropIndexes(boolean bool) {
         DEFAULT_OK_TO_DROP_INDEXES = bool;
     }
+
+
+    /**
+     * set the default value for the option which designates whether to
+     * automatically drop triggers before executing bcp. This method is
+     * primarily used by the BCPManager for setting the default values of a new
+     * BCPWriter based on the current BCPManager settings.
+     * @param bool true if the default is to always drop triggers,
+     * false otherwise
+     */
+    public void setDefaultOkToDropTriggers(boolean bool) {
+        DEFAULT_OK_TO_DROP_TRIGGERS = bool;
+    }
+
 
     /**
      * Build a vector of SQL statements from a "|" separated list.
