@@ -9,15 +9,16 @@ import org.jax.mgi.shr.config.ScriptWriterCfg;
 import org.jax.mgi.shr.config.ConfigException;
 import org.jax.mgi.shr.unix.RunCommand;
 import org.jax.mgi.shr.log.Logger;
+import org.jax.mgi.shr.log.LoggerFactory;
+import org.jax.mgi.shr.config.LogCfg;
 
 /**
- * @is a class which creates and executes sql scripts within the Sybase
+ * A class which creates and executes sql scripts within the Sybase
  * database
  * @has a configuration object for configuring
  * @does provides methods for creating and executing sql scripts
- * @compant The Jackson Laboratory
+ * @company The Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 
 public class ScriptWriter {
@@ -111,7 +112,7 @@ public class ScriptWriter {
    * @throws ScriptException thrown if there was an error creating the
    * script file
    */
-  protected ScriptWriter(SQLDataManager sqlMgr) throws ConfigException, ScriptException
+  public ScriptWriter(SQLDataManager sqlMgr) throws ConfigException, ScriptException
   {
     this.sqlMgr = sqlMgr;
     configure(new ScriptWriterCfg());
@@ -149,7 +150,12 @@ public class ScriptWriter {
     this.logger = logger;
   }
 
-
+  /**
+   * write a line to the script
+   * @param s the line to write
+   * @throws ScriptException thown if there is an error writing to the script
+   * file
+   */
   public void write(String s) throws ScriptException
   {
     try
@@ -166,6 +172,37 @@ public class ScriptWriter {
     }
   }
 
+  /**
+   * write a line to the script and include the command termination string
+   * ('go' in the case of the Sybase database)
+   * @param s the line to write along with the command termination string
+   * @throws ScriptException thown if there is an error writing to the script
+   * file
+   */
+  public void writeGo(String s) throws ScriptException
+  {
+    try
+    {
+        bufferedWriter.write(s + "\n");
+        go();
+    }
+    catch (IOException e)
+    {
+      ScriptExceptionFactory eFactory = new ScriptExceptionFactory();
+      ScriptException e2 = (ScriptException)
+          eFactory.getException(FileWriteErr, e);
+      e2.bind(scriptFile.getName());
+      throw e2;
+    }
+  }
+
+
+  /**
+   * write the command termination string to the script file ('go' in the case
+   * of the Sybase database)
+   * @throws ScriptException thrown if there is an error writing to the script
+   * file
+   */
   public void go() throws ScriptException
   {
     try
@@ -187,6 +224,7 @@ public class ScriptWriter {
   * executes the script and closes resources
   * @assumes nothing
   * @effects the script file will be executed and closed
+  * @throws ScriptException thrown if there is an error executing the script
   */
   public void execute() throws ScriptException
   {
@@ -268,6 +306,7 @@ public class ScriptWriter {
    * file
    * @assumes nothing
    * @effects the script file will be closed
+   * @throws ScriptException thrown if there is an error executing the script
    */
   public void abort() throws ScriptException
   {
@@ -305,6 +344,9 @@ public class ScriptWriter {
     okToOverwrite = config.getOkToOverwrite().booleanValue();
     useTempFile = config.getUseTempFile().booleanValue();
     removeAfterExecute = config.getRemoveAfterExecute().booleanValue();
+    LogCfg cfg = new LogCfg();
+    LoggerFactory logFactory = cfg.getLogerFactory();
+    this.logger = logFactory.getLogger();
   }
 
   /**
@@ -337,11 +379,12 @@ public class ScriptWriter {
                             filename + "." + suffix);
       if (!okToOverwrite)
       {
+          String basename = filename;
         int count = 0;
         while (scriptFile.exists())
         {
           count = count + 1;
-          filename = filename + "_" + String.valueOf(count);
+          filename = basename + "_" + String.valueOf(count);
           outfilename = outfilename + "_" + String.valueOf(count);
           scriptFile = new File(path + File.separator +
                                 filename + "." + suffix);
@@ -365,6 +408,7 @@ public class ScriptWriter {
    * close the script file
    * @assumes nothing
    * @effects the scriptFile will be closed
+   * @throws IOException thrown if there is an error closing the script file
    */
   private void close() throws IOException
   {
