@@ -19,6 +19,7 @@ public class TestInputDataFile
   private String compareFile2 = "test" + del + "MmCompare.data";
   private String compareFile3 = "test" + del + "MmAllCapsCompare.data";
   private String compareFile4 = "test" + del + "fastaCompare.data";
+  private String compareFile5 = "test" + del + "MmShortCompare2.data";
   private String outputFilename = "MmTestFile.data";
 
   public TestInputDataFile(String name) {
@@ -34,7 +35,7 @@ public class TestInputDataFile
     super.tearDown();
   }
 
-  public void testDefaults() throws Exception {
+  public void testNoFilename() throws Exception {
     try {
       InputDataFile inputFile = new InputDataFile();
     }
@@ -47,7 +48,7 @@ public class TestInputDataFile
     assertTrue(false);
   }
 
-  public void testDataInput1() throws Exception {
+  public void testNoDelimiters() throws Exception {
     System.setProperty("INFILE_NAME", inFile1);
     inputFile = new InputDataFile();
     BufferedWriter out = new BufferedWriter(new FileWriter(outputFilename));
@@ -63,9 +64,10 @@ public class TestInputDataFile
     assertTrue(FileUtility.compare(outputFilename, compareFile1));
   }
 
-  public void testDataInput2() throws Exception {
+  public void testEndDelimiterOnly() throws Exception {
     System.setProperty("INFILE_END_DELIMITER", "^\\|\\|");
     System.setProperty("INFILE_NAME", inFile2);
+    System.setProperty("INFILE_USE_REGEX", "true");
     ConfigReinitializer.reinit();
     inputFile = new InputDataFile();
     BufferedWriter out = new BufferedWriter(new FileWriter(outputFilename));
@@ -79,12 +81,39 @@ public class TestInputDataFile
     i.close();
     Properties p = System.getProperties();
     p.remove("INFILE_END_DELIMITER");
+    p.remove("INFILE_USE_REGEX");
     p.remove("INFILE_NAME");
     ConfigReinitializer.reinit();
     assertTrue(FileUtility.compare(outputFilename, compareFile2));
   }
 
-  public void testdataInput3() throws Exception {
+  public void testBeginEndDelimiters() throws Exception {
+    System.setProperty("INFILE_BEGIN_DELIMITER", "ID          ");
+    System.setProperty("INFILE_END_DELIMITER", "SEQUENCE");
+    //System.setProperty("INFILE_USE_REGEX", "true");
+    System.setProperty("INFILE_NAME", inFile1);
+    ConfigReinitializer.reinit();
+    inputFile = new InputDataFile();
+    BufferedWriter out = new BufferedWriter(new FileWriter(outputFilename));
+    RecordDataIterator i = inputFile.getIterator();
+    while (i.hasNext()) {
+      String s = (String)i.next();
+      out.write(s);
+      out.write("-----------------------------------------------\n");
+    }
+    out.close();
+    i.close();
+    Properties p = System.getProperties();
+    p.remove("INFILE_BEGIN_DELIMITER");
+    p.remove("INFILE_END_DELIMITER");
+    //p.remove("INFILE_USE_REGEX");
+    p.remove("INFILE_NAME");
+    ConfigReinitializer.reinit();
+    assertTrue(FileUtility.compare(outputFilename, compareFile5));
+  }
+
+
+  public void testNoDelimiters2() throws Exception {
     inputFile =
         new InputDataFile(inFile3);
     BufferedWriter out = new BufferedWriter(new FileWriter(outputFilename));
@@ -100,7 +129,7 @@ public class TestInputDataFile
     assertTrue(FileUtility.compare(outputFilename, compareFile3));
   }
 
-  public void testDataInput4() throws Exception {
+  public void testBeginDelimiterOnly() throws Exception {
       System.setProperty("INFILE_BEGIN_DELIMITER", "^>");
       System.setProperty("INFILE_USE_REGEX", "true");
       inputFile =
@@ -128,7 +157,9 @@ public class TestInputDataFile
     inputFile =
         new InputDataFile("testInput");
     inputFile.setEndDelimiter("$");
+    inputFile.setOkToUseRegex(true);
     RecordDataIterator i = inputFile.getIterator();
+    // call to hasNext() should have no effect on call to next()
     i.hasNext();
     i.hasNext();
     i.hasNext();
@@ -147,6 +178,7 @@ public class TestInputDataFile
     inputFile =
         new InputDataFile("testInput");
     inputFile.setEndDelimiter("$");
+    inputFile.setOkToUseRegex(true);
     RecordDataIterator i = inputFile.getIterator();
     int count = 0;
     while (i.hasNext()) {
@@ -163,6 +195,7 @@ public class TestInputDataFile
     inputFile =
         new InputDataFile("testInput");
     inputFile.setEndDelimiter("$");
+    inputFile.setOkToUseRegex(true);
     RecordDataIterator i = inputFile.getIterator();
     int count = 0;
     while (i.hasNext()) {
