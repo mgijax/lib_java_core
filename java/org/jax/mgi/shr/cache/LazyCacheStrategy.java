@@ -109,9 +109,7 @@ public class LazyCacheStrategy
         String sql = this.cacheHandler.getAddQuery(key);
         logger.logDebug("key not found in cache: " + key);
         logger.logDebug("looking up key in database with the following sql:\n" + sql);
-        RowDataInterpreter interp = this.cacheHandler.getRowDataInterpreter();
         ResultsNavigator nav = dataManager.executeQuery(sql);
-        nav.setInterpreter(interp);
         /**
          * The CacheStrategyHelper class is used to navigate through the query
          * results and place objects in the cache

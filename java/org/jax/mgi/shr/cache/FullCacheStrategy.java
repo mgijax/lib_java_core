@@ -69,8 +69,6 @@ public class FullCacheStrategy
         }
         logger.logDebug("initializing cache with the following sql:\n" + sql);
         ResultsNavigator nav = super.dataManager.executeQuery(sql);
-        RowDataInterpreter interp = super.cacheHandler.getRowDataInterpreter();
-        nav.setInterpreter(interp);
         /**
          * The CacheStrategyHelper class is used to navigate through the query
          * results and place objects in the cache
