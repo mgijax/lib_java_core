@@ -3,17 +3,56 @@ package org.jax.mgi.shr.dbutils.dao;
 import org.jax.mgi.shr.dbutils.DBException;
 
 /**
- * @is an interface for performing database inserts, upadtes and deletes using
- * a InsertStrategy, UpdateStrategy and DeleteStrategy
+ * @is an abstract class for performing database inserts, updates and deletes
+ * using strategy classes which can be plugged in to handle database operations
  * @has an InsertStrategy, UpdateStrategy and a DeleteStrategy
- * @does sends the DAO object to the correct strategy
+ * @does routes the DAO object to the correct strategy
  * @company The Jackson Laboratory
  * @author M Walker
  * @version 1.0
  */
 
-public interface SQLStream
+public abstract class SQLStream implements DAOPersistent
 {
+
+  protected InsertStrategy insertStrategy = null;
+  protected UpdateStrategy updateStrategy = null;
+  protected DeleteStrategy deleteStrategy = null;
+
+  public SQLStream() {}
+
+  public SQLStream(InsertStrategy insertStrategy,
+                   UpdateStrategy updateStrategy,
+                   DeleteStrategy deleteStrategy)
+  {
+    this.insertStrategy = insertStrategy;
+    this.updateStrategy = updateStrategy;
+    this.deleteStrategy = deleteStrategy;
+  }
+
+  protected void setInsertStrategy(InsertStrategy insertStrategy)
+  {
+    this.insertStrategy = insertStrategy;
+  }
+
+  protected void setUpdateStrategy(UpdateStrategy updateStrategy)
+  {
+    this.updateStrategy = updateStrategy;
+  }
+
+  protected void setDeleteStrategy(DeleteStrategy deleteStrategy)
+  {
+    this.deleteStrategy = deleteStrategy;
+  }
+
+  public boolean isBCP()
+  {
+    if (this.insertStrategy instanceof BCPStrategy)
+      return true;
+    else
+      return false;
+  }
+
   /**
    * delete the given DAO object from the database
    * @assumes nothing
@@ -23,7 +62,10 @@ public interface SQLStream
    * @param dataInstance the object to delete
    * @throws DBException thrown if there is an error executing the delete
    */
-  void delete(DAO dataInstance) throws DBException;
+  public void delete(DAO dao) throws DBException
+  {
+    this.deleteStrategy.delete(dao);
+  }
 
   /**
    * update the given DAO object in the database
@@ -33,7 +75,10 @@ public interface SQLStream
    * implementation
    * @param dataInstance the object to update
    */
-  void update(DAO dataInstance) throws DBException;
+  public void update(DAO dao) throws DBException
+  {
+    this.updateStrategy.update(dao);
+  }
 
   /**
    * insert the given DAO object in the database
@@ -44,15 +89,18 @@ public interface SQLStream
    * @param dataInstance the object to insert
    * @throws DBException thrown if there is an error executing the insert
    */
-  void insert(DAO dataInstance) throws DBException;
+  public void insert(DAO dao) throws DBException
+  {
+    this.insertStrategy.insert(dao);
+  }
 
   /**
-   * execute any outstanding statements that may have been processed for batch
-   * execution
+   * abstract method to be implemented by subclasses to handle the execution
+   * of any batch SQL in an implementation specific manner
    * @assumes nothing
    * @effects any outstanding batch statements will be executed
    * @throws DBException thrown if there is an error trying to execute any
    * batch statements
    */
-  void close() throws DBException;
+  protected abstract void close() throws DBException;
 }
