@@ -4,6 +4,7 @@
 package org.jax.mgi.shr.config;
 
 import java.sql.Timestamp;
+import java.util.Vector;
 
 import org.jax.mgi.shr.types.Converter;
 import org.jax.mgi.shr.types.TypesException;
@@ -154,6 +155,26 @@ public class Configurator
         //
         return this.lookup(name);
     }
+
+    /**
+     * Gets a list of configuration values for a given name and returns a
+     * NULL if the value is not found.
+     * @assumes Nothing.
+     * @effects Nothing
+     * @param name The name of the configuration parameter to search on.
+     * @return An array of strings representing a set of configuration valuse
+     * or NULL if the given name is not found.
+     */
+    protected String[] getConfigStringArrayNull(String name)
+    {
+        // Return the value from the configuration manager.  It may be NULL.
+        //
+        String stringList = this.lookup(name);
+        if (stringList == null)
+            return null;
+        return stringList.split(",");
+    }
+
 
     /**
      * Gets a configuration value for a given name and throws
@@ -766,6 +787,11 @@ public class Configurator
 
 }
 // $Log$
+// Revision 1.4  2004/07/21 18:38:31  mbw
+// implemented config prefixing in this class so that all base classes inherit this functionality
+// added getConfigRegex family of methods
+// made some javadocs edits
+//
 // Revision 1.3  2004/04/14 16:41:08  mbw
 // bug fix: fixed parameter passing error in call to createNewObject() method
 //
