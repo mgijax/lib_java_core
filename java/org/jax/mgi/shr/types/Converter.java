@@ -160,6 +160,71 @@ public class Converter {
   }
 
   /**
+   * return the string representing the properly formatted sql fragment
+   * as expected by Sybase to represent the value field within the assignment
+   * clause or where clause of a sql statement. This method is designed
+   * to assist in dynamic sql generation.
+   * @param input a given value to be formatted as a sql fragment
+   * @return the formatted sql fragment with single quotes applied to the
+   * given value
+   */
+  public static String toSQLString(String input) {
+    return "'" + input + "'";
+  }
+
+  /**
+   * return the string representing the properly formatted sql fragment
+   * as expected by Sybase to represent the value field within the assignment
+   * clause or where clause of a sql statement. This method is designed
+   * to assist in dynamic sql generation.
+   * @param input a given value to be formatted as a sql fragment
+   * @return a string representing zero or one
+   */
+  public static String toSQLString(Boolean input) {
+    if (input.booleanValue())
+      return "1";
+    else
+      return "0";
+  }
+
+  /**
+   * return the string representing the properly formatted sql fragment
+   * as expected by Sybase to represent the value field within the assignment
+   * clause or where clause of a sql statement. This method is designed
+   * to assist in dynamic sql generation.
+   * @param input a given value to be formatted as a sql fragment
+   * @return the integer value as an unquoted string
+   */
+  public static String toSQLString(Integer input) {
+    return input.toString();
+  }
+
+  /**
+   * return the string representing the properly formatted sql fragment
+   * as expected by Sybase to represent the value field within the assignment
+   * clause or where clause of a sql statement. This method is designed
+   * to assist in dynamic sql generation.
+   * @param input a given value to be formatted as a sql fragment
+   * @return the float value as an unquoted string
+   */
+  public static String toSQLString(Float input) {
+    return input.toString();
+  }
+
+  /**
+   * return the string representing the properly formatted sql fragment
+   * as expected by Sybase to represent the value field within the assignment
+   * clause or where clause of a sql statement. This method is designed
+   * to assist in dynamic sql generation.
+   * @param input a given value to be formatted as a sql fragment
+   * @return the timestamp value with sinle quotes applied
+   */
+  public static String toSQLString(Timestamp input) {
+    return "'" + input.toString() + "'";
+  }
+
+
+  /**
    *
    * convert data from String to primitive value. Strings representing
    * decimal numbers will cause a TypesException to be raised.
@@ -350,6 +415,9 @@ public class Converter {
 }
 
 // $Log$
+// Revision 1.1  2003/12/30 16:56:53  mbw
+// imported into this product
+//
 // Revision 1.16  2003/10/22 15:32:28  mbw
 // changed name of toString(Object) method to objectToString(Object)
 //
