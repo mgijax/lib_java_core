@@ -3,6 +3,8 @@
 
 package org.jax.mgi.shr.config;
 
+import java.sql.Timestamp;
+
 import org.jax.mgi.shr.types.Converter;
 import org.jax.mgi.shr.types.TypesException;
 
@@ -41,6 +43,8 @@ public class Configurator
        ConfigExceptionFactory.ParameterNotFound;
    private static final String parameterTypeError =
        ConfigExceptionFactory.ParameterTypeError;
+   private static final String newInstanceFailed =
+       ConfigExceptionFactory.NewInstanceFailed;
 
    /**
     * constructor. only intended for members of the config
@@ -379,6 +383,195 @@ public class Configurator
     }
 
     /**
+     * Gets a configuration value for a given name and throws
+     * an exception if the value is not found.
+     * @assumes Nothing.
+     * @effects Nothing
+     * @param name The name of the configuration parameter to search on.
+     * @return A boolean representing the configuration value.
+     * @exception ConfigException Thrown if the given name is not found by the
+     * configuration manager or if value cannot be converted to a boolean.
+     */
+    protected Timestamp getConfigDate(String name) throws ConfigException
+    {
+        // Have the configuration manager find the value for the name.
+        //
+        String str = cm.get(qualify(name));
+
+        // If the name was found, return the value.  Otherwise, throw an
+        // exception.
+        //
+        if (str != null)
+        {
+          try {
+            return Converter.toTimestamp(str);
+          }
+          catch (TypesException e) {
+            ConfigException e2 = (ConfigException)
+                eFactory.getException(parameterTypeError, e);
+            e2.bind(name);
+            e2.bind("Timestamp");
+            e2.bind(str);
+            throw e2;
+          }
+        }
+        else
+        {
+            ConfigException e =
+                (ConfigException)eFactory.getException(parameterNotFound);
+            e.bind(name);
+            throw e;
+        }
+    }
+
+    /**
+     * Gets a configuration value for a given name and returns
+     * the given default value if the value is not found.
+     * @assumes Nothing.
+     * @effects Nothing
+     * @param name The name of the configuration parameter to search on.
+     * @param defaultValue The value to be returned if the configuration
+     * parameter is not found.
+     * @return A boolean representing the configuration value.
+     * @exception ConfigException Thrown if cannot convert value to boolean
+     */
+    protected Timestamp getConfigDate(String name, Timestamp defaultValue)
+    throws ConfigException
+    {
+        // Have the configuration manager find the value for the name.
+        //
+        String str = cm.get(qualify(name));
+
+        // If the name was found, return the value.  Otherwise, return the
+        // default value.
+        //
+        if (str != null) {
+          try {
+            return Converter.toTimestamp(str);
+          }
+          catch (TypesException e) {
+            ConfigException e2 = (ConfigException)
+                eFactory.getException(parameterTypeError, e);
+            e2.bind(name);
+            e2.bind("Timestamp");
+            e2.bind(str);
+            throw e2;
+          }
+        }
+        else
+            return defaultValue;
+    }
+
+    /**
+     * Gets a configuration value for a given name and returns
+     * null if the value is not found.
+     * @assumes Nothing.
+     * @effects Nothing
+     * @param name The name of the configuration parameter to search on.
+     * @return A boolean representing the configuration value or null if
+     * the parameter was not found.
+     * @exception ConfigException if value cannot be converted to a boolean.
+     */
+    protected Timestamp getConfigDateNull(String name)
+    throws ConfigException
+    {
+        // Have the configuration manager find the value for the name.
+        //
+        String str = cm.get(qualify(name));
+
+        // If the name was found, return the value.  Otherwise, return the
+        // default value.
+        //
+        if (str != null) {
+          try {
+            return Converter.toTimestamp(str);
+          }
+          catch (TypesException e) {
+            ConfigException e2 = (ConfigException)
+                eFactory.getException(parameterTypeError, e);
+            e2.bind(name);
+            e2.bind("Timestamp");
+            e2.bind(str);
+            throw e2;
+          }
+        }
+        else
+            return null;
+    }
+
+
+    /**
+     * Gets a configuration value for a given name and throws
+     * an exception if the value is not found.
+     * @assumes Nothing.
+     * @effects a new object will be created
+     * @param name The name of the configuration parameter to search on.
+     * @return A boolean representing the configuration value.
+     * @exception ConfigException Thrown if the given name is not found by the
+     * configuration manager or if value cannot be converted to a boolean.
+     */
+    protected Object getConfigObject(String name) throws ConfigException
+    {
+        String str = cm.get(qualify(name));
+
+        if (str == null)
+        {
+            ConfigException e =
+                (ConfigException)eFactory.getException(parameterNotFound);
+            e.bind(name);
+            throw e;
+        }
+        return createNewObject(str);
+    }
+
+    /**
+     * Gets a configuration value for a given name and returns
+     * the given default value if the value is not found.
+     * @assumes Nothing.
+     * @effects a new object may be created
+     * @param name The name of the configuration parameter to search on.
+     * @param defaultValue The value to be returned if the configuration
+     * parameter is not found.
+     * @return A boolean representing the configuration value.
+     * @exception ConfigException Thrown if cannot convert value to boolean
+     */
+    protected Object getConfigObject(String name, Object o)
+        throws ConfigException
+    {
+        String str = cm.get(qualify(name));
+
+        if (str == null)
+        {
+            return o;
+        }
+        return createNewObject(name);
+    }
+
+    /**
+     * Gets a configuration value for a given name and returns
+     * null if the value is not found.
+     * @assumes Nothing.
+     * @effects a new object may be created
+     * @param name The name of the configuration parameter to search on.
+     * @return A boolean representing the configuration value or null if
+     * the parameter was not found.
+     * @exception ConfigException if value cannot be converted to a boolean.
+     */
+    protected Object getConfigObjectNull(String name)
+        throws ConfigException
+    {
+        String str = cm.get(qualify(name));
+
+        if (str == null)
+        {
+            return null;
+        }
+        return createNewObject(name);
+    }
+
+
+
+    /**
      * set whether to apply prefixes to parameter names before lookup
      * @param b true if prefix should be applied
      */
@@ -405,14 +598,14 @@ public class Configurator
       else
         return baseName;
     }
-    
+
 	/**
 	 * does translation of allowable configuration values for a file
 	 * delimiter into a java string suitable for using as the file delimiter
 	 * @param s the string to convert
 	 * @return the converted value
 	 * @throws MGIException thrown if the given string is not a valid delimiter
-	 * representation. Allowable values are space and tab (without any 
+	 * representation. Allowable values are space and tab (without any
 	 * regard for case) and the strings "' '" or "\t".
 	 */
 	protected String convertDelimiter(String s) throws ConfigException {
@@ -432,8 +625,53 @@ public class Configurator
 		}
 	}
 
+    /**
+     * create a new object for the given class
+     * @assumes nothing
+     * @effects a new object will created
+     * @param className the name of the class
+     * @return a new instance of the class
+     * @throws ConfigException thrown if there is an error accessing the
+     * configuration or if there is an exception during object creation
+     */
+    protected Object createNewObject(String className) throws ConfigException
+    {
+        Object o = null;
+        try
+        {
+            Class cls = Class.forName(className);
+            o = cls.newInstance();
+        }
+        catch (ClassNotFoundException e)
+        {
+            ConfigException e2 =
+                (ConfigException)eFactory.getException(newInstanceFailed, e);
+            e2.bind(className);
+            throw e2;
+        }
+        catch (IllegalAccessException e)
+        {
+            ConfigException e2 =
+               (ConfigException)eFactory.getException(newInstanceFailed, e);
+           e2.bind(className);
+           throw e2;
+        }
+        catch (InstantiationException e)
+        {
+            ConfigException e2 =
+               (ConfigException)eFactory.getException(newInstanceFailed, e);
+           e2.bind(className);
+           throw e2;
+        }
+        return o;
+
+    }
+
 }
 // $Log$
+// Revision 1.1  2003/12/30 16:50:06  mbw
+// imported into this product
+//
 // Revision 1.2  2003/12/09 22:47:24  mbw
 // merged jsam branch onto the trunk
 //
