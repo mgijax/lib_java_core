@@ -9,17 +9,24 @@ public class TestRecordDataReader
   private RecordDataReader recordDataReader = null;
   private String inputFilename = "Mm.data";
   private String inputFilename2 = "MmShort.data";
+  private String inputFilename3 = "fasta.data";
   private String compareFilename = "MmCompare.data";
+  private String compareFilename1 = "MmCompare.begindel.data";
   private String compareFilename2 = "MmShortCompare.data";
-  private String compareFilename4 = "MmShortCompare.begindel.data";
-  private String compareFilename5 = "MmShortCompare.begindel.regex.data";
+  private String compareFilename4 = "MmShortCompare.bothdel.data";
+  private String compareFilename5 = "MmShortCompare.bothdel.regex.data";
+  private String compareFilename6 = "fasta.begindel.regex.data";
   private String outputFilename = "MmTestFile.data";
   private DataInput1 dataInput1 = null;
   private DataInput2 dataInput2 = null;
+  private DataInput3 dataInput3 = null;
   private DataCompare1 dataCompare1 = null;
+  private DataCompare1a dataCompare1a = null;
   private DataCompare2 dataCompare2 = null;
-  private DataCompare4 dataCompare4 = null;
-  private DataCompare5 dataCompare5 = null;
+  private DataCompare2a dataCompare2a = null;
+  private DataCompare2b dataCompare2b = null;
+  private DataCompare2c dataCompare2c = null;
+  private DataCompare3 dataCompare3 = null;
 
 
   public TestRecordDataReader(String name) {
@@ -36,35 +43,48 @@ public class TestRecordDataReader
     super.setUp();
     dataInput1 = new DataInput1(inputFilename);
     dataInput2 = new DataInput2(inputFilename2);
+    dataInput3 = new DataInput3(inputFilename3);
     dataCompare1 = new DataCompare1(compareFilename);
-    dataCompare2 = new DataCompare2(compareFilename2);
-    dataCompare4 = new DataCompare4(compareFilename4);
-    dataCompare5 = new DataCompare5(compareFilename5);
+    dataCompare1a = new DataCompare1a(compareFilename1);
+    dataCompare2 = new DataCompare2(compareFilename4);
+    dataCompare2a = new DataCompare2a(compareFilename5);
+    dataCompare2b = new DataCompare2b(compareFilename2);
+    dataCompare3 = new DataCompare3(compareFilename6);
     dataInput1.createFile();
     dataInput2.createFile();
+    dataInput3.createFile();
     dataCompare1.createFile();
+    dataCompare1a.createFile();
     dataCompare2.createFile();
-    dataCompare4.createFile();
-    dataCompare5.createFile();
+    dataCompare2a.createFile();
+    dataCompare2b.createFile();
+    dataCompare3.createFile();
   }
 
   protected void tearDown() throws Exception {
     dataInput1 = null;
     dataCompare1 = null;
+    dataCompare1a = null;
     dataInput2 = null;
     dataCompare2 = null;
-    dataCompare4 = null;
+    dataCompare2b = null;
+    dataCompare2c = null;
+    dataCompare3 = null;
     FileUtility.delete(inputFilename);
     FileUtility.delete(inputFilename2);
     FileUtility.delete(compareFilename);
+    FileUtility.delete(compareFilename1);
     FileUtility.delete(compareFilename2);
+    FileUtility.delete(compareFilename4);
+    FileUtility.delete(compareFilename5);
+    FileUtility.delete(compareFilename6);
     super.tearDown();
   }
 
   public void testMultiLineRecord() throws IOException {
     BufferedWriter out = new BufferedWriter(new FileWriter(outputFilename));
     FileInputStream in = new FileInputStream(inputFilename);
-    RecordDataReader rdr = new RecordDataReader(in.getChannel(), "^\\|\\|", 512000);
+    RecordDataReader rdr = new RecordDataReader(in.getChannel(), null, "^\\|\\|", 512000);
     while (rdr.hasNext()) {
       String s = rdr.next();
       out.write(s);
@@ -80,7 +100,7 @@ public class TestRecordDataReader
       String del = "||";
     BufferedWriter out = new BufferedWriter(new FileWriter(outputFilename));
     FileInputStream in = new FileInputStream(inputFilename);
-    RecordDataReader rdr = new RecordDataReader(in.getChannel(), del.getBytes(), 512000);
+    RecordDataReader rdr = new RecordDataReader(in.getChannel(), null, del.getBytes(), 512000);
     while (rdr.hasNext()) {
       String s = rdr.next();
       if (s.getBytes().length > 1)
@@ -101,7 +121,7 @@ public class TestRecordDataReader
   public void testSingleLineRecord() throws IOException {
     BufferedWriter out = new BufferedWriter(new FileWriter(outputFilename));
     FileInputStream in = new FileInputStream(inputFilename2);
-    RecordDataReader rdr = new RecordDataReader(in.getChannel(), "$", 512000);
+    RecordDataReader rdr = new RecordDataReader(in.getChannel(), null, "$", 512000);
     while (rdr.hasNext()) {
       String s = rdr.next();
       out.write(s);
@@ -164,7 +184,7 @@ public class TestRecordDataReader
     BufferedWriter out = new BufferedWriter(new FileWriter(outputFilename));
     FileInputStream in = new FileInputStream(inputFilename2);
     RecordDataReader rdr =
-        new RecordDataReader(in.getChannel(), del.getBytes(), 2);
+        new RecordDataReader(in.getChannel(), null, del.getBytes(), 2);
     while (rdr.hasNext()) {
       String s = rdr.next();
       out.write(s);
@@ -175,5 +195,48 @@ public class TestRecordDataReader
     in.close();
     assertTrue(FileUtility.compare(outputFilename, compareFilename2));
   }
+
+  public void testBeginByteDelimiterOnly() throws Exception
+  {
+      String del = "ID          M";
+      BufferedWriter out = new BufferedWriter(new FileWriter(outputFilename));
+      FileInputStream in = new FileInputStream(inputFilename);
+      RecordDataReader rdr =
+        new RecordDataReader(in.getChannel(), del.getBytes(), null, 2);
+    while (rdr.hasNext())
+    {
+        String s = rdr.next();
+        out.write(s);
+        out.write("-----------------------------------------------\n");
+    }
+    out.close();
+    rdr.closeResources();
+    in.close();
+    assertTrue(FileUtility.compare(outputFilename, compareFilename1));
+  }
+
+  public void testBeginRegexDelimiterOnly() throws Exception
+  {
+      String del = "^>";
+      BufferedWriter out = new BufferedWriter(new FileWriter(outputFilename));
+      FileInputStream in = new FileInputStream(inputFilename3);
+      RecordDataReader rdr =
+        new RecordDataReader(in.getChannel(), del, null, 2);
+    while (rdr.hasNext())
+    {
+        String s = rdr.next();
+        out.write(s);
+        out.write("-----------------------------------------------\n");
+    }
+    out.close();
+    rdr.closeResources();
+    in.close();
+    assertTrue(FileUtility.compare(outputFilename, compareFilename6));
+  }
+
+
+
+
+
 
 }

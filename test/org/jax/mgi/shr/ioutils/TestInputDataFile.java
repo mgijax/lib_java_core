@@ -23,10 +23,9 @@ public class TestInputDataFile
   private String line3 = "this is line 3";
   private DataInput1 dataInput1 = null;
   private DataInput2 dataInput2 = null;
-  private DataInput3 dataInput3 = null;
   private DataCompare1 dataCompare1 = null;
-  private DataCompare2 dataCompare2 = null;
-  private DataCompare3 dataCompare3 = null;
+  private DataCompare1a dataCompare1a = null;
+  private DataCompare2b dataCompare2b = null;
   private String config1 = "config1";
   private FileUtility fileUtility = new FileUtility();
 
@@ -47,16 +46,13 @@ public class TestInputDataFile
     FileUtility.createFile(input4IteratorTest, s);
     dataInput1 = new DataInput1(filename);
     dataInput2 = new DataInput2(filename2);
-    dataInput3 = new DataInput3(filename3);
     dataCompare1 = new DataCompare1(compareFilename);
-    dataCompare2 = new DataCompare2(compareFilename2);
-    dataCompare3 = new DataCompare3(compareFilename3);
+    dataCompare1a = new DataCompare1a(compareFilename);
+    dataCompare2b = new DataCompare2b(compareFilename2);
     dataInput1.createFile();
     dataInput2.createFile();
-    dataInput3.createFile();
     dataCompare1.createFile();
-    dataCompare2.createFile();
-    dataCompare3.createFile();
+    dataCompare2b.createFile();
   }
 
   protected void tearDown() throws Exception {
@@ -64,7 +60,7 @@ public class TestInputDataFile
     dataInput1 = null;
     dataCompare1 = null;
     dataInput2 = null;
-    dataCompare2 = null;
+    dataCompare2b = null;
     FileUtility.delete(filename);
     FileUtility.delete(filename2);
     FileUtility.delete(compareFilename);
