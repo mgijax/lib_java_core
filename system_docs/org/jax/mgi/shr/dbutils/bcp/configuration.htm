@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"><HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+<META NAME="GENERATOR" CONTENT="Adobe FrameMaker 7.0/HTML Export Filter">
+<LINK REL="STYLESHEET" HREF="configuration.css" CHARSET="ISO-8859-1" TYPE="text/css">
+<TITLE> </TITLE>
+</HEAD>
+<BODY BGCOLOR="#ffffff">
+<P CLASS="Body">
+<A NAME="pgfId-998290"></A>BCP_PATH</P>
+<P CLASS="Body">
+<A NAME="pgfId-998292"></A>The directory the bcp files will be created in. The default is the current runtime directory.</P>
+<P CLASS="Body">
+<A NAME="pgfId-998306"></A>&nbsp;</P>
+<P CLASS="Body">
+<A NAME="pgfId-998300"></A>BCP_DELIMITER</P>
+<P CLASS="Body">
+<A NAME="pgfId-998305"></A>The field delimiter for the bcp file. The default is tab. The words `space' and `tab' are allowed values to represent these delimiters.</P>
+<P CLASS="Body">
+<A NAME="pgfId-998310"></A>&nbsp;</P>
+<P CLASS="Body">
+<A NAME="pgfId-998311"></A>BCP_OK_TO_OVERWRITE</P>
+<P CLASS="Body">
+<A NAME="pgfId-998315"></A>Indicator of whether or not to overwrite existing bcp files. If this option is set to false then a new filename with a numbered prefix will be created. The default is false.</P>
+<P CLASS="Body">
+<A NAME="pgfId-998319"></A>&nbsp;</P>
+<P CLASS="Body">
+<A NAME="pgfId-998320"></A>BCP_USE_TEMPFILE</P>
+<P CLASS="Body">
+<A NAME="pgfId-998321"></A>Indicator of whether or not to use temporary files when creating bcp files. These files will be deleted automatically after executing the bcp command. The deafult is false.</P>
+<P CLASS="Body">
+<A NAME="pgfId-998328"></A>&nbsp;</P>
+<P CLASS="Body">
+<A NAME="pgfId-998329"></A>BCP_PREVENT_EXECUTE</P>
+<P CLASS="Body">
+<A NAME="pgfId-998330"></A>Indicator of whether or not to prevent executing the bcp command on call to the execute method. The default is false.</P>
+<P CLASS="Body">
+<A NAME="pgfId-998331"></A>&nbsp;</P>
+<P CLASS="Body">
+<A NAME="pgfId-998332"></A>BCP_REMOVE_AFTER_EXECUTE</P>
+<P CLASS="Body">
+<A NAME="pgfId-998349"></A>Indicator of whether or not to remove the bcp file after executing it. The default is false.</P>
+<P CLASS="Body">
+<A NAME="pgfId-998353"></A>&nbsp;</P>
+<P CLASS="Body">
+<A NAME="pgfId-998354"></A>BCP_RECORD_STAMPING</P>
+<P CLASS="Body">
+<A NAME="pgfId-998355"></A>Indicator of whether or not to automatically time stamp the record when writing to the bcp file. The default is false. When using DAO classes to create bcp files, then leave this option set to false since the DAO class performs record stamping separately.</P>
+<P CLASS="Body">
+<A NAME="pgfId-998365"></A>&nbsp;</P>
+<P CLASS="Body">
+<A NAME="pgfId-998368"></A>BCP_TRUNCATE_LOG</P>
+<P CLASS="Body">
+<A NAME="pgfId-998369"></A>Indicator of whether or not to truncate the database log before executing the bcp command.</P>
+<P CLASS="Body">
+<A NAME="pgfId-998372"></A>&nbsp;</P>
+<P CLASS="Body">
+<A NAME="pgfId-998373"></A>BCP_AUTO_FLUSH</P>
+<P CLASS="Body">
+<A NAME="pgfId-998377"></A>Indicator of whether or not to flush the bcp file after each record is written. The default is false.</P>
+<P CLASS="Body">
+<A NAME="pgfId-998378"></A>&nbsp;</P>
+<P CLASS="Body">
+<A NAME="pgfId-998379"></A>BCP_TRUNCATE_TABLE</P>
+<P CLASS="Body">
+<A NAME="pgfId-998383"></A>Indicator of whether or not to truncate the database table before executing the bcp command. The default is false.</P>
+<P CLASS="Body">
+<A NAME="pgfId-998384"></A>&nbsp;</P>
+<P CLASS="Body">
+<A NAME="pgfId-998385"></A>BCP_DROP_INDEXES</P>
+<P CLASS="Body">
+<A NAME="pgfId-998389"></A>Indicator of whether or not to drop indexes on the database table before executing the bcp command. When this option is set to true, the indexes will be recreated after executing the bcp command. The default is false.</P>
+<P CLASS="Body">
+<A NAME="pgfId-998390"></A>&nbsp;</P>
+<P CLASS="Body">
+<A NAME="pgfId-998391"></A>BCP_DROP_TRIGGERS</P>
+<P CLASS="Body">
+<A NAME="pgfId-998399"></A>Indicator of whether or not to drop triggers on the database table before executing the bcp command. When this option is set to true, the triggers will be recreated after executing the bcp command. The default is false.</P>
+<P CLASS="Body">
+<A NAME="pgfId-999293"></A>&nbsp;</P>
+<P CLASS="Body">
+<A NAME="pgfId-998415"></A>BCP_PRESQL</P>
+<P CLASS="Body">
+<A NAME="pgfId-998423"></A>Designates the sql commands (as a pipe separated list) that should get executed prior to executing the bcp command. For example &quot;sql one|sql two|sql three&quot;.</P>
+<P CLASS="Body">
+<A NAME="pgfId-998432"></A>&nbsp;</P>
+<P CLASS="Body">
+<A NAME="pgfId-998433"></A>BCP_POSTSQL</P>
+<P CLASS="Body">
+<A NAME="pgfId-998434"></A>Designates the sql commands (as a pipe separated list) that should get executed after executing the bcp command. For example &quot;sql one|sql two|sql three&quot;.</P>
+</BODY>
+</HTML>

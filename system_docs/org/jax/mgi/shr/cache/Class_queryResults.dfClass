@@ -1,0 +1,196 @@
+package id4vkeodrmmt838drmmxfdo;
+
+/**
+@version 2.0
+@__modelType diagram 
+*/
+class diagram {
+/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.cache.RowDataCacheStrategy:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.cache.RowDataCacheHandler:oiref><oihard>
+@__modelType reference
+@__imported
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.cache.RowDataCacheHandler#setup#(#int#org.jax.mgi.shr.dbutils.SQLDataManager#org.jax.mgi.shr.log.Logger#)#:oiref>
+*/
+class reference1 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.cache.LazyCacheStrategy:oiref><oihard>
+@__modelType reference
+@__imported
+*/
+class reference2 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.cache.FullCacheStrategy:oiref><oihard>
+@__modelType reference
+@__imported
+*/
+class reference3 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.cache.CachedLookup:oiref><oihard>
+@__modelType reference
+@__imported*/
+class reference4 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.cache.LazyCachedLookup:oiref><oihard>
+@__modelType reference
+@__imported
+*/
+class reference5 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.cache.FullCachedLookup:oiref><oihard>
+@__modelType reference
+@__imported
+*/
+class reference6 {
+}/**
+@__ref <oiref:design#Class#id4vkeodrmmt838drmmxfdo.node:oiref><oihard>
+@__modelType reference 
+*/
+class reference7 {
+}/**
+@__ref <oiref:design#Class#id4vkeodrmmt838drmmxfdo.node8:oiref><oihard>
+@__modelType reference 
+*/
+class reference9 {
+}/**
+@__ref <oiref:design#Class#id4vkeodrmmt838drmmxfdo.node1:oiref><oihard>
+@__modelType reference 
+*/
+class reference8 {
+}/**
+@__ref <oiref:design#Class#id4vkeodrmmt838drmmxfdo.node9:oiref><oihard>
+@__modelType reference 
+*/
+class reference10 {
+}/**
+@__ref <oiref:design#Class#id4vkeodrmmt838drmmxfdo.node11:oiref><oihard>
+@__modelType reference 
+*/
+class reference12 {
+}}/**
+@__tags
+@shapeType ClassDiagram 
+*/
+class __tags {
+}/**
+@__options filter.g.state = on
+*/
+class __options {
+}/**
+@__positions <oigroup:<oiref:java#Extends#org.jax.mgi.shr.cache.FullCacheStrategy#org.jax.mgi.shr.cache.RowDataCacheStrategy:oiref>=223,260,223,210:oigroup>
+<oigroup:<oiref:java#Extends#org.jax.mgi.shr.cache.LazyCacheStrategy#org.jax.mgi.shr.cache.RowDataCacheStrategy:oiref>=470,460,470,210:oigroup>
+<oigroup:<oiref:design#Class#id4vkeodrmmt838drmmxfdo.node:oiref>=1090,710,138,80,0:oigroup>
+<oigroup:<oiref:design#Class#id4vkeodrmmt838drmmxfdo.node11.link:oiref>=1090,478,1010,478:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.cache.FullCacheStrategy:oiref>=10,260,420,170,0:oigroup>
+<oigroup:<oiref:java#Extends#org.jax.mgi.shr.cache.FullCachedLookup#org.jax.mgi.shr.cache.CachedLookup:oiref>=775,630,775,547:oigroup>
+<oigroup:<oiref:design#Class#id4vkeodrmmt838drmmxfdo.node11:oiref>=1090,300,280,300,0:oigroup>
+<oigroup:<oiref:design#Class#id4vkeodrmmt838drmmxfdo.node8:oiref>=240,640,182,83,0:oigroup>
+<oigroup:<oiref:design#Class#id4vkeodrmmt838drmmxfdo.node1:oiref>=120,750,296,220,0:oigroup>
+<oigroup:<oiref:design#Class#id4vkeodrmmt838drmmxfdo.node9:oiref>=540,800,292,220,0:oigroup>
+<oigroup:<oiref:java#Extends#org.jax.mgi.shr.cache.LazyCachedLookup#org.jax.mgi.shr.cache.CachedLookup:oiref>=984,830,984,547:oigroup>
+<oigroup:<oiref:design#Class#id4vkeodrmmt838drmmxfdo.node8.link:oiref>=422,690,490,690:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.cache.CachedLookup:oiref>=590,410,420,137,0:oigroup>
+<oigroup:<oiref:design#Class#id4vkeodrmmt838drmmxfdo.node9.link:oiref>=832,890,870,890:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.cache.LazyCacheStrategy:oiref>=130,460,417,150,0:oigroup>
+<oigroup:<oiref:design#Class#id4vkeodrmmt838drmmxfdo.node1.link:oiref>=416,760,490,760:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.cache.LazyCachedLookup:oiref>=870,830,380,121,0:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.cache.RowDataCacheStrategy:oiref>=16,10,524,200,0:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.cache.RowDataCacheHandler:oiref>=600,10,440,310,0:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.cache.RowDataCacheHandler#cacheStrategy:oiref>=600,76,540,76:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.cache.FullCachedLookup:oiref>=490,630,380,140,0:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.cache.RowDataCacheStrategy#cacheHandler:oiref>=540,143,600,143:oigroup>
+<oigroup:<oiref:java#Extends#org.jax.mgi.shr.cache.CachedLookup#org.jax.mgi.shr.cache.RowDataCacheHandler:oiref>=805,410,805,320:oigroup>
+<oigroup:Composite#label#MemberLink#<oiref:java#Member#org.jax.mgi.shr.cache.RowDataCacheHandler#cacheStrategy:oiref>=556,60,28,16,0,0.0,1.0:oigroup>
+<oigroup:<oiref:design#Class#id4vkeodrmmt838drmmxfdo.node.link:oiref>=1159,790,1159,830:oigroup>
+<oigroup:Composite#label#MemberLink#<oiref:java#Member#org.jax.mgi.shr.cache.RowDataCacheStrategy#cacheHandler:oiref>=584,143,28,16,0,0.0,-1.0:oigroup>
+*/
+class __positions {
+}/**
+@shapeType Note
+@__modelType node
+@name Note1
+@text getFullInitQuery() throws method not supported exception 
+*/
+class node {
+/**
+@shapeType NoteLink
+@__modelType link
+@__ref <oiref:java#Class#org.jax.mgi.shr.cache.LazyCachedLookup:oiref><oihard> 
+*/
+class link {
+}}/**
+@shapeType Note
+@__modelType node
+@name Note2
+@text getPartialInitQuery() and getAddQuery() throw method not supported exception 
+*/
+class node8 {
+/**
+@shapeType NoteLink
+@__modelType link
+@__ref <oiref:java#Class#org.jax.mgi.shr.cache.FullCachedLookup:oiref><oihard> 
+*/
+class link {
+}}/**
+@shapeType Note
+@__modelType node
+@name Note3
+@text Extend this class for full caching functionality. 
+
+Todo:
+1)  provide a query and interpreter for fully initializing the cache
+2)  provide a lookup method which calls the base class lookup method and performs the proper casting of objects.
+3)   provide a constructor which calls the base class constructor 
+*/
+class node1 {
+/**
+@shapeType NoteLink
+@__modelType link
+@__ref <oiref:java#Class#org.jax.mgi.shr.cache.FullCachedLookup:oiref><oihard> 
+*/
+class link {
+}}/**
+@shapeType Note
+@__modelType node
+@name Note4
+@text Extend this class for lazy caching functionality
+
+To do:
+1)   provide a query and interpreter for obtaining new cache entries based on a given lookup key.
+2)   provide a query and interpreter for partially initializing the cache or null for no initializing
+3)   provide a lookup method which calls the base class lookup and performs the proper casting of objects
+4)   provide a constructor which calls the base class constructor 
+*/
+class node9 {
+/**
+@shapeType NoteLink
+@__modelType link
+@__ref <oiref:java#Class#org.jax.mgi.shr.cache.LazyCachedLookup:oiref><oihard> 
+*/
+class link {
+}}/**
+@shapeType Note
+@__modelType node
+@name Note5
+@text Extend this class for either lazy or full  caching functionality
+
+To do:
+1)   provide a query and interpreter for obtaining new cache entries based on a given lookup key.
+2)   provide a query and interpreter for partially initializing the cache or null for no initializing
+3)   provide a query and interpreter for fully initializing the cache
+3)   provide a lookup method which calls the base class lookup and performs the proper casting of object
+4)   provide a constructor which calls the base class constructor 
+*/
+class node11 {
+/**
+@shapeType NoteLink
+@__modelType link
+@__ref <oiref:java#Class#org.jax.mgi.shr.cache.CachedLookup:oiref><oihard> 
+*/
+class link {
+}}

@@ -1,0 +1,61 @@
+package id2imc6drmu14x9drmvoaug;
+
+/**
+@version 2.0
+@__modelType diagram 
+*/
+class diagram {
+/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.cache.AbstractTextCache:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.cache.DiskTextCache:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference12 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.cache.ExpiringObjectCache:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference13 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.cache.FastTextCache:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference14 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.cache.TextCache:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference15 {
+}}/**
+
+@__tags
+@shapeType ClassDiagram 
+*/
+class __tags {
+}/**
+@__options filter.g.state = on
+*/
+class __options {
+}/**
+@__positions <oigroup:<oiref:java#Class#org.jax.mgi.shr.cache.AbstractTextCache:oiref>=460,40,360,434,0:oigroup>
+<oigroup:<oiref:java#Implements#org.jax.mgi.shr.cache.AbstractTextCache#org.jax.mgi.shr.cache.TextCache:oiref>=460,228,310,228:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.cache.DiskTextCache:oiref>=320,540,340,180,0:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.cache.FastTextCache#diskCache:oiref>=605,790,605,720:oigroup>
+<oigroup:<oiref:java#Extends#org.jax.mgi.shr.cache.FastTextCache#org.jax.mgi.shr.cache.AbstractTextCache:oiref>=740,790,740,474:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.cache.ExpiringObjectCache#sharedCache:oiref>=230,830,230,880,320,880,320,790,270,790:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.cache.FastTextCache:oiref>=550,790,360,180,0:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.cache.TextCache:oiref>=-20,40,330,377,0:oigroup>
+<oigroup:<oiref:java#Extends#org.jax.mgi.shr.cache.DiskTextCache#org.jax.mgi.shr.cache.AbstractTextCache:oiref>=560,540,560,474:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.cache.ExpiringObjectCache:oiref>=-20,540,290,290,0:oigroup>
+*/
+class __positions {
+}

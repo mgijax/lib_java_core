@@ -1,0 +1,65 @@
+package id220ltdu8jng8zdu8k82ak;
+
+/**
+@version 2.0
+@__modelType diagram 
+*/
+class diagram {
+/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.Table:oiref><oihard>
+@__modelType reference
+@__imported
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.dbutils.Table#FieldCountErr:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.dbutils.Table#JDBCException:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.dbutils.Table#NoTableDefinitions:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.dbutils.Table#ValidationErr:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.dbutils.Table#UnexpectedCondition:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.dbutils.Table#UnexpectedKeyCount:oiref> 
+*/
+class reference48 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.DBTypeConstants:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference49 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.ConnectionManager:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference50 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.SQLDataManager:oiref><oihard>
+@__modelType reference
+@__imported
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.dbutils.SQLDataManager#JDBCException:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.dbutils.SQLDataManager#PastEndOfResultSet:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.dbutils.SQLDataManager#CloseErr:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.dbutils.SQLDataManager#PasswordNotRetrieved:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.dbutils.SQLDataManager#ConnectErr:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.dbutils.SQLDataManager#ConnectionClosed:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.dbutils.SQLDataManager#StoredProcedureErr:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.dbutils.SQLDataManager#ClassFornameErr:oiref> 
+*/
+class reference {
+}}/**
+
+@__tags
+@shapeType ClassDiagram 
+*/
+class __tags {
+}/**
+@__options filter.g.state = on
+*/
+class __options {
+}/**
+@__positions <oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.Table:oiref>=640,30,460,310,0:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.ConnectionManager:oiref>=650,420,480,101,0:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.SQLDataManager:oiref>=-10,20,580,780,0:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.DBTypeConstants:oiref>=650,580,290,187,0:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.Table#dataManager:oiref>=640,133,570,133:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.SQLDataManager#connectionManager:oiref>=570,470,650,470:oigroup>
+*/
+class __positions {
+}

@@ -1,0 +1,111 @@
+package id1wcqpdrnp40godrnpdgju;
+
+/**
+@version 2.0
+@__modelType diagram 
+*/
+class diagram {
+/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.config.Configuration:oiref><oihard>
+@__modelType reference
+@__imported
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.config.Configuration#TABBED:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.config.Configuration#size#(##)#:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.config.Configuration#cache:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.config.Configuration#resolve#(#java.lang.String#int#)#:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.config.Configuration#checkKeys#(#java.util.Collection#)#:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.config.Configuration#processTabLine#(#java.lang.String#)#:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.config.Configuration#setOption#(#java.lang.String#java.lang.String#)#:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.config.Configuration#loaded:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.config.Configuration#processCshLine#(#java.lang.String#)#:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.config.Configuration#CSH:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.config.Configuration#containsKey#(#java.lang.String#)#:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.config.Configuration#processFile#(#java.io.File#)#:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.config.Configuration#processBourneLine#(#java.lang.String#)#:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.config.Configuration#toString#(##)#:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.config.Configuration#length#(##)#:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.config.Configuration#BOURNE:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.config.Configuration#MAX_RECURSION:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.config.Configuration#keys#(##)#:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.config.Configuration#options:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.config.Configuration#dirty:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.config.Configuration#hasKey#(#java.lang.String#)#:oiref> 
+*/
+class reference {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.config.ConfigurationManager:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference1 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.config.Configurator:oiref><oihard>
+@__modelType reference
+@__imported
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.config.Configurator#throwBadPatternMatch#(#java.lang.String#java.lang.String#java.lang.String#)#:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.config.Configurator#lookup#(#java.lang.String#)#:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.config.Configurator#eFactory:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.config.Configurator#parameterNotFound:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.config.Configurator#createNewObject#(#java.lang.String#)#:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.config.Configurator#parameterTypeError:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.config.Configurator#$$constructor$$#(##)#:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.config.Configurator#newInstanceFailed:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.config.Configurator#patternMismatch:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.config.Configurator#setApplyPrefix#(#boolean#)#:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.config.Configurator#parameterPrefix:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.config.Configurator#convertDelimiter#(#java.lang.String#)#:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.config.Configurator#applyPrefix:oiref> 
+*/
+class reference2 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.config.DatabaseCfg:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference3 {
+}/**
+@__ref <oiref:design#Class#id1wcqpdrnp40godrnpdgju.node:oiref><oihard>
+@__modelType reference 
+*/
+class reference4 {
+}}/**
+
+@__tags
+@shapeType ClassDiagram 
+*/
+class __tags {
+}/**
+@__options filter.g.state = off
+option.detail = Implementation 
+*/
+class __options {
+}/**
+@__positions <oigroup:<oiref:java#Class#org.jax.mgi.shr.config.Configurator:oiref>=10,10,440,430,0:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.config.ConfigurationManager#instance:oiref>=780,220,780,270,870,270,870,180,820,180:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.config.DatabaseCfg:oiref>=20,490,580,386,0:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.config.ConfigurationManager#_configurationManager:oiref>=790,220,790,260,860,260,860,190,820,190:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.config.Configuration:oiref>=500,290,350,180,0:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.config.Configurator#cm:oiref>=450,115,510,115:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.config.ConfigurationManager#config:oiref>=645,220,645,290:oigroup>
+<oigroup:Composite#supplierRole#MemberLink#<oiref:java#Member#org.jax.mgi.shr.config.ConfigurationManager#_configurationManager:oiref>=825,190,90,16,0,0.0,1.0:oigroup>
+<oigroup:<oiref:java#Extends#org.jax.mgi.shr.config.DatabaseCfg#org.jax.mgi.shr.config.Configurator:oiref>=235,490,235,440:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.config.ConfigurationManager:oiref>=510,10,310,210,0:oigroup>
+<oigroup:<oiref:design#Class#id1wcqpdrnp40godrnpdgju.node.link:oiref>=660,604,600,604:oigroup>
+<oigroup:<oiref:design#Class#id1wcqpdrnp40godrnpdgju.node:oiref>=660,590,176,29,0:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.config.ConfigurationManager#lnkConfiguration:oiref>=470,220,470,360:oigroup>
+*/
+class __positions {
+}/**
+@shapeType Note
+@__modelType node
+@name Note1
+@text example implementation 
+*/
+class node {
+/**
+@shapeType NoteLink
+@__modelType link
+@__ref <oiref:java#Class#org.jax.mgi.shr.config.DatabaseCfg:oiref><oihard> 
+*/
+class link {
+}}

@@ -1,0 +1,71 @@
+package id1fqngdu43rd5tdu4dt7dz;
+
+/**
+@version 2.0
+@__modelType diagram 
+*/
+class diagram {
+/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.ioutils.InputDataFile:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.ioutils.RecordDataInterpreter:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference7 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.ioutils.RecordDataIterator:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference8 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.ioutils.RecordDataReader:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference9 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.ioutils.RecordFormatException:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference10 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.ioutils.IOUException:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference11 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.ioutils.IOUExceptionFactory:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference12 {
+}}/**
+
+@__tags
+@shapeType ClassDiagram 
+*/
+class __tags {
+}/**
+@__options filter.g.state = on
+*/
+class __options {
+}/**
+@__positions <oigroup:<oiref:java#Class#org.jax.mgi.shr.ioutils.IOUExceptionFactory:oiref>=490,10,420,315,0:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.ioutils.InputDataFile:oiref>=10,10,400,320,0:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.ioutils.RecordDataInterpreter:oiref>=30,650,158,117,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.ioutils.IOUException:oiref>=420,660,360,101,0:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.ioutils.InputDataFile#exceptionFactory:oiref>=410,167,490,167:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.ioutils.RecordDataReader:oiref>=20,370,840,250,0:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.ioutils.RecordDataIterator:oiref>=30,790,320,120,0:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.ioutils.RecordFormatException:oiref>=420,790,230,117,0:oigroup>
+*/
+class __positions {
+}

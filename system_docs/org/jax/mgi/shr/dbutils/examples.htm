@@ -1,0 +1,171 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>Code Examples org.jax.mgi.shr.dbutils</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="../../../../../style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body bgcolor="#FFFFFF">
+<p><a name="top" href="#config">Instantiating and configuring a SQLDataManager</a><br>
+    <a href="#query">Executing and parsing a query</a><br>
+	<a href="#interp">Plugging in a RowDataInterpreter</a><br>
+	<a href="#interp2">Implementing the RowDataInterpreter interface</a><br>
+    <a href="#bind">Executing a query with bind variables</a><br>
+	<a href="#batch">Executing batch updates</a><br>
+	<a href="#table">Using metadata provided by the Table class</a><br>
+  <br>
+  <br>
+</p>
+<pre>
+<a class="hdr"name="config">Instantiating and configuring a SQLDataManager</a>&nbsp;<a href="#top">top</a>
+<span class="comments">/**
+ * get a new SQLDataManager specifying the connection parameters
+ */</span>
+<span class="code">SQLDataManager sqlMgr =
+    new SQLDataManager(</span><span class="string">"DEV1_MGI"</span><span class="code">, </span><span class="string">"mgd_jsam"</span><span class="code">, </span><span class="string">"user"</span><span class="code">, </span><span class="string">"/usr/local/mgi/live/dbutils/mgidbutilities/.mgd_dbo_password"</span><span class="code">, </span><span class="string">"rohan.informatics.jax.org:4101"</span><span class="code">);</span>
+");
+
+<span class="comments">/**
+ * get a SQLDataManager which obtains connection parameters from a
+ * configuration file as follows
+ *
+ * DBSERVER         DEV1_MGI
+ * DBNAME           mgd_jsam
+ * DBUSER           user
+ * DBPASSWORDFILE   /usr/local/mgi/live/dbutils/mgidbutilities/.mgd_dbo_password
+ * DBURL            rohan.informatics.jax.org:4101
+ *
+ */</span>
+<span class="code">SQLDataManager sqlMgr2 = new SQLDataManager();</span>
+
+<span class="comments">/**
+ * get two SQLDataManagers which obtain connection parameters from a
+ * configuration file as follows
+ *
+ * MGD_DBSERVER         DEV1_MGI
+ * MGD_DBNAME           mgd_jsam
+ * MGD_DBUSER           user
+ * MGD_DBPASSWORDFILE   /usr/local/mgi/live/dbutils/mgidbutilities/.mgd_dbo_password
+ * MGD_DBURL            rohan.informatics.jax.org:4101
+ *
+ * RADAR_DBSERVER         DEV1_MGI
+ * RADAR_DBNAME           radar
+ * RADAR_DBUSER           user
+ * RADAR_DBPASSWORDFILE   /usr/local/mgi/live/dbutils/radardbutilities/.mgd_dbo_password
+ * RADAR_DBURL            rohan.informatics.jax.org:4101
+ *
+ */</span>
+<span class="code">SQLDataManager mgd = new SQLDataManager(new DatabaseCfg(</span><span class="string">"MGD"</span><span class="code">));
+SQLDataManager radar = new SQLDataManager(new DatabaseCfg(</span><span class="string">"RADAR"</span><span class="code">));</span>
+<br>
+<a class="hdr" name="query">Executing a query and parsing results</a>&nbsp;<a href="#top">top</a>
+<br>
+<span class="code">SQLDataManager sqlMgr = new SQLDataManager();
+ResultsNavigator nav = sqlMgr.executeQuery(</span><span class="string">"select * from mgi_user"</span><span class="code">);
+while (nav.next())
+{
+    RowReference row = nav.getRowReference();
+    String name = row.getString(</span><span class="string">"name"</span><span class="code">);
+} </span>
+<br>
+<a class="hdr" name="interp">Plugging in a RowDataInterpreter</a>&nbsp;<a href="#top">top</a>
+<br>
+<span class="comments">/**
+ *  pluggiung in a RowToStringInterpreter which creates a String from a given RowReference object
+ */</span>
+<span class="code">SQLDataManager sqlMgr = new SQLDataManager();
+nav = sqlMgr.executeQuery(</span><span class="string">"select * from acc_accession"</span><span class="code">);
+nav.setInterpreter(new RowToStringInterpreter());
+BufferedWriter out = new BufferedWriter(new FileWriter(</span><span class="string">"output"</span><span class="code">));
+while (nav.next())
+{
+    String results = (String)nav.getCurrent();
+    out.write(results);
+}
+out.close();</span>
+<span class="comments">/**
+ *  plugging in a RowToDTOInterpreter which creates a DTO object from the given RowReference object
+ */</span>
+<span class="code">SQLDataManager sqlMgr = new SQLDataManager();
+Vector rows = new Vector();
+nav = sqlMgr.executeQuery(</span><span class="string">"select * from acc_accession"</span><span class="code">);
+nav.setInterpreter(new RowToDTOInterpreter());
+while (nav.next())
+{
+    DTO dto = (DTO)nav.getCurrent();
+    rows.add(dto);
+}</span>
+<span class="comments">/**
+ *  plugging in a code generated RowDataInterepreter which creates an ACC_AccessionDAO object
+ */</span>
+<span class="code">SQLDataManager sqlMgr = new SQLDataManager();
+ACC_AccessionInterpreter rowInterpreter = new ACC_AccessionInterpreter();
+ResultsNavigator nav = sqlMgr.executeQuery(</span><span class="string">"select * from acc_accession"</span><span class="code">);
+nav.setInterpreter(rowInterpreter);
+while (nav.next())
+{
+    ACC_AccessionDAO acc_accession = (ACC_AccessionDAO)nav.getCurrent();
+}</span>
+<br>
+<a class="hdr" name="interp2">Implementing the RowDataInterpreter interface</a>&nbsp;<a href="#top">top</a>
+<br>
+<span class="code">String sql = </span><span class="string">"select * from prb_source where name != null"</span><span class="code">;
+SQLDataManager sqlMgr = new SQLDataManager();
+ResultsNavigator nav = sqlMgr.executeQuery(sql);
+nav.setInterpreter(new RowDataInterpreter()
+    {
+	public Object interpret(RowReference row)
+	    throws DBException
+	{
+	    MolecularSource ms = new MolecularSource();
+	    ms.setName(row.getString(</span><span class="string">"name"</span><span class="code">));
+	    ms.setCellLineKey(row.getInt(</span><span class="string">"_cellLine_key"</span><span class="code">));
+	    return ms;
+	}
+    });
+while (nav.next())
+{
+    MolecularSource ms = (MolecularSource)nav.getCurrent();
+}</span>
+<br>
+<a class="hdr" name="bind">Executing a query with bind variables</a>&nbsp;<a href="#top">top</a>
+<br>
+<span class="comments">/**
+ * the first example binds variables using the set methods
+ */</span>
+<span class="code">SQLDataManager sqlMgr = new SQLDataManager();
+String sql = </span><span class="string">"select * from acc_accession where _mgitype_key = ?? and _logicaldb_key = ??"</span><span class="code">;
+BindableStatement stmt = sqlMgr.getBindableStatement(sql);
+ResultsNavigator nav = null;
+stmt.setInt(1, 2);
+stmt.setInt(2, 9);
+ResultsNavigator nav1 = stmt.executeQuery();</span>
+
+<span class="comments">// another query can be executed with altered bind values. 
+// only the first value is altered</span>
+<span class="code">stmt.setInt(1, 3);
+ResultsNavigator nav2 = stmt.executeQuery();</span><br>
+<a class="hdr" name="batch">Executing batch updates</a>&nbsp;<a href="#top">top</a>
+<br>
+<span class="code">SQLDataManager sqlMgr = new SQLDataManager();
+BatchProcessor batch = sqlMgr.getBatchProcessor();
+batch.addBatch(</span><span class="string">"update acc_accessionReference set _refs_key = 23441 where _accession_key = 1000000051"</span><span class="code">);
+batch.addBatch(</span><span class="string">"update acc_accessionReference set _refs_key = 23234 where _accession_key = 1000000251"</span><span class="code">);
+batch.addBatch(</span><span class="string">"update acc_accessionReference set _refs_key = 12321 where _accession_key = 1000001034"</span><span class="code">);
+batch.executeBatch();</span>
+<br>
+<a class="hdr" name="table">Using metadata provided by the Table class</a>&nbsp;<a href="#top">top</a>
+<br>
+<span class="code">SQLDataManager sqlMgr = new SQLDataManager();
+Table mgi_user = sqlMgr.getTable(</span><span class="string">org.jax.mgi.dbs.mgd.MGD.mgi_user.name</span><span class="code">);
+Integer key = mgi_user.getNextKey();
+Vector columns = mgi_user.getColumnDefinitions();
+for (Iterator it=columns.iterator(); it.hasNext(); ) {
+    ColumnDef column  = (ColumnDef)it.next();
+}</span>
+</pre>
+<a href="#top">top</a>
+</body>
+</html>

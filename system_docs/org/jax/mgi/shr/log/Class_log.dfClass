@@ -1,0 +1,51 @@
+package idk1aydu5mx1t3du5nyecu;
+
+/**
+@version 2.0
+@__modelType diagram 
+*/
+class diagram {
+/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.log.ConsoleLogger:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.log.ConsoleLoggerFactory:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference5 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.log.Logger:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference6 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.log.LoggerFactory:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference7 {
+}}/**
+
+@__tags
+@shapeType ClassDiagram 
+*/
+class __tags {
+}/**
+@__options 
+*/
+class __options {
+}/**
+@__positions <oigroup:<oiref:java#Class#org.jax.mgi.shr.log.ConsoleLoggerFactory:oiref>=50,180,140,85,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.log.ConsoleLogger:oiref>=510,20,117,190,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.log.Logger:oiref>=290,20,117,181,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.log.LoggerFactory:oiref>=60,20,119,101,1:oigroup>
+<oigroup:<oiref:java#Implements#org.jax.mgi.shr.log.ConsoleLoggerFactory#org.jax.mgi.shr.log.LoggerFactory:oiref>=109,180,109,121:oigroup>
+<oigroup:<oiref:java#Implements#org.jax.mgi.shr.log.ConsoleLogger#org.jax.mgi.shr.log.Logger:oiref>=510,107,407,107:oigroup>
+*/
+class __positions {
+}

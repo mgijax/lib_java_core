@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>Code Examples org.jax.mgi.shr.exception</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+<link href="../../../../../style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body bgcolor="#FFFFFF">
+<p><a name="top" href="#runtime">Creating a new MGIException at runtime</a><br>
+    <a href="#bind">Binding runtime values to exception messages</a><br>
+    <a href="#extend">Extending MGIException</a><br>
+  <br>
+  <br>
+</p>
+<pre>
+<a class="hdr"name="runtime">Creating a new MGIException at runtime</a>&nbsp;<a href="#top">top</a>
+<span class="comments">// a new MGIException</span>
+<span class="code">MGIException newException = new MGIException("something went wrong");</span>
+
+<span class="comments">// a new MGIException based on a caught Exception</span>
+<span class="code">String classname = "org.jax.mgi.shr.exception.noclass";
+try
+{
+    Object o = Class.forName(classname).newInstance();
+}
+catch (Exception e)
+{
+    MGIException e2 = new MGIException("something went wrong", e);
+    throw e2;
+}</span>
+<br>
+<a class="hdr" name="bind">Binding runtime values to exception messages</a>&nbsp;<a href="#top">top</a>
+<br>
+<span class="code">String message = </span><span class="string">"Could not instantiate class ??"</span><span class="code">;
+Object o = null;
+try
+{
+    o = Class.forName(classname).newInstance();
+}
+catch (ClassNotFoundException e)
+{
+    MGIException e2 = new MGIException(message, e);
+    e2.bind(classname);
+    throw e2;
+}
+catch (IllegalAccessException e)
+{
+    MGIException e2 = new MGIException(message, e);
+    e2.bind(classname);
+    throw e2;
+}
+catch (InstantiationException e)
+{
+    MGIException e2 = new MGIException(message, e);
+    e2.bind(classname);
+    throw e2;
+}
+return o;</span>
+<br>
+<a class="hdr" name="extend">Extending MGIException</a>&nbsp;<a href="#top">top</a>
+<br>
+<span class="code">class CommandLineException extends MGIException
+{
+    CommandLineException()
+    {
+	super(</span><span class="string">"Illegal command line argument: ??"</span><span class="code">);
+    }
+
+    public void setBadArgument(String arg)
+    {
+	this.bind(arg);
+    }
+}</span>
+</pre>
+<a href="#top">top</a>
+</body>
+</html>

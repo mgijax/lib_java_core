@@ -1,0 +1,150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>Code Examples org.jax.mgi.shr.dbutils.dao</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+<link href="../../../../../../style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body bgcolor="#FFFFFF">
+<p><a name="top" href="#stream">Creating a SQLStream</a><br>
+    <a href="#insert">Inserting a DAO object onto a SQLStream</a><br>
+	<a href="#update">Updating a DAO object within a SQLStream</a><br>
+	<a href="#delete">Deleting a DAO object from a SQLStream</a><br>
+	<a href="#dao">Extending the DAO class </a><br>
+  <br>
+  <br>
+</p>
+<pre>
+<a class="hdr"name="stream">Creating a SQLStream</a>&nbsp;<a href="#top">top</a>
+<span class="comments">/**
+ * a stream for performing inline sql
+ */</span>
+<span class="code">SQLDataManager sqlMgr = new SQLDataManager();
+SQLStream inLineStream = new Inline_Stream(sqlMgr);</span>
+<span class="comments">/**
+ * a stream for performing BCP on insert and inline sql for update and deletes
+ */</span>
+<span class="code">BCPManager bcpMgr = new BCPManager();
+SQLStream bcpStream = new BCP_Inline_Stream(sqlMgr, bcpMgr);</span>
+<span class="comments">/**
+ * a stream for performing JDBC batch
+ */</span>
+<span class="code">SQLStream batchStream = new Batch_Stream(sqlMgr);</span>
+<span class="comments">/**
+ * a stream for performing scripting
+ */</span>
+<span class="code">ScriptWriter script = new ScriptWriter(sqlMgr);
+SQLStream scriptStream = new Script_Stream(script);</span>
+<br>
+<a class="hdr" name="insert">Inserting a DAO object onto a SQLStream</a>&nbsp;<a href="#top">top</a>
+<br>
+<span class="code">SQLDataManager sqlMgr = new SQLDataManager();
+SQLStream stream = new Inline_Stream(sqlMgr);
+MGI_UserState userState = new MGI_UserState();
+userState.setName(</span><span class="string">"Earl E. Bird"</span><span class="code">);
+userState.setLogin(</span><span class="string">"eeb"</span><span class="code">);
+stream.insert(new MGI_UserDAO(userState));</span>
+<br>
+<a class="hdr" name="update">Updating a DAO object within a SQLStream</a>&nbsp;<a href="#top">top</a>
+<br>
+<span class="code">SQLDataManager sqlMgr = new SQLDataManager();
+SQLStream stream = new Inline_Stream(sqlMgr);
+MGI_UserLookup lookup = new MGI_UserLookup();
+MGI_UserState userState = new MGI_UserState();
+userState.setName(</span><span class="string">"Joe King"</span><span class="code">);
+ResultsNavigator nav = lookup.findByState(userState);
+while (nav.next())
+{
+    MGI_UserDAO user = (MGI_UserDAO)nav.getCurrent();
+    user.getState().setUserStatusKey(new Integer(23415));
+    user.getState().setUserTypeKey(new Integer(1345));
+    stream.update(user);
+}
+stream.close();</span>
+<br>
+<a class="hdr" name="delete">Deleting a DAO object from a SQLStream</a>&nbsp;<a href="#top">top</a>
+<br>
+<span class="code">SQLDataManager sqlMgr = new SQLDataManager();
+SQLStream stream = new Inline_Stream(sqlMgr);
+MGI_UserLookup lookup = new MGI_UserLookup();
+MGI_UserState userState = new MGI_UserState();
+userState.setName(</span><span class="string">"Helen Back"</span><span class="code">);
+ResultsNavigator nav = lookup.findByState(userState);
+while (nav.next())
+{
+    MGI_UserDAO user = (MGI_UserDAO)nav.getCurrent();
+    stream.delete(user);
+}
+stream.close();</span>
+<br>
+<a class="hdr" name="dao">Extending the DAO class</a>&nbsp;<a href="#top">top</a>
+<br>
+<span class="comments">/**
+ *  This simple DAO can handle inserting new PRB_Probe records but does not handle updating or deleting them
+ */</span>
+<span class="code">class Clone extends DAO
+{
+    private PRB_ProbeDAO probe = null;
+
+    public Clone(String name, Integer sourceKey, Clone derivedFrom)
+    throws MGIException
+    {
+	PRB_ProbeState state = new PRB_ProbeState();
+	state.setName(name);
+	state.setSourceKey(sourceKey);
+	state.setDerivedFrom(derivedFrom.getKey());
+	</span><span class="comments">// look up the source record to obtain the vectorType and segmentType</span><span class="code">
+	PRB_SourceLookup lookup = new PRB_SourceLookup();
+	PRB_SourceDAO src = lookup.findBySeqKey(sourceKey);
+	state.setSegmentTypeKey(src.getState().getSegmentTypeKey());
+	state.setVectorKey(src.getState().getVectorKey());
+	</span><span class="comments">// the rest are set by default</span><span class="code">
+	state.setInsertSite(null);
+	state.setInsertSize(null);
+	state.setMoreProduct(null);
+	state.setPrimer1sequence(null);
+	state.setPrimer2sequence(null);
+	state.setProductSize(null);
+	state.setRegionCovered(null);
+	state.setRegionCovered2(null);
+	state.setRepeatUnit(null);
+    }
+
+    public Integer getKey()
+    {
+	return this.probe.getKey().getKey();
+    }
+
+    public Vector getBCPSupportedTables()
+    {
+	return this.probe.getBCPSupportedTables();
+    }
+
+    public Vector getBCPVector(Table table) throws BCPException
+    {
+	return this.probe.getBCPVector(table);
+    }
+
+    public String getUpdateSQL() throws DBException
+    {
+	 throw MGIException.getUnsupportedMethodException();
+    }
+
+    public String getInsertSQL() throws DBException
+    {
+	return this.probe.getInsertSQL();
+    }
+
+    public String getDeleteSQL() throws DBException
+    {
+	 throw MGIException.getUnsupportedMethodException();
+    }
+}</span>
+
+</pre>
+<a href="#top">top</a>
+</body>
+</html>

@@ -1,0 +1,53 @@
+package id2n427du5mx1t3du5xmhbc;
+
+/**
+@version 2.0
+@__modelType diagram 
+*/
+class diagram {
+/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.exception.BindableException:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.exception.ChainedException:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference8 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.exception.ExceptionFactory:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference9 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.exception.MGIException:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference10 {
+}}/**
+
+@__tags
+@shapeType ClassDiagram 
+*/
+class __tags {
+}/**
+@__options filter.g.state = on
+*/
+class __options {
+}/**
+@__positions <oigroup:<oiref:java#Class#org.jax.mgi.shr.exception.BindableException:oiref>=59,10,311,286,0:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.exception.ExceptionFactory#lnkMGIException:oiref>=620,196,620,320:oigroup>
+<oigroup:<oiref:java#Extends#org.jax.mgi.shr.exception.ChainedException#org.jax.mgi.shr.exception.BindableException:oiref>=185,356,185,296:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.exception.ChainedException:oiref>=61,356,249,190,0:oigroup>
+<oigroup:<oiref:java#Extends#org.jax.mgi.shr.exception.MGIException#org.jax.mgi.shr.exception.ChainedException:oiref>=420,448,310,448:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.exception.ExceptionFactory:oiref>=420,40,470,156,0:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.exception.MGIException:oiref>=420,320,400,220,0:oigroup>
+<oigroup:Composite#label#MemberLink#<oiref:java#Member#org.jax.mgi.shr.exception.ExceptionFactory#lnkMGIException:oiref>=604,281,47,16,0,-1.0,0.0:oigroup>
+*/
+class __positions {
+}

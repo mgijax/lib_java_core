@@ -1,0 +1,98 @@
+package idy32edue2cmokduedmouy;
+
+/**
+@version 2.0
+@physicalPackage
+@__modelType diagram 
+*/
+class diagram {
+/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.bcp.RecordStampFactory:oiref><oihard>
+@__modelType reference 
+*/
+class reference {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.bcp.BCPWriter:oiref><oihard>
+@__modelType reference 
+*/
+class reference88 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.bcp.BCPTranslatable:oiref><oihard>
+@__modelType reference 
+*/
+class reference89 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.bcp.BCPManager:oiref><oihard>
+@__modelType reference 
+*/
+class reference90 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.bcp.RecordStamper_RADAR:oiref><oihard>
+@__modelType reference 
+*/
+class reference91 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.bcp.RecordStamper:oiref><oihard>
+@__modelType reference 
+*/
+class reference92 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.bcp.RecordStamper_MGDRelease:oiref><oihard>
+@__modelType reference 
+*/
+class reference93 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.bcp.RecordStamper_MGDOrg:oiref><oihard>
+@__modelType reference 
+*/
+class reference94 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.bcp.RecordStamper_None:oiref><oihard>
+@__modelType reference 
+*/
+class reference95 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.bcp.BCPExceptionFactory:oiref><oihard>
+@__modelType reference 
+*/
+class reference96 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.bcp.BCPManagerFactory:oiref><oihard>
+@__modelType reference 
+*/
+class reference97 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.bcp.RecordStamper_MGD:oiref><oihard>
+@__modelType reference 
+*/
+class reference98 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.bcp.RecordStamper_MGDDate:oiref><oihard>
+@__modelType reference 
+*/
+class reference99 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.bcp.BCPException:oiref><oihard>
+@__modelType reference 
+*/
+class reference100 {
+}/**
+@__ref <oiref:design#Class#id35o8ydw49y17wdw49yhtg.diagram:oiref><oihard>
+@__modelType reference
+@__fqn <oiref:#Package#org.jax.mgi.shr.dbutils.bcp.ext:oiref> 
+*/
+class reference1 {
+}}/**
+@__tags
+@shapeType ClassDiagram 
+*/
+class __tags {
+}/**
+@__options 
+*/
+class __options {
+}/**
+@__positions 
+*/
+class __positions {
+}

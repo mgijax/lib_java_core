@@ -1,0 +1,47 @@
+package id4tk4bdue2cmokduedmoww;
+
+/**
+@version 2.0
+@physicalPackage
+@__modelType diagram 
+*/
+class diagram {
+/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.log.ConsoleLogger:oiref><oihard>
+@__modelType reference 
+*/
+class reference {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.log.Logger:oiref><oihard>
+@__modelType reference 
+*/
+class reference1 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.log.LoggerFactory:oiref><oihard>
+@__modelType reference 
+*/
+class reference2 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.log.ConsoleLoggerFactory:oiref><oihard>
+@__modelType reference 
+*/
+class reference3 {
+}}/**
+@__tags
+@shapeType ClassDiagram 
+*/
+class __tags {
+}/**
+@__options 
+*/
+class __options {
+}/**
+@__positions <oigroup:<oiref:java#Class#org.jax.mgi.shr.log.ConsoleLoggerFactory:oiref>=147,171,140,85,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.log.ConsoleLogger:oiref>=10,251,117,190,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.log.LoggerFactory:oiref>=157,10,119,101,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.log.Logger:oiref>=10,10,117,181,1:oigroup>
+<oigroup:<oiref:java#Implements#org.jax.mgi.shr.log.ConsoleLoggerFactory#org.jax.mgi.shr.log.LoggerFactory:oiref>=216,171,216,111:oigroup>
+<oigroup:<oiref:java#Implements#org.jax.mgi.shr.log.ConsoleLogger#org.jax.mgi.shr.log.Logger:oiref>=68,251,68,191:oigroup> 
+*/
+class __positions {
+}

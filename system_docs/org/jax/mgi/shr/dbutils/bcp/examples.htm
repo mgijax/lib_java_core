@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>Code Examples org.jax.mgi.shr.dbutils.bcp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+<link href="../../../../../../style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body bgcolor="#FFFFFF">
+<p><a name="top" href="#config">Instantiating and configuring a BCPManager</a><br>
+    <a href="#execute">Creating and executing a bcp file</a><br>
+  <br>
+  <br>
+</p>
+<pre>
+<a class="hdr"name="config">Instantiating and configuring a BCPManager</a>&nbsp;<a href="#top">top</a>
+<span class="comments">/**
+ * configuring a BCPManager using setter methods
+ */</span>
+<span class="code">SQLDataManager sqlMgr = new SQLDataManager();
+BCPManager bcpMgr = new BCPManager();
+bcpMgr.setOkToDropIndexes(true);
+bcpMgr.setOkToDropTriggers(true);
+bcpMgr.setOkToTruncateLog(true);
+</span>
+<span class="comments">/**
+ * configuring a BCPManager with a configuration file
+ * as follows:
+ *
+ * BCP_OK_TO_DROP_INDEXES        true
+ * BCP_OK_DROP_TRIGGERS          true
+ * BCP_OK_TO_TRUNCATE_LOG        true
+ */</span>
+<span class="code">BCPManager bcpMgr2 = new getBCPManager();
+</span><span class="comments">// internally reads config files listed in the system property named CONFIG</span>
+
+<span class="comments">/**
+ * configuring two BCPManagers with a configuration file
+ * as follows:
+ *
+ * MGD_DBSERVER         DEV1_MGI
+ * MGD_DBNAME           mgd_jsam
+ * MGD_DBUSER           user
+ * MGD_DBPASSWORDFILE   /usr/local/mgi/live/dbutils/mgidbutilities/.mgd_dbo_password
+ * MGD_DBURL            rohan.informatics.jax.org:4101
+ *
+ * MGD_BCP_OK_TO_DROP_INDEXES        true
+ * MGD_BCP_OK_DROP_TRIGGERS          true
+ * MGD_BCP_OK_TO_TRUNCATE_LOG        true
+ *
+ * RADAR_BCP_OK_TO_DROP_INDEXES      false
+ * RADAR_BCP_OK_TO_DROP_TRIGGERS     false
+ * RADAR_BCP_OK_TO_TRUNCATE_LOG      true
+ *
+ * RADAR_DBSERVER         DEV1_MGI
+ * RADAR_DBNAME           radar
+ * RADAR_DBUSER           user
+ * RADAR_DBPASSWORDFILE   /usr/local/mgi/live/dbutils/radardbutilities/.mgd_dbo_password
+ * RADAR_DBURL            rohan.informatics.jax.org:4101
+ */</span>
+<span class="code">SQLDataManager sqlMGD = new SQLDataManager(new DatabaseCfg(</span><span class="string">"MGD"</span><span class="code">));
+SQLDataManager sqlRADAR = new SQLDataManager(new DatabaseCfg(</span><span class="string">"RADAR"</span><span class="code">));
+BCPManager bcpMGD = sqlMGD.getBCPManager(new BCPManagerCfg(</span><span class="string">"MGD"</span><span class="code">));
+BCPManager bcpRADAR = sqlRADAR.getBCPManager(new BCPManagerCfg(</span><span class="string">"RADAR"</span><span class="code">));</span>
+<br>
+<a class="hdr" name="execute">Creating and executing a bcp file</a>&nbsp;<a href="#top">top</a>
+<br>
+<span class="code">SQLDataManager sqlMgr = new SQLDataManager();
+Table table mgi_user = new Table(<span class="string">org.jax.mgi.dbs.mgd.MGD.mgi_user.name</span>);
+BCPManager bcpMgr = new BCPManager();</span><span class="code">
+BCPWriter writer = bcpMgr.getBCPWriter(table);
+MGI_UserState user = new MGI_UserState();
+user.setName(</span><span class="string">"John Doe"</span><span class="code">);
+user.setLogin(</span><span class="string">"jd"</span><span class="code">);
+writer.write(new MGI_UserDAO(user));
+user.setName(</span><span class="string">"Jane Doe"</span><span class="code">);
+user.setLogin(</span><span class="string">"jd2"</span><span class="code">);
+writer.write(new MGI_UserDAO(user));
+bcpMgr.executeBCP();</span>
+</pre>
+<a href="#top">top</a>
+</body>
+</html>

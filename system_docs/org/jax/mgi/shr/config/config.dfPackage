@@ -1,0 +1,187 @@
+package idy7spdue2cmokduedmou4;
+
+/**
+@version 2.0
+@physicalPackage
+@__modelType diagram 
+*/
+class diagram {
+/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.config.LogCfg:oiref><oihard>
+@__modelType reference 
+*/
+class reference {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.config.TestInputDataCfg:oiref><oihard>
+@__modelType reference 
+*/
+class reference12 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.config.ReportCfg:oiref><oihard>
+@__modelType reference 
+*/
+class reference13 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.config.RcdFile:oiref><oihard>
+@__modelType reference 
+*/
+class reference14 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.config.BCPManagerCfg:oiref><oihard>
+@__modelType reference 
+*/
+class reference15 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.config.Configurator:oiref><oihard>
+@__modelType reference 
+*/
+class reference16 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.config.RecordStampCfg:oiref><oihard>
+@__modelType reference 
+*/
+class reference17 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.config.TestBCPManagerCfg:oiref><oihard>
+@__modelType reference 
+*/
+class reference18 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.config.TestConfigurationManager:oiref><oihard>
+@__modelType reference 
+*/
+class reference19 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.config.TestConfiguration:oiref><oihard>
+@__modelType reference 
+*/
+class reference20 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.config.TestDatabaseCfg:oiref><oihard>
+@__modelType reference 
+*/
+class reference21 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.config.InputDataCfg:oiref><oihard>
+@__modelType reference 
+*/
+class reference22 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.config.ConfigReinitializer:oiref><oihard>
+@__modelType reference 
+*/
+class reference23 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.config.RebelReader:oiref><oihard>
+@__modelType reference 
+*/
+class reference24 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.config.DatabaseConfigurator:oiref><oihard>
+@__modelType reference 
+*/
+class reference25 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.config.ConfigurationManager:oiref><oihard>
+@__modelType reference 
+*/
+class reference26 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.config.DatabaseCfg:oiref><oihard>
+@__modelType reference 
+*/
+class reference27 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.config.BCPWriterCfg:oiref><oihard>
+@__modelType reference 
+*/
+class reference28 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.config.ConfigException:oiref><oihard>
+@__modelType reference 
+*/
+class reference29 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.config.ConfigExceptionFactory:oiref><oihard>
+@__modelType reference 
+*/
+class reference30 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.config.ScriptWriterCfg:oiref><oihard>
+@__modelType reference 
+*/
+class reference31 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.config.Configuration:oiref><oihard>
+@__modelType reference 
+*/
+class reference32 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.config.CacheCfg:oiref><oihard>
+@__modelType reference 
+*/
+class reference4 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.config.TestConfigurator:oiref><oihard>
+@__modelType reference 
+*/
+class reference5 {
+}}/**
+@__tags
+@shapeType ClassDiagram 
+*/
+class __tags {
+}/**
+@__options 
+*/
+class __options {
+}/**
+@__positions <oigroup:<oiref:java#Class#org.jax.mgi.shr.config.Configuration:oiref>=1269,1338,152,494,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.config.InputDataCfg:oiref>=1908,580,176,222,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.config.Configurator#eFactory:oiref>=1317,610,1325,610:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.config.ConfigurationManager#config:oiref>=1288,1228,1288,1338:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.config.RebelReader:oiref>=904,1022,163,110,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.config.BCPManagerCfg:oiref>=2384,580,200,414,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.config.TestConfigurator:oiref>=409,30,200,174,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.config.ScriptWriterCfg:oiref>=865,580,200,318,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.config.RcdFile:oiref>=1337,10,166,446,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.config.TestDatabaseCfg:oiref>=290,580,165,222,1:oigroup>
+<oigroup:<oiref:java#Extends#org.jax.mgi.shr.config.ScriptWriterCfg#org.jax.mgi.shr.config.Configurator:oiref>=1065,620,1119,620:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.config.TestConfigurator#configurator:oiref>=609,117,1119,117:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.config.LogCfg:oiref>=475,580,190,142,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.config.TestConfigurationManager#configurationManager:oiref>=1198,1338,1198,1228:oigroup>
+<oigroup:<oiref:java#Extends#org.jax.mgi.shr.config.LogCfg#org.jax.mgi.shr.config.Configurator:oiref>=665,590,1119,590:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.config.TestConfiguration#configuration:oiref>=1345,1892,1345,1832:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.config.DatabaseConfigurator:oiref>=37,10,146,181,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.config.TestBCPManagerCfg#bCPManagerCfg:oiref>=2304,699,2384,699:oigroup>
+<oigroup:<oiref:java#Extends#org.jax.mgi.shr.config.BCPWriterCfg#org.jax.mgi.shr.config.Configurator:oiref>=1305,621,1317,621:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.config.BCPWriterCfg:oiref>=1105,580,200,398,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.config.ReportCfg:oiref>=685,580,200,254,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.config.CacheCfg:oiref>=597,218,124,101,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.config.Configurator#cm:oiref>=1119,610,1085,573,1085,970,1241,1022:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.config.TestConfigurationManager:oiref>=1049,1338,200,206,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.config.Configurator:oiref>=1119,10,198,622,1:oigroup>
+<oigroup:<oiref:java#Extends#org.jax.mgi.shr.config.ReportCfg#org.jax.mgi.shr.config.Configurator:oiref>=885,600,1119,600:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.config.ConfigReinitializer:oiref>=1523,10,114,85,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.config.ConfigExceptionFactory:oiref>=1325,580,168,219,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.config.TestInputDataCfg:oiref>=1700,580,161,238,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.config.TestConfiguration:oiref>=1262,1892,166,206,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.config.RecordStampCfg:oiref>=1513,580,167,222,1:oigroup>
+<oigroup:<oiref:java#Extends#org.jax.mgi.shr.config.DatabaseCfg#org.jax.mgi.shr.config.Configurator:oiref>=160,580,160,570,1119,570:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.config.ConfigurationManager#instance:oiref>=1307,1228,1307,1278,1397,1278,1397,1188,1347,1188:oigroup>
+<oigroup:<oiref:java#Extends#org.jax.mgi.shr.config.RecordStampCfg#org.jax.mgi.shr.config.Configurator:oiref>=1513,600,1317,600:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.config.ConfigurationManager#eFactory:oiref>=1336,1022,1336,799:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.config.TestDatabaseCfg#databaseCfg:oiref>=290,683,210,683:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.config.ConfigException:oiref>=1657,10,110,101,1:oigroup>
+<oigroup:<oiref:java#Extends#org.jax.mgi.shr.config.InputDataCfg#org.jax.mgi.shr.config.Configurator:oiref>=1908,590,1317,590:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.config.TestBCPManagerCfg:oiref>=2104,580,200,254,1:oigroup>
+<oigroup:<oiref:java#Implements#org.jax.mgi.shr.config.DatabaseCfg#org.jax.mgi.shr.config.DatabaseConfigurator:oiref>=110,580,110,191:oigroup>
+<oigroup:<oiref:java#Extends#org.jax.mgi.shr.config.BCPManagerCfg#org.jax.mgi.shr.config.Configurator:oiref>=2484,580,2484,570,1317,570:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.config.RebelReader#cm:oiref>=1067,1077,1147,1077:oigroup>
+<oigroup:<oiref:java#Extends#org.jax.mgi.shr.config.CacheCfg#org.jax.mgi.shr.config.Configurator:oiref>=721,268,1119,268:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.config.TestInputDataCfg#fileCfg:oiref>=1861,696,1908,696:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.config.DatabaseCfg:oiref>=10,580,200,334,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.config.ConfigurationManager:oiref>=1147,1022,200,206,1:oigroup>
+*/
+class __positions {
+}

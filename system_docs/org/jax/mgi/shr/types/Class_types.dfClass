@@ -1,0 +1,35 @@
+package id4y4xndrnp40godrnqq35r;
+
+/**
+@version 2.0
+@__modelType diagram 
+*/
+class diagram {
+/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.types.DataVector:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.types.Converter:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference4 {
+}}/**
+
+@__tags
+@shapeType ClassDiagram 
+*/
+class __tags {
+}/**
+@__options 
+*/
+class __options {
+}/**
+@__positions <oigroup:<oiref:java#Class#org.jax.mgi.shr.types.DataVector:oiref>=50,20,141,389,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.types.Converter:oiref>=240,20,172,494,1:oigroup> 
+*/
+class __positions {
+}

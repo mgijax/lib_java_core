@@ -1,0 +1,85 @@
+package ida8ybdu8jng8zdu8jph6y;
+
+/**
+@version 2.0
+@__modelType diagram 
+*/
+class diagram {
+/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.MultiRowInterpreter:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference4 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.MultiRowIterator:oiref><oihard>
+@__modelType reference
+@__imported
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.dbutils.MultiRowIterator#InterpretErr:oiref> 
+*/
+class reference5 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.ResultsIterator:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference6 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.ResultsNavigator:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference7 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.RowDataInterpreter:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference8 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.RowReference:oiref><oihard>
+@__modelType reference
+@__imported
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.dbutils.RowReference#JDBCException:oiref> 
+*/
+class reference9 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.DataIterator:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference {
+}}/**
+
+@__tags
+@shapeType ClassDiagram 
+*/
+class __tags {
+}/**
+@__options filter.g.state = on
+*/
+class __options {
+}/**
+@__positions <oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.RowDataInterpreter:oiref>=510,10,360,101,0:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.DataIterator:oiref>=830,140,180,133,0:oigroup>
+<oigroup:Composite#label#MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.MultiRowIterator#nav:oiref>=449,344,41,16,0,0.0,1.0:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.ResultsNavigator#rowref:oiref>=213,380,213,470:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.MultiRowIterator#interp:oiref>=606,340,606,277:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.ResultsNavigator#interpreter:oiref>=397,60,510,60:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.MultiRowIterator:oiref>=530,340,391,160,0:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.ResultsNavigator:oiref>=20,10,377,370,0:oigroup>
+<oigroup:<oiref:java#Extends#org.jax.mgi.shr.dbutils.MultiRowInterpreter#org.jax.mgi.shr.dbutils.RowDataInterpreter:oiref>=710,160,710,111:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.ResultsIterator:oiref>=430,150,123,133,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.SQLDataManager#connectionManager:oiref>=1380,840,1260,840:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.Table#dataManager:oiref>=1320,405,1380,405:oigroup>
+<oigroup:Composite#label#MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.MultiRowIterator#interp:oiref>=606,289,37,16,0,1.0,0.0:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.RowReference:oiref>=30,470,390,420,0:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.Table#dbExceptionFactory:oiref>=758,609,758,549:oigroup>
+<oigroup:Composite#label#MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.ResultsNavigator#interpreter:oiref>=471,60,37,16,0,0.0,-1.0:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.MultiRowIterator#nav:oiref>=530,360,397,360:oigroup>
+<oigroup:<oiref:java#Implements#org.jax.mgi.shr.dbutils.MultiRowIterator#org.jax.mgi.shr.dbutils.ResultsIterator:oiref>=500,380,500,283:oigroup>
+<oigroup:<oiref:java#Implements#org.jax.mgi.shr.dbutils.MultiRowIterator#org.jax.mgi.shr.dbutils.DataIterator:oiref>=875,340,875,273:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.MultiRowInterpreter:oiref>=500,160,260,117,0:oigroup>
+*/
+class __positions {
+}

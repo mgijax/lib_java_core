@@ -1,0 +1,162 @@
+package id4ujhudue2cmokduedmov8;
+
+/**
+@version 2.0
+@physicalPackage
+@__modelType diagram 
+*/
+class diagram {
+/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.InsertStrategy:oiref><oihard>
+@__modelType reference 
+*/
+class reference {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.RecordStampable:oiref><oihard>
+@__modelType reference 
+*/
+class reference101 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.BatchStrategy:oiref><oihard>
+@__modelType reference 
+*/
+class reference102 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.SQLStream:oiref><oihard>
+@__modelType reference 
+*/
+class reference103 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.DAOPersistent:oiref><oihard>
+@__modelType reference 
+*/
+class reference104 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.Inline_Stream:oiref><oihard>
+@__modelType reference 
+*/
+class reference105 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.BCP_Batch_Stream:oiref><oihard>
+@__modelType reference 
+*/
+class reference106 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.RecordStampable_MGDOrg:oiref><oihard>
+@__modelType reference 
+*/
+class reference107 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.InlineStrategy:oiref><oihard>
+@__modelType reference 
+*/
+class reference108 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.BCP_Script_Stream:oiref><oihard>
+@__modelType reference 
+*/
+class reference109 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.Script_Stream:oiref><oihard>
+@__modelType reference 
+*/
+class reference110 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.RecordStamper:oiref><oihard>
+@__modelType reference 
+*/
+class reference111 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.RecordStampException:oiref><oihard>
+@__modelType reference 
+*/
+class reference112 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.RecordStampable_MGDDate:oiref><oihard>
+@__modelType reference 
+*/
+class reference113 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.RecordStampExceptionFactory:oiref><oihard>
+@__modelType reference 
+*/
+class reference114 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.DAO:oiref><oihard>
+@__modelType reference 
+*/
+class reference115 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.JDBCBatchStrategy:oiref><oihard>
+@__modelType reference 
+*/
+class reference116 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.BCPStrategy:oiref><oihard>
+@__modelType reference 
+*/
+class reference117 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.Batch_Stream:oiref><oihard>
+@__modelType reference 
+*/
+class reference118 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.RecordStampable_MGD:oiref><oihard>
+@__modelType reference 
+*/
+class reference119 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.ScriptStrategy:oiref><oihard>
+@__modelType reference 
+*/
+class reference120 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.BCP_Inline_Stream:oiref><oihard>
+@__modelType reference 
+*/
+class reference121 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.TransactionalSQLStream:oiref><oihard>
+@__modelType reference 
+*/
+class reference122 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.RecordStampable_RADAR:oiref><oihard>
+@__modelType reference 
+*/
+class reference123 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.DeleteStrategy:oiref><oihard>
+@__modelType reference 
+*/
+class reference124 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.RecordStampable_MGDRelease:oiref><oihard>
+@__modelType reference 
+*/
+class reference125 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.SQLTranslatable:oiref><oihard>
+@__modelType reference 
+*/
+class reference126 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.UpdateStrategy:oiref><oihard>
+@__modelType reference 
+*/
+class reference127 {
+}}/**
+@__tags
+@shapeType ClassDiagram 
+*/
+class __tags {
+}/**
+@__options 
+*/
+class __options {
+}/**
+@__positions 
+*/
+class __positions {
+}

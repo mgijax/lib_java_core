@@ -1,0 +1,84 @@
+package id4jllhdu8rjgvcdu8ru1gf;
+
+/**
+@version 2.0
+@__modelType diagram 
+*/
+class diagram {
+/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.bcp.BCPManager:oiref><oihard>
+@__modelType reference
+@__imported
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.dbutils.bcp.BCPManager#InterruptErr:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.dbutils.bcp.BCPManager#IOErr:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.dbutils.bcp.BCPManager#NonZeroErr:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.dbutils.bcp.BCPManager#InvalidDelimiter:oiref> 
+*/
+class reference {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.bcp.BCPTranslatable:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference1 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.bcp.BCPWriter:oiref><oihard>
+@__modelType reference
+@__imported
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.dbutils.bcp.BCPWriter#FileWriteErr:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.dbutils.bcp.BCPWriter#TempFileCreateErr:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.dbutils.bcp.BCPWriter#FileCloseErr:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.dbutils.bcp.BCPWriter#FileCreateErr:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.dbutils.bcp.BCPWriter#InvalidDelimiter:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.dbutils.bcp.BCPWriter#StringConversionErr:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.dbutils.bcp.BCPWriter#InvalidBCPWriter:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.dbutils.bcp.BCPWriter#InvalidBCPVector:oiref>
+@__hiddenMember <oiref:java#Member#org.jax.mgi.shr.dbutils.bcp.BCPWriter#RecordStampErr:oiref> 
+*/
+class reference2 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.bcp.RecordStamper:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference3 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.bcp.BCPExceptionFactory:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference4 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.bcp.BCPException:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference5 {
+}}/**
+
+@__tags
+@shapeType ClassDiagram 
+*/
+class __tags {
+}/**
+@__options filter.g.state = on
+*/
+class __options {
+}/**
+@__positions <oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.bcp.RecordStamper:oiref>=40,850,200,117,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.bcp.BCPManager#exceptionFactory:oiref>=430,615,560,615:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.bcp.BCPTranslatable:oiref>=270,850,240,117,0:oigroup>
+<oigroup:Composite#label#MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.bcp.BCPManager#exceptionFactory:oiref>=509,615,28,16,0,0.0,-1.0:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.bcp.BCPExceptionFactory#lnkBCPException:oiref>=560,750,400,750:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.bcp.BCPWriter:oiref>=600,-20,520,480,0:oigroup>
+<oigroup:Composite#label#MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.bcp.BCPWriter#bcpmanager:oiref>=501,204,28,16,0,0.0,1.0:oigroup>
+<oigroup:Composite#label#MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.bcp.BCPExceptionFactory#lnkBCPException:oiref>=457,734,47,16,0,0.0,1.0:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.bcp.BCPException:oiref>=40,700,360,101,0:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.bcp.BCPWriter#eFactoryBCP:oiref>=855,460,855,540:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.bcp.BCPWriter#bcpmanager:oiref>=600,220,430,220:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.bcp.BCPManager:oiref>=20,-20,410,670,0:oigroup>
+<oigroup:Composite#label#MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.bcp.BCPWriter#eFactoryBCP:oiref>=839,514,28,16,0,-1.0,0.0:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.bcp.BCPExceptionFactory:oiref>=560,540,550,380,0:oigroup>
+*/
+class __positions {
+}

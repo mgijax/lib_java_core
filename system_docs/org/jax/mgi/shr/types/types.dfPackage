@@ -1,0 +1,51 @@
+package id1oxdmdue2cmokduedmox6;
+
+/**
+@version 2.0
+@physicalPackage
+@__modelType diagram 
+*/
+class diagram {
+/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.types.Converter:oiref><oihard>
+@__modelType reference 
+*/
+class reference {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.types.TypesException:oiref><oihard>
+@__modelType reference 
+*/
+class reference128 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.types.DataVector:oiref><oihard>
+@__modelType reference 
+*/
+class reference129 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.types.TypesExceptionFactory:oiref><oihard>
+@__modelType reference 
+*/
+class reference130 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.types.TestConverter:oiref><oihard>
+@__modelType reference 
+*/
+class reference131 {
+}}/**
+@__tags
+@shapeType ClassDiagram 
+*/
+class __tags {
+}/**
+@__options 
+*/
+class __options {
+}/**
+@__positions <oigroup:<oiref:java#Class#org.jax.mgi.shr.types.TestConverter:oiref>=10,550,200,405,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.types.TypesException:oiref>=202,10,107,101,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.types.DataVector:oiref>=329,10,141,389,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.types.TypesExceptionFactory:oiref>=490,10,169,123,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.types.Converter:oiref>=10,10,172,494,1:oigroup> 
+*/
+class __positions {
+}

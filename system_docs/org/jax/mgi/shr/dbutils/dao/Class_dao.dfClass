@@ -1,0 +1,149 @@
+package idfugedrmocd41drmszqky;
+
+/**
+@version 2.0
+@__modelType diagram 
+*/
+class diagram {
+/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.DAO:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.SQLStream:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference36 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.DeleteStrategy:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference38 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.InsertStrategy:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference39 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.UpdateStrategy:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference40 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.Inline_Stream:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference41 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.InlineStrategy:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference42 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.BatchStrategy:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference43 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.BCPStrategy:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference44 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.ScriptStrategy:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference45 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.BCP_Script_Stream:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference46 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.BCP_Inline_Stream:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference47 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.BCP_Batch_Stream:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference48 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.Script_Stream:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference49 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.dao.BCP_Stream:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference8 {
+}}/**
+
+@__tags
+@shapeType ClassDiagram 
+*/
+class __tags {
+}/**
+@__options filter.g.state = on
+*/
+class __options {
+}/**
+@__positions 
+<oigroup:<oiref:java#Extends#org.jax.mgi.shr.dbutils.dao.Script_Stream#org.jax.mgi.shr.dbutils.dao.SQLStream:oiref>=880,610,740,610:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.dao.SQLStream#updateStrategy:oiref>=720,570,720,521:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.dao.InlineStrategy:oiref>=841,161,259,178,0:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.dao.UpdateStrategy:oiref>=700,420,240,101,0:oigroup>
+<oigroup:<oiref:java#Implements#org.jax.mgi.shr.dbutils.dao.InlineStrategy#org.jax.mgi.shr.dbutils.dao.DeleteStrategy:oiref>=841,319,689,319:oigroup>
+<oigroup:<oiref:java#Implements#org.jax.mgi.shr.dbutils.dao.BatchStrategy#org.jax.mgi.shr.dbutils.dao.UpdateStrategy:oiref>=720,166,720,420:oigroup>
+<oigroup:<oiref:java#Implements#org.jax.mgi.shr.dbutils.dao.ScriptStrategy#org.jax.mgi.shr.dbutils.dao.InsertStrategy:oiref>=340,299,380,299:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.dao.ScriptStrategy:oiref>=30,289,310,181,0:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.dao.SQLStream#deleteStrategy:oiref>=596,570,596,401:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.dao.BCP_Batch_Stream:oiref>=140,1051,430,120,0:oigroup>
+<oigroup:<oiref:java#Implements#org.jax.mgi.shr.dbutils.dao.ScriptStrategy#org.jax.mgi.shr.dbutils.dao.UpdateStrategy:oiref>=340,445,700,445:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.dao.Inline_Stream:oiref>=880,671,240,110,0:oigroup>
+<oigroup:<oiref:java#Extends#org.jax.mgi.shr.dbutils.dao.BCP_Inline_Stream#org.jax.mgi.shr.dbutils.dao.SQLStream:oiref>=740,880,740,808:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.dao.DeleteStrategy:oiref>=550,300,139,101,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.dao.DAO:oiref>=40,500,250,274,0:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.dao.BCP_Stream:oiref>=350,849,199,161,0:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.dao.BCP_Inline_Stream:oiref>=680,970,440,130,0:oigroup>
+<oigroup:<oiref:java#Implements#org.jax.mgi.shr.dbutils.dao.BatchStrategy#org.jax.mgi.shr.dbutils.dao.DeleteStrategy:oiref>=619,166,619,300:oigroup>
+<oigroup:<oiref:java#Extends#org.jax.mgi.shr.dbutils.dao.BCP_Batch_Stream#org.jax.mgi.shr.dbutils.dao.BCP_Stream:oiref>=449,1051,449,1010:oigroup>
+<oigroup:<oiref:java#Extends#org.jax.mgi.shr.dbutils.dao.BCP_Script_Stream#org.jax.mgi.shr.dbutils.dao.SQLStream:oiref>=550,1080,550,808:oigroup>
+<oigroup:<oiref:java#Implements#org.jax.mgi.shr.dbutils.dao.ScriptStrategy#org.jax.mgi.shr.dbutils.dao.DeleteStrategy:oiref>=340,350,550,350:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.dao.SQLStream:oiref>=400,570,340,200,0:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.dao.Script_Stream:oiref>=880,541,240,109,0:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.dao.BCP_Script_Stream:oiref>=671,811,460,129,0:oigroup>
+<oigroup:<oiref:java#Extends#org.jax.mgi.shr.dbutils.dao.BCP_Inline_Stream#org.jax.mgi.shr.dbutils.dao.BCP_Stream:oiref>=680,990,549,990:oigroup>
+<oigroup:<oiref:java#Extends#org.jax.mgi.shr.dbutils.dao.BCP_Script_Stream#org.jax.mgi.shr.dbutils.dao.BCP_Stream:oiref>=671,894,549,894:oigroup>
+<oigroup:<oiref:java#Implements#org.jax.mgi.shr.dbutils.dao.InlineStrategy#org.jax.mgi.shr.dbutils.dao.InsertStrategy:oiref>=841,245,540,245:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.dao.BatchStrategy:oiref>=490,20,270,146,0:oigroup>
+<oigroup:<oiref:java#Extends#org.jax.mgi.shr.dbutils.dao.Inline_Stream#org.jax.mgi.shr.dbutils.dao.SQLStream:oiref>=880,720,740,720:oigroup>
+<oigroup:<oiref:java#Extends#org.jax.mgi.shr.dbutils.dao.BCP_Batch_Stream#org.jax.mgi.shr.dbutils.dao.SQLStream:oiref>=660,1090,660,808:oigroup>
+<oigroup:<oiref:java#Implements#org.jax.mgi.shr.dbutils.dao.BCPStrategy#org.jax.mgi.shr.dbutils.dao.InsertStrategy:oiref>=340,234,380,234:oigroup>
+<oigroup:<oiref:java#Implements#org.jax.mgi.shr.dbutils.dao.InlineStrategy#org.jax.mgi.shr.dbutils.dao.UpdateStrategy:oiref>=890,339,890,420:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.dao.SQLStream#insertStrategy:oiref>=435,570,435,315:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.dao.BCPStrategy:oiref>=30,80,310,178,0:oigroup>
+<oigroup:<oiref:java#Extends#org.jax.mgi.shr.dbutils.dao.BCP_Stream#org.jax.mgi.shr.dbutils.dao.SQLStream:oiref>=474,849,474,770:oigroup>
+<oigroup:<oiref:java#Implements#org.jax.mgi.shr.dbutils.dao.BatchStrategy#org.jax.mgi.shr.dbutils.dao.InsertStrategy:oiref>=520,166,520,210:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.dao.InsertStrategy:oiref>=380,210,160,105,0:oigroup>
+*/
+class __positions {
+}

@@ -1,0 +1,355 @@
+package id1dj27due2cmokduedmoue;
+
+/**
+@version 2.0
+@physicalPackage
+@__modelType diagram 
+*/
+class diagram {
+/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.InterpretedMultiRowQuery:oiref><oihard>
+@__modelType reference 
+*/
+class reference {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.RowReference:oiref><oihard>
+@__modelType reference 
+*/
+class reference33 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.ScriptException:oiref><oihard>
+@__modelType reference 
+*/
+class reference34 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.AllTests:oiref><oihard>
+@__modelType reference 
+*/
+class reference35 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.ScriptWriter:oiref><oihard>
+@__modelType reference 
+*/
+class reference36 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.DBTypeConstants:oiref><oihard>
+@__modelType reference 
+*/
+class reference37 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.BatchProcessor:oiref><oihard>
+@__modelType reference 
+*/
+class reference38 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.ColumnDef:oiref><oihard>
+@__modelType reference 
+*/
+class reference39 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.MultiRowInterpreter:oiref><oihard>
+@__modelType reference 
+*/
+class reference40 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.ResultsNavigator:oiref><oihard>
+@__modelType reference 
+*/
+class reference41 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.TestMultiRowIterator:oiref><oihard>
+@__modelType reference 
+*/
+class reference42 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.MySqlConnection:oiref><oihard>
+@__modelType reference 
+*/
+class reference43 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.DataExceptionFactory:oiref><oihard>
+@__modelType reference 
+*/
+class reference44 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.RowToDTOInterpreter:oiref><oihard>
+@__modelType reference 
+*/
+class reference45 {
+}/**
+@__ref <oiref:design#Class#id4linwdue2cmokduedmovi.diagram:oiref><oihard>
+@__modelType reference
+@__fqn <oiref:#Package#org.jax.mgi.shr.dbutils.types:oiref> 
+*/
+class reference46 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.MGIDriverManager:oiref><oihard>
+@__modelType reference 
+*/
+class reference47 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.BindableStatement:oiref><oihard>
+@__modelType reference 
+*/
+class reference48 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.RowDataInterpreter:oiref><oihard>
+@__modelType reference 
+*/
+class reference49 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.TestSQLDataManager:oiref><oihard>
+@__modelType reference 
+*/
+class reference50 {
+}/**
+@__ref <oiref:design#Class#idy32edue2cmokduedmouy.diagram:oiref><oihard>
+@__modelType reference
+@__fqn <oiref:#Package#org.jax.mgi.shr.dbutils.bcp:oiref> 
+*/
+class reference51 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.DBSchemaExceptionFactory:oiref><oihard>
+@__modelType reference 
+*/
+class reference52 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.BatchException:oiref><oihard>
+@__modelType reference 
+*/
+class reference53 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.ScriptExceptionFactory:oiref><oihard>
+@__modelType reference 
+*/
+class reference54 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.TestMultipleResults:oiref><oihard>
+@__modelType reference 
+*/
+class reference55 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.ResultsIterator:oiref><oihard>
+@__modelType reference 
+*/
+class reference56 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.TestDBSchema:oiref><oihard>
+@__modelType reference 
+*/
+class reference57 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.Table:oiref><oihard>
+@__modelType reference 
+*/
+class reference58 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.TestRecordStamp:oiref><oihard>
+@__modelType reference 
+*/
+class reference59 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.DBSchemaException:oiref><oihard>
+@__modelType reference 
+*/
+class reference60 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.RowToStringInterpreter:oiref><oihard>
+@__modelType reference 
+*/
+class reference61 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.InterpretException:oiref><oihard>
+@__modelType reference 
+*/
+class reference62 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.MultiRowIterator:oiref><oihard>
+@__modelType reference 
+*/
+class reference63 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.TestBCPWriter:oiref><oihard>
+@__modelType reference 
+*/
+class reference64 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.InterpretedQuery:oiref><oihard>
+@__modelType reference 
+*/
+class reference65 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.DBException:oiref><oihard>
+@__modelType reference 
+*/
+class reference66 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.TestScriptWriter:oiref><oihard>
+@__modelType reference 
+*/
+class reference67 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.BatchExceptionFactory:oiref><oihard>
+@__modelType reference 
+*/
+class reference68 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.DBExceptionFactory:oiref><oihard>
+@__modelType reference 
+*/
+class reference69 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.TestBatchProcessor:oiref><oihard>
+@__modelType reference 
+*/
+class reference70 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.SQLDataManager:oiref><oihard>
+@__modelType reference 
+*/
+class reference71 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.DBSchema:oiref><oihard>
+@__modelType reference 
+*/
+class reference72 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.TestBindableStatement:oiref><oihard>
+@__modelType reference 
+*/
+class reference73 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.ConnectionManager:oiref><oihard>
+@__modelType reference 
+*/
+class reference74 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.TestTable:oiref><oihard>
+@__modelType reference 
+*/
+class reference75 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.MultipleResults:oiref><oihard>
+@__modelType reference 
+*/
+class reference76 {
+}/**
+@__ref <oiref:design#Class#id4ujhudue2cmokduedmov8.diagram:oiref><oihard>
+@__modelType reference
+@__fqn <oiref:#Package#org.jax.mgi.shr.dbutils.dao:oiref> 
+*/
+class reference77 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.DataException:oiref><oihard>
+@__modelType reference 
+*/
+class reference78 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.SQLDataManagerFactory:oiref><oihard>
+@__modelType reference 
+*/
+class reference79 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.dbutils.TestBCPManager1:oiref><oihard>
+@__modelType reference 
+*/
+class reference80 {
+}}/**
+@__tags
+@shapeType ClassDiagram 
+*/
+class __tags {
+}/**
+@__options 
+*/
+class __options {
+}/**
+@__positions <oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.TestMultipleResults#mgr:oiref>=1514,2887,1111,2817:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.TestBindableStatement#manager:oiref>=870,2887,1031,2817:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.TestBindableStatement:oiref>=770,2887,200,206,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.BatchException:oiref>=1878,570,143,174,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.SQLDataManagerFactory:oiref>=1721,790,179,110,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.DBSchemaException:oiref>=1364,790,137,101,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.Table#dataExceptionFactory:oiref>=270,2988,190,2988:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.ConnectionManager:oiref>=324,1001,167,101,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.ScriptExceptionFactory:oiref>=1854,3070,161,203,1:oigroup>
+<oigroup:<oiref:design#Class#idy32edue2cmokduedmouy.diagram:oiref>=2041,510,185,312,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.DBException:oiref>=1985,10,91,101,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.RowToStringInterpreter:oiref>=1679,590,179,142,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.TestScriptWriter#writer:oiref>=1246,2998,1166,2998:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.MultiRowIterator#interp:oiref>=1082,648,1195,648:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.DataExceptionFactory:oiref>=10,2887,180,203,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.SQLDataManager#connectionManager:oiref>=956,1619,449,1262,449,1102:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.ScriptWriter#sqlMgr:oiref>=1063,2887,1063,2817:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.ResultsIterator:oiref>=717,10,115,133,1:oigroup>
+<oigroup:<oiref:java#Implements#org.jax.mgi.shr.dbutils.RowToDTOInterpreter#org.jax.mgi.shr.dbutils.RowDataInterpreter:oiref>=1484,590,1484,111:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.TestBatchProcessor:oiref>=1303,1001,156,206,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.TestDBSchema:oiref>=1699,1001,200,286,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.TestBatchProcessor#sqlMgr:oiref>=1381,1207,1065,1619:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.TestMultiRowIterator#multiRowIterator:oiref>=1003,1001,1003,780:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.TestBCPManager1#sqlManager:oiref>=1579,1559,1088,1619:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.TestMultiRowIterator#sqlMgr:oiref>=1019,1303,1019,1619:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.BindableStatement:oiref>=490,2887,200,510,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.Table#dbExceptionFactory:oiref>=362,2887,362,2174:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.ResultsNavigator:oiref>=1131,10,200,510,1:oigroup>
+<oigroup:<oiref:java#Implements#org.jax.mgi.shr.dbutils.MySqlConnection#org.jax.mgi.shr.dbutils.ConnectionManager:oiref>=550,1619,365,1169,365,1102:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.BatchProcessor:oiref>=1767,230,177,302,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.TestTable#table:oiref>=148,2321,316,2887:oigroup>
+<oigroup:<oiref:java#Extends#org.jax.mgi.shr.dbutils.InterpretedQuery#org.jax.mgi.shr.dbutils.RowDataInterpreter:oiref>=1565,590,1565,111:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.RowDataInterpreter:oiref>=1440,10,158,101,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.TestDBSchema#dBSchema:oiref>=1850,1287,1850,1619:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.ScriptException:oiref>=1618,10,105,101,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.RowToDTOInterpreter:oiref>=1350,590,179,126,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.AllTests:oiref>=1743,10,83,117,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.TestScriptWriter:oiref>=1246,2887,152,222,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.TestMultipleResults#multipleResults:oiref>=1611,2974,1691,2974:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.InterpretException:oiref>=1964,230,119,101,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.ScriptWriter:oiref>=990,2887,176,590,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.ColumnDef:oiref>=1854,2370,189,654,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.Table#dataManager:oiref>=416,2887,416,2877,967,2817:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.ResultsNavigator#rowref:oiref>=1131,249,1051,249:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.ResultsNavigator#interpreter:oiref>=1331,60,1440,60:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.TestTable:oiref>=54,1619,189,702,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.RowReference:oiref>=852,10,199,478,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.TestBCPWriter#sqlman:oiref>=1202,1303,1042,1619:oigroup>
+<oigroup:<oiref:java#Implements#org.jax.mgi.shr.dbutils.MGIDriverManager#org.jax.mgi.shr.dbutils.ConnectionManager:oiref>=737,1619,407,1236,407,1102:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.InterpretedMultiRowQuery:oiref>=1180,850,164,101,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.BindableStatement#dbExceptionFactory:oiref>=556,2887,404,2174:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.TestRecordStamp#sqlMgr:oiref>=600,1287,600,1335,977,1619:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.TestMultiRowIterator:oiref>=903,1001,199,302,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.TestMultipleResults:oiref>=1418,2887,193,174,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.TestBindableStatement#bindableStatement:oiref>=770,2990,690,2990:oigroup>
+<oigroup:<oiref:java#Implements#org.jax.mgi.shr.dbutils.RowToStringInterpreter#org.jax.mgi.shr.dbutils.RowDataInterpreter:oiref>=1768,590,1581,111:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.TestSQLDataManager:oiref>=710,1001,173,398,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.DBSchema#sqlmanager:oiref>=1802,1978,1136,1978:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.InterpretedQuery:oiref>=1549,590,110,101,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.DBSchemaExceptionFactory:oiref>=1919,1001,173,171,1:oigroup>
+<oigroup:<oiref:design#Class#id4linwdue2cmokduedmovi.diagram:oiref>=2103,10,137,216,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.DBTypeConstants:oiref>=1846,10,119,187,1:oigroup>
+<oigroup:<oiref:design#Class#id4ujhudue2cmokduedmov8.diagram:oiref>=2022,1230,198,536,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.BindableStatement#dataManager:oiref>=623,2887,999,2817:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.TestScriptWriter#sqlMgr:oiref>=1322,2887,1087,2817:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.SQLDataManager:oiref>=936,1619,200,1198,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.DBExceptionFactory:oiref>=263,1619,184,555,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.TestBCPWriter:oiref>=1122,1001,161,302,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.MySqlConnection:oiref>=467,1619,167,117,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.DBSchema:oiref>=1802,1619,200,718,1:oigroup>
+<oigroup:<oiref:java#Implements#org.jax.mgi.shr.dbutils.MultiRowIterator#org.jax.mgi.shr.dbutils.ResultsIterator:oiref>=976,590,774,453,774,143:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.BatchExceptionFactory:oiref>=1521,790,180,107,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.MultipleResults:oiref>=1691,2887,143,222,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.TestDBSchema#sqlManager:oiref>=1774,1287,1774,1563,1112,1619:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.TestBCPManager1:oiref>=1479,1001,200,558,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.TestRecordStamp:oiref>=511,1001,179,286,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.MGIDriverManager:oiref>=654,1619,167,133,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.MultiRowInterpreter:oiref>=1195,590,135,117,1:oigroup>
+<oigroup:<oiref:java#Extends#org.jax.mgi.shr.dbutils.InterpretedMultiRowQuery#org.jax.mgi.shr.dbutils.MultiRowInterpreter:oiref>=1262,850,1262,707:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.MultiRowIterator#nav:oiref>=1029,590,1231,520:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.MultiRowIterator:oiref>=924,590,158,190,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.DBSchema#exceptionFactory:oiref>=1960,1619,1960,1172:oigroup>
+<oigroup:<oiref:java#Extends#org.jax.mgi.shr.dbutils.MultiRowInterpreter#org.jax.mgi.shr.dbutils.RowDataInterpreter:oiref>=1262,590,1462,440,1462,111:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.TestSQLDataManager#sqlman:oiref>=796,1399,998,1619:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.DataException:oiref>=1964,370,100,101,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.Table:oiref>=270,2887,200,606,1:oigroup> 
+*/
+class __positions {
+}
