@@ -475,6 +475,7 @@ public class ScriptWriter
         String outFile = path + File.separator + outfilename + "." + outsuffix;
         String cmd = "cat " + pwFile + " | isql -U" + user + " -S" +
             server + " -D" + db + " -i " + inFile + " -o " + outFile + " -e";
+        this.logger.logInfo("executing script: " + cmd);
         try
         {
             close();
@@ -523,10 +524,7 @@ public class ScriptWriter
         if ( (msgErr = runner.getStdErr()) != null)
             logger.logInfo(msgErr);
         if ( (msgOut = runner.getStdOut()) != null)
-        {
-            if (logger != null)
-                logger.logInfo(msgOut);
-        }
+            logger.logInfo(msgOut);
         // throw a ScriptException on non-zero exit code
         if (exitCode != 0)
         {
