@@ -372,6 +372,129 @@ public class Configurator
     }
 
 
+        /**
+         * Gets a configuration value for a given name and throws
+         * an exception if the value is not found.
+         * @assumes Nothing.
+         * @effects Nothing
+         * @param name The name of the configuration parameter to search on.
+         * @return A Float representing the configuration value.
+         * @exception ConfigException Thrown if the given name is not found by the
+         * configuration manager or a conversion error occurs.
+         */
+        protected Float getConfigFloat(String name)
+            throws ConfigException
+        {
+            // Have the configuration manager find the value for the name.
+            //
+            String str = lookup(name);
+
+            // If the name was found, convert the value to an integer and return
+            // it.  Otherwise, throw an exception.  Note that the conversion can
+            // also throw an exception.
+            //
+            if (str != null) {
+              try {
+                return Converter.toFloat(str);
+              }
+              catch (TypesException e) {
+                ConfigException e2 = (ConfigException)
+                    eFactory.getException(parameterTypeError, e);
+                e2.bind(name);
+                e2.bind("int");
+                e2.bind(str);
+                throw e2;
+              }
+            }
+            else
+            {
+                ConfigException e =
+                    (ConfigException)eFactory.getException(parameterNotFound);
+                e.bind(name);
+                throw e;
+            }
+        }
+
+        /**
+         * Gets a configuration value for a given name and returns
+         * the given default value if the value is not found.
+         * @assumes Nothing.
+         * @effects Nothing
+         * @param name The name of the configuration parameter to search on.
+         * @param defaultValue The value to be returned if the configuration
+         * parameter is not found.
+         * @return A Float representing the configuration value.
+         * @exception ConfigException Thrown if a conversion error occurs.
+         */
+        protected Float getConfigFloat(String name, Float defaultValue)
+            throws ConfigException
+        {
+            // Have the configuration manager find the value for the name.
+            //
+            String str = lookup(name);
+
+            // If the name was found, convert the value to an integer and return
+            // it.  Otherwise, return the default value.  Note that the conversion
+            // can throw an exception.
+            //
+            if (str != null) {
+              try {
+                return Converter.toFloat(str);
+              }
+              catch (TypesException e) {
+                ConfigException e2 = (ConfigException)
+                    eFactory.getException(parameterTypeError, e);
+                e2.bind(name);
+                e2.bind("Integer");
+                e2.bind(str);
+                throw e2;
+              }
+            }
+            else
+                return defaultValue;
+        }
+
+        /**
+         * Gets a configuration value for a given name and returns
+         * NULL if the value is not found.
+         * @assumes Nothing.
+         * @effects Nothing
+         * @param name The name of the configuration parameter to search on.
+         * @return A Float representing the configuration value or null if
+         * not found
+         * @exception ConfigException thrown if the value cannot be converted to
+         * an Integer
+         */
+        protected Float getConfigFloatNull(String name)
+            throws ConfigException
+        {
+            // Have the configuration manager find the value for the name.
+            //
+            String str = lookup(name);
+
+            // If the name was found, convert the value to an integer and return
+            // it.  Otherwise, throw an exception.  Note that the conversion can
+            // also throw an exception.
+            //
+            if (str != null) {
+              try {
+                return Converter.toFloat(str);
+              }
+              catch (TypesException e) {
+                ConfigException e2 = (ConfigException)
+                    eFactory.getException(parameterTypeError, e);
+                e2.bind(name);
+                e2.bind("int");
+                e2.bind(str);
+                throw e2;
+              }
+            }
+            else
+                return null;
+        }
+
+
+
     /**
      * Gets a configuration value for a given name and throws
      * an exception if the value is not found.
@@ -789,6 +912,9 @@ public class Configurator
 
 }
 // $Log$
+// Revision 1.6  2004/09/30 15:36:54  mbw
+// changed so that any empty string read in as a parameter value will be interpreted as a null.
+//
 // Revision 1.5  2004/08/04 14:18:08  mbw
 // added new method for getting a string array from the config file
 //
