@@ -7,7 +7,7 @@ import org.jax.mgi.shr.dbutils.DBExceptionFactory;
 import org.jax.mgi.shr.dbutils.bcp.BCPManager;
 
 /**
- * @is a SQLStream for doing inserts with bcp and updates and deletes with
+ * A SQLStream for doing inserts with bcp and doing updates and deletes with
  * inline sql
  * @has an InlineSQLStrategy for performing updates and deletes and a
  * BCPStrategy for perfoming inserts
@@ -15,7 +15,6 @@ import org.jax.mgi.shr.dbutils.bcp.BCPManager;
  * a given DAO object in a database
  * @company The Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 public class BCP_Inline_Stream
     extends SQLStream
@@ -43,7 +42,7 @@ public class BCP_Inline_Stream
         super();
         this.bcpManager = bcpMgr;
         InlineStrategy inlineStrategy = new InlineStrategy(sqlMgr);
-        BCPStrategy bcpStrategy = new BCPStrategy(bcpMgr);
+        BCPStrategy bcpStrategy = new BCPStrategy(sqlMgr, bcpMgr);
         super.setInsertStrategy(bcpStrategy);
         super.setUpdateStrategy(inlineStrategy);
         super.setDeleteStrategy(inlineStrategy);
