@@ -195,8 +195,9 @@ public class ScriptWriter {
     String user = sqlMgr.getUser();
     String pwFile = sqlMgr.getPasswordFile();
     String cmd = "cat " + pwFile + " | isql -U" + user + " -S" + server +
-                 " -D" + db + " -i " + filename + "." + suffix + " -o " +
-                 outfilename + "." + outsuffix + " -e";
+                 " -D" + db + " -i " + path + File.separator + filename + "." + 
+                 suffix + " -o " + path + File.separator + outfilename + "." + 
+                 outsuffix + " -e";
     try
     {
       close();
@@ -211,6 +212,8 @@ public class ScriptWriter {
     }
     // check attributes to see if script execution should not be performed
     if (preventExecute)
+      return;
+    if (scriptFile.length() == 0)
       return;
     RunCommand runner = new RunCommand();
     runner.setCommand(cmd);
@@ -254,6 +257,8 @@ public class ScriptWriter {
       e.bind(cmd);
       throw e;
     }
+    if (this.removeAfterExecute)
+      scriptFile.delete();
 
 
   }
@@ -278,6 +283,8 @@ public class ScriptWriter {
       e2.bind(scriptFile.getName());
       throw e2;
     }
+    if (this.removeAfterExecute)
+      scriptFile.delete();
   }
 
   /**
@@ -337,8 +344,8 @@ public class ScriptWriter {
           scriptFile = new File(path + File.separator + filename + "_" +
                                 String.valueOf(count) + "." + suffix);
         }
-        filename = filename + String.valueOf(count);
-        outfilename = outfilename + String.valueOf(count);
+        filename = filename + "_" + String.valueOf(count);
+        outfilename = outfilename + "_" + String.valueOf(count);
       }
     }
     try {
@@ -365,8 +372,6 @@ public class ScriptWriter {
     {
       bufferedWriter.close();
       fileWriter.close();
-      if (this.removeAfterExecute)
-        scriptFile.delete();
       closed = true;
     }
   }
