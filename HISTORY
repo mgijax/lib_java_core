@@ -1,3 +1,7 @@
+DATE: 01/21/04
+STAFF: mbw
+CHANGES: changed SQLStream from an interface to an abstract base class and changed all streams to extend vs implement this class
+
 DATE: 01/19/04
 STAFF: mbw
 CHANGES: fixed bug in RecordStamper so that the correct fields are getting stamped on update of a
