@@ -85,5 +85,27 @@ public class ScriptExceptionFactory extends ExceptionFactory {
         "executing the following command: ??", false));
   }
 
+  /**
+   * Errors found in script out file
+   */
+  public static final String ScriptErrorOutput =
+      "org.jax.mgi.shr.script.ScriptErrorOutput";
+  static {
+    exceptionsMap.put(ScriptErrorOutput, new ScriptException(
+        "Errors were found in script out file: ??", false));
+  }
+
+
+  /**
+   * An error accessing the script out file
+   */
+  public static final String ScriptOutFileErr =
+      "org.jax.mgi.shr.script.ScriptOutFileErr";
+  static {
+    exceptionsMap.put(ScriptOutFileErr, new ScriptException(
+        "Could not access script out file: ??", false));
+  }
+
+
 
 }
