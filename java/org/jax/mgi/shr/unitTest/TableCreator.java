@@ -6,32 +6,35 @@ import java.sql.Statement;
 import org.jax.mgi.shr.dbutils.ConnectionManager;
 
 /**
- * <p>IS: An object for creating database tables used in java unit
- * testing.</p>
- * <p>HAS: an database connection and methods for creating database tables.
+ * An object for creating database tables used in java unit
+ * testing.
+ * @has an database connection and methods for creating database tables.
  * A couple generic table definitions are provided. One is called DBTypes which
-     * has a column for each data type expected to be encountered in an application.
+ * has a column for each data type expected to be encountered in an application.
  * The other is called TEST_DBgeneric and is meant to represent a generic table
  * encountered in applications which consist of the common fields createdBy,
  * modifiedBy, creation_date and modification_date. Additionally a method is
  * provided that will execute any drop table statement and create table
- * statement provided as parameters.</p>
- * <p>DOES: executes drop/create table commands for the purpose
+ * statement provided as parameters.
+ * @does executes drop/create table commands for the purpose
  * of creating tables on the fly to support java unit testing programs.</p>
- * <p>Company: Jackson Laboratory</p>
+ * @company Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 public class TableCreator {
   private Connection conn = null;
   private String DEFAULT_CONNECTION_MANAGER =
       "org.jax.mgi.shr.dbutils.MGIDriverManager";
+  private String ORACLE = "org.jax.mgi.shr.dbutils.OrclConnection";
+
+  private String connectionManager = null;
   /**
    * default constructor
    * @throws KnownException
    */
   public TableCreator(String url, String database,
                       String user, String password) throws Exception {
+      this.connectionManager = DEFAULT_CONNECTION_MANAGER;
     conn =
         getConnection(url, database, user, password, DEFAULT_CONNECTION_MANAGER);
   }
@@ -43,13 +46,16 @@ public class TableCreator {
   public TableCreator(String url, String database,
                       String user, String password,
                       String connectionManagerClass) throws Exception {
+      this.connectionManager = connectionManagerClass;
     conn =
         getConnection(url, database, user, password, connectionManagerClass);
   }
 
   /**
-   * creates a table that consisting of all expected data types with the
-   * following definition:
+   * creates a predefined table that is defined with one of each of all
+   * expected data types.
+   * The table has the following definition:
+   * <br>
    * <pre>
    * CREATE TABLE TEST_DBtypes
    * columnA     varchar(30)   not null
@@ -74,6 +80,10 @@ public class TableCreator {
         + "columnE     text          null,"
         + "columnF     float(8)      null,"
         + "columnG     bit           not null)";
+    if (this.connectionManager.equals(ORACLE))
+    {
+        sqlCreate = convertToOracle(sqlCreate);
+    }
     createTable(sqlDrop, sqlCreate);
   }
 
@@ -87,7 +97,10 @@ public class TableCreator {
   }
 
   /**
-   * creates a table with the following definition:
+   * creates a predefined table to be used for unit testing classes
+   * designed for database functionality.
+   * The table has the following definition:
+   * <br>
    * <pre>
    * CREATE TABLE TEST_DBsimple
    * columnA           int         not null
@@ -114,8 +127,10 @@ public class TableCreator {
   }
 
   /**
-   * creates a table with a primary key column of type int and
-   * with the following definition:
+   * creates a table with a primary key column of type int to be used for
+   * unit testing methods that are designed with database functionality.
+   * The table has the following definition:
+   * <br>
    * <pre>
    * CREATE TABLE TEST_DBkeyedInt
    * columnA           int         not null primary key
@@ -143,9 +158,11 @@ public class TableCreator {
   }
 
   /**
-   * creates a table which models original tables in MGD which have record
-   * stamping fields createdBy, modifiedBy, creation_date
-   * and modification_date
+   * creates a predefined table which models original tables in MGD that have
+   * record stamping fields createdBy, modifiedBy, creation_date
+   * and modification_date.
+   * The table has the following definition:
+   * <br>
    * <pre>
    * CREATE TABLE TEST_DBstamped_MGDOrg
    * columnA           varchar(30) not null
@@ -184,9 +201,11 @@ public class TableCreator {
   }
 
   /**
-   * creates a table which models tables in MGD which have record
+   * creates a predefined table which models tables in MGD that have record
    * stamping fields _createdBy_key, _modifiedBy_ky, creation_date
-   * and modification_date
+   * and modification_date.
+   * The table has the following definition:
+   * <br>
    * <pre>
    * CREATE TABLE TEST_DBstamped_MGD
    * columnA           int         not null
@@ -221,8 +240,10 @@ public class TableCreator {
   }
 
   /**
-   * creates a table which models tables in RADAR which have record
-   * stamping fields _jobstream_key and creation_date
+   * creates a table which models RADAR tables that have record
+   * stamping fields _jobstream_key and creation_date.
+   * The table has the following definition:
+   * <br>
    * <pre>
    * CREATE TABLE TEST_DBstamped_RADAR
    * columnA           int         not null
@@ -253,8 +274,10 @@ public class TableCreator {
   }
 
   /**
-   * creates a table which models tables in MGD which have record
-   * stamping fields creation_date and modification_datye
+   * creates a predefined table which models tables in MGD that have record
+   * stamping fields creation_date and modification_date.
+   * The table has the following definition:
+   * <br>
    * <pre>
    * CREATE TABLE TEST_DBstamped_MGDDate
    * columnA           int         not null
@@ -284,9 +307,10 @@ public class TableCreator {
   }
 
   /**
-   * creates a table which models tables in MGD which have record
-   * stamping fields creation_date, modification_date and
-   * release_date
+   * creates a predefined table which models tables in MGD that have record
+   * stamping fields creation_date, modification_date and release_date.
+   * The table has the following definition:
+   * <br>
    * <pre>
    * CREATE TABLE TEST_DBstamped_MGDRelease
    * columnA           int         not null
@@ -318,13 +342,16 @@ public class TableCreator {
   }
 
   /**
-   * creates a table with the following definition:
+   * creates a predefined table to be used for unit testing classes
+   * designed for database functionality.
+   * The table has the following definition:
+   * <br>
    * <pre>
    * CREATE TABLE TEST_DBkeyed
    * columnA           int         not null
    * columnB           varchar(30) null
    * </pre>
-   * add applies a primary key definition to columnA
+   * and applies a primary key definition to columnA
    * @throws KnownException
    */
   public void createDBkeyed() throws Exception {
@@ -335,7 +362,13 @@ public class TableCreator {
         + "columnB           varchar(30) null)";
     createTable(sqlDrop, sqlCreate);
     Statement statement = conn.createStatement();
-    statement.execute("sp_primarykey TEST_DBkeyed, columnA");
+    if (this.connectionManager == this.DEFAULT_CONNECTION_MANAGER)
+        statement.execute("sp_primarykey TEST_DBkeyed, columnA");
+    else
+    {
+        statement.execute("ALTER TABLE TEST_DBkeyed " +
+                          "ADD PRIMARY KEY ( columnA )");
+    }
   }
 
   /**
@@ -348,7 +381,10 @@ public class TableCreator {
   }
 
   /**
-   * creates a table with the following definition:
+   * creates a table to be used for unit testing methods that are designed
+   * for database functionality.
+   * The table has the following definition:
+   * <br>
    * <pre>
    * CREATE TABLE TEST_DBmultikeyed
    * columnA           int         not null
@@ -365,7 +401,14 @@ public class TableCreator {
         + "columnB           varchar(30) null)";
     createTable(sqlDrop, sqlCreate);
     Statement statement = conn.createStatement();
-    statement.execute("sp_primarykey TEST_DBmultikeyed, columnA, columnB");
+    if (this.connectionManager == this.DEFAULT_CONNECTION_MANAGER)
+        statement.execute("sp_primarykey TEST_DBmultikeyed, columnA, columnB");
+    else
+    {
+        statement.execute("ALTER TABLE TEST_DBmultikeyed " +
+                          "ADD PRIMARY KEY ( columnA,  columnB)");
+    }
+
   }
 
   /**
@@ -429,5 +472,15 @@ public class TableCreator {
       throw new SQLException(e.getMessage());
     }
     return conn;
+  }
+
+  private String convertToOracle(String sql)
+  {
+      String newsql = null;
+      newsql = sql.replaceAll("varchar", "varchar2");
+      newsql = newsql.replaceAll("datetime", "date");
+      newsql = newsql.replaceAll("text", "long");
+      newsql = newsql.replaceAll("bit", "smallint");
+      return newsql;
   }
 }
