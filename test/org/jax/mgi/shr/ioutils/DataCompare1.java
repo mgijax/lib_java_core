@@ -18,6 +18,7 @@ public class DataCompare1
 
    public void createFile() throws IOException
    {
+      writer.write("ID  ID ID IDthis line was modified for testing\n");
       writer.write("ID          Mm.1\n");
       writer.write("TITLE       S100 calcium binding protein A10 (calpactin)\n");
       writer.write("GENE        S100a10\n");
