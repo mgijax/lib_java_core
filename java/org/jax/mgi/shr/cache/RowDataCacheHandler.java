@@ -173,12 +173,25 @@ abstract public class RowDataCacheHandler
      * @throws DBException thrown if there is an error with the database
      * @throws CacheException thropwn if there is an error with the cache
      */
-    protected void setCache(Map cache)
+    public void setCache(Map cache)
         throws DBException, CacheException
     {
         this.cache = cache;
         this.cacheStrategy.init(cache);
     }
+
+    /**
+     * get the internal cache
+     * @assumes nothing
+     * @effects nothing
+     * @return the internal cache
+     * @return
+     */
+    public Map getCache()
+    {
+        return this.cache;
+    }
+
 
     protected void init(int cacheType,
                         SQLDataManager sqlDataManager,
@@ -205,15 +218,4 @@ abstract public class RowDataCacheHandler
         this.cacheStrategy = strategy;
     }
 
-    /**
-     * get the internal cache
-     * @assumes nothing
-     * @effects nothing
-     * @return the internal cache
-     * @return
-     */
-    protected Map getCache()
-    {
-        return this.cache;
-    }
 }
