@@ -3,17 +3,16 @@ package org.jax.mgi.shr.ioutils;
 import org.jax.mgi.shr.exception.ExceptionFactory;
 
    /**
-    * @is An ExceptionFactory.
+    *  An ExceptionFactory for file input errors.
     * @has a hashmap of predefined IOUExceptions stored by a name key
     * @does looks up IOUExceptions by name
     * @company The Jackson Laboratory
     * @author M Walker
-    * @version 1.0
     */
 
     public class IOUExceptionFactory extends ExceptionFactory {
       /**
-       * an file could not be opened
+       * a file could not be found
        */
       public static final String FileNotFoundErr =
           "org.jax.mgi.shr.shrdbutils.FileNotFoundErr";
@@ -22,7 +21,7 @@ import org.jax.mgi.shr.exception.ExceptionFactory;
             "File named ?? could not be found", false));
       }
       /**
-       * an file could not be opened
+       * a file could not be opened
        */
       public static final String FileOpenErr =
           "org.jax.mgi.shr.shrdbutils.FileOpenErr";
@@ -123,16 +122,6 @@ import org.jax.mgi.shr.exception.ExceptionFactory;
       static {
         exceptionsMap.put(NullFilename, new IOUException (
             "The input filename was not configured. Expected INFILE_NAME.",
-            false));
-      }
-      /**
-       * the provided record delimiter was empty
-       */
-      public static final String EmptyDelimiter =
-          "org.jax.mgi.shr.shrdbutils.EmptyDelimiter";
-      static {
-        exceptionsMap.put(EmptyDelimiter, new IOUException (
-            "Cannot match record seperator with an empty byte sequence.",
             false));
       }
       /**
