@@ -1,9 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE definitions [
   <!ENTITY build.targets SYSTEM "/usr/local/mgi/etc/build.lib.targets.xml">
-  <!-- uncomment this entry if you are using a local targets file in addition to the etc one
   <!ENTITY local.build.targets SYSTEM "build.targets.xml">
-  -->
 ]>
 
 <!-- Enter the name of your current project here 
@@ -24,9 +22,7 @@
   <!-- Universal targets get included here  
    -->
   &build.targets;
-  <!-- uncomment this entry if you are using a local targets file in addition to the etc one
   &local.build.targets;
-  -->
 
 </project>
 
