@@ -3,12 +3,13 @@ package org.jax.mgi.shr.dbutils.dao;
 import org.jax.mgi.shr.exception.MGIException;
 import org.jax.mgi.shr.dbutils.ScriptWriter;
 import org.jax.mgi.shr.dbutils.ScriptException;
+import org.jax.mgi.shr.dbutils.SQLDataManager;
 import org.jax.mgi.shr.dbutils.DBException;
 import org.jax.mgi.shr.dbutils.DBExceptionFactory;
 import org.jax.mgi.shr.dbutils.bcp.BCPManager;
 
 /**
- * @is a SQLStream for doing inserts with bcp and updates and deletes with
+ * A SQLStream for doing inserts with bcp and doing updates and deletes with
  * scripting
  * @has an ScriptWriter for performing updates and deletes and a
  * BCPStrategy for perfoming inserts
@@ -16,7 +17,6 @@ import org.jax.mgi.shr.dbutils.bcp.BCPManager;
  * a given DAO object in a database
  * @company The Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 public class BCP_Script_Stream
     extends SQLStream
@@ -43,7 +43,8 @@ public class BCP_Script_Stream
      * @param bcpMgr the BCPManager to use
      * @throws DBException thrown if there is an error accessing the database
      */
-    public BCP_Script_Stream(ScriptWriter writer, BCPManager bcpMgr)
+    public BCP_Script_Stream(ScriptWriter writer, SQLDataManager sqlMgr,
+                             BCPManager bcpMgr)
         throws
         DBException
     {
@@ -51,7 +52,7 @@ public class BCP_Script_Stream
         this.writer = writer;
         this.bcpMgr = bcpMgr;
         ScriptStrategy scriptStrategy = new ScriptStrategy(writer);
-        BCPStrategy bcpStrategy = new BCPStrategy(bcpMgr);
+        BCPStrategy bcpStrategy = new BCPStrategy(sqlMgr, bcpMgr);
         super.setInsertStrategy(bcpStrategy);
         super.setUpdateStrategy(scriptStrategy);
         super.setDeleteStrategy(scriptStrategy);
