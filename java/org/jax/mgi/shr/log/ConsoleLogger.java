@@ -3,9 +3,9 @@ package org.jax.mgi.shr.log;
 /**
  * <p>@is a Logger class for logging to the console</p>
  * <p>@has nothing</p>
- * <p>@does routes log mess</p>
+ * <p>@does routes log messages to the console</p>
  * <p>@company The Jackson Laboratory</p>
- * @author not attributable
+ * @author M Walker
  *
  */
 public class ConsoleLogger implements Logger
