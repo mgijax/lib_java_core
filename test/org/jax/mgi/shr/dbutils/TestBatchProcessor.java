@@ -64,7 +64,7 @@ public class TestBatchProcessor
         bp.addBatch("insert into TEST_DBsimple values (1, 'uno')");
         // force error
         bp.addBatch("bad sql");
-        bp.addBatch("insert into TEST_DBsimple values (2, 'duece')");
+        bp.addBatch("insert into TEST_DBsimple values (2, 'deuce')");
         bp.addBatch("update TEST_DBsimple set columnB = 'wildcard'");
         try
         {
