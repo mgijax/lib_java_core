@@ -348,7 +348,7 @@ public class ScriptWriter {
     useTempFile = config.getUseTempFile().booleanValue();
     removeAfterExecute = config.getRemoveAfterExecute().booleanValue();
     LogCfg cfg = new LogCfg();
-    LoggerFactory logFactory = cfg.getLogerFactory();
+    LoggerFactory logFactory = cfg.getLoggerFactory();
     this.logger = logFactory.getLogger();
   }
 

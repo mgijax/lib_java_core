@@ -250,7 +250,7 @@ public class InputDataFile
     this.bufferSize = pConfig.getBufferSize().intValue();
     this.charset = pConfig.getCharset();
     LogCfg cfg = new LogCfg();
-    LoggerFactory factory = cfg.getLogerFactory();
+    LoggerFactory factory = cfg.getLoggerFactory();
     this.logger = factory.getLogger();
     if (this.filename == null)
         // filename may not have been defined through constructor
