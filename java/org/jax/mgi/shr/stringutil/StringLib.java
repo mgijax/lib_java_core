@@ -336,4 +336,32 @@ public class StringLib {
 	}
 	return sb.toString();
     }
+
+    /** compare 's' and 't' to see if they are equal, handling nulls correctly
+    * @param s first String to compare
+    * @param t second String to compare
+    * @return boolean true if both are null or if both are non-null equal
+    *   Strings, false otherwise.
+    * @assumes nothing
+    * @effects nothing
+    */
+    public static boolean equals (String s, String t)
+    {
+        if (s == null)
+	{
+	    if (t == null)
+	    {
+	        return true;
+	    }
+	    return false;
+	}
+	else
+	{
+	    if (t == null)
+	    {
+	        return false;
+	    }
+	}
+        return s.equals(t);
+    }
 }
