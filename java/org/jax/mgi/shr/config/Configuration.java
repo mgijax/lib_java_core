@@ -569,7 +569,22 @@ public class Configuration
     public static Configuration load (String filename)
         throws IOException, FileNotFoundException
     {
-        if (Configuration.loaded.containsKey (filename))
+	return Configuration.load (filename, true);
+    }
+
+    /** gets the Configuration object associated with the file at the given
+    *	filename.  'fromCache' allows you to specify whether you want a cached
+    *   copy of the file if one is available.
+    * @param filename path to the configuration file to read
+    * @param fromCache true if we can return the file from a memory cache, or
+    *   false to force a reload (even if already cached)
+    * @throws FileNotFoundException if the file cannot be found
+    * @throws IOException if the file cannot be read and parsed properly
+    */
+    public static Configuration load (String filename, boolean fromCache)
+        throws IOException, FileNotFoundException
+    {
+        if (fromCache && Configuration.loaded.containsKey (filename))
         {
             return (Configuration) Configuration.loaded.get (filename);
         }
@@ -609,6 +624,9 @@ public class Configuration
     private static Hashtable loaded = new Hashtable();
 }
 // $Log$
+// Revision 1.1  2003/12/30 16:50:05  mbw
+// imported into this product
+//
 // Revision 1.2  2003/12/09 22:47:23  mbw
 // merged jsam branch onto the trunk
 //
