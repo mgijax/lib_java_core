@@ -127,8 +127,6 @@ public class BCPStrategy
             try
             {
                 writer = getStoredWriter(table);
-                if (this.needToResetKey)
-
                 writer.write( (BCPTranslatable) dao);
             }
             catch (MGIException e)
