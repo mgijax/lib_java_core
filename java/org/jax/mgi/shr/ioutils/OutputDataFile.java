@@ -109,7 +109,7 @@ public class OutputDataFile
     public OutputDataFile(String filename)
         throws ConfigException, IOUException
     {
-        if (this.filename == null)
+        if (filename == null)
             throw (IOUException)exceptionFactory.getException(NullFilename);
         this.filename = filename;
         configure(new OutputDataCfg());
@@ -350,6 +350,9 @@ public class OutputDataFile
 
 
 //  $Log$
+//  Revision 1.1.2.3  2005/01/07 19:00:48  mbw
+//  now using a BufferedWriteer and added config param okToAutoFlush
+//
 //  Revision 1.1.2.2  2005/01/07 17:08:34  mbw
 //  created way for OutputDataFile to write any object using the OutputFormat interface
 //
