@@ -20,7 +20,9 @@ import org.jax.mgi.shr.config.DatabaseConfigurator;
 import org.jax.mgi.shr.config.ScriptWriterCfg;
 import org.jax.mgi.shr.log.Logger;
 import org.jax.mgi.shr.log.LoggerFactory;
+import org.jax.mgi.shr.log.ConsoleLogger;
 import org.jax.mgi.shr.config.ConfigException;
+import org.jax.mgi.shr.timing.Stopwatch;
 
 
 /**
@@ -98,6 +100,12 @@ public class SQLDataManager {
    * LoggerFactory
    */
   private String loggerFactoryClass = null;
+
+  /**
+   * a timer for displaying execution times in the debug log
+   */
+  private Stopwatch timer = new Stopwatch();
+
 
 
   // the following constant definitions are exceptions thrown by this class
@@ -486,8 +494,12 @@ public class SQLDataManager {
    */
   public ResultsNavigator executeQuery(String sql) throws DBException {
     ResultSet rs = null;
-    if (logger != null)
-      logger.logDebug(sql);
+    if (logger.isDebug())
+    {
+        timer.reset();
+        timer.start();
+        logger.logDebug(sql);
+    }
     this.checkConnection("execute query");
     Statement statement = null;
     try {
@@ -500,6 +512,11 @@ public class SQLDataManager {
       throw this.getJDBCException(msg, e);
     }
     ResultsNavigator iterator = new ResultsNavigator(rs, statement);
+    if (logger.isDebug())
+    {
+        timer.stop();
+        logger.logDebug("query took " + timer.time() + " seconds");
+    }
     return (ResultsNavigator)iterator;
   }
 
@@ -530,8 +547,12 @@ public class SQLDataManager {
    */
   public int executeUpdate(String sql) throws DBException {
     int results = 0;
-    if (logger != null)
-      logger.logDebug(sql);
+    if (logger.isDebug())
+    {
+        timer.reset();
+        timer.start();
+        logger.logDebug(sql);
+    }
     this.checkConnection("execute update");
     try {
       Statement statement = conn.createStatement();
@@ -540,6 +561,11 @@ public class SQLDataManager {
     catch (SQLException e) {
       String msg = "execute update on the following sql string\n" + sql;
       throw this.getJDBCException(msg, e);
+    }
+    if (logger.isDebug())
+    {
+        timer.stop();
+        logger.logDebug("update took " + timer.time() + " seconds");
     }
     return results;
   }
@@ -554,19 +580,30 @@ public class SQLDataManager {
    * @throws DBException
    */
   public MultipleResults execute(String sql) throws DBException {
-    if (logger != null)
-      logger.logDebug(sql);
+      if (logger.isDebug())
+      {
+          timer.reset();
+          timer.start();
+          logger.logDebug(sql);
+      }
     this.checkConnection("execute sql");
+    Statement statement = null;
+    boolean isResultSet = false;
     try {
-      Statement statement = conn.createStatement();
+      statement = conn.createStatement();
       // execute which may return multiple results
-      boolean isResultSet = statement.execute(sql);
-      return new MultipleResults(statement, isResultSet, sql);
+      isResultSet = statement.execute(sql);
     }
     catch (SQLException e) {
       String msg = "execute the following sql string\n" + sql;
       throw this.getJDBCException(msg, e);
     }
+    if (logger.isDebug())
+    {
+        timer.stop();
+        logger.logDebug("execution took " + timer.time() + " seconds");
+    }
+    return new MultipleResults(statement, isResultSet, sql);
   }
 
   /**
@@ -795,6 +832,9 @@ public class SQLDataManager {
     if (loggerFactoryClass != null) {
       logger = instantiateLogger(loggerFactoryClass);
     }
+    else {
+        logger = new ConsoleLogger();
+    }
   }
 
 
@@ -957,6 +997,9 @@ public class SQLDataManager {
 }
 
 // $Log$
+// Revision 1.2  2004/02/10 15:25:46  mbw
+// removed the internal Statement management code and now place Statement objects in the ResultsNavigator
+//
 // Revision 1.1  2003/12/30 16:50:37  mbw
 // imported into this product
 //

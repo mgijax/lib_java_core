@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 
 import org.jax.mgi.shr.log.Logger;
 import org.jax.mgi.shr.types.Converter;
+import org.jax.mgi.shr.timing.Stopwatch;
 
 
 /**
@@ -34,6 +35,8 @@ public class BindableStatement {
   private Vector bindVariables = null;
   private int bindCount = 0;
   private DBExceptionFactory dbExceptionFactory = new DBExceptionFactory();
+  private Logger logger = null;
+  private Stopwatch timer = new Stopwatch();
 
   // the following constant defintions are exceptions thrown by this class
   private static final String UnhandledDataType =
@@ -67,6 +70,7 @@ public class BindableStatement {
       bindVariables.add(null);
       bindCount++;
     }
+    logger = pManager.getLogger();
   }
 
   /**
@@ -240,12 +244,22 @@ public class BindableStatement {
    */
   public int executeUpdate() throws DBException {
     int rtn;
-    logDebugMessage();
+    if (logger.isDebug())
+    {
+        timer.reset();
+        timer.start();
+        logger.logDebug(getSQLMessage());
+    }
     try {
       rtn = preparedStatement.executeUpdate();
     }
     catch (SQLException e) {
       throw getJDBCException(getSQLMessage(), e);
+    }
+    if (logger.isDebug())
+    {
+        timer.stop();
+        logger.logDebug("update took " + timer.time() + " seconds");
     }
     return rtn;
   }
@@ -274,12 +288,22 @@ public class BindableStatement {
    */
   public ResultsNavigator executeQuery() throws DBException {
     ResultSet rs = null;
-    logDebugMessage();
+    if (logger.isDebug())
+    {
+        timer.reset();
+        timer.start();
+        logger.logDebug(getSQLMessage());
+    }
     try {
       rs = preparedStatement.executeQuery();
     }
     catch (SQLException e) {
       throw getJDBCException(getSQLMessage(), e);
+    }
+    if (logger.isDebug())
+    {
+        timer.stop();
+        logger.logDebug("query took " + timer.time() + " seconds");
     }
     return dataManager.getResultsNavigator(rs);
   }
@@ -346,9 +370,6 @@ public class BindableStatement {
    * @effects a message will be logged to the log file
    */
   private void logDebugMessage() {
-    Logger logger = dataManager.getLogger();
-    if (logger == null)
-      return;
     logger.logDebug(getSQLMessage());
   }
 
@@ -381,6 +402,9 @@ public class BindableStatement {
 
 }
 // $Log$
+// Revision 1.2  2004/02/10 14:54:39  mbw
+// added close method
+//
 // Revision 1.1  2003/12/30 16:50:21  mbw
 // imported into this product
 //
