@@ -20,10 +20,10 @@ package org.jax.mgi.shr.config;
  */
 
 public class InputDataCfg extends Configurator {
-  
+
   // default delimiter
-  private String DEFAULT_DELIMITER = "$";
-  
+  private String DEFAULT_END_DELIMITER = "$";
+
   //default bufferSize
   private int DEFAULT_BUFFER_SIZE = 512000;
 
@@ -61,12 +61,12 @@ public class InputDataCfg extends Configurator {
   /**
    * get the record delimeter for the input file. The delimiter is a java
    * based regular expression. The parameter name read from the
-   * configuration file or system properties is INFILE_DELIMITER. 
+   * configuration file or system properties is INFILE_END_DELIMITER.
    * The default value is newline
    * @return the regular expression used as record delimiter
    */
-  public String getDelimiter() {
-    return getConfigString("INFILE_DELIMITER", this.DEFAULT_DELIMITER);
+  public String getEndDelimiter() {
+    return getConfigString("INFILE_END_DELIMITER", this.DEFAULT_END_DELIMITER);
   }
 
   /**
@@ -76,16 +76,16 @@ public class InputDataCfg extends Configurator {
    * @return the configured buffer size
    */
   public Integer getBufferSize() throws ConfigException {
-    return getConfigInteger("INFILE_BUFFERSIZE", 
+    return getConfigInteger("INFILE_BUFFERSIZE",
                             new Integer(this.DEFAULT_BUFFER_SIZE));
   }
-  
+
   /**
    * get the value of the option which designates whether to use
-   * regular expressions when doing delimiter matching.  The parameter 
-   * name read from the configuration file for setting this option is 
-   * INFILE_USE_REGEX and its default is true. This value provides the 
-   * initial parameter setting for an instance of the InputDataFile class 
+   * regular expressions when doing delimiter matching.  The parameter
+   * name read from the configuration file for setting this option is
+   * INFILE_USE_REGEX and its default is true. This value provides the
+   * initial parameter setting for an instance of the InputDataFile class
    * and can be overriden by setter methods within that class
    * @return true or false
    * @throws ConfigException throws if configuration value does not represent
@@ -94,12 +94,15 @@ public class InputDataCfg extends Configurator {
   public Boolean getOkToUseRegex() throws ConfigException {
     return getConfigBoolean("INFILE_USE_REGEX", new Boolean(true));
   }
- 
+
 
 
 
 }
 // $Log$
+// Revision 1.1  2003/12/30 16:50:09  mbw
+// imported into this product
+//
 // Revision 1.2  2003/11/05 16:39:08  dbm
 // Changed INFILE_FILENAME to INFILE_NAME
 //
