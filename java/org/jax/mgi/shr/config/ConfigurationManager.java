@@ -5,7 +5,9 @@ package org.jax.mgi.shr.config;
 
 import java.util.Properties;
 import java.util.Vector;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Enumeration;
 import java.lang.reflect.Array;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -71,6 +73,40 @@ public class ConfigurationManager {
     if (value == null && config != null)
       value = config.get(name);
     return value;
+  }
+
+  /**
+   * get the key values for all the configuration parameters from the
+   * configuration file(s) and the java system properties
+   * @assumes nothing
+   * @effects nothing
+   * @return an array of configuration parameter names as Strings
+   */
+  protected String[] getKeys()
+  {
+      int counter = 0;
+      ArrayList list = new ArrayList();
+      Enumeration e = this.systemProperties.propertyNames();
+      while (e.hasMoreElements())
+      {
+          list.add(e.nextElement());
+          counter++;
+      }
+      if (config != null)
+      {
+          Iterator it = this.config.keys();
+          while (it.hasNext())
+          {
+              list.add(it.next());
+              counter++;
+          }
+      }
+      String[] keys = new String[counter];
+      for (int i = 0; i < list.size(); i++)
+      {
+          keys[i] = (String)list.get(i);
+      }
+      return keys;
   }
 
   /**
@@ -146,6 +182,9 @@ public class ConfigurationManager {
 
 }
 // $Log$
+// Revision 1.4  2004/08/25 20:24:14  mbw
+// fixed so that the Configuration instanace is nulled out if reinit() is called and the CONFIG parameter is not set
+//
 // Revision 1.3  2004/07/21 18:30:05  mbw
 // javadocs only
 //
