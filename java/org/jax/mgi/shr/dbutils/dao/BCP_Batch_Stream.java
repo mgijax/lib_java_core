@@ -20,8 +20,7 @@ import org.jax.mgi.shr.dbutils.bcp.BCPManager;
  * @version 1.0
  */
 
-public class BCP_Batch_Stream
-    implements SQLStream {
+public class BCP_Batch_Stream extends SQLStream {
   /**
    * the BatchProcessor to use
    */
@@ -30,18 +29,6 @@ public class BCP_Batch_Stream
    * the BCPManager to use
    */
   private BCPManager bcpMgr = null;
-  /**
-   * the DeleteStrategy object which performs deletes of a given DAO
-   */
-  private BatchStrategy deleteStrategy = null;
-  /**
-   * the UpdateStrategy object which performs updates of a given DAO
-   */
-  private BatchStrategy updateStrategy = null;
-  /**
-   * the BCPStrategy object which performs inserts of a given DAO
-   */
-  private BCPStrategy insertStrategy = null;
 
   // the following constant defintions are exceptions thrown by this class
   private static final String ExecuteBatchErr =
@@ -56,35 +43,14 @@ public class BCP_Batch_Stream
    */
   public BCP_Batch_Stream(SQLDataManager sqlMgr, BCPManager bcpMgr) throws
       DBException {
-    this.batch = sqlMgr.getBatchProcessor();
-    this.deleteStrategy = new BatchStrategy(batch);
-    this.updateStrategy = this.deleteStrategy;
-    this.insertStrategy = new BCPStrategy(bcpMgr);
+    super();
     this.bcpMgr = bcpMgr;
-  }
-
-  /**
-   * delete the given DAO object from the database
-   * @param dataInstance the object to delete
-   */
-  public void delete(DAO dataInstance) throws DBException {
-    this.deleteStrategy.delete(dataInstance);
-  }
-
-  /**
-   * update the given DAO object in the database
-   * @param dataInstance the object to update
-   */
-  public void update(DAO dataInstance) throws DBException {
-    this.updateStrategy.update(dataInstance);
-  }
-
-  /**
-   * insert the given DAO object in the database
-   * @param dataInstance the object to insert
-   */
-  public void insert(DAO dataInstance) throws DBException {
-    this.insertStrategy.insert(dataInstance);
+    this.batch = sqlMgr.getBatchProcessor();
+    BatchStrategy batchStrategy = new BatchStrategy(batch);
+    BCPStrategy bcpStrategy = new BCPStrategy(bcpMgr);
+    super.setUpdateStrategy(batchStrategy);
+    super.setInsertStrategy(bcpStrategy);
+    super.setDeleteStrategy(batchStrategy);
   }
 
   /**
