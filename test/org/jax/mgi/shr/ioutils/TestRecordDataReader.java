@@ -131,6 +131,29 @@ public class TestRecordDataReader
     assertTrue(FileUtility.compare(outputFilename, compareFilename4));
   }
 
+  public void testStartRegexDelimiter() throws IOException {
+      String beginDel = "^ID";
+      String endDel = "^SEQUENCE";
+    BufferedWriter out = new BufferedWriter(new FileWriter(outputFilename));
+    FileInputStream in = new FileInputStream(inputFilename2);
+    RecordDataReader rdr =
+        new RecordDataReader(in.getChannel(), beginDel,
+                             endDel, 2);
+    while (rdr.hasNext()) {
+      String s = rdr.next();
+      if (s != null)
+      {
+          out.write(s);
+          out.write("-----------------------------------------------\n");
+      }
+    }
+    out.close();
+    rdr.closeResources();
+    in.close();
+    assertTrue(FileUtility.compare(outputFilename, compareFilename4));
+  }
+
+
 
   public void testSmallInternalBufferSize() throws IOException {
       String del = "\n";
