@@ -24,7 +24,7 @@ public class DatabaseCfg
   private String DEFAULT_USER = "mgd_dbo";
   private String DEFAULT_URL = "rohan.informatics.jax.org:4100";
   private String DEFAULT_PWFILE =
-      "/usr/local/mgi/dbutils/mgidbutilities/.mgd_dbo_password";
+      "/usr/local/mgi/dbutils/mgidbutilities/.mgd_dbo_dev_password";
   private String DEFAULT_DBSCHEMA_DIR =
       "/usr/local/mgi/dbutils/mgd/mgddbschema";
   private String DEFAULT_CONNECTION_MANAGER =
@@ -124,7 +124,7 @@ public class DatabaseCfg
   public String getDBSchemaDir() {
     return dualLookup("DBSCHEMADIR", DEFAULT_DBSCHEMA_DIR);
   }
- 
+
 
   /**
    * get the name of the ConnectionManager class used for instantiating
@@ -181,6 +181,9 @@ public class DatabaseCfg
 
 }
 // $Log$
+// Revision 1.1  2003/12/30 16:50:07  mbw
+// imported into this product
+//
 // Revision 1.4  2003/12/09 22:48:39  mbw
 // merged jsam branch onto the trunk
 //
