@@ -1,6 +1,7 @@
 DATE: 10/12/2004
 STAFF: mbw
 CHANGES: removed debug statements from the RecordDataReader class
+         setting isDebug instance variable to false during initialization (was setting true)
 
 TAG:lib_java_core-1-0-26
 DATE: 10/11/2004
