@@ -5,21 +5,22 @@ import java.sql.ResultSetMetaData;
 import org.jax.mgi.shr.dto.DTO;
 
 /**
- * @is a class for creating a string from a RowReference
- * @has a designated delimiter string for delimiting column output and
- * a ResultSetMetaData object for obtaining RowReference data
- * @does creates a String from a given RowReference
+ * A class for creating a DTO object from a RowReference
+ * @has a ResultSetMetaData object for obtaining row meta data
+ * @does creates a DTO from a given RowReference
  */
 public class RowToDTOInterpreter
     implements RowDataInterpreter {
   private ResultSetMetaData metadata = null;
   private String JDBCException = DBExceptionFactory.JDBCException;
+  public RowToDTOInterpreter() {}
   public RowToDTOInterpreter(ResultSetMetaData pMetadata) {
     metadata = pMetadata;
   }
 
   public Object interpret(RowReference rowReference) throws DBException {
-
+      if (metadata == null)
+          metadata = rowReference.getMetaData();
     DTO dto = DTO.getDTO();
     if (metadata == null)
       throw new DBException("ResultSet metadata was null", false);
