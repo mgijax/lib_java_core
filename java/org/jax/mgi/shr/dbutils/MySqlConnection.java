@@ -1,12 +1,6 @@
 // $Header$
 // $Name$
 
-/**
- * Title:        MySql Driver Manager  <p>
- * Description:  A convenience library to allow Java clients to easily use <p>
- *               a direct database URL to connect to a mysql database. <p>
- */
-
 package org.jax.mgi.shr.dbutils;
 
 // Standard packages needed for Sybase SQL
@@ -19,26 +13,27 @@ import java.util.Properties;
 
 
 /**
-* MGIDriverManager is a customized "DriverManager" that MGIers use to get
-* database connections. It is not a subclass of jdbc2.DriverManager because
-* that class has a private constructor, and can thus not be derived from.
-* @author gld
-* @version
+ * MySqlConnection is a customized ConnectionManager class that can be used to
+ * get connections to a Mysql database.
+ * @has nothing
+ * @does gets a mysql connection
+ * @author MWalker
+ * @company The Jackson Laboratory
 */
 public class MySqlConnection implements ConnectionManager
 {
    /**
     * Returns a database connection to the server/database implied by url.
-    *  @param dataserver the database server ("DEV_MGI")
     *  @param database the database          ("mgd")
-    *  @param user the database user
+    *  @param user the database user         ("mgd_dbo")
     *  @param password the user's password
-    *  @param url the direct database URL
+    *  @param directDatabaseURL the direct database URL
+    * ("rohan.informatics.jax.org:4101")
     *  @return a database Connection
     *  @throws SQLException (if connection cannot be created)
     */
-   public Connection getConnection(String database, 
-   								   String user, 
+   public Connection getConnection(String database,
+   								   String user,
    								   String password,
                             	   String directDatabaseURL)
       throws SQLException
@@ -60,8 +55,6 @@ public class MySqlConnection implements ConnectionManager
        *  Loads the database driver. Must be called prior to using getConnection().
        *  requires: nothing
        *  modifies: nothing
-       *  @param void
-       *  @return void
        */
       public void init()
       {
@@ -90,6 +83,9 @@ public class MySqlConnection implements ConnectionManager
 }
 
 // $Log$
+// Revision 1.1  2003/12/30 16:50:33  mbw
+// imported into this product
+//
 // Revision 1.2  2003/12/09 22:49:04  mbw
 // merged jsam branch onto the trunk
 //

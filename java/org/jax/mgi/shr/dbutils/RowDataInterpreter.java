@@ -4,14 +4,14 @@
 package org.jax.mgi.shr.dbutils;
 
 /**
- * @is A factory for creating java data objects based on a RowReference.
+ * An object that creates java data objects based on data from on a
+ * RowReference.
  * This interface is used by a RowDataIterator in order to create objects
  * while iterating through a query result set.
  * @has nothing.
  * @does instantiates a java data object from a given RowReference.
  * @company Jackson Laboratory
  * @author M. Walker
- * @version 1.0
  */
 
 public interface RowDataInterpreter {
@@ -25,12 +25,17 @@ public interface RowDataInterpreter {
    * @return newly created data object
    * @throws DBException thrown if there are errors while reading the
    * RowReference data.
+   * @throws InterpretException if there is an any error occuring
+   * during interpretation of the row
    */
   public java.lang.Object interpret(RowReference rowReference)
       throws DBException, InterpretException;
 
 }
 // $Log$
+// Revision 1.2  2004/01/29 21:21:36  mbw
+// added new InterpretMethod to the Interpreter interfaces
+//
 // Revision 1.1  2003/12/30 16:50:35  mbw
 // imported into this product
 //

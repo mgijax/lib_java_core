@@ -9,15 +9,14 @@ import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 
 /**
- * @is An object used to iterate through the results of a database
- * query.
+ * An object used to navigate through the results of a database query in both
+ * a forward and backward direction.
  * @has A JDBC ResultSet and a RowDataInterpreter
  * @does Iterates through the result set and returns a java data
  * object for each row. If no RowDataInterpreter has been defined then a
  * RowReference object is created for each row.
- * @company Jackson Lab
- * @author MWalker
- * @version 1.0
+ * @company The Jackson Labatory
+ * @author M Walker
  */
 public class ResultsNavigator {
 
@@ -42,7 +41,7 @@ public class ResultsNavigator {
 
   /**
    * constructor
-   * @param rsIn the JDBC ResultsSet object from a query
+   * @param resultSet the JDBC ResultsSet object from a query
    * @throws DBException thrown if there is a database error
    */
   protected ResultsNavigator(ResultSet resultSet)
@@ -53,8 +52,9 @@ public class ResultsNavigator {
 
   /**
    * constructor
-   * @param rsIn the JDBC ResultsSet object from a query
-   * @param statement
+   * @param resultSet the JDBC ResultsSet object from a query
+   * @param statement the Statement class which will be closed on the call to
+   * close() on this ResultsNavigator instance
    * @throws DBException thrown if there is a database error
    */
   protected ResultsNavigator(ResultSet resultSet, Statement statement)
@@ -95,8 +95,9 @@ public class ResultsNavigator {
   }
 
   /**
-   * returns a boolean value to designate whether thare are more rows left
-   * to process in the current iteration
+   * moves the navigator cursor to the next sequential position and
+   * returns a boolean value to designate whether there are more rows left
+   * to process from this position
    * @assumes nothing
    * @effects the ResultSet pointer will be advanced
    * @return true if rows remain, otherwise return false.
@@ -156,10 +157,10 @@ public class ResultsNavigator {
 
 
   /**
-   * Moves the iterator to the first row
+   * Moves the navigator to the first row
    * @assumes nothing
    * @effects the pointer within the ResultSet is moved to the beginning
-   * @return boolean true if the iterator is on a valid row, false if there
+   * @return boolean true if the navigator is on a valid row, false if there
    * are no rows
    * @throws DBException thrown if a JDBC error occurs
    */
@@ -173,11 +174,11 @@ public class ResultsNavigator {
   }
 
   /**
-   * Moves the iterator to the last row
+   * Moves the navigator to the last row
    * @assumes nothing
    * @effects the pointer in the ResultSet will be moved to the last
    * position
-   * @return boolean true if the iterator is on a valid row,
+   * @return boolean true if the navigator is on a valid row,
    * false otherwise
    * @throws DBException thrown if a JDBC error occurs
    */
@@ -192,8 +193,8 @@ public class ResultsNavigator {
   }
 
   /**
-   * Moves the iterator to the end of the iteration, after the last row. This
-   * method has no effect if the results set contains no rows.
+   * Moves the navigator to the end of the navigation (after the last row).
+   * This method has no effect if the results set contains no rows.
    * @assumes nothing
    * @effects the ResultSet pointer will be moved to after the last position
    * @throws DBException thrown if a JDBC error occurs
@@ -208,7 +209,7 @@ public class ResultsNavigator {
   }
 
   /**
-   * Moves the to the start of the iteration, just before the first row.
+   * Moves the navigator to the start of the iteration (before the first row).
    * this method has no effect if there are no rows.
    * @assumes nothing
    * @effects the ResultSet pointer will be moved to before the first
@@ -242,7 +243,7 @@ public class ResultsNavigator {
   }
 
   /**
-   * Moves the iterator a relative number of rows either in positive or
+   * Moves the navigator a relative number of rows either in positive or
    * negative direction. Attempting to move beyond the first or last row will
    * position the curser before/after the first/last row.
    * @assumes nothing
@@ -261,7 +262,7 @@ public class ResultsNavigator {
   }
 
   /**
-   * Move the iterator to the previous row
+   * Move the navigator to the previous row
    * @assumes nothing
    * @effects the ResultSet pointer will be moved
    * @return true if the position is valid, false if it beyond the result
@@ -278,10 +279,11 @@ public class ResultsNavigator {
   }
 
   /**
-   * Retrieves whether the iterator is on the first row of the result set
+   * Retrieves whether or not the navigator is on the first row of the result
+   * set
    * @assumes nothing
    * @effects nothing
-   * @return true if the iterator is on the first row; false otherwise
+   * @return true if the navigator is on the first row; false otherwise
    * @throws DBException thrown if a JDBC error occurs
    */
   public boolean isFirst() throws DBException {
@@ -295,10 +297,11 @@ public class ResultsNavigator {
   }
 
   /**
-   * Retrieves whether the iterator is on the last row of the result set
+   * Retrieves whether or not the navigator is on the last row of the result
+   * set
    * @assumes nothing
    * @effects nothing
-   * @return true if the iterator is on the last row; otherwise false
+   * @return true if the navigator is on the last row; otherwise false
    * @throws DBException thrown if a JDBC error occurs
    */
   public boolean isLast() throws DBException {
@@ -312,10 +315,11 @@ public class ResultsNavigator {
   }
 
   /**
-   * Retrieves whether the iterator is after the last row of the result set
+   * Retrieves whether or not the navigator is after the last row of the result
+   * set
    * @assumes nothing
    * @effects nothing
-   * @return true if the iterator is after the last row; false otherwise
+   * @return true if the navigator is after the last row; false otherwise
    * @throws DBException thrown if a JDBC error occurs
    */
   public boolean isAfterLast() throws DBException {
@@ -329,10 +333,11 @@ public class ResultsNavigator {
   }
 
   /**
-   * Retrieves whether the iterator is before the first row of the result set
+   * Retrieves whether or not the navigator is before the first row of the
+   * result set
    * @assumes nothing
    * @effects nothing
-   * @return true if the iterator is before the first row; false otherwise
+   * @return true if the navigator is before the first row; false otherwise
    * @throws DBException thrown if a JDBC error occurs
    */
   public boolean isBeforeFirst() throws DBException {
@@ -379,6 +384,7 @@ public class ResultsNavigator {
    * @assumes nothing
    * @effects nothing
    * @param s the string to bind to the exception message
+   * @param e the SQLException for which to bind the given string to
    * @return the DBException object
    */
   private DBException dbException(String s, SQLException e) {
@@ -391,6 +397,9 @@ public class ResultsNavigator {
 }
 
 // $Log$
+// Revision 1.6  2004/02/10 15:26:29  mbw
+// added new constructor which takes the Statement class used in generating the ResultSet
+//
 // Revision 1.5  2004/01/29 21:21:35  mbw
 // added new InterpretMethod to the Interpreter interfaces
 //

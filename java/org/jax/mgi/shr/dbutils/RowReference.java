@@ -14,19 +14,16 @@ import java.io.PrintStream;
 import org.jax.mgi.shr.log.Logger;
 
 /**
- * @is An object representing a reference to the current row
+ * An object representing a reference to the current row
  * of a JDBC ResultSet. It is returned as the default object from
- * the call to the next() method on a RowDataIterator. The RowDataIterator is
- * part of the SQLDataManager and controls iterating through a ResultSet.
- * @has The JDBC ResultSet object pointing to the current row of data
- * managed by the RowDataIterator.
+ * the call to the getCurrent() method on a ResultsNavigator.
+ * @has The JDBC ResultSet object and a pointer to the current row
  * @does provides controlled access to the current row of data of a
  * ResultSet. Only direct access to the following data types are provided:
  * Integer, Float, String, Timestamp and Boolean. All other types can be
  * accessed indirectly through the getObject methods.
  * @company Jackson Laboratory
  * @author M. Walker
- * @version 1.0
  */
 
 
@@ -405,6 +402,9 @@ public class RowReference
 
 
 // $Log$
+// Revision 1.1  2003/12/30 16:50:36  mbw
+// imported into this product
+//
 // Revision 1.2  2003/12/09 22:49:08  mbw
 // merged jsam branch onto the trunk
 //
