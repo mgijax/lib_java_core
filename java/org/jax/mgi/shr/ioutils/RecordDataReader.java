@@ -195,7 +195,7 @@ public class RecordDataReader {
     channel.read(byteBuffer);
     // prepare the buffer for reading
     byteBuffer.flip();
-    bufferReader.init();
+    bufferReader.initBuffer();
   }
 
 
@@ -227,7 +227,7 @@ public class RecordDataReader {
      * @asumes nothing
      * @effects implementation specific
      */
-    public void init();
+    public void initBuffer();
     /**
      * get the next record from the byte buffer
      * @return the next record as a String
@@ -270,7 +270,7 @@ public class RecordDataReader {
       /**
        * required for the interface but nothing is performed
        */
-      public void init()
+      public void initBuffer()
       {}
 
       /**
@@ -457,8 +457,8 @@ public class RecordDataReader {
    * delimiters
    * @has a character view of the byte buffer and a regular expression for
    * the begin and end delimiters
-   * @does reads a record from the byte buffer by matching the line contents
-   * with the regular expressions for the begin and end delimiters.
+   * @does reads records from the byte buffer delimited by the designated
+   * begin and end delimiters.
    */
   private class RegexReader implements BufferReader {
 
@@ -480,8 +480,20 @@ public class RecordDataReader {
     // another view of the nio buffer as the current record being read.
     private ByteBuffer recordBuffer = null;
 
+    /**
+     * constructor
+     */
+    public RegexReader()
+    {
+        regexEndDel = Pattern.compile(endDelimiter);
+        if (useBeginDelimiter)
+        {
+            regexBeginDel = Pattern.compile(beginDelimiter);
+        }
+    }
 
-    public void init() {
+
+    public void initBuffer() {
       // create two buffer views for line and records.
       // these buffer positions are independent of the byte buffer, so they
       // remain static as we read from the byte buffer.
@@ -490,12 +502,6 @@ public class RecordDataReader {
       // buffer will indicate the end of the line and record.
       lineBuffer = byteBuffer.duplicate();
       recordBuffer = byteBuffer.duplicate();
-      regexEndDel = Pattern.compile(endDelimiter);
-      if (useBeginDelimiter)
-      {
-          regexBeginDel = Pattern.compile(beginDelimiter);
-      }
-
     }
 
     /**
@@ -504,25 +510,44 @@ public class RecordDataReader {
      * @throws IOException
      */
     public String getRecord() throws IOException {
-      // if multiple buffers have to be read from the channel then some records
-      // and some lines may be only partially read. Boolean indicators
-      // endOfRecord and endOfLine have been defined to indicate this.
+        /**
+         * if multiple buffers have to be read from the channel then some
+         * records and some lines may be only partially read when the buffer
+         * gets to the end. Boolean indicators endOfRecord and endOfLine have
+         * been defined to indicate this.
+         */
       boolean endOfRecord = false;
       boolean endOfLine = false;
 
       // start a new record
       currentRecord = null;
 
+      /**
+       * The following states have been designed to facilitate the handling
+       * of buffer refilling. The buffer size limits the amount of data that
+       * can be brought into memory at one time. Once the end of buffer is
+       * reached, special handling must be done to cache current results and
+       * refill the buffer
+       */
+      final int LOOKING_BEGINDEL = 1; // searching start of record
+      final int LOOKING_ENDDEL = 2; // searching end of record
+      final int FOUND_ENDDEL = 3; // found end of record
+
+      int state = LOOKING_BEGINDEL;
+
       byte b = 0;
-      // read byte by byte from buffer until end of record or end of buffer
-      // has been reached. The end of record delimiter is tested against each
-      // line read. Check each byte for the end of line (EOL) character and
-      // test each line for end of record delimiter.
-      // If the buffer needs refilling from the channel, then store the
-      // characters for the current line and record in a cache before
-      // refilling the buffer and later append to them when processing the
-      // new buffer.
+
       while (!endOfRecord && byteBuffer.hasRemaining()) {
+
+          /**
+           * read byte by byte from buffer until the end of line (EOL)
+           * character is reached, at which time a check for a match of
+           * the begin delimiter as a regular expression is made.
+           * If the buffer needs refilling from the channel, then store the
+           * characters for the current line in a cache before
+           * refilling the buffer and later append to them when processing the
+           * new buffer.
+           */
         while (byteBuffer.hasRemaining()) {
           b = byteBuffer.get();
           if (b == EOL) {
@@ -606,6 +631,9 @@ public class RecordDataReader {
 
 }
 // $Log$
+// Revision 1.2  2004/02/10 16:22:01  mbw
+// added use of a begin delimiter for extracting records
+//
 // Revision 1.1  2003/12/30 16:56:38  mbw
 // imported into this product
 //
