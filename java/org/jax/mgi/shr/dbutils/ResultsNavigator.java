@@ -6,6 +6,7 @@ package org.jax.mgi.shr.dbutils;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.ResultSetMetaData;
+import java.sql.Statement;
 
 /**
  * @is An object used to iterate through the results of a database
@@ -29,6 +30,8 @@ public class ResultsNavigator {
   private ResultSetMetaData meta = null;
   // the RowReference object
   private RowReference rowref = null;
+  // the Statement class used to generate this ResultSet
+  private Statement statement = null;
 
   // the following constant definitions are exceptions thrown by this class
   private static final String JDBCException =
@@ -42,9 +45,23 @@ public class ResultsNavigator {
    * @param rsIn the JDBC ResultsSet object from a query
    * @throws DBException thrown if there is a database error
    */
-  protected ResultsNavigator(ResultSet rsIn) throws DBException {
-    rs = rsIn;
-    rowref = new RowReference(rs);
+  protected ResultsNavigator(ResultSet resultSet)
+      throws DBException {
+    this.rs = resultSet;
+    rowref = new RowReference(resultSet);
+  }
+
+  /**
+   * constructor
+   * @param rsIn the JDBC ResultsSet object from a query
+   * @param statement
+   * @throws DBException thrown if there is a database error
+   */
+  protected ResultsNavigator(ResultSet resultSet, Statement statement)
+      throws DBException {
+    this.rs = resultSet;
+    this.statement = statement;
+    rowref = new RowReference(resultSet);
   }
 
   /**
@@ -56,6 +73,8 @@ public class ResultsNavigator {
   public void close() throws DBException {
     try {
       rs.close();
+      if (statement != null)
+          statement.close();
     }
     catch (SQLException e) {
       DBExceptionFactory eFactory = new DBExceptionFactory();
@@ -372,6 +391,9 @@ public class ResultsNavigator {
 }
 
 // $Log$
+// Revision 1.5  2004/01/29 21:21:35  mbw
+// added new InterpretMethod to the Interpreter interfaces
+//
 // Revision 1.4  2004/01/16 17:54:57  mbw
 // made RowReference a class variable
 //
