@@ -3,12 +3,11 @@ package org.jax.mgi.shr.dbutils;
 import org.jax.mgi.shr.exception.ExceptionFactory;
 
 /**
- * @is An ExceptionFactory.
+ * An ExceptionFactory for storing DBExceptions.
  * @has a hashmap of predefined DBExceptions stored by a name key
  * @does looks up DBExceptions by name
  * @company The Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 
 public class DBExceptionFactory
@@ -66,7 +65,7 @@ public class DBExceptionFactory
   }
 
   /**
-   * Primary key type is not an incremental type
+   * More than one incremental key was found defined for this table
    */
   public static final String UnexpectedKeyCount =
       "org.jax.mgi.shr.shrdbutils.UnexpectedKeyCount";
@@ -99,6 +98,17 @@ public class DBExceptionFactory
         "An SQLException was thrown during a JDBC call " +
         "while trying to ??", false));
   }
+
+  /**
+   * An SQLWarning was thrown from a JDBC call
+   */
+  public static final String JDBCWarning =
+      "org.jax.mgi.shr.shrdbutils.JDBCWarning";
+  static {
+    exceptionsMap.put(JDBCWarning, new DBException(
+        "An SQLWarning was thrown during a JDBC call", false));
+  }
+
 
   /**
    * An unexpected condition occurred which should be reported as a bug
@@ -189,13 +199,13 @@ public class DBExceptionFactory
   }
 
   /**
-   * A given DataInstance could not be inserted, updated or deleted in the
+   * A given DAO could not be inserted, updated or deleted in the
    * database due to some nested exception.
    */
-  public static final String DataInstanceErr =
-      "org.jax.mgi.shr.dbutils.DataInstanceErr";
+  public static final String DAOErr =
+      "org.jax.mgi.shr.dbutils.DAOErr";
   static {
-    exceptionsMap.put(DataInstanceErr, new DBException(
+    exceptionsMap.put(DAOErr, new DBException(
         "The DAO class ?? could not be updated, deleted or " +
         "inserted into the database. See following exception message:", false));
   }
@@ -231,7 +241,7 @@ public class DBExceptionFactory
   }
 
   /**
-   * Could not execute batch.
+   * Could not execute the script.
    */
   public static final String ExecuteScriptErr =
       "org.jax.mgi.shr.dbutils.ExecuteScriptErr";
@@ -315,6 +325,26 @@ public class DBExceptionFactory
         "The ResultsNavigator could not obtain the next row due to " +
         "an implementation error with the interpret method. See nested " +
         "exception message for more details.", false));
+  }
+
+  /**
+   * could not instantiate a RowDataInterpreter class by the given name
+   */
+  public static final String InterpreterInstanceErr =
+      "org.jax.mgi.shr.dbutils.InterpreterInstanceErr";
+  static {
+    exceptionsMap.put(InterpreterInstanceErr, new DBException(
+        "Could not create instance of class ??", false));
+  }
+
+  /**
+   * unexpected format of stored procedure call
+   */
+  public static final String StoredProcFormatErr =
+      "org.jax.mgi.shr.dbutils.StoredProcFormatErr";
+  static {
+    exceptionsMap.put(StoredProcFormatErr, new DBException(
+        "Unexpected format for stored procedure call: ??", false));
   }
 
 
