@@ -42,6 +42,8 @@ public class BindableStatement {
       DBExceptionFactory.JDBCException;
   private static final String BindCountErr =
       DBExceptionFactory.BindCountErr;
+  private static final String CloseErr =
+      DBExceptionFactory.CloseErr;
 
   /**
    * constructor which sets the SQLDataManager, the PreparedStatement and
@@ -60,7 +62,7 @@ public class BindableStatement {
     preparedStatement = pPreparedStatement;
     bindVariables = new Vector();
     int start = 0;
-    while ((start = sql.indexOf('?', start + 1)) != -1)
+    while ((start = sql.indexOf("?", start + 1)) != -1)
     {
       bindVariables.add(null);
       bindCount++;
@@ -298,6 +300,27 @@ public class BindableStatement {
   }
 
   /**
+   * free up JDBC resources
+   * @assumes nothing
+   * @effects JDBC resources will be freed
+   */
+  public void close() throws DBException
+  {
+      try
+      {
+          if (preparedStatement != null)
+              preparedStatement.close();
+      }
+      catch (SQLException e)
+      {
+          DBExceptionFactory eFactory = new DBExceptionFactory();
+          DBException e2 = (DBException)
+              eFactory.getException(CloseErr, e);
+          throw e2;
+      }
+  }
+
+  /**
    * get a DBException with message defined by ther name
    * ExceptionFactory.JDBCException
    * @assumes nothing
@@ -358,6 +381,9 @@ public class BindableStatement {
 
 }
 // $Log$
+// Revision 1.1  2003/12/30 16:50:21  mbw
+// imported into this product
+//
 // Revision 1.4  2003/12/09 22:48:51  mbw
 // merged jsam branch onto the trunk
 //
