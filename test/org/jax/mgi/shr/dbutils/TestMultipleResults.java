@@ -13,7 +13,8 @@ public class TestMultipleResults
 
   protected void setUp() throws Exception {
     super.setUp();
-    mgr = new SQLDataManager(null, "tempdb", null, null, null);
+    //mgr = new SQLDataManager(null, "tempdb", null, null, null);
+    mgr = new SQLDataManager();
     try {
       mgr.executeUpdate("drop table temp_table");
     }
