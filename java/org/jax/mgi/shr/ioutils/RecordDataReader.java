@@ -58,7 +58,7 @@ public class RecordDataReader {
 
   // indicator for whether or not to use a begin delimiter when extracting
   // records
-  private boolean useBeginDelimiter;
+  private boolean okToUseBeginDelimiter;
 
   /**
    * constructor which allows controlling the size of the internal buffer and
@@ -75,7 +75,7 @@ public class RecordDataReader {
   throws IOException {
     this.channel = in;
     this.endDelimiter = delimiter;
-    this.useBeginDelimiter = false;
+    this.okToUseBeginDelimiter = false;
     this.bufferReader = new RegexReader();
     // create nio buffer to specified size
     this.byteBuffer = ByteBuffer.allocate(bufferSize);
@@ -98,7 +98,7 @@ public class RecordDataReader {
                           int bufferSize)
   throws IOException {
     this.channel = in;
-    this.useBeginDelimiter = true;
+    this.okToUseBeginDelimiter = true;
     this.beginDelimiter = beginDelimiter;
     this.endDelimiter = endDelimiter;
     this.bufferReader = new RegexReader();
@@ -122,7 +122,7 @@ public class RecordDataReader {
                           int bufferSize)
   throws IOException {
     this.channel = in;
-    this.useBeginDelimiter = false;
+    this.okToUseBeginDelimiter = false;
     this.matchSequenceEnd = matchSequence;
     this.bufferReader = new ByteReader();
     // create nio buffer to specified size
@@ -146,7 +146,7 @@ public class RecordDataReader {
                             int bufferSize)
     throws IOException {
       this.channel = in;
-      this.useBeginDelimiter = true;
+      this.okToUseBeginDelimiter = true;
       this.matchSequenceBegin = matchSequenceBegin;
       this.matchSequenceEnd = matchSequenceEnd;
       this.bufferReader = new ByteReader();
@@ -313,7 +313,7 @@ public class RecordDataReader {
           while (state != FOUND_ENDDEL && byteBuffer.hasRemaining())
           {
               int startPosition = byteBuffer.position();
-              if (useBeginDelimiter &&
+              if (okToUseBeginDelimiter &&
                   (state == LOOKING_BEGINDEL || state == EVALUATING_BEGINDEL))
               {
                   // read byte by byte from buffer comparing each byte to the
@@ -486,7 +486,7 @@ public class RecordDataReader {
     public RegexReader()
     {
         regexEndDel = Pattern.compile(endDelimiter);
-        if (useBeginDelimiter)
+        if (okToUseBeginDelimiter)
         {
             regexBeginDel = Pattern.compile(beginDelimiter);
         }
@@ -497,9 +497,9 @@ public class RecordDataReader {
       // create two buffer views for line and records.
       // these buffer positions are independent of the byte buffer, so they
       // remain static as we read from the byte buffer.
-      // when we want to refer to a line or a record we can take the position
-      // of these buffers as the start positions. The position of the byte
-      // buffer will indicate the end of the line and record.
+      // when we want to refer to a line or a record we can refer to the
+      // characters between the start position of the one of these buffers
+      // and the current position of the byte buffer.
       lineBuffer = byteBuffer.duplicate();
       recordBuffer = byteBuffer.duplicate();
     }
@@ -535,14 +535,20 @@ public class RecordDataReader {
 
       int state = LOOKING_BEGINDEL;
 
+      if (!okToUseBeginDelimiter)
+      {
+          state = LOOKING_ENDDEL;
+      }
+
+
       byte b = 0;
 
-      while (!endOfRecord && byteBuffer.hasRemaining()) {
+      while (state != FOUND_ENDDEL && byteBuffer.hasRemaining()) {
 
           /**
            * read byte by byte from buffer until the end of line (EOL)
            * character is reached, at which time a check for a match of
-           * the begin delimiter as a regular expression is made.
+           * the line delimiter as a regular expression is made.
            * If the buffer needs refilling from the channel, then store the
            * characters for the current line in a cache before
            * refilling the buffer and later append to them when processing the
@@ -551,36 +557,47 @@ public class RecordDataReader {
         while (byteBuffer.hasRemaining()) {
           b = byteBuffer.get();
           if (b == EOL) {
-            endOfLine = true;
             readCurrentLine();
-            // found end of line...check if end of record
-            matcher = regexEndDel.matcher(currentLine);
-            if (matcher.find()) {
-              endOfRecord = true;
-              currentLine = null;
-              endOfLine = false;
-              break;
+            // found end of line - check to see if it contains the delimiter
+            if (state == LOOKING_BEGINDEL)
+            {
+                matcher = regexBeginDel.matcher(currentLine);
+                if (matcher.find())
+                {
+                    state = LOOKING_ENDDEL;
+                }
+
+            }
+            else // (state == LOOKING_ENDDEL)
+            {
+                matcher = regexEndDel.matcher(currentLine);
+                if (matcher.find())
+                {
+                    state = FOUND_ENDDEL;
+                }
+            }
+            if (state != LOOKING_BEGINDEL)
+            {
+                if (currentRecord == null)
+                  currentRecord = currentLine.toString();
+                else
+                  currentRecord =
+                      currentRecord.concat((currentLine.toString()));
             }
             currentLine = null;
-            endOfLine = false;
-          }
+            if (state == FOUND_ENDDEL)
+                break;
+          }  // end while (byteBuffer.hasRemaining())
         }
-        // to get here indicates either end of buffer or end of record or both.
-        // read the buffer characters into the current record variable and
-        // if we are at the end of the buffer, also read buffer characters
-        // into current line variable and refill buffer.
-        // If we are actually at the end of the file then the current record
-        // will be returned.
-        readCurrentRecord(); // sets value of the currentRecord instance
         if (!byteBuffer.hasRemaining()) { // buffer needs to be refilled
-          if (!endOfLine)
+          if (state != FOUND_ENDDEL)
             readCurrentLine(); // store partial line before refilling buffer
           prepareNewBuffer();
         }
       }
       // getting here indicates end of record.
       // this could be null if no records exist in the file.
-      if (currentRecord == null) {
+      if (state == LOOKING_ENDDEL && currentRecord == null) {
         throw new IOException("Attempting to read past end of file");
       }
       return currentRecord;
@@ -592,23 +609,7 @@ public class RecordDataReader {
      * reads a record from the nio buffer and stores it as an instance variable
      */
     private void readCurrentRecord() throws IOException {
-      // the record has been determined and the size is known
-      // therefore create a CharBuffer and decode the record from the raw bytes.
-      // the record consist of characters between the record buffer position
-      // which was created at the start of the record and the current byte
-      // buffer position which is currently at the end of the record.
-      CharBuffer charBuffer = CharBuffer.allocate(
-            byteBuffer.position() - recordBuffer.position());
-      decoder.decode(recordBuffer, charBuffer, true);
-      // set or append the current record instance variable.
-      // partial records could have been created if a previous buffer filled up
-      // and we had to temporarily store a partial record and refill the buffer.
-      if (currentRecord == null)
-        currentRecord = ((CharBuffer)charBuffer.position(0)).toString();
-      else
-        currentRecord =
-            currentRecord.concat(
-              ((CharBuffer)charBuffer.position(0)).toString());
+
     }
 
     private void readCurrentLine() throws IOException {
@@ -631,6 +632,9 @@ public class RecordDataReader {
 
 }
 // $Log$
+// Revision 1.3  2004/03/01 19:41:31  mbw
+// begun working begin/end delimiter using regex functionality
+//
 // Revision 1.2  2004/02/10 16:22:01  mbw
 // added use of a begin delimiter for extracting records
 //
