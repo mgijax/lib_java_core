@@ -30,9 +30,6 @@ public class RecordDataReader {
   // max length allocated for one line of text
   private int MAX_LINE_SIZE = 512000;
 
-  // used to convert bytes to chars
-  private String CHARSET = "US-ASCII";
-
   // the delimiters used for regular expression matching
   private String beginDelimiter = null;
   private String endDelimiter = null;
@@ -42,7 +39,7 @@ public class RecordDataReader {
   private byte[] matchSequenceBegin = null;
 
   // decoder for decoding bytes into unicode characters
-  private CharsetDecoder decoder = (Charset.forName(CHARSET)).newDecoder();
+  private CharsetDecoder decoder = null;
 
   // end of line character for UNIX and PC
   private int EOL = 10;
@@ -73,12 +70,14 @@ public class RecordDataReader {
   public RecordDataReader(ReadableByteChannel in,
                           String beginDelimiter,
                           String endDelimiter,
+                          String charset,
                           int bufferSize)
   throws IOException {
     this.channel = in;
     this.beginDelimiter = beginDelimiter;
     this.endDelimiter = endDelimiter;
     this.bufferReader = new RegexReader();
+    this.decoder = (Charset.forName(charset)).newDecoder();
     // create nio buffer to specified size
     this.byteBuffer = ByteBuffer.allocate(bufferSize);
     // clear and prepare the nio buffer for reading
@@ -97,12 +96,14 @@ public class RecordDataReader {
     public RecordDataReader(ReadableByteChannel in,
                             byte[] matchSequenceBegin,
                             byte[] matchSequenceEnd,
+                            String charset,
                             int bufferSize)
     throws IOException {
       this.channel = in;
       this.matchSequenceBegin = matchSequenceBegin;
       this.matchSequenceEnd = matchSequenceEnd;
       this.bufferReader = new ByteReader();
+      this.decoder = (Charset.forName(charset)).newDecoder();
       // create nio buffer to specified size
       this.byteBuffer = ByteBuffer.allocate(bufferSize);
       // clear and prepare the nio buffer for reading
@@ -1079,6 +1080,9 @@ public class RecordDataReader {
 
 }
 // $Log$
+// Revision 1.6  2004/03/29 20:00:11  mbw
+// now allowing any combination of begin/end delimiters
+//
 // Revision 1.5  2004/03/04 18:40:38  mbw
 // handling the end of file conditions in the RegexReader
 //
