@@ -27,6 +27,8 @@ public class ResultsNavigator {
   private RowDataInterpreter interpreter = null;
   // metadata obtained through the ResultSet
   private ResultSetMetaData meta = null;
+  // the RowReference object
+  private RowReference rowref = null;
 
   // the following constant definitions are exceptions thrown by this class
   private static final String JDBCException =
@@ -42,6 +44,7 @@ public class ResultsNavigator {
    */
   protected ResultsNavigator(ResultSet rsIn) throws DBException {
     rs = rsIn;
+    rowref = new RowReference(rs);
   }
 
   /**
@@ -103,7 +106,6 @@ public class ResultsNavigator {
    * @throws DBException thrown if there is a JDBC Exception
    */
   public java.lang.Object getCurrent() throws DBException {
-    RowReference rowref = new RowReference(rs);
     Object interpretedItem = null;
     if (interpreter != null)
       interpretedItem = interpreter.interpret(rowref);
@@ -121,7 +123,7 @@ public class ResultsNavigator {
    * @throws DBException thrown if there is a JDBC Exception
    */
   public RowReference getRowReference() throws DBException {
-    return new RowReference(rs);
+    return rowref;
   }
 
 
