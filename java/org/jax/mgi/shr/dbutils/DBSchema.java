@@ -209,8 +209,8 @@ public class DBSchema {
     Vector v2 = new Vector();
     String s = null;
     for (int i = 0; i < v1.size(); i++) {
-      s = ((String)v1.get(i)).replaceAll("\\$DBCLUSTIDXSEG", "mgd_seg_0");
-      s = (s.replaceAll("\\$DBNONCLUSTIDXSEG", "mgd_seg_1"));
+      s = ((String)v1.get(i)).replaceAll("\\$\\{DBCLUSTIDXSEG\\}", "seg0");
+      s = (s.replaceAll("\\$\\{DBNONCLUSTIDXSEG\\}", "seg1"));
       v2.add(s);
     }
     return v2;
@@ -418,6 +418,9 @@ public class DBSchema {
 }
 
 // $Log$
+// Revision 1.1  2003/12/30 16:50:24  mbw
+// imported into this product
+//
 // Revision 1.2  2003/12/09 22:48:55  mbw
 // merged jsam branch onto the trunk
 //
