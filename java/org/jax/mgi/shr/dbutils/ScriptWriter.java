@@ -112,7 +112,8 @@ public class ScriptWriter {
    * @throws ScriptException thrown if there was an error creating the
    * script file
    */
-  public ScriptWriter(SQLDataManager sqlMgr) throws ConfigException, ScriptException
+  public ScriptWriter(SQLDataManager sqlMgr)
+      throws ConfigException, ScriptException
   {
     this.sqlMgr = sqlMgr;
     configure(new ScriptWriterCfg());
