@@ -78,6 +78,10 @@ public class SQLDataManager {
    * the flag which indicates whether auto-commit is set
    */
   private boolean autoCommit = true;
+  /**
+   * the flag which indicates whether to log debug messages to the logger
+   */
+  private boolean isDebug = true;
 
   /**
    * the setting which controls the scollable nature of the returned
@@ -661,11 +665,10 @@ public class SQLDataManager {
    */
   public ResultsNavigator executeQuery(String sql) throws DBException {
     ResultSet rs = null;
-    if (logger.isDebug())
+    if (this.isDebug())
     {
         timer.reset();
         timer.start();
-        logger.logDebug(sql);
     }
     this.checkConnection("execute query");
     Statement statement = null;
@@ -682,10 +685,10 @@ public class SQLDataManager {
         }
     }
     ResultsNavigator iterator = new ResultsNavigator(rs, statement);
-    if (logger.isDebug())
+    if (this.isDebug())
     {
         timer.stop();
-        logger.logDebug("query took " + timer.time() + " seconds");
+        logger.logDebug(sql + " : " + timer.time() + " seconds");
     }
     return (ResultsNavigator)iterator;
   }
@@ -718,11 +721,10 @@ public class SQLDataManager {
    */
   public int executeUpdate(String sql) throws DBException {
     int results = 0;
-    if (logger.isDebug())
+    if (this.isDebug())
     {
         timer.reset();
         timer.start();
-        logger.logDebug(sql);
     }
     this.checkConnection("execute update");
     try {
@@ -737,10 +739,10 @@ public class SQLDataManager {
             throw this.getJDBCException(msg, e);
         }
     }
-    if (logger.isDebug())
+    if (this.isDebug())
     {
         timer.stop();
-        logger.logDebug("update took " + timer.time() + " seconds");
+        logger.logDebug(sql + " : " + timer.time() + " seconds");
     }
     return results;
   }
@@ -755,11 +757,10 @@ public class SQLDataManager {
    * @throws org.jax.mgi.shr.dbutils.DBException
    */
   public MultipleResults execute(String sql) throws DBException {
-      if (logger.isDebug())
+      if (this.isDebug())
       {
           timer.reset();
           timer.start();
-          logger.logDebug(sql);
       }
     this.checkConnection("execute sql");
     Statement statement = null;
@@ -776,10 +777,10 @@ public class SQLDataManager {
           throw this.getJDBCException(msg, e);
       }
     }
-    if (logger.isDebug())
+    if (this.isDebug())
     {
         timer.stop();
-        logger.logDebug("execution took " + timer.time() + " seconds");
+        logger.logDebug(sql + " : "  + timer.time() + " seconds");
     }
     return new MultipleResults(statement, isResultSet, sql);
   }
@@ -1085,6 +1086,7 @@ public class SQLDataManager {
     if (loggerFactory != null) {
       logger = loggerFactory.getLogger();
     }
+    this.isDebug = pConfig.getDebug().booleanValue();
   }
 
 
@@ -1266,10 +1268,18 @@ public class SQLDataManager {
     return logger;
   }
 
+  protected boolean isDebug()
+  {
+      return this.logger.isDebug() && this.isDebug;
+  }
+
 
 }
 
 // $Log$
+// Revision 1.11  2004/09/22 17:07:25  mbw
+// calling method from the LogCfg class which changed from getLogerFactory() to getLoggerFactory()
+//
 // Revision 1.10  2004/09/03 17:57:28  mbw
 // the getTable() method now throws DBException
 //
