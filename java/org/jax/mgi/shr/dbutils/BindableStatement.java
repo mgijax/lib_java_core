@@ -246,7 +246,7 @@ public class BindableStatement {
    */
   public int executeUpdate() throws DBException {
     int rtn;
-    if (logger.isDebug())
+    if (dataManager.isDebug())
     {
         timer.reset();
         timer.start();
@@ -258,7 +258,7 @@ public class BindableStatement {
     catch (SQLException e) {
       throw getJDBCException(getSQLMessage(), e);
     }
-    if (logger.isDebug())
+    if (dataManager.isDebug())
     {
         timer.stop();
         logger.logDebug("update took " + timer.time() + " seconds");
@@ -290,7 +290,7 @@ public class BindableStatement {
    */
   public ResultsNavigator executeQuery() throws DBException {
     ResultSet rs = null;
-    if (logger.isDebug())
+    if (dataManager.isDebug())
     {
         timer.reset();
         timer.start();
@@ -302,7 +302,7 @@ public class BindableStatement {
     catch (SQLException e) {
       throw getJDBCException(getSQLMessage(), e);
     }
-    if (logger.isDebug())
+    if (dataManager.isDebug())
     {
         timer.stop();
         logger.logDebug("query took " + timer.time() + " seconds");
@@ -403,8 +403,12 @@ public class BindableStatement {
   }
 
 
+
 }
 // $Log$
+// Revision 1.5  2004/07/26 16:38:49  mbw
+// formatting only
+//
 // Revision 1.4  2004/07/21 19:19:30  mbw
 // javadocs only
 //
