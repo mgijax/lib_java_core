@@ -16,14 +16,12 @@ import org.jax.mgi.shr.dbutils.bcp.BCPWriter;
 import org.jax.mgi.shr.config.BCPWriterCfg;
 
 /**
- * @is a class which implements the InsertStrategy interface and can insert
+ * A class which implements the InsertStrategy interface and can insert
  * DAO objects into the database using bcp
  * @has a BCPManager.
- * @does casts the given DAO to a BCPTranslatable and passes it to
- * the coresponding BCPWriter for the target table.
- * @copyright Jackson Lab
+ * @does extracts bcp records from DAO objects and passes them to
+ * the coresponding BCPWriters for the target table.
  * @author M Walker
- * @version 1.0
  */
 public class BCPStrategy
     implements InsertStrategy
@@ -32,6 +30,10 @@ public class BCPStrategy
      * the bcp resource from which BCPWriters are obtained
      */
     private BCPManager bcpManager;
+    /**
+     * the SQLDataManager for running ddl and pre/post sql
+     */
+    private SQLDataManager sqlManager;
 
     /**
      * a map of BCPWriters indexed by the targeted table names.
@@ -41,7 +43,7 @@ public class BCPStrategy
     /*
      * the following constant definitions are exceptions thrown by this class
      */
-    private static String DataInstanceErr = DBExceptionFactory.DataInstanceErr;
+    private static String DAOErr = DBExceptionFactory.DAOErr;
     private static String UnexpectedType = DBExceptionFactory.UnexpectedType;
 
     /**
@@ -50,8 +52,9 @@ public class BCPStrategy
      * @effects nothing
      * @param bcpMgr the BCPManager to use
      */
-    public BCPStrategy(BCPManager bcpMgr)
+    public BCPStrategy(SQLDataManager sqlMgr, BCPManager bcpMgr)
     {
+        sqlManager = sqlMgr;
         bcpManager = bcpMgr;
     }
 
@@ -82,20 +85,7 @@ public class BCPStrategy
             else if (o instanceof String)
             {
                 String s = (String) o;
-                SQLDataManager sqlMgr = null;
-                try
-                {
-                    sqlMgr = bcpManager.getSQLDataManager();
-                }
-                catch (ConfigException e)
-                {
-                    DBExceptionFactory eFactory = new DBExceptionFactory();
-                    DBException e2 = (DBException)
-                        eFactory.getException(DataInstanceErr, e);
-                    e2.bind(dao.getClass().getName());
-                    throw e2;
-                }
-                table = Table.getInstance(s, sqlMgr);
+                table = Table.getInstance(s, sqlManager);
             }
             else
             {
@@ -113,7 +103,7 @@ public class BCPStrategy
             {
                 DBExceptionFactory eFactory = new DBExceptionFactory();
                 DBException e2 = (DBException)
-                    eFactory.getException(DataInstanceErr, e);
+                    eFactory.getException(DAOErr, e);
                 e2.bind(dao.getClass().getName());
                 throw e2;
             }
