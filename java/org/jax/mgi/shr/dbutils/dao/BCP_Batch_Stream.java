@@ -9,15 +9,14 @@ import org.jax.mgi.shr.dbutils.BatchException;
 import org.jax.mgi.shr.dbutils.bcp.BCPManager;
 
 /**
- * @is a SQLStream for doing inserts with bcp and updates and deletes with
+ * A SQLStream for doing inserts with bcp and doing updates and deletes with
  * JDBC batch
- * @has a JDBCBatchStrategy for performing updates and deletes and a
+ * @has a BatchStrategy for performing updates and deletes and a
  * BCPStrategy for perfoming inserts
  * @does provides a set of update, insert and delete strategies for updating
  * a given DAO objects in a database
  * @company The Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 public class BCP_Batch_Stream
     extends SQLStream
@@ -52,7 +51,7 @@ public class BCP_Batch_Stream
         this.bcpMgr = bcpMgr;
         this.batch = sqlMgr.getBatchProcessor();
         BatchStrategy batchStrategy = new BatchStrategy(batch);
-        BCPStrategy bcpStrategy = new BCPStrategy(bcpMgr);
+        BCPStrategy bcpStrategy = new BCPStrategy(sqlMgr, bcpMgr);
         super.setUpdateStrategy(batchStrategy);
         super.setInsertStrategy(bcpStrategy);
         super.setDeleteStrategy(batchStrategy);
