@@ -1,3 +1,8 @@
+TAG: lib_java_core-RPCI-3
+DATE: 01/26/2004
+STAFF: mbw
+CHANGES: changed parametarized values in dbSchema product to use $parameter not ${parameter}
+
 TAG: lib_java_core-RPCI-2
 DATE: 01/26/2004
 STAFF: mbw
