@@ -1,3 +1,8 @@
+TAG:lib_java_core-1-0-30
+DATE: 11/04/2004
+STAFF: mbw
+CHANGES: see changes since last tag
+
 DATE: 10/26/2004
 STAFF: mbw
 CHANGES: added new functionality to the unit testing class TestManager
