@@ -1,3 +1,19 @@
+TAG:lib_java_core-3-1-1
+DATE: 12/16/2004
+STAFF: mbw
+CHANGES: merged assembly branch onto trunk
+
+TAG:lib_java_core-assembly-2
+DATE: 12/02/2004
+STAFF: mbw
+CHANGES: now supports double precision instead of single
+
+TAG:lib_java_core-assembly-1
+DATE: 12/02/2004
+STAFF: mbw
+CHANGES: 1) bug fix in Configuration class: now throws exception when it cannot resolve a configuration parameter
+         2) continued initial development of TestManager
+
 TAG:lib_java_core-assembly-BP
 DATE: 12/02/2004
 STAFF: mbw
