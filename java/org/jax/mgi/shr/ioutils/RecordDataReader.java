@@ -1099,8 +1099,8 @@ public class RecordDataReader {
       // the line consist of characters between the line buffer position
       // which was created at the start of the line and the current byte
       // buffer position which is currently at the end of the line.
-      Stopwatch watch = new Stopwatch();
-      watch.start();
+      //Stopwatch watch = new Stopwatch();
+      //watch.start();
 
       CharBuffer charBuffer = CharBuffer.allocate(
           byteBuffer.position() - lineBuffer.position());
@@ -1112,8 +1112,8 @@ public class RecordDataReader {
         currentLine = currentLine.toString().concat(
             ( (CharBuffer) charBuffer.position(0)).toString());
 
-            watch.stop();
-            logger.logDebug("decoder.decode() : " + watch.time());
+            //watch.stop();
+            //logger.logDebug("decoder.decode() : " + watch.time());
 
 
     }
@@ -1136,6 +1136,9 @@ public class RecordDataReader {
 
 }
 // $Log$
+// Revision 1.9  2004/10/12 15:42:21  mbw
+// removed debug statements from the RecordDataReader class
+//
 // Revision 1.8  2004/07/21 20:47:20  mbw
 // made some bug fixes to the 'begin delimiter only' strategy and made some javadocs edits
 //
