@@ -4,7 +4,7 @@ CHANGES:
 1) config - added accessors for data types of data and objects
 2) dbutils - made SQLDataManager, Table and DBSchema classes more compatible with non-sybase dbs
 3) dao - made close method public is SQLStream interface
-4) ioutils - now supports a begin record delimiter only
+4) ioutils - added support for using a begin record delimiter only
 
 TAG: lib_java_core-1-0-12
 DATE: 03/26/2004
