@@ -9,159 +9,184 @@ package org.jax.mgi.shr.config;
  * @author M Walker
  * @version 1.0
  */
+public class ScriptWriterCfg
+    extends Configurator
+{
+    /**
+     * default pathname for storing script files
+     */
+    private String DEFAULT_PATH = ".";
 
-public class ScriptWriterCfg extends Configurator {
+    /**
+     * default script filename excluding the suffix
+     */
+    private String DEFAULT_FILENAME = "script";
 
-  /**
-   * default pathname for storing script files
-   */
-  private String DEFAULT_PATH = ".";
-  /**
-   * default script filename
-   */
-  private String DEFAULT_FILENAME = "script";
-  /**
-   * default script suffix
-   */
-  private String DEFAULT_SUFFIX = "sql";
-  /**
-   * default output filename
-   */
-  private String DEFAULT_OUTFILENAME = "script";
-  /**
-   * default output filename suffix
-   */
-  private String DEFAULT_OUTSUFFIX = "out";
+    /**
+     * default script suffix
+     */
+    private String DEFAULT_SUFFIX = "sql";
 
-  /**
-   * default constructor which will use unprefixed parameters from the
-   * configuration file for configuring
-   * @throws ConfigException thrown if the there is an error accessing the
-   * configuration file
-   */
-  public ScriptWriterCfg() throws ConfigException {
-    super();
-  }
+    /**
+     * default output filename excluding the suffix
+     */
+    private String DEFAULT_OUTFILENAME = "script";
 
+    /**
+     * default output filename suffix
+     */
+    private String DEFAULT_OUTSUFFIX = "out";
 
-  /**
-   * constructor which accepts a prefix string that will be prepended to
-   * all configuration parameter on lookup
-   * @param pParameterPrefix the given prefix string
-   * @throws ConfigException throws if there is a configuration error
-   */
-  public ScriptWriterCfg(String pParameterPrefix) throws ConfigException {
-    super();
-    super.parameterPrefix = pParameterPrefix;
-  }
+    /**
+     * default constructor which will use unprefixed parameters from the
+     * configuration file for configuring. Use the alternative constructor
+     * if you want to refer to parameters with a prefix.
+     * @throws ConfigException thrown if the there is an error accessing the
+     * configuration file
+     */
+    public ScriptWriterCfg()
+        throws ConfigException
+    {
+        super();
+    }
 
-  /**
-   * get the path name where script file to created. The parameter name read
-   * from the configuration file or system properties is SCP_PATH. The
-   * default value is the current directory.
-   * @return path name.
-   */
-  public String getPathname() {
-    return getConfigString("SCP_PATH", DEFAULT_PATH);
-  }
+    /**
+     * constructor which accepts a prefix string that will be prepended to
+     * all configuration parameter on lookup
+     * @param pParameterPrefix the given prefix string
+     * @throws ConfigException throws if there is a configuration error
+     */
+    public ScriptWriterCfg(String pParameterPrefix)
+        throws ConfigException
+    {
+        super();
+        super.parameterPrefix = pParameterPrefix;
+    }
 
-  /**
-   * get the file name of the script to create. The parameter name read
-   * from the configuration file or system properties is SCP_FILENAME. The
-   * default is 'script'.
-   * @return filename name.
-   */
-  public String getFilename() {
-    return getConfigString("SCP_FILENAME", DEFAULT_FILENAME);
-  }
+    /**
+     * get the path name where script file to created. The parameter name read
+     * from the configuration file or system properties is SCP_PATH. The
+     * default value is the current directory.
+     * @return path name.
+     */
+    public String getPathname()
+    {
+        return getConfigString("SCP_PATH", DEFAULT_PATH);
+    }
 
-  /**
-   * get the file name suffix of the script to create. The parameter name read
-   * from the configuration file or system properties is SCP_SUFFIX. The
-   * default is 'sql'.
-   * @return suffix name.
-   */
-  public String getSuffix() {
-    return getConfigString("SCP_SUFFIX", DEFAULT_SUFFIX);
-  }
+    /**
+     * get the file name of the script to create. The parameter name read
+     * from the configuration file or system properties is SCP_FILENAME and
+     * the default is 'script'. This value should not include suffix file
+     * extensions like '.txt', which is appended automatically using '.sql' or
+     * whatever the SCP_SUFFIX parameter is set to be.
+     * @return filename name without any suffixed file extensions.
+     */
+    public String getFilename()
+    {
+        return getConfigString("SCP_FILENAME", DEFAULT_FILENAME);
+    }
 
-  /**
-   * get the file name of the script output. The parameter name read
-   * from the configuration file or system properties is SCP_OUTFILENAME. The
-   * default is 'script'.
-   * @return suffix name.
-   */
-  public String getOutFilename() {
-    return getConfigString("SCP_OUTFILENAME", DEFAULT_OUTFILENAME);
-  }
+    /**
+     * get the file name suffix of the script to create which is appended to
+     * the SCP_FILENAME as a file extension suffix. The parameter name read
+     * from the configuration file or system properties is SCP_SUFFIX. The
+     * default is 'sql' so that a suffix of '.sql' will be appended
+     * @return suffix name.
+     */
+    public String getSuffix()
+    {
+        return getConfigString("SCP_SUFFIX", DEFAULT_SUFFIX);
+    }
 
-  /**
-   * get the output file name suffix of the script. The parameter name read
-   * from the configuration file or system properties is SCP_OUTSUFFIX. The
-   * default is 'out'.
-   * @return suffix name.
-   */
-  public String getOutSuffix() {
-    return getConfigString("SCP_OUTSUFFIX", DEFAULT_OUTSUFFIX);
-  }
+    /**
+     * get the file name of the script output. The parameter name read
+     * from the configuration file or system properties is SCP_OUTFILENAME. The
+     * default is 'script'. This value should not include suffix file
+     * extensions like '.txt', which is appended automatically using '.out' or
+     * whatever the SCP_OUTSUFFIX parameter is set to be.
+     * @return suffix name without any suffixed file extensions.
+     */
+    public String getOutFilename()
+    {
+        return getConfigString("SCP_OUTFILENAME", DEFAULT_OUTFILENAME);
+    }
 
+    /**
+     * get the output file name suffix of the script which is appended to
+     * the SCP_OUTFILENAME as a file extension suffix. The parameter name read
+     * from the configuration file or system properties is SCP_OUTSUFFIX. The
+     * default is 'out' so that a suffix of '.out' will be appended.
+     * @return suffix name.
+     */
+    public String getOutSuffix()
+    {
+        return getConfigString("SCP_OUTSUFFIX", DEFAULT_OUTSUFFIX);
+    }
 
+    /**
+     * get the value of the option which designates whether to prevent
+     * executing the script when called. The parameter name read from the
+     * configuration file or system properties is SCP_PREVENT_EXECUTE. The
+     * value can be yes, no, true or false and the case of the letters are
+     * ignored. The default value is false.
+     * @return true if the script should not be executed or false otherwise
+     * @throws ConfigException throws if configuration value does not represent
+     * a boolean
+     */
+    public Boolean getPreventExecute()
+        throws ConfigException
+    {
+        return getConfigBoolean("SCP_PREVENT_EXECUTE", new Boolean(false));
+    }
 
-  /**
-   * get the value of the option which designates whether to prevent
-   * executing the script when called. The parameter name read from the
-   * configuration file or system properties is SCP_PREVENT_EXECUTE. The
-   * value can be yes, no, true or false and the case of the letters are
-   * ignored. The default value is false.
-   * @return true or false
-   * @throws ConfigException throws if configuration value does not represent
-   * a boolean
-   */
-  public Boolean getPreventExecute() throws ConfigException {
-    return getConfigBoolean("SCP_PREVENT_EXECUTE", new Boolean(false));
-  }
+    /**
+     * get the value of the option which designates whether it is ok to
+     * overwrite an existing script file. The parameter name read from the
+     * configuration file or system properties is SCP_OK_TO_OVERWRITE. The
+     * value can be yes, no, true or false and the case of the letters are
+     * ignored. The default value is false.
+     * @return true if it is ok to overwrite an existing file or false
+     * otherwise
+     * @throws ConfigException throws if configuration value does not represent
+     * a boolean
+     */
+    public Boolean getOkToOverwrite()
+        throws ConfigException
+    {
+        return getConfigBoolean("SCP_OK_TO_OVERWRITE", new Boolean(false));
+    }
 
-  /**
-   * get the value of the option which designates whether it is ok to
-   * overwrite an existing script file. The parameter name read from the
-   * configuration file or system properties is SCP_OK_TO_OVERWRITE. The
-   * value can be yes, no, true or false and the case of the letters are
-   * ignored. The default value is false.
-   * @return true or false
-   * @throws ConfigException throws if configuration value does not represent
-   * a boolean
-   */
-  public Boolean getOkToOverwrite() throws ConfigException {
-    return getConfigBoolean("SCP_OK_TO_OVERWRITE", new Boolean(false));
-  }
+    /**
+     * get the value of the option which designates whether to use temporary
+     * files when creating script files. The parameter name read from the
+     * configuration file or system properties is SCP_USE_TEMPFILE. The value
+     * can be yes, no, true or false and the case of the letters are ignored.
+     * The default value is false.
+     * @return true if temp files should be used or false otherwise
+     * @throws ConfigException throws if configuration value does not represent
+     * a boolean
+     */
+    public Boolean getUseTempFile()
+        throws ConfigException
+    {
+        return getConfigBoolean("SCP_USE_TEMPFILE", new Boolean(false));
+    }
 
-  /**
-   * get the value of the option which designates whether to use temporary
-   * files when creating script files. The parameter name read from the
-   * configuration file or system properties is SCP_USE_TEMPFILE. The value
-   * can be yes, no, true or false and the case of the letters are ignored.
-   * The default value is false.
-   * @return true or false
-   * @throws ConfigException throws if configuration value does not represent
-   * a boolean
-   */
-  public Boolean getUseTempFile() throws ConfigException {
-    return getConfigBoolean("SCP_USE_TEMPFILE", new Boolean(false));
-  }
-
-  /**
-   * get the value of the option which designates whether to remove the script
-   * file after executing. The parameter name read from the configuration
-   * file or system properties is SCP_REMOVE_AFTER_EXECUTE. The value can be
-   * yes,  no, true or false and the case of the letters are ignored. The
-   * default value is false.
-   * @return true or false
-   * @throws ConfigException throws if configuration value does not represent
-   * a boolean
-   */
-  public Boolean getRemoveAfterExecute() throws ConfigException {
-    return getConfigBoolean("SCP_REMOVE_AFTER_EXECUTE", new Boolean(false));
-  }
-
-
+    /**
+     * get the value of the option which designates whether to remove the script
+     * file after executing. The parameter name read from the configuration
+     * file or system properties is SCP_REMOVE_AFTER_EXECUTE. The value can be
+     * yes,  no, true or false and the case of the letters are ignored. The
+     * default value is false.
+     * @return true if it is ok to remove the script after executing it or
+     * false otherwise
+     * @throws ConfigException throws if configuration value does not represent
+     * a boolean
+     */
+    public Boolean getRemoveAfterExecute()
+        throws ConfigException
+    {
+        return getConfigBoolean("SCP_REMOVE_AFTER_EXECUTE", new Boolean(false));
+    }
 }
