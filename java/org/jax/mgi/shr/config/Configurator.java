@@ -9,7 +9,7 @@ import org.jax.mgi.shr.types.Converter;
 import org.jax.mgi.shr.types.TypesException;
 
 /**
- * @is A base class which provides protected access to the
+ * A base class which provides protected access to the
  * ConfigurationManager singleton instance. It is intended to be
  * extended by so-called configurator classes which provide public
  * access lookup methods for parameters pertaining to their area of
@@ -21,7 +21,6 @@ import org.jax.mgi.shr.types.TypesException;
  * and returns results as either Strings, ints or booleans.
  * @company The Jackson Laboratory
  * @author dbm, mbw
- * @version 1.0
  */
 
 public class Configurator
@@ -45,10 +44,11 @@ public class Configurator
        ConfigExceptionFactory.ParameterTypeError;
    private static final String newInstanceFailed =
        ConfigExceptionFactory.NewInstanceFailed;
+   private static final String patternMismatch =
+       ConfigExceptionFactory.PatternMismatch;
 
    /**
-    * constructor. only intended for members of the config
-    * package
+    * protected constructor for members of this package.
     * @assumes nothing
     * @effects the singleton instance of a ConfigurationManager will
     * be created if it doesnt already exist.
@@ -58,6 +58,18 @@ public class Configurator
     */
     protected Configurator() throws ConfigException {
       cm = ConfigurationManager.getInstance();
+    }
+
+    /**
+     * get the prefix being used by this instance when looking up
+     * configuration parameters
+     * @assumes nothing
+     * @effects nothing
+     * @return the coniguration prefix string
+     */
+    public String getConfigPrefix()
+    {
+        return this.parameterPrefix;
     }
 
     /**
@@ -86,7 +98,7 @@ public class Configurator
     {
         // Have the configuration manager find the value for the name.
         //
-        String str = cm.get(qualify(name));
+        String str = lookup(name);
 
         // If the name was found, return the value.  Otherwise, throw an
         // exception.
@@ -116,7 +128,7 @@ public class Configurator
     {
         // Have the configuration manager find the value for the name.
         //
-        String str = cm.get(qualify(name));
+        String str = lookup(name);
 
         // If the name was found, return the value.  Otherwise, return the
         // default value.
@@ -140,7 +152,81 @@ public class Configurator
     {
         // Return the value from the configuration manager.  It may be NULL.
         //
-        return this.cm.get(qualify(name));
+        return this.lookup(name);
+    }
+
+    /**
+     * Gets a configuration value for a given name and throws
+     * an exception if the value is not found.
+     * @assumes Nothing.
+     * @effects Nothing
+     * @param name The name of the configuration parameter to search on.
+     * @return A string representing the configuration value.
+     * @exception ConfigException Thrown if the given name is not found by the
+     * configuration manager.
+     */
+    protected String getConfigRegex(String name, String regex)
+        throws ConfigException
+    {
+        // Have the configuration manager find the value for the name.
+        //
+        String str = lookup(name);
+
+        // If the name was found, return the value.  Otherwise, throw an
+        // exception.
+        //
+        if (str != null)
+            return str;
+        else
+        {
+            ConfigException e =
+                (ConfigException)eFactory.getException(parameterNotFound);
+            e.bind(name);
+            throw e;
+        }
+    }
+
+    /**
+     * Gets a configuration value for a given name and returns
+     * the given default value if the value is not found.
+     * @assumes Nothing.
+     * @effects Nothing
+     * @param name The name of the configuration parameter to search on.
+     * @param defaultValue The value to be returned if the configuration
+     * parameter is not found.
+     * @return A string representing the configuration value.
+     */
+    protected String getConfigRegex(String name,
+                                     String defaultValue,
+                                     String regex)
+    {
+        // Have the configuration manager find the value for the name.
+        //
+        String str = lookup(name);
+
+        // If the name was found, return the value.  Otherwise, return the
+        // default value.
+        //
+        if (str != null)
+            return str;
+        else
+            return defaultValue;
+    }
+
+    /**
+     * Gets a configuration value for a given name and returns a
+     * NULL if the value is not found.
+     * @assumes Nothing.
+     * @effects Nothing
+     * @param name The name of the configuration parameter to search on.
+     * @return A string representing the configuration value or NULL if the
+     * given name is not found.
+     */
+    protected String getConfigRegexNull(String name, String regex)
+    {
+        // Return the value from the configuration manager.  It may be NULL.
+        //
+        return this.lookup(name);
     }
 
     /**
@@ -158,7 +244,7 @@ public class Configurator
     {
         // Have the configuration manager find the value for the name.
         //
-        String str = cm.get(qualify(name));
+        String str = lookup(name);
 
         // If the name was found, convert the value to an integer and return
         // it.  Otherwise, throw an exception.  Note that the conversion can
@@ -202,7 +288,7 @@ public class Configurator
     {
         // Have the configuration manager find the value for the name.
         //
-        String str = cm.get(qualify(name));
+        String str = lookup(name);
 
         // If the name was found, convert the value to an integer and return
         // it.  Otherwise, return the default value.  Note that the conversion
@@ -241,7 +327,7 @@ public class Configurator
     {
         // Have the configuration manager find the value for the name.
         //
-        String str = cm.get(qualify(name));
+        String str = lookup(name);
 
         // If the name was found, convert the value to an integer and return
         // it.  Otherwise, throw an exception.  Note that the conversion can
@@ -279,7 +365,7 @@ public class Configurator
     {
         // Have the configuration manager find the value for the name.
         //
-        String str = cm.get(qualify(name));
+        String str = lookup(name);
 
         // If the name was found, return the value.  Otherwise, throw an
         // exception.
@@ -323,7 +409,7 @@ public class Configurator
     {
         // Have the configuration manager find the value for the name.
         //
-        String str = cm.get(qualify(name));
+        String str = lookup(name);
 
         // If the name was found, return the value.  Otherwise, return the
         // default value.
@@ -360,7 +446,7 @@ public class Configurator
     {
         // Have the configuration manager find the value for the name.
         //
-        String str = cm.get(qualify(name));
+        String str = lookup(name);
 
         // If the name was found, return the value.  Otherwise, return the
         // default value.
@@ -396,7 +482,7 @@ public class Configurator
     {
         // Have the configuration manager find the value for the name.
         //
-        String str = cm.get(qualify(name));
+        String str = lookup(name);
 
         // If the name was found, return the value.  Otherwise, throw an
         // exception.
@@ -440,7 +526,7 @@ public class Configurator
     {
         // Have the configuration manager find the value for the name.
         //
-        String str = cm.get(qualify(name));
+        String str = lookup(name);
 
         // If the name was found, return the value.  Otherwise, return the
         // default value.
@@ -477,7 +563,7 @@ public class Configurator
     {
         // Have the configuration manager find the value for the name.
         //
-        String str = cm.get(qualify(name));
+        String str = lookup(name);
 
         // If the name was found, return the value.  Otherwise, return the
         // default value.
@@ -506,13 +592,13 @@ public class Configurator
      * @assumes Nothing.
      * @effects a new object will be created
      * @param name The name of the configuration parameter to search on.
-     * @return A boolean representing the configuration value.
+     * @return A java object representing the configuration value.
      * @exception ConfigException Thrown if the given name is not found by the
      * configuration manager or if value cannot be converted to a boolean.
      */
     protected Object getConfigObject(String name) throws ConfigException
     {
-        String str = cm.get(qualify(name));
+        String str = lookup(name);
 
         if (str == null)
         {
@@ -530,19 +616,19 @@ public class Configurator
      * @assumes Nothing.
      * @effects a new object may be created
      * @param name The name of the configuration parameter to search on.
-     * @param defaultValue The value to be returned if the configuration
-     * parameter is not found.
-     * @return A boolean representing the configuration value.
-     * @exception ConfigException Thrown if cannot convert value to boolean
+     * @param defaultObj The name of the object to instantiate if the
+     * configuration parameter is not found.
+     * @return A java object representing the configuration value.
+     * @exception ConfigException thrown if object cannot be instantiated.
      */
-    protected Object getConfigObject(String name, Object o)
+    protected Object getConfigObject(String name, String defaultObj)
         throws ConfigException
     {
-        String str = cm.get(qualify(name));
+        String str = lookup(name);
 
         if (str == null)
         {
-            return o;
+            return createNewObject(defaultObj);
         }
         return createNewObject(str);
     }
@@ -553,14 +639,13 @@ public class Configurator
      * @assumes Nothing.
      * @effects a new object may be created
      * @param name The name of the configuration parameter to search on.
-     * @return A boolean representing the configuration value or null if
-     * the parameter was not found.
-     * @exception ConfigException if value cannot be converted to a boolean.
+     * @return A java object representing the configuration value.
+     * @exception ConfigException thrown if object cannot be instantiated.
      */
     protected Object getConfigObjectNull(String name)
         throws ConfigException
     {
-        String str = cm.get(qualify(name));
+        String str = lookup(name);
 
         if (str == null)
         {
@@ -579,24 +664,24 @@ public class Configurator
       applyPrefix = b;
     }
 
-
     /**
-     * prepends the parameterPrefix attribute if it is not null.
-     * It will not prepend the known parameters MODIFIED_BY and CREATED_BY.
-     * @assumes Nothing
-     * @effects Nothing
-     * @param baseName the parameter name to which the prefix attribute may
-     * be applied
-     * @return the prefixed string if the parameterPrefix attribute is not
-     * null.
+     * looks up a value within the ConfigurationManager while applying prefixing
+     * rules.
+     * @param name the name to lookup
+     * @return the value found which can be null
      */
-    private String qualify(String baseName) {
-      if (!applyPrefix)
-        return baseName;
-      if (parameterPrefix != null)
-        return parameterPrefix + "_" + baseName;
-      else
-        return baseName;
+    private String lookup(String name)
+    {
+        String s = null;
+        if (applyPrefix && parameterPrefix != null)
+        {
+            s = cm.get(parameterPrefix + "_" + name);
+            if (s == null)
+                s = cm.get(name);
+        }
+        else
+            s = cm.get(name);
+        return s;
     }
 
         /**
@@ -604,11 +689,11 @@ public class Configurator
          * delimiter into a java string suitable for using as the file delimiter
          * @param s the string to convert
          * @return the converted value
-         * @throws MGIException thrown if the given string is not a valid delimiter
-         * representation. Allowable values are space and tab (without any
-         * regard for case) and the strings "' '" or "\t".
+         * @throws ConfigException thrown if the given string is not a valid
+         * delimiter representation. Allowable values are space and tab
+         * (without any regard for case) and the strings "' '" or "\t".
          */
-        protected String convertDelimiter(String s) throws ConfigException {
+        private String convertDelimiter(String s) throws ConfigException {
                 if (s == null  || s.equals("")) {
                         ConfigExceptionFactory eFactory = new ConfigExceptionFactory();
                         ConfigException e = (ConfigException)
@@ -634,7 +719,7 @@ public class Configurator
      * @throws ConfigException thrown if there is an error accessing the
      * configuration or if there is an exception during object creation
      */
-    protected Object createNewObject(String className) throws ConfigException
+    private Object createNewObject(String className) throws ConfigException
     {
         Object o = null;
         try
@@ -667,8 +752,23 @@ public class Configurator
 
     }
 
+    private void throwBadPatternMatch(String key, String value, String pattern)
+    throws ConfigException
+    {
+        ConfigExceptionFactory factory = new ConfigExceptionFactory();
+        ConfigException e =
+            (ConfigException)factory.getException(this.patternMismatch);
+        e.bind(value);
+        e.bind(key);
+        e.bind(pattern);
+        throw e;
+    }
+
 }
 // $Log$
+// Revision 1.3  2004/04/14 16:41:08  mbw
+// bug fix: fixed parameter passing error in call to createNewObject() method
+//
 // Revision 1.2  2004/03/29 19:39:25  mbw
 // added accessor methods for datatypes of data and object
 //
