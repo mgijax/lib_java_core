@@ -195,10 +195,18 @@ public class DTOConstants
     public static String DatabaseDate = "databaseDate";
     public static String Notes = "notes";
     public static String SearchToolResults = "searchToolResults";
+
+    // imsr  --  constants used by the IMSR product
+
+    public static String Chromosomes = "chromosomes";
+    public static String StrainTypes = "strainTypes";
 }
 
 /*
 * $Log$
+* Revision 1.8  2004/03/12 18:59:06  jsb
+* Added new expression-related definitions
+*
 * Revision 1.7  2004/03/10 19:00:14  jw
 * Added support for sequenceDate and sequenceRecordDate
 *
