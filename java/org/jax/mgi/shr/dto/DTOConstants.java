@@ -153,6 +153,8 @@ public class DTOConstants
     public static String SequenceKey = "sequenceKey";
     public static String SequenceLength = "length";
     public static String SequenceType = "seqType";
+    public static String SequenceRecordDate = "sequenceRecordDate";
+    public static String SequenceDate = "sequenceDate";
     public static String Strain = "strain";
     public static String RawStrain = "rawStrain";
     public static String SequenceProvider = "sequenceProvider";
@@ -192,6 +194,9 @@ public class DTOConstants
 
 /*
 * $Log$
+* Revision 1.6  2004/03/08 16:02:06  jw
+* Added refID to dto constants
+*
 * Revision 1.5  2004/02/17 17:18:50  jw
 * Added search tool support
 *
