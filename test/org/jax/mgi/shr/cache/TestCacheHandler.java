@@ -56,7 +56,7 @@ public class TestCacheHandler
   public void testLazyInit() throws Exception
   {
     handler =
-        new CacheHandlerTestSubclass(RowDataCacheHandler.LAZY_CACHE, sqlMgr);
+        new CacheHandlerTestSubclass(CacheConstants.LAZY_CACHE, sqlMgr);
     String expectedResult = "-1 value -1\n";
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     handler.printCache(baos);
@@ -66,7 +66,7 @@ public class TestCacheHandler
   public void testLazyLookup() throws Exception
   {
     handler =
-        new CacheHandlerTestSubclass(RowDataCacheHandler.LAZY_CACHE, sqlMgr);
+        new CacheHandlerTestSubclass(CacheConstants.LAZY_CACHE, sqlMgr);
     String expectedResult = "2 value 2\n-1 value -1\n";
     String value = handler.lookup(2);
     assertEquals(value, "value 2");
@@ -78,7 +78,7 @@ public class TestCacheHandler
   public void testStaticCache() throws Exception
   {
     handler =
-        new CacheHandlerTestSubclass(RowDataCacheHandler.LAZY_CACHE, sqlMgr);
+        new CacheHandlerTestSubclass(CacheConstants.LAZY_CACHE, sqlMgr);
     String expectedResult = "2 value 2\n-1 value -1\n";
     String value = handler.lookup(2);
     assertEquals(value, "value 2");
@@ -87,7 +87,7 @@ public class TestCacheHandler
     assertEquals(expectedResult, baos.toString());
     // test to see if the cache is behaving in a static way
     handler =
-        new CacheHandlerTestSubclass(RowDataCacheHandler.LAZY_CACHE, sqlMgr);
+        new CacheHandlerTestSubclass(CacheConstants.LAZY_CACHE, sqlMgr);
     assertEquals(expectedResult, baos.toString());
   }
 
@@ -95,7 +95,7 @@ public class TestCacheHandler
   public void testFullInit() throws Exception
   {
     handler =
-        new CacheHandlerTestSubclass(RowDataCacheHandler.FULL_CACHE, sqlMgr);
+        new CacheHandlerTestSubclass(CacheConstants.FULL_CACHE, sqlMgr);
     String expectedResult = "2 value 2\n1 value 1\n-1 value -1\n3 value 3\n";
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     handler.printCache(baos);
@@ -105,7 +105,7 @@ public class TestCacheHandler
   public void testMissingValueForFull() throws Exception
   {
     handler =
-        new CacheHandlerTestSubclass(RowDataCacheHandler.FULL_CACHE, sqlMgr);
+        new CacheHandlerTestSubclass(CacheConstants.FULL_CACHE, sqlMgr);
     BindableStatement bs = sqlMgr.getBindableStatement(sql);
     // even though it exists in the database, the full cache should not
     // access it
@@ -118,7 +118,7 @@ public class TestCacheHandler
   public void testMissingValueForLazy() throws Exception
   {
     handler =
-        new CacheHandlerTestSubclass(RowDataCacheHandler.FULL_CACHE, sqlMgr);
+        new CacheHandlerTestSubclass(CacheConstants.FULL_CACHE, sqlMgr);
     String value = handler.lookup(4);
     assertNull(value);
   }

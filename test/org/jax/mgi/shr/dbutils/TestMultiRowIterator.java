@@ -96,7 +96,7 @@ public class TestMultiRowIterator
       return row.getInt(1);
     }
 
-    public Object interpretRows(Vector v) throws DBException
+    public Object interpretRows(Vector v) throws InterpretException
     {
       CompoundRow compound = new CompoundRow();
       compound.key = ((SingleRow)v.get(0)).columnA;

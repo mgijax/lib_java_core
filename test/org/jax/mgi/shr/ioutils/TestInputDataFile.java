@@ -40,7 +40,7 @@ public class TestInputDataFile
     String s =
         "#format: sh\n" +
         "INFILE_NAME=testfile\n" +
-        "INFILE_DELIMITER=^//\n" +
+        "INFILE_END_DELIMITER=^//\n" +
         "INFILE_BUFFERSIZE=2222\n";
     FileUtility.createFile(config1, s);
     s = line1 + "\n" + line2 + "\n" + line3;
@@ -87,7 +87,7 @@ public class TestInputDataFile
   }
 
   public void testInStreamDataManager1() throws Exception {
-    System.setProperty("INPUT_FILENAME", filename2);
+    System.setProperty("INFILE_NAME", filename2);
     InputDataCfg cfg = new InputDataCfg();
     inputFile = new InputDataFile(cfg);
     BufferedWriter out = new BufferedWriter(new FileWriter(outputFilename));
@@ -104,8 +104,8 @@ public class TestInputDataFile
   }
 
   public void testInStreamDataManager2() throws Exception {
-    System.setProperty("INPUT_DELIMITER", "^\\|\\|");
-    System.setProperty("INPUT_FILENAME", filename);
+    System.setProperty("INFILE_END_DELIMITER", "^\\|\\|");
+    System.setProperty("INFILE_NAME", filename);
     ConfigReinitializer.reinit();
     InputDataCfg configParm = new InputDataCfg();
     inputFile = new InputDataFile(configParm);
@@ -120,8 +120,8 @@ public class TestInputDataFile
     i.close();
     assertTrue(FileUtility.compare(outputFilename, compareFilename));
     Properties p = System.getProperties();
-    p.remove("INPUT_DELIMITER");
-    p.remove("INPUT_FILENAME");
+    p.remove("INFILE_END_DELIMITER");
+    p.remove("INFILE_NAME");
     ConfigReinitializer.reinit();
   }
 
@@ -144,7 +144,7 @@ public class TestInputDataFile
   public void testIterator1() throws Exception {
     inputFile =
         new InputDataFile(input4IteratorTest);
-    inputFile.setDelimiter("$");
+    inputFile.setEndDelimiter("$");
     RecordDataIterator i = inputFile.getIterator();
     i.hasNext();
     i.hasNext();
@@ -160,7 +160,7 @@ public class TestInputDataFile
   public void testIterator2() throws Exception {
     inputFile =
         new InputDataFile(input4IteratorTest);
-    inputFile.setDelimiter("$");
+    inputFile.setEndDelimiter("$");
     RecordDataIterator i = inputFile.getIterator();
     int count = 0;
     while (i.hasNext()) {
@@ -173,7 +173,7 @@ public class TestInputDataFile
   public void testIterator3() throws Exception {
     inputFile =
         new InputDataFile(input4IteratorTest);
-    inputFile.setDelimiter("$");
+    inputFile.setEndDelimiter("$");
     RecordDataIterator i = inputFile.getIterator();
     int count = 0;
     while (i.hasNext()) {

@@ -39,15 +39,15 @@ public class TestBindableStatement
   }
 
   public void testBind() throws DBException {
-    Vector bindVariables = new Vector();
-    bindVariables.add(null);
-    bindVariables.add(null);
-    bindVariables.add(null);
-    bindVariables.add(null);
-    bindVariables.add(null);
-    bindVariables.add(null);
-    bindVariables.add(new Boolean(true));
-    bindableStatement.bind(bindVariables);
+    Vector vars = new Vector();
+    vars.add(null);
+    vars.add(null);
+    vars.add(null);
+    vars.add(null);
+    vars.add(null);
+    vars.add(null);
+    vars.add(new Boolean(true));
+    bindableStatement.bind(vars);
     bindableStatement.setString(1, "HELLO");
     bindableStatement.executeUpdate();
     bindableStatement.setString(1, "GOODBYE");
@@ -70,7 +70,29 @@ public class TestBindableStatement
     assertNull(r.getObject(5));
     assertNull(r.getObject(6));
     assertEquals(true, r.getBoolean(7).booleanValue());
+  }
 
+  public void testExecute() throws Exception
+  {
+      Vector vars = new Vector();
+      vars.add("HELLO");
+      vars.add(null);
+      vars.add(null);
+      vars.add(null);
+      vars.add(null);
+      vars.add(null);
+      vars.add(new Boolean(true));
+      bindableStatement.executeUpdate(vars);
+      ResultsNavigator rn = manager.executeQuery("select * from test_dbtypes");
+      rn.next();
+      RowReference r = (RowReference)rn.getCurrent();
+      assertEquals("HELLO", r.getString(1));
+      assertNull(r.getObject(2));
+      assertNull(r.getObject(3));
+      assertNull(r.getObject(4));
+      assertNull(r.getObject(5));
+      assertNull(r.getObject(6));
+      assertEquals(true, r.getBoolean(7).booleanValue());
   }
 
 }
