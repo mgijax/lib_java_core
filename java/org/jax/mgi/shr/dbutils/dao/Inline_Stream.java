@@ -4,12 +4,11 @@ import org.jax.mgi.shr.dbutils.SQLDataManager;
 import org.jax.mgi.shr.dbutils.DBException;
 
 /**
- * @is a SQLStream for doing inserts, updates and deletes with inline sql
+ * A SQLStream for doing inserts, updates and deletes with inline sql
  * @has a InlineSQLStrategy for performing updates, inserts and deletes
  * @does inserts, updates and deletes DAO objects onto an SQLStream
  * @company The Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 public class Inline_Stream
     extends SQLStream
@@ -30,14 +29,11 @@ public class Inline_Stream
     }
 
     /**
-     * execute the bcp commands followed by the batch statements
+     * does nothing since all sql is executied in realtime using inline sql
      * @assumes nothing
-     * @effects the bcp command is executed for all BCPWriters created
-     * through the BCPManager
-         * @throws DBException thrown if there is an error executing the bcp command
+     * @effects nothing
      */
     public void close()
-        throws DBException
     {
     }
 }
