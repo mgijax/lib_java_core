@@ -1081,7 +1081,7 @@ public class SQLDataManager {
     dbSchemaDir = pConfig.getDBSchemaDir();
     connectionManagerClass = pConfig.getConnectionManagerClass();
     LogCfg logCfg = new LogCfg();
-    loggerFactory = logCfg.getLogerFactory();
+    loggerFactory = logCfg.getLoggerFactory();
     if (loggerFactory != null) {
       logger = loggerFactory.getLogger();
     }
@@ -1270,6 +1270,9 @@ public class SQLDataManager {
 }
 
 // $Log$
+// Revision 1.10  2004/09/03 17:57:28  mbw
+// the getTable() method now throws DBException
+//
 // Revision 1.9  2004/07/26 16:34:46  mbw
 // formatting only
 //
