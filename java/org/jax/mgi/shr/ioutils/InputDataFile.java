@@ -12,27 +12,27 @@ import org.jax.mgi.shr.exception.MGIException;
 
 public class InputDataFile
 {
-  
+
   // the default record delimiter as a java regular expression
   // this delimiter will cause each line to be a record
   private String delimiter = null;
-  
+
   // the size of the internal buffer
   private int bufferSize;
-  
+
   // the indicator for whether to pattern match by regular expression or
   // direct byte sequence matching
   private boolean useRegex = true;
-  
+
   // the indicator for whether to use stdin as the input data
   private String inputType = null;
-  
+
   // the default filename from which to read records
   private String filename = null;
 
   // the exception factory
   private IOUExceptionFactory exceptionFactory = new IOUExceptionFactory();
-  
+
   // the following are the exceptions that are thrown
   private static final String EmptyDelimiter =
       IOUExceptionFactory.EmptyDelimiter;
@@ -52,10 +52,10 @@ public class InputDataFile
       IOUExceptionFactory.FileNotFoundErr;
   private static final String StdioErr =
     IOUExceptionFactory.StdioErr;
-  
+
   /**
    * constructor which reads its values from the system configuration.
-   * If parameters are not found then the defaults are used. 
+   * If parameters are not found then the defaults are used.
    * @throws IOUException thrown if an error occurs during configuration
    * @throws ConfigException thrown if there is an error reading the
    * configuration file
@@ -77,20 +77,20 @@ public class InputDataFile
   public InputDataFile(InputDataCfg config) throws IOUException, ConfigException {
     configure(config);
   }
-  
+
   /**
-   * constructor which allows specifying the filename at runtime and 
-   * would override any specified filename value from the configuration. 
+   * constructor which allows specifying the filename at runtime and
+   * would override any specified filename value from the configuration.
    * @throws IOUException thown if file cannot be configured and opened
    */
-  public InputDataFile(String filename) 
+  public InputDataFile(String filename)
   throws IOUException, ConfigException {
     if (filename == null)
       throw (IOUException)exceptionFactory.getException(NullFilename);
     this.filename = filename;
     configure(new InputDataCfg());
   }
-  
+
   /**
    * override the configured value for the buffer size
    * @assumes nothing
@@ -100,7 +100,7 @@ public class InputDataFile
   public void setBufferSize(int bufferSize) {
     this.bufferSize = bufferSize;
   }
-  
+
   /**
    * override the configured value for the delimiter which is the
    * regular expression used for delimiting records.
@@ -111,9 +111,9 @@ public class InputDataFile
   public void setDelimiter(String delimiter) {
     this.delimiter = readMetaChars(delimiter);
   }
-  
+
   /**
-   * set whether or not to use regular expressions when performing 
+   * set whether or not to use regular expressions when performing
    * delimiter matching
    * @assumes nothing
    * @effects the regular expression indicator will be set
@@ -122,7 +122,7 @@ public class InputDataFile
   public void setOkToUseRegex(boolean bool) {
     this.useRegex = bool;
   }
-  
+
   /**
    * return the delimiter
    * @return the delimiter
@@ -138,8 +138,8 @@ public class InputDataFile
   public int getBufferSize() {
     return this.bufferSize;
   }
- 
-  
+
+
   /**
    * Obtain an iterator for iterating through records from the file
    * @return the iterator
@@ -149,7 +149,7 @@ public class InputDataFile
     RecordDataIterator iterator = null;
     if (this.filename.toUpperCase().equals("STDIN")) {
       try {
-        iterator = 
+        iterator =
           new InputSourceIterator(Channels.newChannel(System.in));
       }
       catch (IOUException e) {
@@ -160,7 +160,7 @@ public class InputDataFile
     }
     else { // input type must be file
       try {
-        iterator = 
+        iterator =
           new InputSourceIterator(new FileInputStream(filename).getChannel());
       }
       catch (FileNotFoundException e)
@@ -173,7 +173,7 @@ public class InputDataFile
     }
     return iterator;
   }
-  
+
   /**
    * Obtain an iterator for iterating through records from the file
    * @param interpreter the setInterpreter method will be called on the
@@ -188,7 +188,7 @@ public class InputDataFile
       iterator.setInterpreter(interpreter);
     return iterator;
   }
-  
+
   /**
    * configure the instance variables
    * @param pConfig the configuration object from which to configure
@@ -198,22 +198,22 @@ public class InputDataFile
    */
   private void configure(InputDataCfg pConfig)
       throws IOUException, ConfigException {
-    this.delimiter = readMetaChars(pConfig.getDelimiter());
+    this.delimiter = readMetaChars(pConfig.getEndDelimiter());
     this.bufferSize = pConfig.getBufferSize().intValue();
     this.useRegex = pConfig.getOkToUseRegex().booleanValue();
-    if (this.filename == null) 
+    if (this.filename == null)
         // filename may not have been defined through constructor
         // get from configuration
         this.filename = pConfig.getInputFileName();
-    // if no filename was defined through constructor or configuration 
+    // if no filename was defined through constructor or configuration
     if (this.filename == null)
       throw (IOUException)exceptionFactory.getException(NullFilename);
-      
+
   }
-  
+
   /**
    * parse the string and return a new string with metacharacters properly
-   * read. 
+   * read.
    * @assumes nothing
    * @effects nothing
    * @param s the given string
@@ -229,8 +229,8 @@ public class InputDataFile
     }
     return s;
   }
-  
-  
+
+
   /**
    * @is An object that iterates through records in a file
    * @has A reference to a RecordDataReader for reading records and a
@@ -244,7 +244,7 @@ public class InputDataFile
    */
 
   protected class InputSourceIterator implements RecordDataIterator {
-    
+
     // the input channel to read from
     private ReadableByteChannel inputChannel = null;
     // the object used to create a java object from the current record.
@@ -260,8 +260,8 @@ public class InputDataFile
     private boolean exceptionState = false;
     // indicator the next record has been cached
     private boolean cachedState = false;
-   
-                                                                                  
+
+
 
     /**
      * default constructor
@@ -269,7 +269,7 @@ public class InputDataFile
      * @throws IOUException thrown if file is not found or there is some
      * IO exception
      */
-    protected InputSourceIterator(ReadableByteChannel channel) 
+    protected InputSourceIterator(ReadableByteChannel channel)
     throws IOUException {
       this.inputChannel = channel;
       setupReader();
@@ -306,15 +306,15 @@ public class InputDataFile
       if (cachedState)
         return true;
       // if no Interpreter is defined, then all records are considered valid
-      if (interpreter == null)   
+      if (interpreter == null)
         return recordDataReader.hasNext();
 
       // if an Interpreter is defined then find the next valid record
       boolean foundValid = false;
       String record = null;
       while (recordDataReader.hasNext()) {
-        try {                                                                                    
-          record = recordDataReader.next();                                                                                                                                                                                                                                                        
+        try {
+          record = recordDataReader.next();
         }
         catch (IOException e) {
           // the interface does not define execptions thrown here.
@@ -333,7 +333,7 @@ public class InputDataFile
           break;
         }
       }
-                                                                                          
+
       return foundValid;
     }
 
@@ -428,15 +428,15 @@ public class InputDataFile
      * creates an instance of a RecordDataReader
      * @assumes nothing
      * @effects a new RecordDataReader will be instantiated
-     * @throws IOUException thrown if there 
+     * @throws IOUException thrown if there
      */
-    private void setupReader() throws IOUException {                                                      
+    private void setupReader() throws IOUException {
       try {
         if (useRegex)  // pass in record delimiter as a string
-          recordDataReader = 
+          recordDataReader =
             new RecordDataReader(inputChannel, delimiter, bufferSize);
         else  // pass in the delimiter as a byte sequence
-          recordDataReader = 
+          recordDataReader =
             new RecordDataReader(inputChannel,delimiter.getBytes(), bufferSize);
       }
       catch (IOException e) {
@@ -447,5 +447,5 @@ public class InputDataFile
     }
 
   }
-  
+
 }
