@@ -163,8 +163,8 @@ public class RecordDataReader {
    * @throws IOException thrown if the channel cannot be read from
    */
   private void prepareNewBuffer() throws IOException {
-      Stopwatch watch = new Stopwatch();
-      watch.start();
+      //Stopwatch watch = new Stopwatch();
+      //watch.start();
 
     byteBuffer.clear();
     channel.read(byteBuffer);
@@ -172,8 +172,8 @@ public class RecordDataReader {
     byteBuffer.flip();
     bufferReader.initBuffer();
 
-      watch.stop();
-      logger.logDebug("prepareNewBuffer : " + watch.time());
+      //watch.stop();
+      //logger.logDebug("prepareNewBuffer : " + watch.time());
   }
 
 
@@ -404,11 +404,11 @@ public class RecordDataReader {
                           startPosition);
                       int currentPosition = byteBuffer.position();
                       byteBuffer.position(startPosition);
-                      Stopwatch watch = new Stopwatch();
-                      watch.start();
+                      //Stopwatch watch = new Stopwatch();
+                      //watch.start();
                       decoder.decode(byteBuffer, charBuffer, true);
-                      watch.stop();
-                      logger.logDebug("decoder.decode() : " + watch.time());
+                      //watch.stop();
+                      //logger.logDebug("decoder.decode() : " + watch.time());
                       byteBuffer.position(currentPosition);
                       /**
                        * set or append the current record instance variable.
@@ -1136,6 +1136,9 @@ public class RecordDataReader {
 
 }
 // $Log$
+// Revision 1.8  2004/07/21 20:47:20  mbw
+// made some bug fixes to the 'begin delimiter only' strategy and made some javadocs edits
+//
 // Revision 1.7  2004/05/24 16:13:17  mbw
 // now accepts charset as a constructor parameter
 //
