@@ -477,9 +477,6 @@ public class RecordDataReader {
     // another view of the nio buffer as the current line being read.
     private ByteBuffer lineBuffer = null;
 
-    // another view of the nio buffer as the current record being read.
-    private ByteBuffer recordBuffer = null;
-
     /**
      * constructor
      */
@@ -494,14 +491,13 @@ public class RecordDataReader {
 
 
     public void initBuffer() {
-      // create two buffer views for line and records.
-      // these buffer positions are independent of the byte buffer, so they
-      // remain static as we read from the byte buffer.
-      // when we want to refer to a line or a record we can refer to the
-      // characters between the start position of the one of these buffers
+      // create a buffer view for the current line.
+      // the buffer position of this buffer is independent of the byte buffer,
+      // so it remains static as we read from the byte buffer.
+      // when we want to refer to a line we can refer to the
+      // characters between the start position of the one of line buffer
       // and the current position of the byte buffer.
       lineBuffer = byteBuffer.duplicate();
-      recordBuffer = byteBuffer.duplicate();
     }
 
     /**
@@ -510,14 +506,6 @@ public class RecordDataReader {
      * @throws IOException
      */
     public String getRecord() throws IOException {
-        /**
-         * if multiple buffers have to be read from the channel then some
-         * records and some lines may be only partially read when the buffer
-         * gets to the end. Boolean indicators endOfRecord and endOfLine have
-         * been defined to indicate this.
-         */
-      boolean endOfRecord = false;
-      boolean endOfLine = false;
 
       // start a new record
       currentRecord = null;
@@ -539,7 +527,6 @@ public class RecordDataReader {
       {
           state = LOOKING_ENDDEL;
       }
-
 
       byte b = 0;
 
@@ -596,9 +583,12 @@ public class RecordDataReader {
         }
       }
       // getting here indicates end of record.
-      // this could be null if no records exist in the file.
+      // this could be null if the end delimiter was never reached
       if (state == LOOKING_ENDDEL && currentRecord == null) {
-        throw new IOException("Attempting to read past end of file");
+          if (currentLine == null)
+              throw new IOException("Attempting to read past end of file");
+          else
+              return currentLine.toString();
       }
       return currentRecord;
     }
@@ -632,6 +622,9 @@ public class RecordDataReader {
 
 }
 // $Log$
+// Revision 1.4  2004/03/04 15:50:36  mbw
+// incorporated use of begin and end delimiters with regular expressions
+//
 // Revision 1.3  2004/03/01 19:41:31  mbw
 // begun working begin/end delimiter using regex functionality
 //
