@@ -8,14 +8,13 @@ import java.util.Vector;
 import org.jax.mgi.shr.dbutils.Table;
 
 /**
- * @is An object which can translate a it's data contents into a
+ * An object which can translate it's data contents into a
  * Vector used for writing a line to a bcp file via the BCPWriter class.
  * @has a target Table class for which to create the Vector.
  * @does creates a Vector for the target Table which can be passed in
  * as a parameter to the write() method of the BCPWriter.
  * @company Jackson Laboratory
  * @author M. Walker
- * @version 1.0
  */
 
 
@@ -23,7 +22,7 @@ public interface BCPTranslatable {
 
   /**
    * extract a Vector object which represents a row in the given database
-   * table. The objects in the vector correlate with the columns of
+   * table. The objects in the vector must correlate with the columns of
    * the database table in type and order.
    * @assumes mothing
    * @effects nothing
@@ -44,6 +43,9 @@ public interface BCPTranslatable {
 }
 
 // $Log$
+// Revision 1.1  2003/12/30 16:50:48  mbw
+// imported into this product
+//
 // Revision 1.2  2003/12/09 22:49:20  mbw
 // merged jsam branch onto the trunk
 //

@@ -6,14 +6,13 @@ import org.jax.mgi.shr.config.ConfigException;
 import org.jax.mgi.shr.dbutils.DBException;
 
 /**
- * @is a class for accessing BCPManager references by name. The name
+ * A class for accessing BCPManager references by name. The name
  * matches the prefix used for the configuration parameters for configuring
  * a BCPManager. The references accessed can be shared or new.
  * @has a mapping of BCPManager references by name
  * @does provides a either a shared or new reference to a BCPManager
- * @company: The Jackson Laboratory
+ * @company The Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 
 public class BCPManagerFactory {
