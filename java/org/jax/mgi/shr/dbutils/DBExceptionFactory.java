@@ -207,7 +207,8 @@ public class DBExceptionFactory
   static {
     exceptionsMap.put(DAOErr, new DBException(
         "The DAO class ?? could not be updated, deleted or " +
-        "inserted into the database. See following exception message:", false));
+        "inserted into the database. See following exception message:",
+        false));
   }
 
   /**
@@ -311,7 +312,8 @@ public class DBExceptionFactory
       "org.jax.mgi.shr.dbutils.ConfigErr";
   static {
     exceptionsMap.put(ConfigErr, new DBException(
-        "There was a failure when trying to access the configuration", false));
+        "There was a failure when trying to access the configuration",
+        false));
   }
 
   /**

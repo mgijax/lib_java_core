@@ -199,10 +199,10 @@ public class ScriptWriter {
 
 
   /**
-   * write the command termination string to the script file ('go' in the case
-   * of the Sybase database)
-   * @throws ScriptException thrown if there is an error writing to the script
-   * file
+   * write the command termination string to the script file ('go' in the
+   * case of the Sybase database)
+   * @throws ScriptException thrown if there is an error writing to the
+   * script file
    */
   public void go() throws ScriptException
   {
@@ -234,8 +234,10 @@ public class ScriptWriter {
     String user = sqlMgr.getUser();
     String pwFile = sqlMgr.getPasswordFile();
     String cmd = "cat " + pwFile + " | isql -U" + user + " -S" + server +
-                 " -D" + db + " -i " + path + File.separator + filename + "." +
-                 suffix + " -o " + path + File.separator + outfilename + "." +
+                 " -D" + db + " -i " + path + File.separator + filename +
+                 "." +
+                 suffix + " -o " + path + File.separator + outfilename +
+                 "." +
                  outsuffix + " -e";
     try
     {

@@ -24,13 +24,13 @@ public class SQLDataManagerFactory {
 
   /**
    * get a new reference to a SQLDataManager by name
-   * @param cfgPrefix the name of the reference which would match some prefix used
-   * for a set of SQLDataManager configuration parameters
+   * @param cfgPrefix the name of the reference which would match some
+   * prefix used for a set of SQLDataManager configuration parameters
    * @return the SQLDataManager reference
    * @throws ConfigException thrown if there was an error accessing the
    * configuration file
-   * @throws DBException thrown if a new SQLDataManager reference could not be
-   * created
+   * @throws DBException thrown if a new SQLDataManager reference could not
+   * be created
    */
   static public SQLDataManager getNew(String cfgPrefix)
       throws ConfigException, DBException
@@ -42,13 +42,13 @@ public class SQLDataManagerFactory {
 
   /**
    * get a shared reference to a SQLDataManager by name
-   * @param cfgPrefix the name of the reference which would match some prefix used
-   * for a set of SQLDataManager configuration parameters
+   * @param cfgPrefix the name of the reference which would match some
+   * prefix used for a set of SQLDataManager configuration parameters
    * @return the shared SQLDataManager reference
    * @throws ConfigException thrown if there was an error accessing the
    * configuration file
-   * @throws DBException thrown if a new SQLDataManager reference could not be
-   * created
+   * @throws DBException thrown if a new SQLDataManager reference could not
+   * be created
    */
   static public SQLDataManager getShared(String cfgPrefix) throws
       ConfigException, DBException {
