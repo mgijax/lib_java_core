@@ -1,10 +1,13 @@
 package org.jax.mgi.shr.log;
 
+import org.jax.mgi.shr.config.LogCfg;
+import org.jax.mgi.shr.config.ConfigException;
+
 /**
- * <p>@is a Logger class for logging to the console</p>
- * <p>@has nothing</p>
- * <p>@does routes log messages to the console</p>
- * <p>@company The Jackson Laboratory</p>
+ *  A Logger class for logging to the console
+ * @has nothing
+ * @does routes log messages to the console
+ * @company The Jackson Laboratory
  * @author M Walker
  *
  */
@@ -12,6 +15,21 @@ public class ConsoleLogger implements Logger
 {
 
 	private boolean debugOn = false;
+
+    public ConsoleLogger()
+    {
+        try
+        {
+            LogCfg cfg = new LogCfg();
+            Boolean b = cfg.getDebug();
+            debugOn = b.booleanValue();
+        }
+        catch (ConfigException e)
+        {
+            // cannot access config file, so cannot configure debug state
+        }
+
+    }
 
 	/**
 	 * log an informational message to the logger
