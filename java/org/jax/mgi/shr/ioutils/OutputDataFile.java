@@ -180,7 +180,6 @@ public class OutputDataFile
     private void configure(OutputDataCfg pConfig)
       throws IOUException, ConfigException
     {
-        this.filename = pConfig.getOutputFileName();
         this.delimiter = pConfig.getDelimiter();
         this.okToAutoFlush = pConfig.getOkToAutoFlush().booleanValue();
 
@@ -350,6 +349,9 @@ public class OutputDataFile
 
 
 //  $Log$
+//  Revision 1.1.2.4  2005/01/07 19:15:26  mbw
+//  bug fix: no longer throwing exception when calling constructor with a given filename
+//
 //  Revision 1.1.2.3  2005/01/07 19:00:48  mbw
 //  now using a BufferedWriteer and added config param okToAutoFlush
 //

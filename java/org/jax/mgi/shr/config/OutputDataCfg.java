@@ -75,10 +75,27 @@ public class OutputDataCfg extends Configurator {
     {
         return getConfigString("OUTFILE_FIELD_DELIMITER", DEFAULT_DELIMITER);
     }
+
+    /**
+     * get the value of the option which designates whether to automatically
+     * flush a buffer after each write.
+     * The parameter name read from the configuration file
+     * for setting this option is OUTFILE_AUTO_FLUSH and its default is false.
+     * @return true or false
+     * @throws ConfigException throws if configuration value does not represent
+     * a boolean
+     */
+    public Boolean getOkToAutoFlush() throws ConfigException {
+      return getConfigBoolean("OUTFILE_AUTO_FLUSH", new Boolean(false));
+    }
+
 }
 
 
 //  $Log$
+//  Revision 1.1.2.1  2005/01/05 14:27:30  dbm
+//  New
+//
 //
 /**************************************************************************
 *
