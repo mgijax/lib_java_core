@@ -2,12 +2,11 @@ package org.jax.mgi.shr.dbutils.bcp;
 
 
 /**
- * @is a RecordStamper object for tables which contain no user or date stamps
+ *  A RecordStamper object for tables which contain no user or date stamps
  * @does creates a string containing the fields required for record which
  * in this case is an empty string
  * @company The Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 
 public class RecordStamper_None implements RecordStamper
@@ -18,7 +17,7 @@ public class RecordStamper_None implements RecordStamper
    * @param delimiter the delimiter to use to sepearte the stamp fields
    * @return the record stamp string
    */
-  public String getStamp(String delimiter) throws BCPException
+  public String getStamp(String delimiter)
   {
     return "";
   }
