@@ -58,9 +58,13 @@ public class DTOConstants
 
     public static String Markers = "markers";
     public static String OrthologCount = "orthologCount";
+
     // alleles -- constants dealing with allele information
 
     public static String AlleleCounts = "alleleCounts";
+    public static String AlleleTypeName = "alleleTypeName";
+    public static String AlleleTypeKey = "alleleTypeKey";
+    public static String AlleleTypeCount = "alleleTypeCount";
 
     // mapping -- constants dealing with mapping information
 
@@ -199,6 +203,9 @@ public class DTOConstants
 
 /*
 * $Log$
+* Revision 1.8  2004/03/12 18:59:06  jsb
+* Added new expression-related definitions
+*
 * Revision 1.7  2004/03/10 19:00:14  jw
 * Added support for sequenceDate and sequenceRecordDate
 *
