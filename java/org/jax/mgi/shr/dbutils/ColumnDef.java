@@ -316,7 +316,7 @@ import org.jax.mgi.shr.dbutils.types.TypeValidator;
 			}
 			if (cgName == null)
 				cgName = this.name;
-			if (cgName.equals("private") || cgName.equals("abstract"))
+			if (cgName.equals("private") || cgName.equals("abstract") || cgName.equals("class"))
 			   cgName = cgName + "Val";
 			return cgName;
 		}
