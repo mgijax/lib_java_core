@@ -264,8 +264,8 @@ public class DBSchema {
     Vector v2 = new Vector();
     String s = null;
     for (int i = 0; i < v1.size(); i++) {
-      s = ((String)v1.get(i)).replaceAll("\\$\\{DBCLUSTIDXSEG\\}", "seg0");
-      s = (s.replaceAll("\\$\\{DBNONCLUSTIDXSEG\\}", "seg1"));
+      s = ((String)v1.get(i)).replaceAll("\\$\\{DBCLUSTIDXSEG\\}", "mgd_seg_0");
+      s = (s.replaceAll("\\$\\{DBNONCLUSTIDXSEG\\}", "mgd_seg_1"));
       v2.add(s);
     }
     return v2;
@@ -510,6 +510,9 @@ public class DBSchema {
 }
 
 // $Log$
+// Revision 1.4  2004/01/21 20:45:19  mbw
+// added the dropping and creating of partition functionality
+//
 // Revision 1.3  2004/01/21 19:24:45  mbw
 // consolidated the command search strings
 //
