@@ -17,7 +17,6 @@ public class TestDBSchema
   protected void setUp() throws Exception {
     super.setUp();
     sqlManager = new SQLDataManager();
-    sqlManager.setDBSchemaDir("/net/rohan/usr/local/mgi/dbutils/radar/radardbschema");
     dBSchema = sqlManager.getDBSchema();
   }
 
@@ -29,63 +28,43 @@ public class TestDBSchema
 
 
   public void testCreateIndexCommand() throws Exception {
-    String filename = "/net/rohan/usr/local/mgi/dbutils/radar/radardbschema/index/MGI_CloneLoad_Clone_create.object";
-    Vector returnVector = dBSchema.getCreateIndexCommands("MGI_CloneLoad_Clone");
-    String expectedReturn = "create unique clustered index idx_Clone_key on MGI_CloneLoad_Clone (_Clone_key)";
+    Vector returnVector = dBSchema.getCreateIndexCommands("ACC_AccessionMax");
+    String expectedReturn = "create unique clustered index idx_prefixPart on ACC_AccessionMax (prefixPart) on seg0";
     assertEquals(expectedReturn, returnVector.get(0));
-    expectedReturn = "create nonclustered index idx_cloneName on MGI_CloneLoad_Clone (cloneName)";
+    expectedReturn = "create nonclustered index idx_modification_date on ACC_AccessionMax (modification_date) on seg1";
     assertEquals(expectedReturn, returnVector.get(1));
-    expectedReturn = "create nonclustered index idx_jnumID on MGI_CloneLoad_Clone (jnumID)";
-    assertEquals(expectedReturn, returnVector.get(2));
   }
 
   public void testDropIndexCommand() throws Exception {
-    String filename = "/net/rohan/usr/local/mgi/dbutils/radar/radardbschema/index/MGI_CloneLoad_Clone_drop.object";
-    Vector returnVector = dBSchema.getDropIndexCommands("MGI_CloneLoad_Clone");
-    String expectedReturn = "drop index MGI_CloneLoad_Clone.idx_Clone_key";
+    Vector returnVector = dBSchema.getDropIndexCommands("ACC_MGIType");
+    String expectedReturn = "drop index ACC_MGIType.idx_MGIType_key";
     assertEquals(expectedReturn, returnVector.get(0));
-    expectedReturn = "drop index MGI_CloneLoad_Clone.idx_cloneName";
+    expectedReturn = "drop index ACC_MGIType.idx_name";
     assertEquals(expectedReturn, returnVector.get(1));
-    expectedReturn = "drop index MGI_CloneLoad_Clone.idx_jnumID";
+    expectedReturn = "drop index ACC_MGIType.idx_modification_date";
     assertEquals(expectedReturn, returnVector.get(2));
   }
 
   public void testCreateTableCommand() throws Exception {
-    String filename = "/net/rohan/usr/local/mgi/dbutils/radar/radardbschema/table/MGI_CloneLoad_Clone_create.object";
-    String actualReturn = dBSchema.getCreateTableCommand("MGI_CloneLoad_Clone");
-    String expectedReturn = "create table MGI_CloneLoad_Clone ( _Clone_key                     int             not null, cloneName                      varchar(40)     not null, cloneLibrary                   varchar(255)    null, jnumID                         varchar(30)     not null, _JobStream_key                 int             not null, creation_date                  datetime        not null )";
+    String actualReturn = dBSchema.getCreateTableCommand("ACC_AccessionMax");
+    String expectedReturn = "create table ACC_AccessionMax ( prefixPart                     varchar(20)     not null, maxNumericPart                 int             not null, creation_date                  datetime        not null, modification_date              datetime        not null ) on seg0";
     //System.out.println(expectedReturn);
     //System.out.println(actualReturn);
     assertEquals(expectedReturn, actualReturn);
   }
 
-  public void testCreateTable() throws Exception {
-    SQLDataManager sqlman = new SQLDataManager();
-    String tablename = "MGI_CloneLoad_Accession";
-    try {
-      sqlman.executeUpdate("drop table " + tablename);
-    }
-    catch (DBException e) {} // ignored
-    try {
-      dBSchema.createTable(tablename);
-      dBSchema.createIndexes(tablename);
-      dBSchema.dropIndexes(tablename);
-      dBSchema.createIndexes(tablename);
-      dBSchema.dropIndexes(tablename);
-      String sql = "INSERT INTO MGI_CloneLoad_Accession VALUES " +
-          "(1, '2', 'logicaldb', 0, 1, '2003-07-04')";
-      sqlman.executeUpdate(sql);
-      dBSchema.truncateTable(tablename);
-      int count = sqlman.executeUpdate("delete from " + tablename);
-      assertEquals(count, 0);
-      dBSchema.truncateLog();
-      dBSchema.dropTable(tablename);
-    }
-    catch (Exception e) {
-      assertTrue(false);
-    }
-    assertTrue(true);
-  }
+  public void testCreatePartitionCommand() throws Exception {
+   String actualReturn = dBSchema.getCreatePartitionCommand("ACC_Accession");
+   String expectedReturn = "alter table ACC_Accession partition 3";
+   assertEquals(expectedReturn, actualReturn);
+ }
+
+ public void testDropPartitionCommand() throws Exception {
+  String actualReturn = dBSchema.getDropPartitionCommand("ACC_Accession");
+  String expectedReturn = "alter table ACC_Accession unpartition";
+  assertEquals(expectedReturn, actualReturn);
+}
+
 
 
 
