@@ -1,3 +1,11 @@
+DATE: 8/25/2004
+STAFF: mbw
+CHANGES: 
+1) changed default values in DatabaseCfg to reflect new "live" directory
+2) fixed the reinit() method in the ConfigurationManager so that it nulls out the internal instance when called with the CONFIG parameter not set
+3) removed the test for file length in the compare() when testing for file equality
+4) fixed bug in BCP_Stream so that it no longer overrides the update(DAO) and delete(DAO) method and added a test in SQLStream so that if either the UpdateStrategy or the DeleteStrategy is null on a call to uipdate(DAO) or delete(DAO) then a RuntimeException is raised.
+
 TAG:lib_java_core-1-0-22
 DATE: 8/4/2004
 STAFF: mbw
