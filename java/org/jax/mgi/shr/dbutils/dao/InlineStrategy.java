@@ -65,7 +65,7 @@ public class InlineStrategy
       DBExceptionFactory eFactory = new DBExceptionFactory();
       DBException e2 = (DBException)
           eFactory.getException(DataInstanceErr, e);
-      e2.bind(dbComponent.toString());
+      e2.bind(dbComponent.getClass().getName());
       throw e2;
     }
   }
@@ -90,7 +90,7 @@ public class InlineStrategy
       DBExceptionFactory eFactory = new DBExceptionFactory();
       DBException e2 = (DBException)
           eFactory.getException(DataInstanceErr, e);
-      e2.bind(dbComponent.toString());
+      e2.bind(dbComponent.getClass().getName());
       throw e2;
     }
 
@@ -116,7 +116,7 @@ public class InlineStrategy
       DBExceptionFactory eFactory = new DBExceptionFactory();
       DBException e2 = (DBException)
           eFactory.getException(DataInstanceErr, e);
-      e2.bind(dbComponent.toString());
+      e2.bind(dbComponent.getClass().getName());
       throw e2;
     }
 
