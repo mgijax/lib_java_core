@@ -7,7 +7,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
 /**
- * @is An exception object created by the ExceptionFactory class that
+ *  An exception object created by the ExceptionFactory class that
  *        may contain a hierarchy of other exception objects.  The "parent"
  *        attribute will contain the parent exception object if one exists.
  *        The parent exception can be another KnownException or a subclass
@@ -27,7 +27,6 @@ import java.io.PrintStream;
  * </UL>
  * @company The Jackson Laboratory
  * @author dbm
- * @version 1.0
  */
 
 public class MGIException
@@ -41,27 +40,83 @@ public class MGIException
   //
   private boolean dataRelated;
 
-  // flag indicating whether or not include a stack trace in the message
+  // the name of the exception
   //
-  private static boolean okToStackTrace = false;
+  private String name = null;
+
+  /**
+   * constructor.
+   * @param pMessage The text of the exception message which can contain bind
+   * variables utilizing the string '??'.
+   */
+  public MGIException(String pMessage) {
+    super(pMessage);
+    dataRelated = false;
+  }
+
+  /**
+   * constructor.
+   * @param message The text of the exception message which can contain bind
+   * variables utilizing the string '??'.
+   * @param e the parent exception
+   */
+  public MGIException(String message, Exception e) {
+    super(message);
+    dataRelated = false;
+    this.setParent(e);
+  }
 
   /**
    * constructor.
    * @assumes Nothing
    * @effects Nothing.
-   * @param pMessage The text of the exception message.
+   * @param pMessage The text of the exception message which can contain bind
+   * variables utilizing the string '??'.
    * @param pDataRelated Indicates whether or not the exception is an
    * error in the data.
    */
   public MGIException(String pMessage, boolean pDataRelated) {
     super(pMessage);
     dataRelated = pDataRelated;
-    if (okToStackTrace) // include the stack trace in the message
-    {
-      ByteArrayOutputStream trace = new ByteArrayOutputStream();
-      printStackTrace(new PrintStream(trace));
-      replaceMessage(trace.toString());
-    }
+  }
+
+  /**
+   * constructor.
+   * @assumes Nothing
+   * @effects Nothing.
+   * @param pMessage The text of the exception message which can contain bind
+   * variables utilizing the string '??'.
+   * @param pDataRelated Indicates whether or not the exception is an
+   * error in the data.
+   */
+  public MGIException(String message, boolean dataRelated,
+                      Exception e) {
+    super(message);
+    dataRelated = dataRelated;
+    this.setParent(e);
+  }
+
+
+  /**
+   * set the name of the exception.
+   * @assumes nothing
+   * @effects the name of the exception will be set
+   * @param name the name of the exception
+   */
+  protected void setName(String name)
+  {
+      this.name = name;
+  }
+
+  /**
+   * get the name of the exception
+   * @assumes nothing
+   * @effects nothing
+   * @return the name of the exception
+   */
+  public String getName()
+  {
+      return this.name;
   }
 
   /**
@@ -85,13 +140,9 @@ public class MGIException
     return dataRelated;
   }
 
-  /**
-   * set whether or not to include a stack trace in the exception message
-   * @param bool true or false
-   */
-  public static void setOkToStackTrace(boolean bool) {
-    okToStackTrace = bool;
-  }
+
+
+
 
   /**
    * get a RuntimeException for throwing within an unsupported method
@@ -112,6 +163,9 @@ public class MGIException
 
 }
 // $Log$
+// Revision 1.3  2004/02/25 20:21:09  mbw
+// fixed to eliminate compiler warnings
+//
 // Revision 1.2  2004/01/05 18:31:35  mbw
 // bug fix: now setOkToStackTrace() should be working
 //
