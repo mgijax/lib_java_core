@@ -6,15 +6,13 @@ import org.jax.mgi.shr.dbutils.DBException;
 import org.jax.mgi.shr.dbutils.DBExceptionFactory;
 
 /**
- * @is a class which implements the InsertStrategy, UpdateStrategy,
+ * A class which implements the InsertStrategy, UpdateStrategy,
  * and DeleteStrategy using a scripting strategy
  * @has a ScriptWriter.
  * @does casts the given DAO to a SQLTranslatable from which to
  * obtain the sql and executes the sql for either insert, update or
  * delete by using a database script.
- * @Copyright Jackson Lab
  * @author M Walker
- * @version 1.0
  */
 
 
@@ -49,6 +47,7 @@ public class ScriptStrategy
         throws DBException
     {
         String sql = ( (SQLTranslatable) dao).getUpdateSQL();
+        sql = SQLStrategyHelper.convertToOtherProc(sql);
         try
         {
             writer.write(sql);
@@ -75,6 +74,7 @@ public class ScriptStrategy
         throws DBException
     {
         String sql = ( (SQLTranslatable) dao).getDeleteSQL();
+        sql = SQLStrategyHelper.convertToOtherProc(sql);
         try
         {
             writer.write(sql);
@@ -101,6 +101,7 @@ public class ScriptStrategy
         throws DBException
     {
         String sql = ( (SQLTranslatable) dao).getInsertSQL();
+        sql = SQLStrategyHelper.convertToOtherProc(sql);
         try
         {
             writer.write(sql);
