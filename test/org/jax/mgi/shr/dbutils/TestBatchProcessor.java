@@ -16,9 +16,6 @@ public class TestBatchProcessor
         super(arg0);
     }
 
-    /*
-     * @see TestCase#setUp()
-     */
     protected void setUp()
         throws Exception
     {
@@ -29,9 +26,6 @@ public class TestBatchProcessor
         tc.createDBsimple();
     }
 
-    /*
-     * @see TestCase#tearDown()
-     */
     protected void tearDown()
         throws Exception
     {
