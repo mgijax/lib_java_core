@@ -46,7 +46,8 @@ public class BCP_Batch_Stream
   // the following constant defintions are exceptions thrown by this class
   private static final String ExecuteBatchErr =
       DBExceptionFactory.ExecuteBatchErr;
-  private static String SQLStreamCloseErr =      DBExceptionFactory.SQLStreamCloseErr;
+  private static String SQLStreamCloseErr =
+      DBExceptionFactory.SQLStreamCloseErr;
 
   /**
    * constructor
