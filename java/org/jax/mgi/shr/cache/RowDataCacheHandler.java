@@ -9,36 +9,39 @@ import org.jax.mgi.shr.dbutils.RowDataInterpreter;
 import org.jax.mgi.shr.dbutils.SQLDataManager;
 import org.jax.mgi.shr.dbutils.DBException;
 import org.jax.mgi.shr.log.Logger;
+import org.jax.mgi.shr.log.LoggerFactory;
 import org.jax.mgi.shr.log.ConsoleLogger;
+import org.jax.mgi.shr.config.LogCfg;
+import org.jax.mgi.shr.config.CacheCfg;
+import org.jax.mgi.shr.config.ConfigException;
 
 /**
- * @is: An abstract class for coordinating data between the database and
+ * An abstract class for coordinating data between the database and
  * an in-memory cache.
- * @has: a CacheStrategy object for handling the accessing of cache entries.
- * This strategy class can be either a lazy of full strategy (see
- * CacheConstants class for these definitions). It also has a logger for
- * logging statistics if the logger is in debug mode.
- * @does: provides the sql for initialing the cache and for obtaining new
- * cache entries from the database whether it is implementing either a
- * lazy or full cache strategy. No contstraints are made in these regards at
- * this level of the class hierarchy. See the LazyCacheStrategy and the
- * FullCacheStrategy classes for more specific implementations.
+ * @has a RowDataCacheStrategy object for handling cache access which
+ * can be either of type lazy of full (see <a href="CacheConstants.html">
+ * CacheConstants</a> class for these definitions).
+ * It also has a logger for logging statistics if the logger is in debug mode
+ * and a Configurator object for configuring whether or not to log debug
+ * information.
+ * @does provides the sql for initialing the cache and for obtaining new
+ * cache entries from the database.
  * @abstract this class provides a setter method for setting the internal
  * cache and a print method for printing the cache. The subclasses
  * provide the actual lookup method for looking up objects in the cache.
  * The subclass is also required to implement the getter methods for the
- * various sql statements required for managing the cache such as for perfoming
- * cache initialization and for obtaining new cache entries from the database.
+ * various sql statements required for managing the cache such as perfoming
+ * cache initialization and obtaining new cache entries from the database.
  * Finally, the subclass is required to provide a RowDataInterpreter for
  * creating a KeyValue object from a database row. The KeyValue object is a
  * critical component in managing caches. It is required that all
- * implementations of RowDataCacheHandler provide results interpreter classes
- * (see org.jax.mgi.shr.dbutils.RowDataInterpreter) which create a KeyValue
+ * implementations of RowDataCacheHandler provide interpreter classes
+ * (see <a href="../dbutils/RowDataInterpreter.html">
+ * org.jax.mgi.shr.dbutils.RowDataInterpreter</a>) which create a KeyValue
  * object from the query results. This is obtained through the
  * getRowDataInterpreter() method.
- * @company: Jackson Labortory
+ * @company Jackson Labortory
  * @author MWalker
- * @version 1.0
  */
 abstract public class RowDataCacheHandler
 {
@@ -76,23 +79,9 @@ abstract public class RowDataCacheHandler
         throws
         CacheException
     {
-        setup(cacheType, sqlDataManager, new ConsoleLogger());
+        setup(cacheType, sqlDataManager);
     }
-    /**
-     * constructor which accepts a cache type, SQLDataManager and a Logger
-     * @param cacheType the cache type either LAZY_CACHE or FULL_CACHE
-     * (see CacheContants class from this package)
-     * @param sqlDataManager the SQLDataManager to use
-     * @throws CacheException thrown if the cache type is unknown
-     */
-    public RowDataCacheHandler(int cacheType,
-                               SQLDataManager sqlDataManager,
-                               Logger logger)
-        throws
-        CacheException
-    {
-        setup(cacheType, sqlDataManager, logger);
-    }
+
     /**
      * prints the values from the cache onto the given output stream
      * @param out the output stream to print on
@@ -123,6 +112,53 @@ abstract public class RowDataCacheHandler
         return this.cache.size();
     }
 
+    /**
+     * set the logger for this instance. If not set then the logger is obtained
+     * from the SQLDataManager which was given in the constructor
+     * @effects log messages will be sent to this logger
+     * @assumes nothing
+     * @param logger the logger
+     */
+    public void setLogger(Logger logger)
+    {
+        this.cacheStrategy.setLogger(logger);
+    }
+
+    /**
+     * get the logger for this instance
+     * @assumes nothing
+     * @effects nothing
+     * @return the logger fro this instance
+     */
+    public Logger getLogger()
+    {
+        return this.cacheStrategy.getLogger();
+    }
+
+
+
+    /**
+     * set whether to log debug messages to the logger. The Logger instance
+     * will also have to be set with debug turned on. This is an extra level
+     * of control for logging messages pertaining to caches since they are
+     * rarely ever needed.
+     */
+    public void setDebug(boolean debug)
+    {
+        this.cacheStrategy.setDebug(debug);
+    }
+
+    /**
+     * get the debug state of this instance
+     * @assumes nothing
+     * @effects nothing
+     * @return the debug state of this instance
+     */
+    public boolean getDebug()
+    {
+        return this.cacheStrategy.getDebug();
+    }
+
 
     /**
      * obtain the sql for fully initializing a cache
@@ -144,9 +180,8 @@ abstract public class RowDataCacheHandler
     public abstract String getPartialInitQuery();
 
     /**
-     * obtain the sql for accessing a given object in the database which
-     * entails creating a query string for accessing the given object
-     * from the database. This method is used in conjunction with the
+     * obtain the sql for accessing a given object in the database.
+     * This method is used in conjunction with the
      * getRowDataInterpreter() method for querying new cache entries and
      * placing them into the cache
      * @assumes nothing
@@ -157,9 +192,8 @@ abstract public class RowDataCacheHandler
     public abstract String getAddQuery(Object addObject);
 
     /**
-     * obtain the RowDataInterpreter object for creating a KeyValue object
-     * from a database row of the query results and is used for creating a new
-     * cache entry
+     * obtain a RowDataInterpreter object which implements the
+     * interpret(RowReference) method by returning a KeyValue object.
      * @assumes nothing
      * @effects nothing
      * @return the RowDataInterpreter object
@@ -167,11 +201,10 @@ abstract public class RowDataCacheHandler
     public abstract RowDataInterpreter getRowDataInterpreter();
 
     /**
-     * initializes the internal cache which by design does not get initialized
-     * until a lookup is called
+     * forces the initialization of the internal cache which by default does not
+     * get initialized until a lookup is called.
      * @assumes nothing
      * @effects the cache will be initialized
-     * @param cache the cache
      * @throws DBException thrown if there is an error with the database
      * @throws CacheException thropwn if there is an error with the cache
      */
@@ -182,7 +215,7 @@ abstract public class RowDataCacheHandler
     }
 
     /**
-     * sets the internal reference of the cache and initializes it
+     * sets the internal reference of the cache and initializes it.
      * @assumes nothing
      * @effects the cache will be initialized
      * @param cache the cache
@@ -202,7 +235,6 @@ abstract public class RowDataCacheHandler
      * @assumes nothing
      * @effects nothing
      * @return the internal cache
-     * @return
      */
     public Map getCache()
     {
@@ -211,24 +243,36 @@ abstract public class RowDataCacheHandler
 
     /**
      * setup this instance
-     * @param cacheType
-     * @param sqlDataManager
-     * @param logger
-     * @throws CacheException
+     * @param cacheType the cache type from CacheConstants (either lazy or full)
+     * @param sqlDataManager the SQLDataManager to use
+     * @throws CacheException thrown if there is an error with the cache
      */
     protected void setup(int cacheType,
-                        SQLDataManager sqlDataManager,
-                        Logger logger)
+                        SQLDataManager sqlDataManager)
         throws CacheException
     {
+        Logger logger = null;
+        Boolean debug = null;
+        try
+        {
+            LogCfg logCfg = new LogCfg();
+            CacheCfg cacheCfg = new CacheCfg();
+            LoggerFactory factory = logCfg.getLogerFactory();
+            logger = factory.getLogger();
+            debug = cacheCfg.getDebug();
+        }
+        catch (ConfigException e) {}
+
         RowDataCacheStrategy strategy = null;
         switch (cacheType)
         {
             case CacheConstants.LAZY_CACHE:
                 strategy = new LazyCacheStrategy(sqlDataManager, logger);
+                strategy.setDebug(debug.booleanValue());
                 break;
             case CacheConstants.FULL_CACHE:
                 strategy = new FullCacheStrategy(sqlDataManager, logger);
+                strategy.setDebug(debug.booleanValue());
                 break;
             default:
                 CacheExceptionFactory eFactory = new CacheExceptionFactory();
