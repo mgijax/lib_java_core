@@ -36,11 +36,6 @@ import org.jax.mgi.shr.config.ConfigException;
 
 public class SQLDataManager {
   /**
-   * a collection of Statements obtained during sql processing which is
-   * saved for closing with a call to the closeResources() method
-   */
-  private Vector statements = new Vector();
-  /**
    * a database connection
    */
   private Connection conn = null;
@@ -397,7 +392,6 @@ public class SQLDataManager {
     catch (SQLException e) {
       throw this.getJDBCException("create a Statement object", e);
     }
-    this.statements.add(s);
     return new BatchProcessor(s);
   }
 
@@ -448,19 +442,6 @@ public class SQLDataManager {
    * closed
    */
   public void closeResources() throws DBException {
-
-    if (statements != null) {
-      for (Iterator it = statements.iterator(); it.hasNext(); ) {
-        Statement s  = (Statement)it.next();
-        try {
-          s.close();
-        }
-        catch (SQLException e) {
-          throw this.getJDBCException("close a Statement object", e);
-        }
-      }
-      statements = null;
-    }
     if (conn != null) {
       try {
         conn.close();
@@ -491,8 +472,8 @@ public class SQLDataManager {
   }
 
   public SQLDataManager tempDB() throws ConfigException, DBException {
-  	return new SQLDataManager(this.getServer(), "tempdb", this.getUser(),
-  	                          this.getPasswordFile(), this.getUrl());
+    return new SQLDataManager(this.getServer(), "tempdb", this.getUser(),
+                              this.getPasswordFile(), this.getUrl());
   }
 
   /**
@@ -508,36 +489,36 @@ public class SQLDataManager {
     if (logger != null)
       logger.logDebug(sql);
     this.checkConnection("execute query");
+    Statement statement = null;
     try {
-      Statement statement = conn.createStatement(scrollable,
+      statement = conn.createStatement(scrollable,
                                                  ResultSet.CONCUR_READ_ONLY);
-      statements.add(statement);
       rs = statement.executeQuery(sql);
     }
     catch (SQLException e) {
       String msg = "execute query on the following sql string\n" + sql;
       throw this.getJDBCException(msg, e);
     }
-    ResultsNavigator iterator = new ResultsNavigator(rs);
+    ResultsNavigator iterator = new ResultsNavigator(rs, statement);
     return (ResultsNavigator)iterator;
   }
 
-	/**
-	 * execute the InterpretedQuery class
-	 * @assumes nothing
-	 * @effects a query will be executed against the database
-	 * @param the InterpretedQuery class
-	 * @return a ResultsNavigator for the query results with the
-	 * InterpretedQuery object plugged into it as a RowDataInterpreter
-	 * @throws DBException
-	 */
-	public ResultsNavigator executeQuery(InterpretedQuery query)
-		throws DBException {
-		String sql = query.getQuery();
-		ResultsNavigator nav = executeQuery(sql);
-		nav.setInterpreter(query);
-		return nav;
-	}
+    /**
+     * execute the InterpretedQuery class
+     * @assumes nothing
+     * @effects a query will be executed against the database
+     * @param the InterpretedQuery class
+     * @return a ResultsNavigator for the query results with the
+     * InterpretedQuery object plugged into it as a RowDataInterpreter
+     * @throws DBException
+     */
+    public ResultsNavigator executeQuery(InterpretedQuery query)
+        throws DBException {
+        String sql = query.getQuery();
+        ResultsNavigator nav = executeQuery(sql);
+        nav.setInterpreter(query);
+        return nav;
+    }
 
   /**
    * execute the update, delete or insert statement
@@ -554,7 +535,6 @@ public class SQLDataManager {
     this.checkConnection("execute update");
     try {
       Statement statement = conn.createStatement();
-      statements.add(statement);
       results = statement.executeUpdate(sql);
     }
     catch (SQLException e) {
@@ -579,8 +559,6 @@ public class SQLDataManager {
     this.checkConnection("execute sql");
     try {
       Statement statement = conn.createStatement();
-      // add statement to the global list for batch post statement closings
-      statements.add(statement);
       // execute which may return multiple results
       boolean isResultSet = statement.execute(sql);
       return new MultipleResults(statement, isResultSet, sql);
@@ -693,7 +671,6 @@ public class SQLDataManager {
     PreparedStatement p = null;
     try {
       p = conn.prepareStatement(sql, scrollable, ResultSet.CONCUR_READ_ONLY);
-      statements.add(p);
     }
     catch (SQLException e) {
       String msg =
@@ -751,6 +728,20 @@ public class SQLDataManager {
   protected ResultsNavigator getResultsNavigator(ResultSet rs)
       throws DBException {
     return new ResultsNavigator(rs);
+  }
+
+  /**
+   * return a RowDataIterator for the given ResultSet
+   * @assumes nothing
+   * @effects nothing
+   * @param rs the ResultSet
+   * @return a corresponding RowDataIterator
+   * @throws DBException
+   */
+  protected ResultsNavigator getResultsNavigator(ResultSet rs,
+      Statement statement)
+      throws DBException {
+    return new ResultsNavigator(rs, statement);
   }
 
 
@@ -966,6 +957,9 @@ public class SQLDataManager {
 }
 
 // $Log$
+// Revision 1.1  2003/12/30 16:50:37  mbw
+// imported into this product
+//
 // Revision 1.4  2003/12/09 22:49:09  mbw
 // merged jsam branch onto the trunk
 //
