@@ -5,9 +5,12 @@ import org.jax.mgi.shr.exception.MGIException;
 import org.jax.mgi.shr.log.Logger;
 
 /**
- * @is an abstract class which extends CachedLookup and implements all
- * methods used by the lazy cache strategy by throwing an unsupported
- * runtime exception
+ * An abstract class intended to be extended by a particular lookup class
+ * which uses a FullCacheStrategy. This class implements all the abstract base
+ * class methods that are designed for lazy caching by throwing an exception.
+ * Abstract methods from the base class that are designed for full caching
+ * remain abstract and are intended to be implemented by the specific lookup
+ * class.
  * @has nothing
  * @does throws runtime exceptions if methods for lazy cache strategies are
  * called on this object
@@ -33,20 +36,6 @@ public abstract class FullCachedLookup
         throws CacheException
     {
         super(CacheConstants.FULL_CACHE, sqlMgr);
-    }
-
-    /**
-     * constructor
-     * @assumes nothing
-     * @effects nothing
-     * @param sqlMgr the SQLDataManager class to use for performing database
-     * queries.
-     * @throws CacheException if there is an error accessing the cache
-     */
-    public FullCachedLookup(SQLDataManager sqlMgr, Logger logger)
-        throws CacheException
-    {
-        super(CacheConstants.FULL_CACHE, sqlMgr, logger);
     }
 
 
