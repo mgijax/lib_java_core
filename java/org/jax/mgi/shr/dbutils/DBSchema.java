@@ -26,490 +26,620 @@ import java.io.FileNotFoundException;
  * @version 1.0
  */
 
-public class DBSchema {
+public class DBSchema
+{
 
-  private SQLDataManager sqlmanager = null;
-  /**
-   * regular expression for locating drop index commands in the dbschema
-   * files
-   */
-  private static final String REGEX_DROP =
-      "^[dD][rR][oO][pP] .*";
-  /**
-   * regular expression for locating create index commands in the dbschema
-   * files
-   */
-  private static final String REGEX_CREATE =
-      "^[cC][rR][eE][aA][tT][eE] .*";
-  /**
-   * regular expression for locating alter table commands in the dbschema files
-   */
-  private static final String REGEX_ALTER = "^[aA][lL][tT][eE][rR] .*$";
-  /**
-   * regular expression for locating isql go commands in the dbschema files
-   */
-  private static final String REGEX_GO_COMMAND = "^[gG][oO]$";
+    private SQLDataManager sqlmanager = null;
+    /**
+     * regular expression for locating drop index commands in the dbschema
+     * files
+     */
+    private static final String REGEX_DROP =
+        "^[dD][rR][oO][pP] .*";
+    /**
+     * regular expression for locating create index commands in the dbschema
+     * files
+     */
+    private static final String REGEX_CREATE =
+        "^[cC][rR][eE][aA][tT][eE] .*";
+    /**
+     * regex for locating alter table commands in the dbschema files
+     */
+    private static final String REGEX_ALTER = "^[aA][lL][tT][eE][rR] .*$";
+    /**
+     * regular expression for locating primary and foreign key commands
+     */
+    private static final String REGEX_KEY = "^sp_.*$";
+    /**
+     * regular expression for locating isql go commands in the dbschema files
+     */
+    private static final String REGEX_GO_COMMAND = "^[gG][oO]$";
 
-  /**
-   * compiled regex pattern for locating drop index commands in the dbschema
-   * files
-   */
-  private static final Pattern dropPattern =
-      Pattern.compile(REGEX_DROP);
-  /**
-   * compiled regex pattern for locating create index commands in the
-   * dbschema files
-   */
-  private static final Pattern createPattern =
-      Pattern.compile(REGEX_CREATE);
-  /**
-   * compiled regex pattern for locating alter table commands in the
-   * dbschema files
-   */
-  private static final Pattern alterPattern =
-      Pattern.compile(REGEX_ALTER);
-  /**
-   * compiled regex pattern for locating isql go commands in the dbschema
-   * files used when locating the end of a create table command.
-   */
-  private static final Pattern goCommandPattern =
-      Pattern.compile(REGEX_GO_COMMAND);
-  /*
-   * the exception factory for DBScemaExceptions
-   */
-  private DBSchemaExceptionFactory exceptionFactory =
-      new DBSchemaExceptionFactory();
+    /**
+     * compiled regex pattern for locating drop index commands in the dbschema
+     * files
+     */
+    private static final Pattern dropPattern =
+        Pattern.compile(REGEX_DROP);
+    /**
+     * compiled regex pattern for locating create index commands in the
+     * dbschema files
+     */
+    private static final Pattern createPattern =
+        Pattern.compile(REGEX_CREATE);
+    /**
+     * compiled regex pattern for locating alter table commands in the
+     * dbschema files
+     */
+    private static final Pattern alterPattern =
+        Pattern.compile(REGEX_ALTER);
+    /**
+     * compiled regex pattern for locating create index commands in the
+     * dbschema files
+     */
+    private static final Pattern keyPattern =
+        Pattern.compile(REGEX_KEY);
+    /**
+     * compiled regex pattern for locating isql go commands in the dbschema
+     * files used when locating the end of a create table command.
+     */
+    private static final Pattern goCommandPattern =
+        Pattern.compile(REGEX_GO_COMMAND);
+    /*
+     * the exception factory for DBScemaExceptions
+     */
+    private DBSchemaExceptionFactory exceptionFactory =
+        new DBSchemaExceptionFactory();
 
-  /*
-   * the following constant definitions are exceptions thrown by this class
-   */
-  private static String FileNotFoundErr =
-      DBSchemaExceptionFactory.FileNotFoundErr;
-  private static String FileReadErr =
-      DBSchemaExceptionFactory.FileReadErr;
-  private static String FileCloseErr =
-      DBSchemaExceptionFactory.FileCloseErr;
-  private static String NoRegexMatch =
-      DBSchemaExceptionFactory.NoRegexMatch;
-  private static String UnexpectedString =
-      DBSchemaExceptionFactory.UnexpectedString;
+    /*
+     * the following constant definitions are exceptions thrown by this class
+     */
+    private static String FileNotFoundErr =
+        DBSchemaExceptionFactory.FileNotFoundErr;
+    private static String FileReadErr =
+        DBSchemaExceptionFactory.FileReadErr;
+    private static String FileCloseErr =
+        DBSchemaExceptionFactory.FileCloseErr;
+    private static String NoRegexMatch =
+        DBSchemaExceptionFactory.NoRegexMatch;
+    private static String UnexpectedString =
+        DBSchemaExceptionFactory.UnexpectedString;
 
-  /**
-   * constructor which sets the database configuartion
-   * @param pSqlmanager the database manager object
-   */
-  public DBSchema(SQLDataManager pSqlmanager) {
-    sqlmanager = pSqlmanager;
-  }
-
-  /**
-   * locates the drop index commands from the dbschema product for the given
-   * table and executes them in the database and if there are partitions
-   * defined for the given table then they need to be dropped in advance.
-   * @assumes nothing
-   * @effects indexes will be dropped on the given table
-   * @param pTablename table name
-   * @throws DBSchemaException thrown if there is an error accessing the
-   * files within the dbschema product
-   * @throws DBException thrown if there is an error with the database
-   */
-  public void dropIndexes(String pTablename)
-      throws DBSchemaException, DBException  {
-    Vector sqlIndex = getDropIndexCommands(pTablename);
-    String sqlPartition = null;
-    try // if exception then assume no partitions are defined
+    /**
+     * constructor which sets the database configuartion
+     * @param pSqlmanager the database manager object
+     */
+    public DBSchema(SQLDataManager pSqlmanager)
     {
-      sqlPartition = getDropPartitionCommand(pTablename);
+        sqlmanager = pSqlmanager;
     }
-    catch (DBSchemaException e) {}
-    if (sqlPartition != null)
-      sqlmanager.executeUpdate(sqlPartition);
-    executeSqlVector(sqlIndex);
-  }
 
-  /**
-   * locates the create index commands from the dbschema product for the
-   * given table and executes them in the database and if there are partitions
-   * defined for the given table then they need to be created in advance.
-   * @assumes nothing
-   * @effects indexes will be created for the given table
-   * @param pTablename table name
-   * @throws DBSchemaException thrown if there is an error accessing the
-   * files within the dbschema product
-   * @throws DBException thrown if there is an error with the database
-   */
-  public void createIndexes(String pTablename)
-      throws DBSchemaException, DBException  {
-    Vector sqlIndex = getCreateIndexCommands(pTablename);
-    String sqlPartition = null;
-    try // if exception then assume no partitions are defined
+    /**
+     * locates the drop index commands from the dbschema product for the given
+     * table and executes them in the database and if there are partitions
+     * defined for the given table then they need to be dropped in advance.
+     * @assumes nothing
+     * @effects indexes will be dropped on the given table
+     * @param pTablename table name
+     * @throws DBSchemaException thrown if there is an error accessing the
+     * files within the dbschema product
+     * @throws DBException thrown if there is an error with the database
+     */
+    public void dropIndexes(String pTablename)
+        throws DBSchemaException, DBException
     {
-      sqlPartition = getCreatePartitionCommand(pTablename);
+        Vector sqlIndex = getDropIndexCommands(pTablename);
+        String sqlPartition = null;
+        try // if exception then assume no partitions are defined
+        {
+            sqlPartition = getDropPartitionCommand(pTablename);
+        }
+        catch (DBSchemaException e)
+        {}
+        if (sqlPartition != null)
+            sqlmanager.executeUpdate(sqlPartition);
+        executeSqlVector(sqlIndex);
     }
-    catch (DBSchemaException e) {}
-    if (sqlPartition != null)
-      sqlmanager.executeUpdate(sqlPartition);
-    executeSqlVector(sqlIndex);
-  }
 
-  /**
-   * locates the create index command from the dbschema product for the
-   * given table and executes it in the database.
-   * @assumes nothing
-   * @effects a new table will be created in the database
-   * @param pTablename table name
-   * @throws DBSchemaException thrown if there is an error accessing the
-   * files within the dbschema product
-   * @throws DBException thrown if there is an error with the database
-   */
-  public void createTable(String pTablename)
-      throws DBSchemaException, DBException {
-    String command = getCreateTableCommand(pTablename);
-    sqlmanager.executeUpdate(command);
-  }
-
-  /**
-   * executes the drop table command for the given table name in the
-   * database.
-   * @assumes nothing
-   * @effects a table will be dropped from the database
-   * @param pTablename table name
-   * @throws DBException thrown if there is an error with the database
-   */
-  public void dropTable(String pTablename) throws DBException {
-    String command = "drop table " + pTablename;
-    Vector v = new Vector();
-    v.add(command);
-    executeSqlVector(v);
-  }
-
-  /**
-   * locates the create partition command from the dbschema product for the
-   * given table and executes it in the database.
-   * @assumes nothing
-   * @effects partitions will be added to the table
-   * @param pTablename table name
-   * @throws DBSchemaException thrown if there is an error accessing the
-   * files within the dbschema product
-   * @throws DBException thrown if there is an error with the database
-   */
-  public void createPartition(String pTablename)
-      throws DBSchemaException, DBException {
-    String command = getCreatePartitionCommand(pTablename);
-    sqlmanager.executeUpdate(command);
-  }
-
-  /**
-   * locates the drop partition command from the dbschema product for the
-   * given table and executes it in the database.
-   * @assumes nothing
-   * @effects partitions will be dropped from the table
-   * @param pTablename table name
-   * @throws DBSchemaException thrown if there is an error accessing the
-   * files within the dbschema product
-   * @throws DBException thrown if there is an error with the database
-   */
-  public void dropPartition(String pTablename)
-      throws DBSchemaException, DBException {
-    String command = getDropPartitionCommand(pTablename);
-    sqlmanager.executeUpdate(command);
-  }
-
-
-
-  /**
-   * truncates the transaction log for the configured database.
-   * @assumes nothing
-   * @effects a table will be truncated
-   * @param pTablename table name
-   * @throws DBException thrown if there is an error with the database
-   */
-  public void truncateTable(String pTablename) throws DBException {
-    String command = "truncate table " + pTablename;
-    Vector v = new Vector();
-    v.add(command);
-    executeSqlVector(v);
-  }
-
-  /**
-   * truncates the transaction log for the configured database.
-   * @assumes nothing
-   * @effects the database log will be truncated
-   * @throws DBException thrown if an error occurs with the database
-   */
-  public void truncateLog() throws DBException {
-    String dbname = sqlmanager.getDatabase();
-    String command = "dump transaction " + dbname + " with truncate_only";
-    Vector v = new Vector();
-    v.add(command);
-    executeSqlVector(v);
-  }
-
-
-
-  /**
-   * get the sql commands for creating indexes for the given table
-   * @assumes nothing
-   * @effects nothing
-   * @param pTablename the given table name
-   * @return a vector of sql commands from the dbschema file
-   * @throws DBSchemaException thrown if the create index commands could
-   * not be obtained fron the dbschema product
-   */
-  protected Vector getCreateIndexCommands(String pTablename)
-      throws DBSchemaException {
-    String filename = calculateFilename("index", "create", pTablename);
-    Vector v1 = getCommands(filename, createPattern);
-    // do text substition for segment names
-    Vector v2 = new Vector();
-    String s = null;
-    for (int i = 0; i < v1.size(); i++) {
-      s = ((String)v1.get(i)).replaceAll("\\$\\{DBCLUSTIDXSEG\\}", "seg0");
-      s = (s.replaceAll("\\$\\{DBNONCLUSTIDXSEG\\}", "seg1"));
-      v2.add(s);
+    /**
+     * locates the create index commands from the dbschema product for the
+     * given table and executes them in the db and if there are partitions
+     * defined for the given table then they need to be created in advance.
+     * @assumes nothing
+     * @effects indexes will be created for the given table
+     * @param pTablename table name
+     * @throws DBSchemaException thrown if there is an error accessing the
+     * files within the dbschema product
+     * @throws DBException thrown if there is an error with the database
+     */
+    public void createIndexes(String pTablename)
+        throws DBSchemaException, DBException
+    {
+        Vector sqlIndex = getCreateIndexCommands(pTablename);
+        String sqlPartition = null;
+        try // if exception then assume no partitions are defined
+        {
+            sqlPartition = getCreatePartitionCommand(pTablename);
+        }
+        catch (DBSchemaException e)
+        {}
+        if (sqlPartition != null)
+            sqlmanager.executeUpdate(sqlPartition);
+        executeSqlVector(sqlIndex);
     }
-    return v2;
-  }
 
-  /**
-   * get the sql commands for dropping indexes for the given table
-   * @assumes nothing
-   * @effects nothing
-   * @param pTablename the given table name
-   * @return a vector of sql commands from the dbschema file
-   * @throws DBSchemaException thrown if the drop index commands could
-   * not be obtained fron the dbschema product
-   */
-  protected Vector getDropIndexCommands(String pTablename)
-      throws DBSchemaException {
-    String filename = calculateFilename("index", "drop", pTablename);
-    return getCommands(filename, dropPattern);
-  }
+    public void createKeys(String pTablename)
+        throws DBSchemaException, DBException
+    {
+        Vector commands = getCreateKeyCommands(pTablename);
+        executeSqlVector(commands);
+    }
 
-  /**
-   * search the given file and extract the create table command form it
-   * @assumes nothing
-   * @effects nothing
-   * @param pTablename the name of the table
-   * @return the create table command
-   * @throws DBSchemaException thrown if the create table command could
-   * not be obtained fron the dbschema product.
-   * @throws DBException thrown if there is an error with the database
-   */
-  protected String getCreateTableCommand(String pTablename)
-      throws DBSchemaException {
-    String filename = calculateFilename("table", "create", pTablename);
-    String line = null;
-    StringBuffer command = new StringBuffer();
-    Pattern commandPattern = createPattern;
-    Pattern goPattern = goCommandPattern;
-    Matcher commandMatcher = null;
-    Matcher goMatcher = null;
-    BufferedReader in = null;
-    try {
-      in = new BufferedReader(new FileReader(filename));
+    /**
+     * locates the create index command from the dbschema product for the
+     * given table and executes it in the database.
+     * @assumes nothing
+     * @effects a new table will be created in the database
+     * @param pTablename table name
+     * @throws DBSchemaException thrown if there is an error accessing the
+     * files within the dbschema product
+     * @throws DBException thrown if there is an error with the database
+     */
+    public void createTable(String pTablename)
+        throws DBSchemaException, DBException
+    {
+        String command = getCreateTableCommand(pTablename);
+        sqlmanager.executeUpdate(command);
     }
-    catch (FileNotFoundException e) {
-      DBSchemaException e2 = (DBSchemaException)
-          exceptionFactory.getException(FileNotFoundErr, e);
-      e2.bind(filename);
-      throw e2;
+
+    /**
+     * executes the drop table command for the given table name in the
+     * database.
+     * @assumes nothing
+     * @effects a table will be dropped from the database
+     * @param pTablename table name
+     * @throws DBException thrown if there is an error with the database
+     */
+    public void dropTable(String pTablename)
+        throws DBException
+    {
+        String command = "drop table " + pTablename;
+        Vector v = new Vector();
+        v.add(command);
+        executeSqlVector(v);
     }
-    try {
-      while ( (line = in.readLine()) != null) {
-        line = line.trim();
-        // search for the create table command
-        commandMatcher = commandPattern.matcher(line);
-        if (commandMatcher.matches()) {
-          command.append(line);
-          boolean foundGoCommand = false;
-          // found create table command, now look for go command
-          while ( (line = in.readLine()) != null) {
-            line = line.trim();
-            goMatcher = goPattern.matcher(line);
-            if (!goMatcher.matches()) {
-              // disregarding the use of table segments
-              //if (line.indexOf("DBTABLESEGMENT") != -1)
-                //continue;
-              command.append(" " + line);
+
+    /**
+     * locates the create partition command from the dbschema product for the
+     * given table and executes it in the database.
+     * @assumes nothing
+     * @effects partitions will be added to the table
+     * @param pTablename table name
+     * @throws DBSchemaException thrown if there is an error accessing the
+     * files within the dbschema product
+     * @throws DBException thrown if there is an error with the database
+     */
+    public void createPartition(String pTablename)
+        throws DBSchemaException, DBException
+    {
+        String command = getCreatePartitionCommand(pTablename);
+        sqlmanager.executeUpdate(command);
+    }
+
+    /**
+     * locates the drop partition command from the dbschema product for the
+     * given table and executes it in the database.
+     * @assumes nothing
+     * @effects partitions will be dropped from the table
+     * @param pTablename table name
+     * @throws DBSchemaException thrown if there is an error accessing the
+     * files within the dbschema product
+     * @throws DBException thrown if there is an error with the database
+     */
+    public void dropPartition(String pTablename)
+        throws DBSchemaException, DBException
+    {
+        String command = getDropPartitionCommand(pTablename);
+        sqlmanager.executeUpdate(command);
+    }
+
+    /**
+     * truncates the transaction log for the configured database.
+     * @assumes nothing
+     * @effects a table will be truncated
+     * @param pTablename table name
+     * @throws DBException thrown if there is an error with the database
+     */
+    public void truncateTable(String pTablename)
+        throws DBException
+    {
+        String command = "truncate table " + pTablename;
+        Vector v = new Vector();
+        v.add(command);
+        executeSqlVector(v);
+    }
+
+    /**
+     * truncates the transaction log for the configured database.
+     * @assumes nothing
+     * @effects the database log will be truncated
+     * @throws DBException thrown if an error occurs with the database
+     */
+    public void truncateLog()
+        throws DBException
+    {
+        String dbname = sqlmanager.getDatabase();
+        String command = "dump transaction " + dbname + " with truncate_only";
+        Vector v = new Vector();
+        v.add(command);
+        executeSqlVector(v);
+    }
+
+    /**
+     * get the sql commands for creating indexes for the given table
+     * @assumes nothing
+     * @effects nothing
+     * @param pTablename the given table name
+     * @return a vector of sql commands from the dbschema file
+     * @throws DBSchemaException thrown if the create index commands could
+     * not be obtained fron the dbschema product
+     */
+    protected Vector getCreateIndexCommands(String pTablename)
+        throws DBSchemaException
+    {
+        String filename = calculateFilename("index", "create", pTablename);
+        Vector v1 = getCommands(filename, createPattern);
+        // do text substition for segment names
+        Vector v2 = new Vector();
+        String s = null;
+        for (int i = 0; i < v1.size(); i++)
+        {
+            if (this.sqlmanager.isSybase())
+            {
+                s = ((String)v1.get(i)).replaceAll(
+                    "\\$((\\{)??DBCLUSTIDXSEG(\\})??", "seg0");
+                s = (s.replaceAll("\\$(\\{)??DBNONCLUSTIDXSEG(\\})??", "seg1"));
             }
-            else {
-              foundGoCommand = true;
-              break;
+            else
+            {
+                s = ((String)v1.get(i)).replaceAll(
+                    "on \\$(\\{)??DBCLUSTIDXSEG(\\})??", "");
+                s = (s.replaceAll("on \\$(\\{)??DBNONCLUSTIDXSEG(\\})??", ""));
+                s = (s.replaceAll("on system", ""));
+                s = (s.replaceAll("nonclustered index", "index"));
+                s = (s.replaceAll("clustered index", "index"));
             }
-          }
-          if (!foundGoCommand) {
+            v2.add(s);
+        }
+        return v2;
+    }
+
+    /**
+     * get the sql commands for creating primary and foreign keys for the given
+     * table
+     * @assumes the regular expression pattern sp_[(primary)(foreign)] is used
+     * to locate the command from the dbschema product
+     * @effects nothing
+     * @param pTablename the given table name
+     * @return a vector of sql commands from the dbschema file
+     * @throws DBSchemaException thrown if the create index commands could
+     * not be obtained fron the dbschema product
+     */
+    protected Vector getCreateKeyCommands(String pTablename)
+        throws DBSchemaException
+    {
+        String filename = calculateFilename("key", "create", pTablename);
+        Vector v1 = getCommands(filename, keyPattern);
+        if (this.sqlmanager.isSybase())
+            return v1;
+        else // mysql
+        {
+            // do text substition for non sybsase db to change sybase proc calls
+            // with alter table command
+            Vector v2 = new Vector();
+            String s = null;
+            for (int i = 0; i < v1.size(); i++)
+            {
+                s = ((String)v1.get(i));
+                String[] tokens = s.split(",");
+                String[] subtokens = tokens[0].split(" ");
+                String tableName = subtokens[1];
+                String command = subtokens[0];
+                String columnName = tokens[1];
+                for (int j = 2; j < tokens.length; j++)
+                {
+                    columnName = columnName.concat(", " + tokens[j]);
+                }
+                if (command.equals("sp_primarykey")) // no foreign keys in mysql
+                {
+                    String alterTable =
+                        "ALTER TABLE tableName_ ADD PRIMARY KEY ( columnName_ )";
+                    alterTable = alterTable.replaceFirst("tableName_",
+                        tableName);
+                    alterTable = alterTable.replaceFirst("columnName_",
+                        columnName);
+                    v2.add(alterTable);
+                }
+            }
+            return v2;
+        }
+    }
+
+    /**
+     * get the sql commands for dropping indexes for the given table
+     * @assumes nothing
+     * @effects nothing
+     * @param pTablename the given table name
+     * @return a vector of sql commands from the dbschema file
+     * @throws DBSchemaException thrown if the drop index commands could
+     * not be obtained fron the dbschema product
+     */
+    protected Vector getDropIndexCommands(String pTablename)
+        throws DBSchemaException
+    {
+        String filename = calculateFilename("index", "drop", pTablename);
+        return getCommands(filename, dropPattern);
+    }
+
+    /**
+     * search the given file and extract the create table command form it
+     * @assumes nothing
+     * @effects nothing
+     * @param pTablename the name of the table
+     * @return the create table command
+     * @throws DBSchemaException thrown if the create table command could
+     * not be obtained fron the dbschema product.
+     * @throws DBException thrown if there is an error with the database
+     */
+    protected String getCreateTableCommand(String pTablename)
+        throws DBSchemaException
+    {
+        String filename = calculateFilename("table", "create", pTablename);
+        String line = null;
+        StringBuffer command = new StringBuffer();
+        Pattern commandPattern = createPattern;
+        Pattern goPattern = goCommandPattern;
+        Matcher commandMatcher = null;
+        Matcher goMatcher = null;
+        BufferedReader in = null;
+        try
+        {
+            in = new BufferedReader(new FileReader(filename));
+        }
+        catch (FileNotFoundException e)
+        {
             DBSchemaException e2 = (DBSchemaException)
-                exceptionFactory.getException(UnexpectedString);
-            e2.bind(new String(command));
+                exceptionFactory.getException(FileNotFoundErr, e);
             e2.bind(filename);
             throw e2;
-          }
-          break;
         }
-      }
-    }
-    catch (IOException e) {
-      DBSchemaException e2 = (DBSchemaException)
-          exceptionFactory.getException(FileReadErr, e);
-      e2.bind(filename);
-      throw e2;
-    }
-    if (command.length() == 0) {
-      DBSchemaException e2 = (DBSchemaException)
-          exceptionFactory.getException(NoRegexMatch);
-      e2.bind(REGEX_CREATE);
-      e2.bind(filename);
-      throw e2;
-    }
-    try {
-      in.close();
-    }
-    catch (IOException e) {
-      DBSchemaException e2 = (DBSchemaException)
-          exceptionFactory.getException(FileCloseErr, e);
-      e2.bind(filename);
-      throw e2;
-    }
-    String s = new String(command);
-    s = (s.replaceFirst("\\$\\{DBTABLESEGMENT\\}", "seg0"));
-    return s;
-  }
-
-  /**
-   * get the sql command for creating partitions for the given table
-   * @assumes nothing
-   * @effects nothing
-   * @param pTablename the given table name
-   * @return the sql string from the dbschema file
-   * @throws DBSchemaException thrown if the create partition command could
-   * not be obtained fron the dbschema product
-   */
-  protected String getCreatePartitionCommand(String pTablename)
-      throws DBSchemaException {
-    String filename = calculateFilename("partition", "create", pTablename);
-    Vector v = getCommands(filename, alterPattern);
-    return (String)v.get(0);
-  }
-
-  /**
-   * get the sql command for dropping partitions for the given table
-   * @assumes nothing
-   * @effects nothing
-   * @param pTablename the given table name
-   * @return the sql string from the dbschema file
-   * @throws DBSchemaException thrown if the drop partition command could
-   * not be obtained fron the dbschema product
-   */
-  protected String getDropPartitionCommand(String pTablename)
-      throws DBSchemaException {
-    String filename = calculateFilename("partition", "drop", pTablename);
-    Vector v = getCommands(filename, alterPattern);
-    return (String)v.get(0);
-  }
-
-
-  /**
-   * searches a file and extracts lines which match the given regular
-   * expression
-   * @assumes nothing
-   * @effects nothing
-   * @param pFilename the file to search
-   * @param pRegex the regular expression to match on
-   * @return the vector of lines which matched the regular expression
-   * @throws DBSchemaException thrown if there is an error accessing the
-   * dbschema files
-   */
-  private Vector getCommands(String pFilename, Pattern pRegex)
-      throws DBSchemaException {
-    String filename = pFilename;
-    Vector sql = new Vector();
-    String line = null;
-    Pattern commandPattern = pRegex;
-    Matcher commandMatcher = null;
-    BufferedReader in = null;
-    try {
-      in = new BufferedReader(new FileReader(filename));
-    }
-    catch (FileNotFoundException e) {
-      DBSchemaException e2 = (DBSchemaException)
-          exceptionFactory.getException(FileNotFoundErr, e);
-      e2.bind(filename);
-      throw e2;
-    }
-    try {
-      while ( (line = in.readLine()) != null) {
-        line = line.trim();
-        commandMatcher = commandPattern.matcher(line);
-        if (commandMatcher.matches())
-          sql.add(line);
-      }
-    }
-    catch (IOException e) {
-      DBSchemaException e2 = (DBSchemaException)
-          exceptionFactory.getException(FileReadErr, e);
-      e2.bind(filename);
-      throw e2;
-    }
-    try {
-      in.close();
-    }
-    catch (IOException e) {
-      DBSchemaException e2 = (DBSchemaException)
-          exceptionFactory.getException(FileCloseErr, e);
-      e2.bind(filename);
-      throw e2;
-    }
-    return sql;
-  }
-
-  /**
-   * calculate the file name for a file in the dbschema product given the
-   * command noun, like table, index, etc, and the command verb, like create
-   * or drop, and the table name. The configuration parameter
-   * DBSCHEMA_INSTALLDIR is used as the directory name in which the
-   * dbschema product is installed.
-   * @assumes nothing
-   * @effects nothing
-   * @param pCommandNoun the sql command noun as in table or index
-   * @param pCommandVerb the sql command verb as in create or delete
-   * @param tablename the table
-   * @return the name of the file from the dbschem product represented by
-   * the given parameters
-   */
-  private String calculateFilename(String pCommandNoun,
-                                     String pCommandVerb,
-                                     String tablename) {
-    String root = sqlmanager.getDBSchemaDir();
-    String system = System.getProperties().getProperty("os.name");
-        String delimiter = null;
-    if (system.equals("Windows 2000"))
-                delimiter = "\\";
+        try
+        {
+            while ((line = in.readLine()) != null)
+            {
+                line = line.trim();
+                // search for the create table command
+                commandMatcher = commandPattern.matcher(line);
+                if (commandMatcher.matches())
+                {
+                    command.append(line);
+                    boolean foundGoCommand = false;
+                    // found create table command, now look for go command
+                    while ((line = in.readLine()) != null)
+                    {
+                        line = line.trim();
+                        goMatcher = goPattern.matcher(line);
+                        if (!goMatcher.matches())
+                        {
+                            // disregarding the use of table segments
+                            //if (line.indexOf("DBTABLESEGMENT") != -1)
+                            //continue;
+                            command.append(" " + line);
+                        }
+                        else
+                        {
+                            foundGoCommand = true;
+                            break;
+                        }
+                    }
+                    if (!foundGoCommand)
+                    {
+                        DBSchemaException e2 = (DBSchemaException)
+                            exceptionFactory.getException(UnexpectedString);
+                        e2.bind(new String(command));
+                        e2.bind(filename);
+                        throw e2;
+                    }
+                    break;
+                }
+            }
+        }
+        catch (IOException e)
+        {
+            DBSchemaException e2 = (DBSchemaException)
+                exceptionFactory.getException(FileReadErr, e);
+            e2.bind(filename);
+            throw e2;
+        }
+        if (command.length() == 0)
+        {
+            DBSchemaException e2 = (DBSchemaException)
+                exceptionFactory.getException(NoRegexMatch);
+            e2.bind(REGEX_CREATE);
+            e2.bind(filename);
+            throw e2;
+        }
+        try
+        {
+            in.close();
+        }
+        catch (IOException e)
+        {
+            DBSchemaException e2 = (DBSchemaException)
+                exceptionFactory.getException(FileCloseErr, e);
+            e2.bind(filename);
+            throw e2;
+        }
+        String s = new String(command);
+        if (this.sqlmanager.isSybase())
+            s = (s.replaceFirst("\\$(\\{)??DBTABLESEGMENT(\\})?+", "seg0"));
         else
-                delimiter = "/";
-    String filename = sqlmanager.getDBSchemaDir() + delimiter + pCommandNoun + delimiter +
-        tablename + "_" + pCommandVerb + ".object";
-    return filename;
-  }
-
-  /**
-   * exeutes the sql commands found within the given vector
-   * @assumes nothing
-   * @effects an sql statement will be executed within the database
-   * @param pCommands a vector of sql commands
-   * @throws DBException
-   */
-  protected void executeSqlVector(Vector pCommands) throws DBException {
-    for (Iterator it = pCommands.iterator(); it.hasNext(); ) {
-      String command = (String)it.next();
-      int rtn = sqlmanager.executeUpdate(command);
+        {
+            s = (s.replaceFirst("on \\$(\\{)??DBTABLESEGMENT(\\})?+", ""));
+            s = (s.replaceFirst("on seg\\d", ""));
+        }
+        return s;
     }
-  }
 
+    /**
+     * get the sql command for creating partitions for the given table
+     * @assumes nothing
+     * @effects nothing
+     * @param pTablename the given table name
+     * @return the sql string from the dbschema file
+     * @throws DBSchemaException thrown if the create partition command could
+     * not be obtained fron the dbschema product
+     */
+    protected String getCreatePartitionCommand(String pTablename)
+        throws DBSchemaException
+    {
+        String filename = calculateFilename("partition", "create", pTablename);
+        Vector v = getCommands(filename, alterPattern);
+        return (String)v.get(0);
+    }
+
+    /**
+     * get the sql command for dropping partitions for the given table
+     * @assumes nothing
+     * @effects nothing
+     * @param pTablename the given table name
+     * @return the sql string from the dbschema file
+     * @throws DBSchemaException thrown if the drop partition command could
+     * not be obtained fron the dbschema product
+     */
+    protected String getDropPartitionCommand(String pTablename)
+        throws DBSchemaException
+    {
+        String filename = calculateFilename("partition", "drop", pTablename);
+        Vector v = getCommands(filename, alterPattern);
+        return (String)v.get(0);
+    }
+
+    /**
+     * searches a file and extracts lines which match the given regular
+     * expression
+     * @assumes nothing
+     * @effects nothing
+     * @param pFilename the file to search
+     * @param pRegex the regular expression to match on
+     * @return the vector of lines which matched the regular expression
+     * @throws DBSchemaException thrown if there is an error accessing the
+     * dbschema files
+     */
+    private Vector getCommands(String pFilename, Pattern pRegex)
+        throws DBSchemaException
+    {
+        String filename = pFilename;
+        Vector sql = new Vector();
+        String line = null;
+        Pattern commandPattern = pRegex;
+        Matcher commandMatcher = null;
+        BufferedReader in = null;
+        try
+        {
+            in = new BufferedReader(new FileReader(filename));
+        }
+        catch (FileNotFoundException e)
+        {
+            DBSchemaException e2 = (DBSchemaException)
+                exceptionFactory.getException(FileNotFoundErr, e);
+            e2.bind(filename);
+            throw e2;
+        }
+        try
+        {
+            while ((line = in.readLine()) != null)
+            {
+                line = line.trim();
+                commandMatcher = commandPattern.matcher(line);
+                if (commandMatcher.matches())
+                    sql.add(line);
+            }
+        }
+        catch (IOException e)
+        {
+            DBSchemaException e2 = (DBSchemaException)
+                exceptionFactory.getException(FileReadErr, e);
+            e2.bind(filename);
+            throw e2;
+        }
+        try
+        {
+            in.close();
+        }
+        catch (IOException e)
+        {
+            DBSchemaException e2 = (DBSchemaException)
+                exceptionFactory.getException(FileCloseErr, e);
+            e2.bind(filename);
+            throw e2;
+        }
+        return sql;
+    }
+
+    /**
+     * calculate the file name for a file in the dbschema product given the
+     * command noun, like table, index, etc, and the command verb, like create
+     * or drop, and the table name. The configuration parameter
+     * DBSCHEMA_INSTALLDIR is used as the directory name in which the
+     * dbschema product is installed.
+     * @assumes nothing
+     * @effects nothing
+     * @param pCommandNoun the sql command noun as in table or index
+     * @param pCommandVerb the sql command verb as in create or delete
+     * @param tablename the table
+     * @return the name of the file from the dbschem product represented by
+     * the given parameters
+     */
+    private String calculateFilename(String pCommandNoun,
+                                     String pCommandVerb,
+                                     String tablename)
+    {
+        String root = sqlmanager.getDBSchemaDir();
+        String system = System.getProperties().getProperty("os.name");
+        String delimiter = null;
+        if (system.equals("Windows 2000"))
+            delimiter = "\\";
+        else
+            delimiter = "/";
+        String filename = sqlmanager.getDBSchemaDir() + delimiter +
+            pCommandNoun + delimiter +
+            tablename + "_" + pCommandVerb + ".object";
+        return filename;
+    }
+
+    /**
+     * exeutes the sql commands found within the given vector
+     * @assumes nothing
+     * @effects an sql statement will be executed within the database
+     * @param pCommands a vector of sql commands
+     * @throws DBException
+     */
+    protected void executeSqlVector(Vector pCommands)
+        throws DBException
+    {
+        for (Iterator it = pCommands.iterator(); it.hasNext(); )
+        {
+            String command = (String)it.next();
+            int rtn = sqlmanager.executeUpdate(command);
+        }
+    }
 
 }
-
 // $Log$
+// Revision 1.4  2004/01/21 20:45:19  mbw
+// added the dropping and creating of partition functionality
+//
 // Revision 1.3  2004/01/21 19:24:45  mbw
 // consolidated the command search strings
 //
@@ -574,24 +704,24 @@ public class DBSchema {
 // added standard header/footer
 //
 /**************************************************************************
-*
-* Warranty Disclaimer and Copyright Notice
-*
-*  THE JACKSON LABORATORY MAKES NO REPRESENTATION ABOUT THE SUITABILITY OR
-*  ACCURACY OF THIS SOFTWARE OR DATA FOR ANY PURPOSE, AND MAKES NO WARRANTIES,
-*  EITHER EXPRESS OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR A
-*  PARTICULAR PURPOSE OR THAT THE USE OF THIS SOFTWARE OR DATA WILL NOT
-*  INFRINGE ANY THIRD PARTY PATENTS, COPYRIGHTS, TRADEMARKS, OR OTHER RIGHTS.
-*  THE SOFTWARE AND DATA ARE PROVIDED "AS IS".
-*
-*  This software and data are provided to enhance knowledge and encourage
-*  progress in the scientific community and are to be used only for research
-*  and educational purposes.  Any reproduction or use for commercial purpose
-*  is prohibited without the prior express written permission of The Jackson
-*  Laboratory.
-*
-* Copyright \251 1996, 1999, 2002 by The Jackson Laboratory
-*
-* All Rights Reserved
-*
-**************************************************************************/
+ *
+ * Warranty Disclaimer and Copyright Notice
+ *
+ *  THE JACKSON LABORATORY MAKES NO REPRESENTATION ABOUT THE SUITABILITY OR
+ *  ACCURACY OF THIS SOFTWARE OR DATA FOR ANY PURPOSE, AND MAKES NO WARRANTIES,
+ *  EITHER EXPRESS OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR A
+ *  PARTICULAR PURPOSE OR THAT THE USE OF THIS SOFTWARE OR DATA WILL NOT
+ *  INFRINGE ANY THIRD PARTY PATENTS, COPYRIGHTS, TRADEMARKS, OR OTHER RIGHTS.
+ *  THE SOFTWARE AND DATA ARE PROVIDED "AS IS".
+ *
+ *  This software and data are provided to enhance knowledge and encourage
+ *  progress in the scientific community and are to be used only for research
+ *  and educational purposes.  Any reproduction or use for commercial purpose
+ *  is prohibited without the prior express written permission of The Jackson
+ *  Laboratory.
+ *
+ * Copyright \251 1996, 1999, 2002 by The Jackson Laboratory
+ *
+ * All Rights Reserved
+ *
+ **************************************************************************/
