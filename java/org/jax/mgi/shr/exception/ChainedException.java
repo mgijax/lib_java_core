@@ -1,12 +1,11 @@
 package org.jax.mgi.shr.exception;
 
 /**
- * @is A BindableException which can be chained to other Exceptions.
+ *  A BindableException which can be chained to other Exceptions.
  * @has a parent Exception, message
  * @does nothing
  * @company Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 
 public class ChainedException
@@ -32,7 +31,7 @@ public class ChainedException
    * @effects nothing
    * @param pParent the parent exception
    */
-  public void setParent(Exception pParent) {
+  protected void setParent(Exception pParent) {
     parentException = pParent;
   }
 
