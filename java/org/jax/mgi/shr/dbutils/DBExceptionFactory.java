@@ -248,7 +248,8 @@ public class DBExceptionFactory
       "org.jax.mgi.shr.dbutils.ExecuteScriptErr";
   static {
     exceptionsMap.put(ExecuteScriptErr, new DBException(
-        "Could not execute script", false));
+        "Error occured while executing script file. See nested error message.",
+        false));
   }
 
   /**
