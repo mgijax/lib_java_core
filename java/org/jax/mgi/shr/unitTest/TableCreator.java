@@ -30,7 +30,7 @@ public class TableCreator {
   private String connectionManager = null;
   /**
    * default constructor
-   * @throws KnownException
+   * @throws Exception
    */
   public TableCreator(String url, String database,
                       String user, String password) throws Exception {
@@ -41,7 +41,7 @@ public class TableCreator {
 
   /**
    * default constructor
-   * @throws KnownException
+   * @throws Exception
    */
   public TableCreator(String url, String database,
                       String user, String password,
@@ -49,6 +49,16 @@ public class TableCreator {
       this.connectionManager = connectionManagerClass;
     conn =
         getConnection(url, database, user, password, connectionManagerClass);
+  }
+
+  /**
+   * close the connection used by this class
+   * @assumes nothing
+   * @effects the internal connection will be closed
+   */
+  public void close() throws SQLException
+  {
+      this.conn.close();
   }
 
   /**
@@ -67,7 +77,7 @@ public class TableCreator {
    * columnG     bit           not null
    * </pre>
    *
-   * @throws KnownException
+   * @throws Exception
    */
   public void createDBtypes() throws Exception {
     String sqlDrop = "DROP TABLE TEST_DBtypes";
@@ -89,7 +99,7 @@ public class TableCreator {
 
   /**
    * drop the table TEST_DBtypes
-   * @throws KnownException
+   * @throws Exception
    */
   public void dropDBtypes() throws Exception {
     String sqlDrop = "DROP TABLE TEST_DBTypes";
@@ -106,7 +116,7 @@ public class TableCreator {
    * columnA           int         not null
    * columnB           varchar(30) null
    * </pre>
-   * @throws KnownException
+   * @throws Exception
    */
   public void createDBsimple() throws Exception {
     String sqlDrop = "DROP TABLE TEST_DBsimple";
@@ -119,7 +129,7 @@ public class TableCreator {
 
   /**
    * drop the table TEST_DBsimple
-   * @throws KnownException
+   * @throws Exception
    */
   public void dropDBsimple() throws Exception {
     String sqlDrop = "DROP TABLE TEST_DBsimple";
@@ -137,7 +147,7 @@ public class TableCreator {
    * columnB           varchar(30) null
    * <br>
    * </pre>
-   * @throws KnownException
+   * @throws Exception
    */
   public void createDBkeyedInt() throws Exception {
     String sqlDrop = "DROP TABLE TEST_DBkeyedInt";
@@ -150,7 +160,7 @@ public class TableCreator {
 
   /**
    * drop the table TEST_DBKeyedInt
-   * @throws KnownException
+   * @throws Exception
    */
   public void dropDBkeyedInt() throws Exception {
     String sqlDrop = "DROP TABLE TEST_DBkeyedInt";
@@ -174,7 +184,7 @@ public class TableCreator {
    * creation_date     datetime    not null
    * modification_date datetime    not null
    * </pre>
-   * @throws KnownException
+   * @throws Exception
    */
   public void createDBstamped_MGDOrg() throws Exception {
     String sqlDrop = "DROP TABLE TEST_DBstamped_MGDOrg";
@@ -193,7 +203,7 @@ public class TableCreator {
 
   /**
    * drop the table TEST_DBstamped_MGDOrg
-   * @throws KnownException
+   * @throws Exception
    */
   public void dropDBstamped_MGDOrg() throws Exception {
     String sqlDrop = "DROP TABLE TEST_DBstamped_MGDOrg";
@@ -215,7 +225,7 @@ public class TableCreator {
    * creation_date     datetime    not null
    * modification_date datetime    not null
    * </pre>
-   * @throws KnownException
+   * @throws Exception
    */
   public void createDBstamped_MGD() throws Exception {
     String sqlDrop = "DROP TABLE TEST_DBstamped_MGD";
@@ -232,7 +242,7 @@ public class TableCreator {
 
   /**
    * drop the table TEST_DBstamped_MGD
-   * @throws KnownException
+   * @throws Exception
    */
   public void dropDBstamped_MGD() throws Exception {
     String sqlDrop = "DROP TABLE TEST_DBstamped_MGD";
@@ -251,7 +261,7 @@ public class TableCreator {
    * _jobstream_key    int         not null
    * creation_date     datetime    not null
    * </pre>
-   * @throws KnownException
+   * @throws Exception
    */
   public void createDBstamped_RADAR() throws Exception {
     String sqlDrop = "DROP TABLE TEST_DBstamped_RADAR";
@@ -266,7 +276,7 @@ public class TableCreator {
 
   /**
    * drop the table TEST_DBstamped_RADAR
-   * @throws KnownException
+   * @throws Exception
    */
   public void dropDBstamped_RADAR() throws Exception {
     String sqlDrop = "DROP TABLE TEST_DBstamped_RADAR";
@@ -299,7 +309,7 @@ public class TableCreator {
 
   /**
    * drop the table TEST_DBstamped_MGDDate
-   * @throws KnownException
+   * @throws Exception
    */
   public void dropDBstamped_MGDDate() throws Exception {
     String sqlDrop = "DROP TABLE TEST_DBstamped_MGDDate";
@@ -334,7 +344,7 @@ public class TableCreator {
 
   /**
    * drop the table TEST_DBstamped_MGDRelease
-   * @throws KnownException
+   * @throws Exception
    */
   public void dropDBstamped_MGDRelease() throws Exception {
     String sqlDrop = "DROP TABLE TEST_DBstamped_MGDRelease";
@@ -352,7 +362,7 @@ public class TableCreator {
    * columnB           varchar(30) null
    * </pre>
    * and applies a primary key definition to columnA
-   * @throws KnownException
+   * @throws Exception
    */
   public void createDBkeyed() throws Exception {
     String sqlDrop = "DROP TABLE TEST_DBkeyed";
@@ -373,7 +383,7 @@ public class TableCreator {
 
   /**
    * drop the table TEST_DBkeyed
-   * @throws KnownException
+   * @throws Exception
    */
   public void dropDBkeyed() throws Exception {
     String sqlDrop = "DROP TABLE TEST_DBkeyed";
@@ -391,7 +401,7 @@ public class TableCreator {
    * columnB           varchar(30) null
    * </pre>
    * add applies a primary key definition to columnA
-   * @throws KnownException
+   * @throws Exception
    */
   public void createDBmultikeyed() throws Exception {
     String sqlDrop = "DROP TABLE TEST_DBmultikeyed";
@@ -413,7 +423,7 @@ public class TableCreator {
 
   /**
    * drop the table TEST_DBmultikeyed
-   * @throws KnownException
+   * @throws Exception
    */
   public void dropDBmultikeyed() throws Exception {
     String sqlDrop = "DROP TABLE TEST_DBmultikeyed";
@@ -421,12 +431,43 @@ public class TableCreator {
   }
 
   /**
+   * creates a predefined table to be used for unit testing classes
+   * designed for database functionality.
+   * The table has the following definition:
+   * <br>
+   * <pre>
+   * CREATE TABLE TEST_DBtrigger
+   * columnA           int         not null
+   * columnB           varchar(30) null
+   * </pre>
+   * @throws Exception
+   */
+  public void createTriggerCompanion() throws Exception {
+    String sqlDrop = "DROP TABLE TEST_DBtrigger";
+    String sqlCreate =
+        "CREATE TABLE TEST_DBtrigger ("
+        + "columnA           int         not null,"
+        + "columnB           varchar(30) null)";
+    createTable(sqlDrop, sqlCreate);
+  }
+
+  /**
+   * drop the table TEST_DBsimple
+   * @throws Exception
+   */
+  public void dropTriggerCompanion() throws Exception {
+    String sqlDrop = "DROP TABLE TEST_DBtrigger";
+    dropTable(sqlDrop);
+  }
+
+
+  /**
        * execute the given drop table and create table commands. The drop command is
    * run in advance of create to compensate for the scenario where the table
    * already exists in the database.
    * @param drop drop table command
    * @param create create table command
-   * @throws KnownException
+   * @throws Exception
    */
   private void createTable(String drop, String create) throws Exception {
     try {
@@ -444,7 +485,7 @@ public class TableCreator {
        * will execute the given drop table command to be used when cleaning up at the
    * completion of a unit test run.
    * @param drop the drop table command
-   * @throws KnownException
+   * @throws Exception
    */
   private void dropTable(String drop) throws Exception {
     Statement statement = conn.createStatement();
