@@ -7,48 +7,52 @@ import java.sql.SQLException;
 
 
 /**
- * @is a group of sql results resulting from a call to a stored procedure
+ * A group of sql results resulting from a call to a stored procedure
  * @has A collection of update counts and ResultsNavigators
  * @does iterates through the collection of results
  * @company Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 public class MultipleResults {
 
   // the internal Statement object for obtaining results from
-  Statement s = null;
+  private Statement s = null;
   // indicator of whether the execute statement returned a ResultSet
-  boolean isResultSet;
+  private boolean isResultSet;
   // the last update count returned
-  int updateCount = 0;
+  private int updateCount = 0;
   // the sql string executed for this statement
-  String sql = null;
+  private String sql = null;
   // indicator that the call to getNextResults is the first call
-  boolean firstTime = true;
+  private boolean firstTime = true;
   // the following constant definitions are exceptions thrown by this class
   private static final String JDBCException = DBExceptionFactory.JDBCException;
    private static final String CloseErr = DBExceptionFactory.CloseErr;
 
   /**
    * constructor
-   * @param pStatement
-   * @param sql
+   * @param statement the JDBC Statement object
+   * @param isResultSet boolean indicator of whether or not the Statement object
+   * returned a ResultsSet
+   * @param sql the sql which was executed for the given Statement object
    */
-  protected MultipleResults(Statement pStatement,
-                            boolean pIsResultSet, String pSql) {
-    s = pStatement;
-    sql = pSql;
-    isResultSet = pIsResultSet;
+  protected MultipleResults(Statement statement,
+                            boolean isResultSet, String sql) {
+    this.s = statement;
+    this.sql = sql;
+    this.isResultSet = isResultSet;
   }
   /**
-   * get the next result which may be an update count or a query results.
+   * get the next result which may be an update count (Integer) or a
+   * ResultsNavigator
    * @assumes nothing
    * @effects any previous ResultsNavigator objects returned to the
    * caller are closed
    * @return next results which would need to be cast to either an Integer
    * if the results represents an update count or a ResultsNavigator if
-   * the results represents a query results
+   * the results represents a query results. Use the instanceof operator to
+   * check which type was returned.
+   * @throws DBException thrown if there is an error with the database
    */
   public Object getNextResults() throws DBException {
     try {
@@ -87,6 +91,7 @@ public class MultipleResults {
    * close this object and free JDBC resources
    * @assumes nothing
    * @effects the internal JDBC resources will be closed
+   * @throws DBException thrown if there is an error with the database
    */
   public void close() throws DBException
   {
