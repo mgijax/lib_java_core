@@ -72,13 +72,16 @@ public class StringLib {
     *	joining together
     * @return <tt>String</tt> which is the concatenation of the string
     *	representations of the objects in <tt>v</tt>, using <tt>delim</tt> as
-    *	the delimiter between them
+    *	the delimiter between them.  Returns null if Object[] is null.
     */
     public static String join (Object[] v, String delim)
     {
 	String s = null;			// steps through v
 	boolean isFirst = true;			// first String in v?
 	StringBuffer buf = new StringBuffer();	// what we're building
+
+    //  If the vector object is null, don't process further.
+    if (v == null) return null;
 
 	if (v.length > 0)
 	{
@@ -115,7 +118,7 @@ public class StringLib {
     *	joining together
     * @return <tt>String</tt> which is the concatenation of the string
     *	representations of the objects in <tt>v</tt>, using <tt>delim</tt> as
-    *	the delimiter between them
+    *	the delimiter between them.  Returns null if the Collection param null.
     */
     public static String join (Collection v, String delim)
     {
@@ -123,6 +126,10 @@ public class StringLib {
 	boolean isFirst = true;			// first String in v?
 	StringBuffer buf = new StringBuffer();	// what we're building
 
+    
+    //  If the vector object is null, don't process further.
+    if (v == null) return null;
+    
 	Iterator it = v.iterator();
 	while (it.hasNext())
 	{
