@@ -812,6 +812,7 @@ public class SQLDataManager {
     user = pConfig.getUser();
     password = pConfig.getPassword();
     passwordFile = pConfig.getPasswordFile();
+    logger = new ConsoleLogger();
   }
 
   /**
@@ -831,9 +832,6 @@ public class SQLDataManager {
     loggerFactoryClass = pConfig.getLoggerFactoryClass();
     if (loggerFactoryClass != null) {
       logger = instantiateLogger(loggerFactoryClass);
-    }
-    else {
-        logger = new ConsoleLogger();
     }
   }
 
@@ -997,6 +995,9 @@ public class SQLDataManager {
 }
 
 // $Log$
+// Revision 1.3  2004/02/11 21:13:43  mbw
+// added time stats to debug logging
+//
 // Revision 1.2  2004/02/10 15:25:46  mbw
 // removed the internal Statement management code and now place Statement objects in the ResultsNavigator
 //
