@@ -21,7 +21,9 @@ package org.jax.mgi.shr.config;
 
 public class InputDataCfg extends Configurator {
 
-  // default delimiter
+  // default begin delimiter...equals anyline
+  private String DEFAULT_BEGIN_DELIMITER = "$";
+  // default end delimiter...equals anyline
   private String DEFAULT_END_DELIMITER = "$";
 
   //default bufferSize
@@ -59,14 +61,28 @@ public class InputDataCfg extends Configurator {
   }
 
   /**
-   * get the record delimeter for the input file. The delimiter is a java
-   * based regular expression. The parameter name read from the
-   * configuration file or system properties is INFILE_END_DELIMITER.
+   * get the begin delimeter for the input file. The delimiter is interpreted
+   * as a java based regular expression or a sequence of bytes, depending on
+   * the value of the INFILE_USE_REGEX parameter. The parameter name read from
+   * the configuration file or system properties is INFILE_BEGIN_DELIMITER.
+   * The default value is null which causes the begin delimiter to not be used
+   * @return the value used as record delimiter
+   */
+  public String getBeginDelimiter() {
+    return getConfigStringNull("INFILE_BEGIN_DELIMITER");
+  }
+
+  /**
+   * get the end delimeter for the input file. The delimiter is interpreted
+   * as a java based regular expression or a sequence of bytes, depending on
+   * the value of the INFILE_USE_REGEX parameter. The parameter name read from
+   * the configuration file or system properties is INFILE_END_DELIMITER.
    * The default value is newline
-   * @return the regular expression used as record delimiter
+   * @return the value used as record delimiter
    */
   public String getEndDelimiter() {
-    return getConfigString("INFILE_END_DELIMITER", this.DEFAULT_END_DELIMITER);
+    return getConfigString("INFILE_END_DELIMITER",
+                           this.DEFAULT_END_DELIMITER);
   }
 
   /**
@@ -100,6 +116,9 @@ public class InputDataCfg extends Configurator {
 
 }
 // $Log$
+// Revision 1.2  2004/01/05 21:47:23  mbw
+// changed the method getDelimiter to getEndDelimiter and changed config variable from INFILE_DELIMITER to INFILE_END_DELIMITER
+//
 // Revision 1.1  2003/12/30 16:50:09  mbw
 // imported into this product
 //
