@@ -81,7 +81,7 @@ public class SQLDataManager {
   /**
    * the flag which indicates whether to log debug messages to the logger
    */
-  private boolean isDebug = true;
+  private boolean isDebug = false;
 
   /**
    * the setting which controls the scollable nature of the returned
@@ -1277,6 +1277,9 @@ public class SQLDataManager {
 }
 
 // $Log$
+// Revision 1.12  2004/09/30 15:40:53  mbw
+// added the ability to configure whether or not to print debug information to the log files
+//
 // Revision 1.11  2004/09/22 17:07:25  mbw
 // calling method from the LogCfg class which changed from getLogerFactory() to getLoggerFactory()
 //
