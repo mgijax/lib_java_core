@@ -3,12 +3,11 @@ package org.jax.mgi.shr.dbutils;
 import org.jax.mgi.shr.exception.ExceptionFactory;
 
 /**
- * @is An ExceptionFactory.
+ * An ExceptionFactory for errors related to the use of the DBSchema product.
  * @has a hashmap of predefined DBSchemaExceptions stored by a name key
  * @does looks up DBSchemaExceptions by name
  * @company The Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 
 public class DBSchemaExceptionFactory extends ExceptionFactory {

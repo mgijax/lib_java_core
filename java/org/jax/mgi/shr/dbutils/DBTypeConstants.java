@@ -6,7 +6,7 @@ package org.jax.mgi.shr.dbutils;
 import java.sql.Types;
 
 /**
- * @is A class that stores constants representint Sybase data types.
+ * A class that stores constants representint Sybase data types.
  * @has a set of static constants with symbolic names.
  * @does provides a list of symbolic names used to identify Sybase
  * data types and assigns to them the corresponding constant values from
@@ -41,19 +41,16 @@ public class DBTypeConstants {
    */
   public static final int DB_TEXT = Types.LONGVARCHAR;
   /**
-   * the Sybase float type assigned the value of java.sql.Types.DOUBLE
+   * the Sybase float type assigned the value of java.sql.Types.FLOAT
    */
-  public static final int DB_FLOAT = Types.DOUBLE;
+  public static final int DB_FLOAT = Types.FLOAT;
   /**
-   * the Sybase bit type assigned the value of java.sql.Types.BIT
+   * the Sybase bit type assigned the value of java.sql.Types.TINYINT
    */
-  public static final int DB_BIT = Types.BIT;
+  public static final int DB_BIT = Types.TINYINT;
 }
 
 // $Log$
-// Revision 1.2  2003/12/09 22:48:57  mbw
-// merged jsam branch onto the trunk
-//
 // Revision 1.1.2.4  2003/06/04 14:51:49  mbw
 // javadoc edits
 //
