@@ -5,7 +5,7 @@ import org.jax.mgi.shr.dbutils.SQLDataManager;
 import org.jax.mgi.shr.log.Logger;
 
 /**
- * @is an abstract class which extends the RowDataCacheHandler class to
+ * An abstract class which extends the RowDataCacheHandler class to
  * provide general database lookup functionality. Two lookup methods are
  * provided. One throws an exception if the key is not found and the
  * other returns null.
@@ -14,8 +14,8 @@ import org.jax.mgi.shr.log.Logger;
  * the development of concrete Lookup classes.
  * @abstract This class implements no abstract methods from the
  * RowDataCacheHandler class. It only adds some helper methods for performing
- * database lookups. The subclasses will be required to implement the lookup
- * methods and provide the necessary casting for a particular data type and
+ * general lookups. The subclasses will be required to implement a specific
+ * lookup while providing the necessary casting for a particular data type and
  * can use these lookups to support those methods. All other methods required
  * by the RowDataCacheHandler class will still need to be implemented.
  */
@@ -24,8 +24,8 @@ public abstract class CachedLookup
 {
     /**
      * constructor which accepts a cache type and a SQLDataManager
-     * @param cacheType either lazy or full (see CacheConstants from this
-     * package)
+     * @param cacheType either lazy or full (see <a href="CacheConstants.html">
+     * CacheConstants</a> from this package)
      * @param sqlMgr the SQLDataManager to use for doing database lookups
      * @throws CacheException thrown if there is an error establishing a cache
      */
@@ -36,20 +36,6 @@ public abstract class CachedLookup
         super(cacheType, sqlMgr);
     }
 
-    /**
-     * constructor which accepts a cache type and a SQLDataManager
-     * @param cacheType either lazy or full (see CacheConstants from this
-     * package)
-     * @param sqlMgr the SQLDataManager to use for doing database lookups
-     * @throws CacheException thrown if there is an error establishing a cache
-     */
-    public CachedLookup(int cacheType, SQLDataManager sqlMgr, Logger logger)
-        throws
-        CacheException
-    {
-        super(cacheType, sqlMgr, logger);
-    }
-
 
 
     /**
@@ -58,12 +44,14 @@ public abstract class CachedLookup
      * @return the value found
      * @throws DBException thrown if there was an error with the database
      * @throws CacheException thrown if there is an error with the cache
-     * @throws KeyNotFoundException if the key wss not found on lookup
+     * @throws KeyNotFoundException if the key was not found on lookup
      */
     protected Object lookup(Object key)
         throws DBException, CacheException,
         KeyNotFoundException
     {
+        if (key == null)
+            throw new KeyNotFoundException(key, this.getClass().getName());
         Object o = null;
         o = super.cacheStrategy.lookup(key, super.cache);
         if (o == null)
@@ -84,6 +72,8 @@ public abstract class CachedLookup
         throws CacheException,
         DBException
     {
+        if (key == null)
+            return null;
         Object o = null;
         try
         {
