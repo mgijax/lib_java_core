@@ -753,6 +753,28 @@ public class SQLDataManager {
   }
 
   /**
+   * return indicator of whether or not the current connection is a
+   * Sybase connection
+   * @assumes the user has set the configuration parameter DBCONNECTION_MANAGER
+   * or is accepting the default value which is a Sybase ConnectionManager.
+   * @effects nothing
+   * @return true is the connection is Sybase
+   */
+  public boolean isSybase()
+  {
+      if (getConnectionManagerClass()
+          .equals("org.jax.mgi.shr.dbutils.MGIDriverManager"))
+      {
+          return true;
+      }
+      else
+      {
+          return false;
+      }
+
+  }
+
+  /**
    * return a RowDataIterator for the given ResultSet
    * @assumes nothing
    * @effects nothing
@@ -993,6 +1015,9 @@ public class SQLDataManager {
 }
 
 // $Log$
+// Revision 1.5  2004/02/25 20:21:07  mbw
+// fixed to eliminate compiler warnings
+//
 // Revision 1.4  2004/02/19 16:55:30  mbw
 // added creation of default logger in SQLDataManager(DatabaseConfigurator) constructor
 //
