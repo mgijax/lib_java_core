@@ -22,7 +22,6 @@ public class StreamUtils {
 	* @throws IOException if any problems with the inputstream occur.
 	*/
 	public static String readStream(InputStream is) throws IOException {
-System.out.println("In readStream!");
 			BufferedReader br;
 			StringBuffer strbReturn = new StringBuffer();
 			String strTmp;
@@ -30,10 +29,8 @@ System.out.println("In readStream!");
 			br = new BufferedReader(new InputStreamReader(is));
 
 			//Read from the BufferedReader until there is no more data.
-System.out.println("Starting read");
 			strTmp = br.readLine();
 			while(strTmp != null) {
-System.out.println("Line read");
 				strbReturn.append(strTmp+'\n');
 				strTmp = br.readLine();
 			}
