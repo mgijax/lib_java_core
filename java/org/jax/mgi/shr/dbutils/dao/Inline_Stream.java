@@ -30,49 +30,6 @@ public class Inline_Stream
     }
 
     /**
-     * delete the given DAO object from the database
-     * @assumes nothing
-     * @effects deletes the given DAO from the database using inline
-     * sql
-     * @param dao the object to delete
-     * @throws DBException thrown if there is an error accessing the database
-     */
-    public void delete(DAO dao)
-        throws DBException
-    {
-        deleteStrategy.delete(dao);
-    }
-
-    /**
-     * update the given DAO object in the database
-     * @assumes nothing
-     * @effects updates the given DAO in the database using inline
-     * sql
-     * @param dataInstance the object to update
-     * @throws DBException thrown if there is a database error when executing
-     * the update sql
-     */
-    public void update(DAO dataInstance)
-        throws DBException
-    {
-        updateStrategy.update(dataInstance);
-    }
-
-    /**
-     * insert the given DAO object in the database
-     * @assumes nothing
-     * @effects adds the given DAO to the appropriate bcp file or files
-     * @param dataInstance the object to insert
-     * @throws DBException thrown if there is an error when trying to add
-     * the given object to the bcp file
-     */
-    public void insert(DAO dataInstance)
-        throws DBException
-    {
-        insertStrategy.insert(dataInstance);
-    }
-
-    /**
      * execute the bcp commands followed by the batch statements
      * @assumes nothing
      * @effects the bcp command is executed for all BCPWriters created

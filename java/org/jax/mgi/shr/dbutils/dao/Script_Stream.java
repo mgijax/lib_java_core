@@ -44,47 +44,6 @@ public class Script_Stream
     }
 
     /**
-     * delete the given DAO object from the database
-     * @assumes nothing
-     * @effects deletes the given DAO from the database via scripting
-     * @param dao the dao object to delete
-     * @throws DBException thrown if there is an error accessing the database
-     */
-    public void delete(DAO dao)
-        throws DBException
-    {
-        deleteStrategy.delete(dao);
-    }
-
-    /**
-     * update the given DAO object in the database
-     * @assumes nothing
-     * @effects updates the given DAO in the database via scripting
-     * @param dao the dao object to update
-     * @throws DBException thrown if there is a database error when executing
-     * the update sql
-     */
-    public void update(DAO dao)
-        throws DBException
-    {
-        updateStrategy.update(dao);
-    }
-
-    /**
-     * insert the given DAO object in the database
-     * @assumes nothing
-     * @effects inserts the given DAO from the database via scripting
-     * @param dao the dao object to insert
-     * @throws DBException thrown if there is an error when trying to add
-     * the given object to the bcp file
-     */
-    public void insert(DAO dao)
-        throws DBException
-    {
-        insertStrategy.insert(dao);
-    }
-
-    /**
      * execute the script
      * @assumes nothing
      * @effects isql is executed through the ScriptWriter
