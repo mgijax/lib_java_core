@@ -233,4 +233,4 @@ public class BCPWriterCfg
  * Copyright \251 1996, 1999, 2002 by The Jackson Laboratory
  *
  * All Rights Reserved
- *
+ */
