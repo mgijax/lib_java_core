@@ -1,11 +1,15 @@
 package org.jax.mgi.shr.unitTest;
 
+import java.nio.channels.FileChannel;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.File;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.FileNotFoundException;
 
 /**
  * @is A class for providing on the fly test file creation and comparison
@@ -70,6 +74,20 @@ public class FileUtility {
     r1.close();
     r2.close();
     return compare;
+  }
+
+  public static void copy(String srcFilename, String destFilename)
+  throws FileNotFoundException, IOException
+  {
+      // create channel on the source
+      FileChannel srcChannel =
+          new FileInputStream(srcFilename).getChannel();
+      FileChannel destChannel =
+          new FileOutputStream(destFilename).getChannel();
+      destChannel.transferFrom(srcChannel, 0, srcChannel.size());
+      // close the channels
+      srcChannel.close();
+      destChannel.close();
   }
 
   /**
