@@ -5,7 +5,7 @@ package org.jax.mgi.shr.config;
 
 
 /**
- * @is an object for configuring a database connection.
+ * An object for configuring a database connection.
  * @has a set of database connection parameters and a reference to
  * a ConfigurationManager
  * @does provides methods for getting configuration paramaters
@@ -13,7 +13,6 @@ package org.jax.mgi.shr.config;
  * parameters that are not configured
  * @company Jackson Laboratory
  * @author M. Walker
- * @version 1.0
  */
 
 public class DatabaseCfg
@@ -60,7 +59,7 @@ public class DatabaseCfg
    * @return server name
    */
   public String getServer() {
-    return dualLookup("DBSERVER", DEFAULT_SERVER);
+    return getConfigString("DBSERVER", DEFAULT_SERVER);
   }
 
   /**
@@ -69,7 +68,7 @@ public class DatabaseCfg
    * @return database name
    */
   public String getDatabase() {
-    return dualLookup("DBNAME", DEFAULT_DATABASE);
+    return getConfigString("DBNAME", DEFAULT_DATABASE);
   }
 
   /**
@@ -79,7 +78,7 @@ public class DatabaseCfg
    * @return login user
    */
   public String getUser() {
-    return dualLookup("DBUSER", DEFAULT_USER);
+    return getConfigString("DBUSER", DEFAULT_USER);
   }
 
   /**
@@ -91,7 +90,7 @@ public class DatabaseCfg
    * @return login password
    */
   public String getPassword() {
-    return dualLookup("DBPASSWORD", null);
+    return getConfigString("DBPASSWORD", null);
   }
 
   /**
@@ -100,7 +99,7 @@ public class DatabaseCfg
    * @return database url
    */
   public String getUrl() {
-    return dualLookup("DBURL", DEFAULT_URL);
+    return getConfigString("DBURL", DEFAULT_URL);
   }
 
   /**
@@ -111,7 +110,7 @@ public class DatabaseCfg
    * @return password file name
    */
   public String getPasswordFile() {
-    return dualLookup("DBPASSWORDFILE", DEFAULT_PWFILE);
+    return getConfigString("DBPASSWORDFILE", DEFAULT_PWFILE);
   }
 
   /**
@@ -122,7 +121,7 @@ public class DatabaseCfg
    * @return database schema product installation directory
    */
   public String getDBSchemaDir() {
-    return dualLookup("DBSCHEMADIR", DEFAULT_DBSCHEMA_DIR);
+    return getConfigString("DBSCHEMADIR", DEFAULT_DBSCHEMA_DIR);
   }
 
 
@@ -135,52 +134,16 @@ public class DatabaseCfg
    * @return the name of the ConnectionManager class
    */
   public String getConnectionManagerClass() {
-    return dualLookup("DBCONNECTION_MANAGER",
+    return getConfigString("DBCONNECTION_MANAGER",
                            DEFAULT_CONNECTION_MANAGER);
-  }
-
-  /**
-   * get the name of the LoggerFactory class used for instantiating a
-   * LoggerFactory which is used for creating a general purpose Logger
-   * or return null if not found
-   * @return the name of the LoggerFactory class
-   */
-  public String getLoggerFactoryClass() {
-    return dualLookup("LOGGER_FACTORY", null);
-  }
-
-  /**
-   * looks up a parameter and if not found and prefixing is being used
-   * then lookup the value again as un-prefixed before applying the
-   * default value
-   * @param param the parameter to lookup on
-   * @param defaultValue the default value to return if the value
-   * could not be found either by using the prefix or not
-   * @return the determined value
-   */
-  private String dualLookup(String param, String defaultValue)
-  {
-    String value = this.getConfigStringNull(param);
-    if (value == null)
-    {
-      if (this.parameterPrefix != null) {
-        // parameter was not found using prefixing.
-        // try and find it as an unprefixed value before
-        // applying the default value
-        this.setApplyPrefix(false);
-        value = this.getConfigString(param, defaultValue);
-        this.setApplyPrefix(true);
-      }
-      else { // value was not found and we are not using prefixing
-        value = defaultValue;
-      }
-    }
-    return value;
   }
 
 
 }
 // $Log$
+// Revision 1.2  2004/04/02 19:01:33  mbw
+// changed default value of dbo password file to refect new file name
+//
 // Revision 1.1  2003/12/30 16:50:07  mbw
 // imported into this product
 //
