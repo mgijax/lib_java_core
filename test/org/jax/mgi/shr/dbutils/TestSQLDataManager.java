@@ -63,13 +63,14 @@ public class TestSQLDataManager
     sqlman.executeUpdate(insert);
     sqlman.executeUpdate(insert);
     ResultsNavigator i = sqlman.executeQuery(query);
+    RowReference o = i.getRowReference();
     // read to end of iterator
     while (i.next()) {
-      Object o = i.getCurrent();
+      //Object o = i.getCurrent();
     }
     // now try and read past end of iterator
     try {
-      RowReference o = (RowReference)i.getCurrent();
+      //RowReference o = (RowReference)i.getCurrent();
       String s = o.getString(1);
     }
     catch (Exception e) {
@@ -87,9 +88,10 @@ public class TestSQLDataManager
     sqlman.executeUpdate(insert);
     sqlman.executeUpdate(insert);
     ResultsNavigator i = sqlman.executeQuery(query);
+    RowReference row = i.getRowReference();
     // read to end of iterator
     while (i.next()) {
-      Object o = i.getCurrent();
+      //Object o = i.getCurrent();
     }
     // now check if we are past end
     assertTrue(!i.next());
@@ -99,7 +101,8 @@ public class TestSQLDataManager
     sqlman.executeUpdate(insert);
     sqlman.executeUpdate(insert);
     ResultsNavigator i = sqlman.executeQuery(query);
-    RowReference o = (RowReference)i.getCurrent();
+    RowReference o = i.getRowReference();
+    //RowReference o = (RowReference)i.getCurrent();
     String s = null;
     try {
       s = o.getString(1); // should fail
@@ -119,10 +122,11 @@ public class TestSQLDataManager
     String query = "SELECT * FROM TEST_DBtypes WHERE COLUMNA = 'NO MATCH'";
     // should return no records
     ResultsNavigator i = sqlman.executeQuery(query);
+    RowReference o = i.getRowReference();
     assertTrue(!i.next());
     // next try and access row
     try { // this should fail
-      RowReference o = (RowReference)i.getCurrent();
+      //RowReference o = (RowReference)i.getCurrent();
       String s = o.getString(1); // should fail
     }
     catch (Exception e) {
@@ -137,8 +141,9 @@ public class TestSQLDataManager
     sqlman.executeUpdate(insert);
     String query = "SELECT * FROM TEST_DBtypes";
     ResultsNavigator i = sqlman.executeQuery(query);
+    RowReference rp = i.getRowReference();
     i.next();
-    RowReference rp = (RowReference)i.getCurrent();
+    //RowReference rp = (RowReference)i.getCurrent();
     try {
       String s = (String)rp.getString(1);
     }
@@ -155,8 +160,9 @@ public class TestSQLDataManager
     sqlman.executeUpdate(insert);
     String query = "SELECT * FROM TEST_DBtypes";
     ResultsNavigator i = sqlman.executeQuery(query);
+    RowReference rp = i.getRowReference();
     i.next();
-    RowReference rp = (RowReference)i.getCurrent();
+    //RowReference rp = (RowReference)i.getCurrent();
     boolean multipleRows = i.next();
     try {
       String s = (String)rp.getString(1);
@@ -176,9 +182,10 @@ public class TestSQLDataManager
     sqlman.executeUpdate(insert);
     sqlman.executeUpdate(insert);
     ResultsNavigator i = sqlman.executeQuery(query);
+    RowReference o = i.getRowReference();
     // read to end of iterator
     while (i.next()) {
-      Object o = i.getCurrent();
+      //Object o = i.getCurrent();
     }
     i.previous();
     i.previous();
@@ -192,9 +199,10 @@ public class TestSQLDataManager
     sqlman.executeUpdate(insert);
     sqlman.executeUpdate(insert);
     ResultsNavigator i = sqlman.executeQuery(query);
+    RowReference o = i.getRowReference();
     // read to end of iterator
     while (i.next()) {
-      Object o = i.getCurrent();
+      //Object o = i.getCurrent();
     }
     try {
       i.previous(); // should fail since results are not scrollable
@@ -239,7 +247,24 @@ public class TestSQLDataManager
   }
 
 
-
+  public void testRowRef() throws Exception
+  {
+    sqlman.executeUpdate(
+        "INSERT INTO TEST_DBtypes " +
+        "VALUES ('A', '2003/07/04', 1, null, 'some text', " +
+        "1.111, 0)");
+    sqlman.executeUpdate(
+        "INSERT INTO TEST_DBtypes " +
+        "VALUES ('B', '2003/07/04', 0, null, 'some text', " +
+        "1.111, 0)");
+    sqlman.setScrollable(true);
+    ResultsNavigator nav = sqlman.executeQuery("select * from test_dbtypes");
+    RowReference row = nav.getRowReference();
+    while (nav.next()) {}
+    nav.previous();
+    String s = row.getString(1);
+    assertEquals(s, "B");
+  }
 
 
 
