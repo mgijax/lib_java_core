@@ -30,8 +30,7 @@ import java.io.IOException;
 
 public class ConfigurationManager {
 
-  // a set of configurations which are searched in sequence for a parameter
-  private Vector configurations = null;
+  private Configuration config = null;
   // these properties are searched first in order to override configurations
   private Properties systemProperties = null;
   // the singleton instance of the ConfigurationManager. It is returned by
@@ -50,7 +49,7 @@ public class ConfigurationManager {
    * @throws ConfigException thrown if an exception occurs while reading the
    * configuration file.
    */
-  protected static synchronized ConfigurationManager getInstance()
+  protected static ConfigurationManager getInstance()
   throws ConfigException {
     if (instance == null) {
       instance = new ConfigurationManager();
@@ -70,13 +69,8 @@ public class ConfigurationManager {
   protected String get(String name) {
     String value;
     value = (String)systemProperties.get(name);
-    if (value == null && configurations.size() > 0) {
-      for (Iterator it=configurations.iterator(); it.hasNext(); ) {
-        Configuration config = (Configuration)it.next();
-        value = config.get(name);
-        if (value != null) break;
-      }
-    }
+    if (value == null && config != null)
+      value = config.get(name);
     return value;
   }
 
@@ -113,16 +107,24 @@ public class ConfigurationManager {
    * configuration files
    */
   private void init() throws ConfigException {
-    configurations = new Vector();
     systemProperties = System.getProperties();
     String value = (String)systemProperties.get("CONFIG");
-    if (value != null) {
-      String[] configfiles = value.split(",");
-      for (int i = 0; i < Array.getLength(configfiles); i++) {
-        String filename = configfiles[i];
-        Configuration config = null;
-        try {
-          config = Configuration.load(filename);
+
+    if (value != null)
+    {
+        String[] configfiles = value.split(",");
+        int len = Array.getLength(configfiles);
+        String filename = configfiles[0];
+        try
+        {
+            // load first file
+            config = Configuration.load(filename);
+            // include the remaining
+            for (int i = 1; i < len; i++)
+            {
+                filename = configfiles[i];
+                config.include(filename);
+            }
         }
         catch (FileNotFoundException e) {
           ConfigException e2 = (ConfigException)eFactory.getException(
@@ -136,14 +138,16 @@ public class ConfigurationManager {
           e2.bind(filename);
           throw e2;
         }
-        if (config != null) configurations.add(config);
-      }
+
     }
   }
 
 
 }
 // $Log$
+// Revision 1.1  2003/12/30 16:50:06  mbw
+// imported into this product
+//
 // Revision 1.4  2003/12/09 22:47:23  mbw
 // merged jsam branch onto the trunk
 //

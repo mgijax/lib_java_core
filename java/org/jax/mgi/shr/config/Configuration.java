@@ -593,6 +593,19 @@ public class Configuration
         return newOne;
     }
 
+  /**
+    * adds values from the file with the given filename
+    * @param filename path to the configuration file to read
+    * @throws FileNotFoundException if the file cannot be found
+    * @throws IOException if the file cannot be read and parsed properly
+    */
+
+    public void include(String filename) throws IOException
+    {
+        this.processFile (new File (filename));
+    }
+
+
     //////////////////////
     // instance variables:
     //////////////////////
@@ -624,6 +637,9 @@ public class Configuration
     private static Hashtable loaded = new Hashtable();
 }
 // $Log$
+// Revision 1.2  2004/02/17 19:03:22  jsb
+// Added additional load() method to bypass cache.  is backward-compatible
+//
 // Revision 1.1  2003/12/30 16:50:05  mbw
 // imported into this product
 //
