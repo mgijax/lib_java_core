@@ -1,3 +1,7 @@
+DATE: 01/24/2004
+STAFF: mbw
+CHANGES: moved DataOutputFile and support classes to tr6427 branch
+
 DATE: 01/05/2004
 STAFF: dbm
 CHANGES: added DataOutputFile and support classes
