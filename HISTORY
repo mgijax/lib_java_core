@@ -1,3 +1,8 @@
+TAG: lib_java_core-1-0-3
+DATE: 01/21/2004
+STAFF: mbw
+CHANGES: changed build.properties in cvs to build.properties.default
+
 TAG: lib_java_core-RPCI_BP
 TAG: lib_java_core-1-0-2_BP
 DATE: 01/21/2004
