@@ -19,7 +19,8 @@ public class CacheExceptionFactory
     static
     {
         exceptionsMap.put(MissingKeyValue, new CacheException(
-            "The RowDataInterpreter class, ??, did not create the KeyValue object " +
+            "The RowDataInterpreter class, ??, did not create the " +
+            "KeyValue object " +
             "required by the current CacheStrategy", false));
     }
 

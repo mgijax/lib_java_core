@@ -10,14 +10,15 @@ import org.jax.mgi.shr.log.ConsoleLogger;
 
 /**
  * An extension of the RowDataCacheStrategy class that provides
- * a lazy cache strategy for lookups. That is it partially initializes a cache
- * and adds new entries to the cache from the database on lookup if they do not
- * already exist in the cache. This class is used by a LazyCacheLookup
- * object.
- * @has see RowDataCacheStrategy as this extends it to implement a lazy strategy
- * @does executes a partial init query and puts the results in the cache. Looks
- * up keys in the cache and if not found then gets the value from the database
- * and adds it to the cache.
+ * a lazy cache strategy for lookups. That is it partially initializes a
+ * cache and adds new entries to the cache from the database on lookup if
+ * they do not already exist in the cache. This class is used by a
+ * LazyCacheLookup object.
+ * @has see RowDataCacheStrategy as this extends it to implement a lazy
+ * strategy
+ * @does executes a partial init query and puts the results in the cache.
+ * Looks up keys in the cache and if not found then gets the value from the
+ * database and adds it to the cache.
  * @company The Jackson Laboratory
  * @author M Walker
  */
@@ -53,9 +54,9 @@ public class LazyCacheStrategy
      * @assumes nothing
      * @effects puts initial objects in the cache
      * @param cache the cache to initialize
-     * @throws CacheException thrown if the RowDataCacheHandler for this class
-     * does not create the proper KeyValue object required for inserting into
-     * the cache
+     * @throws CacheException thrown if the RowDataCacheHandler for this
+     * class does not create the proper KeyValue object required for
+     * inserting into the cache
      * @throws DBException thrown if there is an exception with the database
      */
     public void init(Map cache)
@@ -70,8 +71,8 @@ public class LazyCacheStrategy
                                   "sql:\n" + sql);
         ResultsNavigator nav = super.dataManager.executeQuery(sql);
         /**
-         * The CacheStrategyHelper class is used to navigate through the query
-         * results and place objects in the cache
+         * The CacheStrategyHelper class is used to navigate through the
+         * query results and place objects in the cache
          */
         CacheStrategyHelper.putResultsInMap(nav, cache,
                                             this.cacheHandler,
@@ -87,9 +88,9 @@ public class LazyCacheStrategy
      * @param key the target key to look up in the cache
      * @param cache the cache to look up the value in
      * @return the value found for the given key
-     * @throws CacheException thrown if the RowDataCacheHandler for this class
-     * does not create the proper KeyValue object required for inserting into
-     * the cache
+     * @throws CacheException thrown if the RowDataCacheHandler for this
+     * class does not create the proper KeyValue object required for
+     * inserting into the cache
      * @throws DBException thorwn if there is an exception with the database
      */
     public Object lookup(Object key, Map cache)
@@ -117,12 +118,13 @@ public class LazyCacheStrategy
         {
             super.logger.logDebug("key not found in cache: " + key);
             super.logger.logDebug(
-                "looking up key in database with the following sql:\n" + sql);
+                "looking up key in database with the following sql:\n" +
+                sql);
         }
         ResultsNavigator nav = dataManager.executeQuery(sql);
         /**
-         * The CacheStrategyHelper class is used to navigate through the query
-         * results and place objects in the cache
+         * The CacheStrategyHelper class is used to navigate through the
+         * query results and place objects in the cache
          */
         CacheStrategyHelper.putResultsInMap(nav, cache,
                                             this.cacheHandler,

@@ -5,8 +5,8 @@ import org.jax.mgi.shr.exception.MGIException;
 import org.jax.mgi.shr.log.Logger;
 
 /**
- * This interface is used for importing data from a file into a database and is
- * implemented for various database products including MySQL and Sybase
+ * This interface is used for importing data from a file into a database and
+ * is implemented for various database products including MySQL and Sybase
  * @has nothing
  * @does imports data from a file into a database
  * @company The Jackson Laboratory

@@ -22,7 +22,8 @@ public class KeyNotFoundException
     private String lookupClassName = null;
     public KeyNotFoundException(Object key, String lookupClassName)
     {
-        super("The lookup key ?? was not found during lookup in class ??.", true);
+        super("The lookup key ?? was not found during lookup in class ??.",
+              true);
         this.key = key;
         this.lookupClassName = lookupClassName;
         bind(key.toString());

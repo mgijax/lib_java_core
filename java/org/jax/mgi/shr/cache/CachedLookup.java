@@ -15,19 +15,22 @@ import org.jax.mgi.shr.log.Logger;
  * @abstract This class implements no abstract methods from the
  * RowDataCacheHandler class. It only adds some helper methods for performing
  * general lookups. The subclasses will be required to implement a specific
- * lookup while providing the necessary casting for a particular data type and
- * can use these lookups to support those methods. All other methods required
- * by the RowDataCacheHandler class will still need to be implemented.
+ * lookup while providing the necessary casting for a particular data type
+ * and can use these lookups to support those methods. All other methods
+ * required by the RowDataCacheHandler class will still need to be
+ * implemented.
  */
 public abstract class CachedLookup
     extends RowDataCacheHandler
 {
     /**
      * constructor which accepts a cache type and a SQLDataManager
-     * @param cacheType either lazy or full (see <a href="CacheConstants.html">
+     * @param cacheType either lazy or full (see
+     * <a href="CacheConstants.html">
      * CacheConstants</a> from this package)
      * @param sqlMgr the SQLDataManager to use for doing database lookups
-     * @throws CacheException thrown if there is an error establishing a cache
+     * @throws CacheException thrown if there is an error establishing a
+     * cache
      */
     public CachedLookup(int cacheType, SQLDataManager sqlMgr)
         throws

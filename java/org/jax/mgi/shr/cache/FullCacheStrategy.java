@@ -10,9 +10,9 @@ import org.jax.mgi.shr.config.LogCfg;
 
 /**
  * An extension of the RowDataCacheStrategy class that provides a full
- * cache strategy for lookups. That is it fully initializes a cache to provide all
- * the data required for subsequent lookups. It does not add new entries
- * after the initialization. If a value is not found on
+ * cache strategy for lookups. That is it fully initializes a cache to
+ * provide all the data required for subsequent lookups. It does not add new
+ * entries after the initialization. If a value is not found on
  * lookup, no additional searches on the database are made.
  * @has see RowDataCacheStrategy as this is an extension of that class
  * @does executes a full init query and puts the results in the cache. Looks
@@ -55,9 +55,9 @@ public class FullCacheStrategy
      * @assumes nothing
      * @effects puts initial objects in the cache
      * @param cache the cache to initialize
-     * @throws CacheException thrown if the RowDataCacheHandler for this class
-     * does not create the proper KeyValue object required for inserting into
-     * the cache
+     * @throws CacheException thrown if the RowDataCacheHandler for this
+     * class does not create the proper KeyValue object required for
+     * inserting into the cache
      * @throws DBException thorwn if there is an exception with the database
      */
     public void init(Map cache)
@@ -77,8 +77,8 @@ public class FullCacheStrategy
                                   "sql:\n" + sql);
         ResultsNavigator nav = super.dataManager.executeQuery(sql);
         /**
-         * The CacheStrategyHelper class is used to navigate through the query
-         * results and place objects in the cache
+         * The CacheStrategyHelper class is used to navigate through the
+         * query results and place objects in the cache
          */
         CacheStrategyHelper.putResultsInMap(nav, cache,
                                             this.cacheHandler,

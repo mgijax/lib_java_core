@@ -27,9 +27,9 @@ public class CacheStrategyHelper
 
 
     /**
-     * Parses through the given ResultsNavigator and places data into the cache.
-     * It determines if the given cacheHandler supports muliple rows by
-     * checking if it's RowDataInterpreter is an instance of
+     * Parses through the given ResultsNavigator and places data into the
+     * cache. It determines if the given cacheHandler supports muliple rows
+     * by checking if it's RowDataInterpreter is an instance of
      * MultiRowInterpreter. If so, then this method uses a
      * MultiResultsIterator for parsing the results.
      * See
@@ -49,8 +49,10 @@ public class CacheStrategyHelper
      * query
      * @param logger the logger to use
      * @param debug indicator of whether or not to log debug messages
-     * @throws CacheException if there is an error putting objects in the cache
-     * @throws DBException if there is an error accessing data from the database
+     * @throws CacheException if there is an error putting objects in the
+     * cache
+     * @throws DBException if there is an error accessing data from the
+     * database
      */
     protected static void putResultsInMap(ResultsNavigator navigator,
                                           Map cache,
@@ -77,7 +79,8 @@ public class CacheStrategyHelper
             while (iterator.hasNext())
             {
                 resultObj = iterator.next();
-                putObjectInCache(resultObj, cache, cacheHandler, logger, debug);
+                putObjectInCache(resultObj, cache, cacheHandler,
+                                 logger, debug);
             }
             iterator.close();
         }
@@ -122,13 +125,14 @@ public class CacheStrategyHelper
     }
 
     /**
-     * puts the given object in the cache after assuring the the object returned
-     * is a type of KeyValue
+     * puts the given object in the cache after assuring the the object
+     * returned is a KeyValue type
      * @param o the given object
      * @param cache the cache to put the object into
      * @param cacheHandler is used for error reporting in that the name
      * of the handler class is obtained and reported on error
-     * @throws CacheException thrown if the given object is not of type KeyValue
+     * @throws CacheException thrown if the given object is not of type
+     * KeyValue
      */
     private static void putObjectInCache(Object o,
                                          Map cache,

@@ -59,7 +59,8 @@ public class FileImporterSybase
         try
         {
             if (logger != null)
-                logger.logInfo(tablename + ": Execute the bcp command: " + cmd);
+                logger.logInfo(tablename + ": Execute the bcp command: " +
+                               cmd);
             runner.setCommand(cmd);
             exitCode = runner.run();
         }
@@ -73,7 +74,8 @@ public class FileImporterSybase
         }
         catch (IOException e)
         {
-            BCPExceptionFactory exceptionFactory = new BCPExceptionFactory();
+            BCPExceptionFactory exceptionFactory =
+                new BCPExceptionFactory();
             BCPException e2 = (BCPException)
                 exceptionFactory.getException(IOErr, e);
             e2.bind(cmd);
@@ -91,7 +93,8 @@ public class FileImporterSybase
             if (logger != null)
                 logger.logInfo(msgOut);
         }
-        // exit code of non-zero indicates an error occurred while running bcp.
+        // exit code of non-zero indicates an error occurred while running
+        // bcp.
         if (exitCode != 0)
         {
             BCPExceptionFactory exceptionFactory = new BCPExceptionFactory();
