@@ -12,7 +12,7 @@ package org.jax.mgi.shr.dto;
 
 /** contains common constants for use in constructing <tt>DTO</tt>s.
 * @is a set of static constants to use for fieldnames when building DTOs.
-*	(no instances of this class are to be created)
+*   (no instances of this class are to be created)
 * @has a set of static constants.
 * @does simply provides public access to these constants.
 */
@@ -56,6 +56,8 @@ public class DTOConstants
     public static String Event = "event";
     public static String EventDate = "eventDate";
 
+    public static String Markers = "markers";
+    public static String OrthologCount = "orthologCount";
     // alleles -- constants dealing with allele information
 
     public static String AlleleCounts = "alleleCounts";
@@ -93,6 +95,7 @@ public class DTOConstants
     public static String RefsKey = "refsKey";
     public static String RefsKeys = "refsKeys";
     public static String RefsTitle = "refsTitle";
+    public static String References = "references";
 
     // gene ontology -- constants dealing with GO data
 
@@ -116,6 +119,16 @@ public class DTOConstants
     public static String StageKey = "stageKey";
     public static String TheilerStages = "theilerStages";
     public static String TissueCount = "tissueCount";
+    public static String Tissue = "tissue";
+
+    // probes -- constants dealing with probes and clones
+
+    public static String ProbeName = "probeName";
+    public static String ProbeKey = "probeKey";
+    public static String Probes = "probes";
+    public static String CloneCollection = "cloneCollection";
+    public static String CloneID = "cloneID";
+    public static String SegmentType = "segmentType";
 
     // accession IDs -- constants dealing with various types of accession IDs
 
@@ -141,6 +154,18 @@ public class DTOConstants
     public static String SequenceType = "seqType";
     public static String Strain = "strain";
     public static String RawStrain = "rawStrain";
+    public static String SequenceProvider = "sequenceProvider";
+    public static String SequenceStatus = "sequenceStatus";
+    public static String SequenceVersion = "sequenceVersion";
+    public static String SequenceDescription = "sequenceDescription";
+    public static String Age = "age";
+    public static String CellLine = "cellLine";
+    public static String Gender = "gender";
+    public static String Organism = "organism";
+    public static String Library = "library";
+    public static String LastAnnotationUpdate = "lastAnnotationUpdate";
+    public static String LastSequenceUpdate = "lastSequenceUpdate";
+
 
     // URLs -- constants dealing with URLs
 
@@ -165,6 +190,9 @@ public class DTOConstants
 
 /*
 * $Log$
+* Revision 1.3  2004/02/11 16:28:16  jsb
+* Added ActualDB and ActualDBs
+*
 * Revision 1.2  2004/02/10 16:10:23  jsb
 * Added many more definitions
 *
