@@ -195,8 +195,8 @@ public class ScriptWriter {
     String user = sqlMgr.getUser();
     String pwFile = sqlMgr.getPasswordFile();
     String cmd = "cat " + pwFile + " | isql -U" + user + " -S" + server +
-                 " -D" + db + " -i " + path + File.separator + filename + "." + 
-                 suffix + " -o " + path + File.separator + outfilename + "." + 
+                 " -D" + db + " -i " + path + File.separator + filename + "." +
+                 suffix + " -o " + path + File.separator + outfilename + "." +
                  outsuffix + " -e";
     try
     {
@@ -341,11 +341,11 @@ public class ScriptWriter {
         while (scriptFile.exists())
         {
           count = count + 1;
-          scriptFile = new File(path + File.separator + filename + "_" +
-                                String.valueOf(count) + "." + suffix);
+          filename = filename + "_" + String.valueOf(count);
+          outfilename = outfilename + "_" + String.valueOf(count);
+          scriptFile = new File(path + File.separator +
+                                filename + "." + suffix);
         }
-        filename = filename + "_" + String.valueOf(count);
-        outfilename = outfilename + "_" + String.valueOf(count);
       }
     }
     try {
