@@ -91,7 +91,7 @@ public class LazyCacheStrategy
      * @throws CacheException thrown if the RowDataCacheHandler for this
      * class does not create the proper KeyValue object required for
      * inserting into the cache
-     * @throws DBException thorwn if there is an exception with the database
+     * @throws DBException thrown if there is an exception with the database
      */
     public Object lookup(Object key, Map cache)
         throws CacheException, DBException
@@ -129,7 +129,7 @@ public class LazyCacheStrategy
         CacheStrategyHelper.putResultsInMap(nav, cache,
                                             this.cacheHandler,
                                             this.logger, debug);
-        // now retireve object from cache which can be null if it was not
+        // now retrieve object from cache which can be null if it was not
         // found in the query results
         value = cache.get(revisedKey);
         if (super.debug)
