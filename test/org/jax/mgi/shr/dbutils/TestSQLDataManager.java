@@ -44,7 +44,8 @@ public class TestSQLDataManager
     tableCreator = new TableCreator(sqlman.getUrl(),
                                     sqlman.getDatabase(),
                                     sqlman.getUser(),
-                                    sqlman.getPassword());
+                                    sqlman.getPassword(),
+                                    sqlman.getConnectionManagerClass());
 
     tableCreator.createDBtypes();
     // put three rows in the table
@@ -218,7 +219,8 @@ public class TestSQLDataManager
 
 
   public void testExecuteSimpleProc() throws Exception {
-    SQLDataManager mgr = new SQLDataManager(null, "tempdb", null, null, null);
+    SQLDataManager mgr =
+        new SQLDataManager(null, "tempdb", null, null, null, null);
     try {
       mgr.executeUpdate("drop procedure temp_proc");
       mgr.executeUpdate("drop table temp_table");

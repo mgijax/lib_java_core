@@ -43,7 +43,7 @@ public class TestBCPManager1
         "BCP_REMOVE_AFTER_EXECUTE=FALSE\n" +
         "BCP_RECORD_STAMPING=false\n" +
         "BCP_TRUNCATE_TABLE=true\n" +
-        "BCP_TRUNCATE_LOG=1\n" +
+        "BCP_TRUNCATE_LOG=0\n" +
         "BCP_DROP_INDEXES=false\n" +
         "CREATED_BY=some loader\n" +
         "MODIFIED_BY=some loader";
@@ -66,7 +66,8 @@ public class TestBCPManager1
     tableCreator = new TableCreator(sqlManager.getUrl(),
                                     sqlManager.getDatabase(),
                                     sqlManager.getUser(),
-                                    sqlManager.getPassword());
+                                    sqlManager.getPassword(),
+                                    sqlManager.getConnectionManagerClass());
     tableCreator.createDBstamped_MGDOrg();
     tableCreator.createDBtypes();
     boolean test = bcpRecordsExist();

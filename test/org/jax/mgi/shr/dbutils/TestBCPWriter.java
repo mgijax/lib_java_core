@@ -12,7 +12,7 @@ public class TestBCPWriter
     extends TestCase {
   private BCPWriter bCPWriter = null;
   private BCPManager manager = null;
-  private String table = "TEST_DBTypes";
+  private String tablename = "TEST_DBTypes";
   private DataVector v = null;
   private SQLDataManager sqlman = null;
   private TableCreator tableCreator = null;
@@ -27,13 +27,14 @@ public class TestBCPWriter
     tableCreator = new TableCreator(sqlman.getUrl(),
                                     sqlman.getDatabase(),
                                     sqlman.getUser(),
-                                    sqlman.getPassword());
+                                    sqlman.getPassword(),
+                                    sqlman.getConnectionManagerClass());
     tableCreator.createDBtypes();
     manager = new BCPManager();
     manager.setOkToOverwrite(true);
     manager.setRemoveAfterExecute(true);
     bCPWriter =
-        manager.getBCPWriter(Table.getInstance(this.table,
+        manager.getBCPWriter(Table.getInstance(this.tablename,
                                        this.sqlman));
     v = new DataVector();
   }
@@ -42,7 +43,7 @@ public class TestBCPWriter
     tableCreator.dropDBtypes();
     bCPWriter = null;
     manager = null;
-    table = null;
+    tablename = null;
     tableCreator = null;
     sqlman = null;
     v = null;
@@ -125,6 +126,20 @@ public class TestBCPWriter
     assertEquals(pointer.getString(5), "goodbye");
     assertEquals(pointer.getFloat(6).floatValue(), (float) 1.1, 0.0001);
     assertEquals(pointer.getBoolean(7).booleanValue(), false);
+  }
+
+  public void testTruncateTable() throws Exception
+  {
+      System.setProperty("BCP_TRUNCATE_TABLE", "true");
+      tableCreator.createDBkeyed();
+      SQLDataManager sqlMgr = new SQLDataManager();
+      sqlMgr.executeUpdate("insert into TEST_DBKeyed values (1, '1')");
+      sqlMgr.executeUpdate("insert into TEST_DBKeyed values (2, '2')");
+      Table table = Table.getInstance("Test_DBKeyed", sqlMgr);
+      table.synchronizeKey();
+      assertEquals(table.getNextKey(), new Integer("3"));
+      BCPWriter writer = manager.getBCPWriter(table);
+      assertEquals(table.getNextKey(), new Integer("1"));
   }
 
 

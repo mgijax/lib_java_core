@@ -23,7 +23,8 @@ public class TestTable
     tableCreator = new TableCreator(sqlman.getUrl(),
                                     sqlman.getDatabase(),
                                     sqlman.getUser(),
-                                    sqlman.getPassword());
+                                    sqlman.getPassword(),
+                                    sqlman.getConnectionManagerClass());
 
     tableCreator.createDBtypes();
     table = Table.getInstance("TEST_DBTypes", sqlman);
@@ -228,6 +229,7 @@ public class TestTable
     table = Table.getInstance("TEST_DBkeyed", manager);
     Integer keyval = table.getNextKey();
     assertEquals(keyval, maxkey);
+    table.resetKey();
     try {
       table = Table.getInstance("TEST_DBmultikeyed", manager);
       // this should fail because of multikeyed table
@@ -238,9 +240,21 @@ public class TestTable
     {
       assertTrue(true);
     }
+    table.resetKey();
     tableCreator.dropDBkeyed();
     tableCreator.dropDBmultikeyed();
   }
+
+  public void testGetNextKey2() throws Exception {
+    SQLDataManager manager = new SQLDataManager();
+    tableCreator.createDBkeyed();
+    table = Table.getInstance("TEST_DBkeyed", manager);
+    Integer keyval = table.getNextKey();
+    assertEquals(new Integer(1), keyval);
+    table.resetKey();
+    tableCreator.dropDBkeyed();
+  }
+
 
   private void checkValidationException() {
     try {
