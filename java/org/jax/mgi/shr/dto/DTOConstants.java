@@ -113,11 +113,16 @@ public class DTOConstants
     public static String ExpressionAssayCounts = "expressionAssayCounts";
     public static String ExpressionResultCount = "expressionResultCount";
     public static String ExpressionResultCounts = "expressionResultCounts";
+    public static String ExpressionTissues = "expressionTissues";
     public static String GXDIndexCount = "gxdIndexCount";
+    public static String NegativeExpressionCount = "minusExpressionCount";
+    public static String PositiveExpressionCount = "plusExpressionCount";
     public static String ProbeCounts = "probeCounts";
     public static String cDNACount = "cDNACount";
     public static String Stage = "stage";
     public static String StageKey = "stageKey";
+    public static String Structure = "structure";
+    public static String StructureKey = "structureKey";
     public static String TheilerStages = "theilerStages";
     public static String TissueCount = "tissueCount";
     public static String Tissue = "tissue";
@@ -194,6 +199,9 @@ public class DTOConstants
 
 /*
 * $Log$
+* Revision 1.7  2004/03/10 19:00:14  jw
+* Added support for sequenceDate and sequenceRecordDate
+*
 * Revision 1.6  2004/03/08 16:02:06  jw
 * Added refID to dto constants
 *
