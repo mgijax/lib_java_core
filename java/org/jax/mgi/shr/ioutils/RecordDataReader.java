@@ -32,12 +32,14 @@ public class RecordDataReader {
 
   // used to convert bytes to chars
   private String CHARSET = "US-ASCII";
-  
-  // the delimiter used for regular expression matching
-  private String delimiter = null;
-  
-  // the byte array used for byte sequence matching
-  private byte[] matchSequence = null;
+
+  // the delimiters used for regular expression matching
+  private String beginDelimiter = null;
+  private String endDelimiter = null;
+
+  // the byte arrays used for delimiter sequence matching
+  private byte[] matchSequenceEnd = null;
+  private byte[] matchSequenceBegin = null;
 
   // decoder for decoding bytes into unicode characters
   private CharsetDecoder decoder = (Charset.forName(CHARSET)).newDecoder();
@@ -50,10 +52,13 @@ public class RecordDataReader {
 
   // nio channel
   private ReadableByteChannel channel = null;
-  
+
   // one of the choice of inner classes determined by the constructor
   private BufferReader bufferReader = null;
 
+  // indicator for whether or not to use a begin delimiter when extracting
+  // records
+  private boolean useBeginDelimiter;
 
   /**
    * constructor which allows controlling the size of the internal buffer and
@@ -63,44 +68,93 @@ public class RecordDataReader {
    * @param bufferSize the value to set on the internal buffer size
    * @throws IOException thrown if the channel cannot be read from
    */
-  
+
   public RecordDataReader(ReadableByteChannel in,
                           String delimiter,
                           int bufferSize)
   throws IOException {
     this.channel = in;
-    this.delimiter = delimiter;
+    this.endDelimiter = delimiter;
+    this.useBeginDelimiter = false;
     this.bufferReader = new RegexReader();
     // create nio buffer to specified size
     this.byteBuffer = ByteBuffer.allocate(bufferSize);
     // clear and prepare the nio buffer for reading
     prepareNewBuffer();
   }
-  
+
   /**
    * constructor which allows controlling the size of the internal buffer and
    * forces regular expression matching
+   * @param in the input stream to read
+   * @param delimiter the regular expression used for delimiting records
+   * @param bufferSize the value to set on the internal buffer size
+   * @throws IOException thrown if the channel cannot be read from
+   */
+
+  public RecordDataReader(ReadableByteChannel in,
+                          String beginDelimiter,
+                          String endDelimiter,
+                          int bufferSize)
+  throws IOException {
+    this.channel = in;
+    this.useBeginDelimiter = true;
+    this.beginDelimiter = beginDelimiter;
+    this.endDelimiter = endDelimiter;
+    this.bufferReader = new RegexReader();
+    // create nio buffer to specified size
+    this.byteBuffer = ByteBuffer.allocate(bufferSize);
+    // clear and prepare the nio buffer for reading
+    prepareNewBuffer();
+  }
+
+  /**
+   * constructor which allows controlling the size of the internal buffer and
+   * providing the end delimiter as a byte arrays
    * @param in the input stream to read
    * @param matchSequence the byte array used for delimiting records
    * @param bufferSize the value to set on the internal buffer size
    * @throws IOException
    */
-  
+
   public RecordDataReader(ReadableByteChannel in,
                           byte[] matchSequence,
                           int bufferSize)
   throws IOException {
     this.channel = in;
-    if (matchSequence.length == 0) {
-      
-    }
-    this.matchSequence = matchSequence;
+    this.useBeginDelimiter = false;
+    this.matchSequenceEnd = matchSequence;
     this.bufferReader = new ByteReader();
     // create nio buffer to specified size
     this.byteBuffer = ByteBuffer.allocate(bufferSize);
     // clear and prepare the nio buffer for reading
     prepareNewBuffer();
   }
+
+    /**
+     * constructor which allows controlling the size of the internal buffer and
+     * providing the begin and end delimiters as byte arrays
+     * @param in the input stream to read
+     * @param matchSequence the byte array used for delimiting records
+     * @param bufferSize the value to set on the internal buffer size
+     * @throws IOException
+     */
+
+    public RecordDataReader(ReadableByteChannel in,
+                            byte[] matchSequenceBegin,
+                            byte[] matchSequenceEnd,
+                            int bufferSize)
+    throws IOException {
+      this.channel = in;
+      this.useBeginDelimiter = true;
+      this.matchSequenceBegin = matchSequenceBegin;
+      this.matchSequenceEnd = matchSequenceEnd;
+      this.bufferReader = new ByteReader();
+      // create nio buffer to specified size
+      this.byteBuffer = ByteBuffer.allocate(bufferSize);
+      // clear and prepare the nio buffer for reading
+      prepareNewBuffer();
+    }
 
 
   /**
@@ -154,7 +208,7 @@ public class RecordDataReader {
    */
   private void setup(FileInputStream in, int bufferSize)
   throws IOException {
-                                             
+
     // get nio channel from stream
     channel = in.getChannel();
     // create nio buffer to specified size
@@ -162,10 +216,10 @@ public class RecordDataReader {
     // clear and prepare the nio buffer for reading
     prepareNewBuffer();
   }
-  
+
   /**
    * an interface defining the BufferReader class implemented by
-   * the two inner classes, RegexReader and ByteReader 
+   * the two inner classes, RegexReader and ByteReader
    */
   private interface BufferReader {
     /*
@@ -188,7 +242,7 @@ public class RecordDataReader {
      */
     public void close();
   }
-  
+
   /**
    * @is implements the BufferReader interface and reads the byte buffer
    * byte by byte and finds the record seperator by a direct comparison to
@@ -197,116 +251,214 @@ public class RecordDataReader {
    * @has a match sequence and a byte buffer
    * @does reads a record from the byte buffer
    */
-  private class ByteReader implements BufferReader {
-    
-    /**
-     * the length of the match sequence. a counter is incremented during
-     * matching and compared with this value to indiacate completion
-     */
-    private int endOfSeq = matchSequence.length;
-    /**
-     * the match sequence index pointer which increments on each 
-     * consecutive byte match of the match sequence. When this value reaches 
-     * the endOfSeq value the match is complete. When there is
-     * a byte mismatch before this value reaches the endOfSeq, the value
-     * is reset to zero
-     */
-    private int index = 0;
-    
-    private CharBuffer charBuffer = null;
-    
-    /**
-     * required for the interface but nothing is performed
-     */
-    public void init() {}
-    /**
-     * returns the next record from the byte buffer
-     * @return the record as a String
-     * @throws IOException thrown if there is an eroor reading from the byte
-     * buffer
-     */
-    public String getRecord() throws IOException {
+  private class ByteReader
+      implements BufferReader
+  {
+
       /**
-       * the record to be built
+       * the match sequence index pointers which increment on each
+       * consecutive byte match of a match sequence. When an index reaches
+       * the length of the match sequence, the match is complete. When there is
+       * a byte mismatch before an index reaches the length of the sequence,
+       * the index is reset to zero
        */
-      String record = null;
-      
-      // if multiple buffers have to be read from the channel then some records
-      // may be only partially read. The boolean indicator endOfRecord is 
-      // defined to store this information.
-      boolean endOfRecord = false;
-   
-      byte b = 0;
-      // read byte by byte from buffer comparing each byte to the match
-      // sequence until the end of record deliniter is found.
-      // If the buffer needs refilling from the channel, then store the
-      // current characters for the current line and record in a cache before
-      // refilling the buffer and later append to them when processing the
-      // new buffer.
-      while (!endOfRecord && byteBuffer.hasRemaining()) {
-        // read the next record
-        // record start position within the buffer
-        int startPosition = byteBuffer.position();
-        while (byteBuffer.hasRemaining()) {
-          b = byteBuffer.get();
-          // are the incoming bytes still matching the match sequence? 
-          if (b == matchSequence[index]) 
-             index++; // increment the match sequence
-          else
-             index = 0; // reset the match sequence
-          if (index == endOfSeq) { // we reached the end of the match sequence
-            endOfRecord = true;
-            index = 0; // reset the match sequence
-            break;
+      private int endDelIndex = 0;
+      private int beginDelIndex = 0;
+
+      private CharBuffer charBuffer = null;
+
+      /**
+       * required for the interface but nothing is performed
+       */
+      public void init()
+      {}
+
+      /**
+       * returns the next record from the byte buffer
+       * @return the record as a String
+       * @throws IOException thrown if there is an eroor reading from the byte
+       * buffer
+       */
+      public String getRecord()
+          throws IOException
+      {
+          /**
+           * the record to be built
+           */
+          String record = null;
+          /**
+           * Care must be taken when the end of the byte buffer is reached and
+           * new data must be read into the buffer.
+           * The following constants define three states this method can be in
+           * when a buffer runs out of characters and requires refilling:
+           * still looking for start delimiter, looking for end delimiter,
+           * currently evaluating the start delimiter (that is, byte buffer
+           * characters are matching the start delimiter, but we havent reached
+           * the end of the start delimiter yet), and the end delimiter was
+           * found.
+           */
+          final int LOOKING_BEGINDEL = 1;
+          final int LOOKING_ENDDEL = 2;
+          final int EVALUATING_BEGINDEL = 3;
+          final int FOUND_ENDDEL = 4;
+
+          /**
+           * indicator for whether or no a begin delimiter was partially
+           * read when the internal buffer reaches the end
+           */
+          boolean partialBeginDel = false;
+
+          int state = LOOKING_BEGINDEL;
+          byte b = 0;
+          while (state != FOUND_ENDDEL && byteBuffer.hasRemaining())
+          {
+              int startPosition = byteBuffer.position();
+              if (useBeginDelimiter &&
+                  (state == LOOKING_BEGINDEL || state == EVALUATING_BEGINDEL))
+              {
+                  // read byte by byte from buffer comparing each byte to the
+                  // begin match sequence until the beginning of record is
+                  // found.
+                  // If the buffer needs refilling from the channel, then stop
+                  // parsing and refill the buffer
+                  while (byteBuffer.hasRemaining())
+                  {
+                      b = byteBuffer.get();
+                      // are the incoming bytes still matching the match
+                      // sequence?
+                      if (b == matchSequenceBegin[beginDelIndex])
+                      {
+                          beginDelIndex++; // increment the match sequence
+                          state = EVALUATING_BEGINDEL;
+                      }
+                      else // no longer matching
+                      {
+                          beginDelIndex = 0; // reset the match sequence
+                          state = LOOKING_BEGINDEL;
+                          if (partialBeginDel) // clear the saved partial
+                          {
+                              record = null;
+                              partialBeginDel = false;
+                          }
+                      }
+                      if (beginDelIndex == matchSequenceBegin.length)
+                      { // we reached the end of the match sequence for the
+                        // begin delimiter
+                          startPosition = byteBuffer.position() - beginDelIndex;
+                          if (startPosition < 0) // buffer was refilled
+                              startPosition = 0;
+                          state = LOOKING_ENDDEL;
+                          beginDelIndex = 0; // reset the match sequence
+                          break;
+                      }
+                  }
+                  /**
+                   * if we are in the middle of evaluating a begin sequence
+                   * when the buffer runs out, then we need to set the
+                   * start position to the beginning of the begin delimiter
+                   */
+                  if (state == EVALUATING_BEGINDEL)
+                  {
+                      startPosition = byteBuffer.position() - beginDelIndex;
+                      if (startPosition < 0)
+                          startPosition = 0;
+                  }
+              }
+              else // not using a begin delimiter
+              {
+                  state = LOOKING_ENDDEL;
+                  startPosition = byteBuffer.position();
+              }
+              /**
+               * read byte by byte from buffer comparing each byte to the match
+               * sequence until the end of record delimiter is found.
+               * If the buffer needs refilling from the channel, then store the
+               * current characters for the current line and record in a cache
+               * before refilling the buffer and later append to them when
+               * processing the new buffer.
+               */
+              while (byteBuffer.hasRemaining())
+              {
+                  b = byteBuffer.get();
+                  // are the incoming bytes still matching the match sequence?
+                  if (b == matchSequenceEnd[endDelIndex])
+                      endDelIndex++; // increment the match sequence
+                  else
+                      endDelIndex = 0; // reset the match sequence
+                  if (endDelIndex == matchSequenceEnd.length)
+                  { // we reached the end of the match sequence for the
+                    // end delimiter
+                      state = FOUND_ENDDEL;
+                      endDelIndex = 0; // reset the match sequence
+                      break;
+                  }
+              }
+              /**
+               * to get here indicates either end of buffer or end of record or
+               * both. What happens at this point depends on the state the
+               * process is in. If it is currently searching for the begin
+               * delimiter, then just refill the buffer without saving any
+               * record data. If the state is currently searching for the end
+               * delimiter, then store the buffer characters currently read for
+               * this record into storage. This storage can then be used to
+               * append charcters from subsequent buffers. If the state is
+               * currently in the process of evaluating the start buffer, then
+               * store the start delimiter characters read so far into storage
+               * (this storage be set to null if the start delimiter is not
+               * found afterall). If we are actually at the end of the file,
+               * then the current record will be returned to the caller
+               * regardless of whether or not the end of record delimiter was
+               * reached.
+               */
+              if (state != LOOKING_BEGINDEL)
+              {
+                  charBuffer = CharBuffer.allocate(byteBuffer.position() -
+                      startPosition);
+                  int currentPosition = byteBuffer.position();
+                  byteBuffer.position(startPosition);
+                  decoder.decode(byteBuffer, charBuffer, true);
+                  byteBuffer.position(currentPosition);
+                  /**
+                   * set or append the current record instance variable.
+                   * partial records could have been created if a previous
+                   * buffer filled up and we had to temporarily store a partial
+                   * record and refill the buffer.
+                   */
+                  if (record == null)
+                      record =
+                          ((CharBuffer) charBuffer.position(0)).toString();
+                  else
+                      record =
+                          record.concat(
+                          ((CharBuffer) charBuffer.position(0)).toString());
+                    /**
+                     * if the state is currently evaluating a begin delimiter
+                     * then the partial record being cached contains the
+                     * partial begin delimiter read so far. This will have to
+                     * cleared if it turns out that the begin delimiter does
+                     * not match afterall
+                     */
+                  if (state == EVALUATING_BEGINDEL)
+                      partialBeginDel = true;
+              }
+              if (!byteBuffer.hasRemaining()) // buffer needs to be refilled
+                  prepareNewBuffer();
           }
-        }
-        // to get here indicates either end of buffer or end of record or both.
-        // read the buffer characters into the current record variable and
-        // if we are at the end of the buffer, also read buffer characters
-        // into current line variable and refill buffer.
-        // If we are actually at the end of the file then the current record
-        // will be returned to the caller.
-        // Create a CharBuffer and decode the record from the raw bytes.
-        // The record consist of characters between the start position
-        // which was created at the start of the record and the current byte
-        // buffer position which is currently at the end of the record or buffer.
-        charBuffer = CharBuffer.allocate(byteBuffer.position() - startPosition);
-        int currentPosition = byteBuffer.position();
-        byteBuffer.position(startPosition);
-        decoder.decode(byteBuffer, charBuffer, true);
-        byteBuffer.position(currentPosition);
-        // set or append the current record instance variable.
-        // partial records could have been created if a previous buffer filled up
-        // and we had to temporarily store a partial record and refill the buffer.
-        if (record == null)
-          record = ((CharBuffer)charBuffer.position(0)).toString();
-        else
-          record =
-              record.concat(
-                ((CharBuffer)charBuffer.position(0)).toString());
-        if (!byteBuffer.hasRemaining())  // buffer needs to be refilled
-          prepareNewBuffer();
-      }
-      // getting here indicates end of record.
-      // this could be null if no records exist in the file.
-      if (record == null) {
-        throw new IOException("Attempting to read past end of file");
+          return record;
       }
 
-      return record;
-    }
-    
-    public void close() {}
-  }
-    
+      public void close()
+      {}
+  }  // end ByteReader class
+
   /**
    * @is implements the BufferReader interface and provides an interpretation
-   * of the byte buffer as characters and uses the given regular
-   * expression as a record delimiter
-   * @has a character view of the byte buffer and a regular expression as
-   * a record delimiter
-   * @does read a record from the byte buffer by matching the line contents
-   * with the given regular expression. 
+   * of the byte buffer as characters and uses regular expressions as record
+   * delimiters
+   * @has a character view of the byte buffer and a regular expression for
+   * the begin and end delimiters
+   * @does reads a record from the byte buffer by matching the line contents
+   * with the regular expressions for the begin and end delimiters.
    */
   private class RegexReader implements BufferReader {
 
@@ -316,18 +468,19 @@ public class RecordDataReader {
     // the current line being read.
     // the record delimiter is tested on a line by line basis
     private CharSequence currentLine = null;
-    
-    private Pattern regexPattern = Pattern.compile(delimiter);
-    
+
+    private Pattern regexEndDel= null;
+    private Pattern regexBeginDel = null;
+
     private Matcher matcher = null;
-    
+
     // another view of the nio buffer as the current line being read.
     private ByteBuffer lineBuffer = null;
 
     // another view of the nio buffer as the current record being read.
     private ByteBuffer recordBuffer = null;
-    
-    
+
+
     public void init() {
       // create two buffer views for line and records.
       // these buffer positions are independent of the byte buffer, so they
@@ -337,8 +490,14 @@ public class RecordDataReader {
       // buffer will indicate the end of the line and record.
       lineBuffer = byteBuffer.duplicate();
       recordBuffer = byteBuffer.duplicate();
+      regexEndDel = Pattern.compile(endDelimiter);
+      if (useBeginDelimiter)
+      {
+          regexBeginDel = Pattern.compile(beginDelimiter);
+      }
+
     }
-    
+
     /**
      * returns the next record from the buffer
      * @return the record
@@ -347,7 +506,7 @@ public class RecordDataReader {
     public String getRecord() throws IOException {
       // if multiple buffers have to be read from the channel then some records
       // and some lines may be only partially read. Boolean indicators
-      // endOfRecord and endOfLine have been defined to store this information.
+      // endOfRecord and endOfLine have been defined to indicate this.
       boolean endOfRecord = false;
       boolean endOfLine = false;
 
@@ -360,7 +519,7 @@ public class RecordDataReader {
       // line read. Check each byte for the end of line (EOL) character and
       // test each line for end of record delimiter.
       // If the buffer needs refilling from the channel, then store the
-      // current characters for the current line and record in a cache before
+      // characters for the current line and record in a cache before
       // refilling the buffer and later append to them when processing the
       // new buffer.
       while (!endOfRecord && byteBuffer.hasRemaining()) {
@@ -370,7 +529,7 @@ public class RecordDataReader {
             endOfLine = true;
             readCurrentLine();
             // found end of line...check if end of record
-            matcher = regexPattern.matcher(currentLine);
+            matcher = regexEndDel.matcher(currentLine);
             if (matcher.find()) {
               endOfRecord = true;
               currentLine = null;
@@ -401,9 +560,9 @@ public class RecordDataReader {
       }
       return currentRecord;
     }
-    
+
     public void close() {}
-    
+
     /**
      * reads a record from the nio buffer and stores it as an instance variable
      */
@@ -443,10 +602,13 @@ public class RecordDataReader {
             ( (CharBuffer) charBuffer.position(0)).toString());
 
     }
-  }
+  } // end RegexReader class
 
 }
 // $Log$
+// Revision 1.1  2003/12/30 16:56:38  mbw
+// imported into this product
+//
 // Revision 1.6  2003/11/04 15:53:14  mbw
 // added new functionality for turning on/off use of regular expression matching and for optionally obtaining input through standard in
 //
