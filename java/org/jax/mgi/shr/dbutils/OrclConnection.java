@@ -48,7 +48,8 @@ public class OrclConnection implements ConnectionManager
       }
 
       /**
-       *  Loads the database driver. Must be called prior to using getConnection().
+       *  Loads the database driver. Must be called prior to using
+       *  getConnection().
        *  requires: nothing
        *  modifies: nothing
        */

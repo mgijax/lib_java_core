@@ -33,12 +33,12 @@ public class MySqlConnection implements ConnectionManager
     *  @throws SQLException (if connection cannot be created)
     */
    public Connection getConnection(String database,
-   								   String user,
-   								   String password,
-                            	   String directDatabaseURL)
+                                   String user,
+                                   String password,
+                                   String directDatabaseURL)
       throws SQLException
        {
-		 init();
+                 init();
          Properties props = new Properties();
          String connectionURL;
 
@@ -52,7 +52,8 @@ public class MySqlConnection implements ConnectionManager
       }
 
       /**
-       *  Loads the database driver. Must be called prior to using getConnection().
+       *  Loads the database driver. Must be called prior to using
+       *  getConnection().
        *  requires: nothing
        *  modifies: nothing
        */
@@ -83,6 +84,9 @@ public class MySqlConnection implements ConnectionManager
 }
 
 // $Log$
+// Revision 1.2  2004/07/21 19:47:42  mbw
+// javadocs edits only
+//
 // Revision 1.1  2003/12/30 16:50:33  mbw
 // imported into this product
 //
