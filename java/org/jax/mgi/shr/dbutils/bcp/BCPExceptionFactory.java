@@ -3,12 +3,11 @@ package org.jax.mgi.shr.dbutils.bcp;
 import org.jax.mgi.shr.exception.ExceptionFactory;
 
 /**
- * @is An ExceptionFactory.
+ * An ExceptionFactory for BCPExceptions.
  * @has a hashmap of predefined BCPExceptions stored by a name key
  * @does looks up BCPExceptions by name
  * @company The Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 
 public class BCPExceptionFactory extends ExceptionFactory {
@@ -52,6 +51,16 @@ public class BCPExceptionFactory extends ExceptionFactory {
         "The String '??' is an invalid delimiter " +
         "for BCPManager", false));
   }
+  /**
+   * The load data sql failed
+   */
+  public static final String LoadDataErr =
+      "org.jax.mgi.shr.dbutils.bcp.LoadDataErr";
+  static {
+    exceptionsMap.put(LoadDataErr, new BCPException(
+        "The Load Data sql command failed", false));
+  }
+
   /**
    * The bcp file could not be closed
    */
@@ -106,7 +115,7 @@ public class BCPExceptionFactory extends ExceptionFactory {
   public static final String InvalidBCPWriter =
       "org.jax.mgi.shr.dbutils.bcp.InvalidBCPWriter";
   static {
-    exceptionsMap.put(StringConversionErr, new BCPException(
+    exceptionsMap.put(InvalidBCPWriter, new BCPException(
         "The BCPWriter has been executed. It is no longer valid to " +
         "call the write() method", false));
   }
@@ -139,7 +148,8 @@ public class BCPExceptionFactory extends ExceptionFactory {
       "org.jax.mgi.shr.dbutils.bcp.UserNotFound";
   static {
     exceptionsMap.put(UserNotFound, new BCPException(
-        "Could not complete automatic record stamping due" +        "to unknown user ?? in the database", false));
+        "Could not complete automatic record stamping due" +
+        "to unknown user ?? in the database", false));
   }
 
   /**
@@ -162,6 +172,17 @@ public class BCPExceptionFactory extends ExceptionFactory {
         "There was a failure when trying to auto record stamp " +
         "for table ??", false));
   }
+
+  /**
+   * there was a failure when trying to create a BCP Vector
+   */
+  public static final String BCPVectorErr =
+      "org.jax.mgi.shr.dbutils.bcp.BCPVectorErr";
+  static {
+    exceptionsMap.put(BCPVectorErr, new BCPException(
+        "There was a failure when trying to create a bcp vector", false));
+  }
+
 
 
 
