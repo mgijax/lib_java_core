@@ -10,13 +10,12 @@ import org.jax.mgi.shr.log.Logger;
 import org.jax.mgi.shr.log.ConsoleLogger;
 
 /**
- * @is a helper class for providing basic helper methods used by both the
+ * A helper class for providing basic helper methods used by both
  * LazyCacheStrategy and FullCacheStrategy
  * @has nothing
  * @does provides static methods for doing tasks common to both the lazy
  * and full cache strategy classes.
  * @company The Jackson Laboratory
- * @version 1.0
  */
 public class CacheStrategyHelper
 {
@@ -25,54 +24,39 @@ public class CacheStrategyHelper
      */
     private static String MissingKeyValue =
         CacheExceptionFactory.MissingKeyValue;
-    /**
-     * Parses through the given ResultsNavigator and places data into the cache.
-     * It determines if the given cacheHandler supports muliple rows by
-     * checking if it's RowDataInterpreter is an instance of
-     * MultiRowDataInterpreter. If so, then this method uses a
-     * MultiResultsIterator for parsing the results.
-     * @assumes nothing
-     * @effects new entries are added to the cache
-     * @param navigator the ResultsNavigator object from which objects
-     * are obtained and placed in the cache
-     * @param cache the cache to add the objects to
-     * @param cacheHandler the RowDataCacheHandler class from which to obtain
-     * the RowDataInterpreter classes for interpreting results of a database
-     * query
-     * @throws CacheException if there is an error putting objects in the cache
-     * @throws DBException if there is an error accessing data from the database
-     */
-    protected static void putResultsInMap(ResultsNavigator navigator,
-                                          Map cache,
-                                          RowDataCacheHandler cacheHandler)
-        throws
-        CacheException, DBException
-    {
-        putResultsInMap(navigator, cache, cacheHandler, new ConsoleLogger());
-    }
+
 
     /**
      * Parses through the given ResultsNavigator and places data into the cache.
      * It determines if the given cacheHandler supports muliple rows by
      * checking if it's RowDataInterpreter is an instance of
-     * MultiRowDataInterpreter. If so, then this method uses a
+     * MultiRowInterpreter. If so, then this method uses a
      * MultiResultsIterator for parsing the results.
+     * See
+     * <ul>
+     * <li><a href="../dbutils/RowDataInterpreter.html">RowDataInterpreter</a></li>
+     * <li><a href="../dbutils/MultiRowInterpreter.html">MultiRowInterpreter</a></li>
+     * <li><a href="../dbutils/ResultsNavigator.html">ResultsNavigator</a></li>
+     * <li><a href="../dbutils/MultiRowIterator.html">MultiRowIterator</a></li>
+     * </ul>
      * @assumes nothing
      * @effects new entries are added to the cache
      * @param navigator the ResultsNavigator object from which objects
      * are obtained and placed in the cache
      * @param cache the cache to add the objects to
      * @param cacheHandler the RowDataCacheHandler class from which to obtain
-     * @param logger the logger to use
      * the RowDataInterpreter classes for interpreting results of a database
      * query
+     * @param logger the logger to use
+     * @param debug indicator of whether or not to log debug messages
      * @throws CacheException if there is an error putting objects in the cache
      * @throws DBException if there is an error accessing data from the database
      */
     protected static void putResultsInMap(ResultsNavigator navigator,
                                           Map cache,
                                           RowDataCacheHandler cacheHandler,
-                                          Logger logger)
+                                          Logger logger,
+                                          boolean debug)
         throws CacheException, DBException
     {
         Object resultObj = null;
@@ -93,7 +77,7 @@ public class CacheStrategyHelper
             while (iterator.hasNext())
             {
                 resultObj = iterator.next();
-                putObjectInCache(resultObj, cache, cacheHandler, logger);
+                putObjectInCache(resultObj, cache, cacheHandler, logger, debug);
             }
             iterator.close();
         }
@@ -107,7 +91,7 @@ public class CacheStrategyHelper
             while (navigator.next())
             {
                 putObjectInCache(navigator.getCurrent(),
-                                 cache, cacheHandler, logger);
+                                 cache, cacheHandler, logger, debug);
             }
             navigator.close();
         }
@@ -149,12 +133,14 @@ public class CacheStrategyHelper
     private static void putObjectInCache(Object o,
                                          Map cache,
                                          RowDataCacheHandler cacheHandler,
-                                         Logger logger)
+                                         Logger logger,
+                                         boolean debug)
         throws CacheException
     {
         checkForKeyValue(o, cacheHandler); // assure the object's a KeyValue
         KeyValue keyValue = (KeyValue) o;
-        logger.logDebug("adding " + keyValue.getKey() + " to cache");
+        if (debug)
+            logger.logDebug("adding " + keyValue.getKey() + " to cache");
         Object key = keyValue.getKey();
         Object revisedKey = null;
         if (key instanceof String)
