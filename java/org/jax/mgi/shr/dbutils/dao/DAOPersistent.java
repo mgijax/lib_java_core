@@ -3,13 +3,12 @@ package org.jax.mgi.shr.dbutils.dao;
 import org.jax.mgi.shr.dbutils.DBException;
 
 /**
- * @is an interface for performing database inserts, updates and deletes of
+ * An interface for performing database inserts, updates and deletes of
  * DAOs (Data Access Objects)
  * @has nothing
  * @does nothing
  * @company The Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 public interface DAOPersistent
 {

@@ -3,7 +3,7 @@ package org.jax.mgi.shr.dbutils.dao;
 import org.jax.mgi.shr.dbutils.DBException;
 
 /**
- * @is an abstract class for performing database inserts, updates and deletes
+ * An abstract class for performing database inserts, updates and deletes
  * using strategy classes which can be plugged in to handle the particular
  * database operations
  * @has an InsertStrategy, UpdateStrategy and a DeleteStrategy for performing
@@ -11,7 +11,6 @@ import org.jax.mgi.shr.dbutils.DBException;
  * @does routes the DAO object to the correct strategy
  * @company The Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 
 public abstract class SQLStream implements DAOPersistent
@@ -50,7 +49,7 @@ public abstract class SQLStream implements DAOPersistent
    * @effects the given DAO will be deleted from the database
    * or batched up to be deleted from the database, depending on the specific
    * implementation
-   * @param dataInstance the object to delete
+   * @param dao the object to delete
    * @throws DBException thrown if there is an error executing the delete
    */
   public void delete(DAO dao) throws DBException
@@ -64,7 +63,8 @@ public abstract class SQLStream implements DAOPersistent
    * @effects the given DAO will be updated in the database
    * or batched up to be updated in the database, depending on the specific
    * implementation
-   * @param dataInstance the object to update
+   * @param dao the object to update
+   * @throws DBException thrown if there is an error accessing the database
    */
   public void update(DAO dao) throws DBException
   {
@@ -77,7 +77,7 @@ public abstract class SQLStream implements DAOPersistent
    * @effects the given DAO will be inserted into the database
    * or batched up to be inserted into the database, depending on the specific
    * implementation
-   * @param dataInstance the object to insert
+   * @param dao the object to insert
    * @throws DBException thrown if there is an error executing the insert
    */
   public void insert(DAO dao) throws DBException

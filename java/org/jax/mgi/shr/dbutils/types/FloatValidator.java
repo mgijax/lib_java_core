@@ -8,7 +8,7 @@ import org.jax.mgi.shr.types.Converter;
 import org.jax.mgi.shr.types.TypesException;
 
 /**
- * @is A TypeValidator object for validating objects against a
+ *  A TypeValidator object for validating objects against a
  * column definition of type float
  * @has a column definition for type float and methods for validating
  * a given object against the represented column definition.
@@ -16,7 +16,6 @@ import org.jax.mgi.shr.types.TypesException;
  * if validation fails.
  * @company Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 public class FloatValidator extends TypeValidator
 {

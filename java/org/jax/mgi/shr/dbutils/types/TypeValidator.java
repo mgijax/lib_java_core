@@ -10,7 +10,7 @@ import org.jax.mgi.shr.dbutils.DBExceptionFactory;
 import org.jax.mgi.shr.dbutils.DBTypeConstants;
 
 /**
- * @is An abstract class which provides general base level methods for
+ *  An abstract class which provides general base level methods for
  * validation of given objects against column meta data. The
  * base class provides the validateObject() method which checks the
  * type of object given and calls the appropriate validate method for
@@ -25,11 +25,10 @@ import org.jax.mgi.shr.dbutils.DBTypeConstants;
  * to see if the data type is valid for use as a column value.
  * @company Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 public abstract class TypeValidator
 {
-	
+
 	/**
 	 * the columnDef object this instance was created to refer to
 	 */
@@ -37,7 +36,7 @@ public abstract class TypeValidator
 	/*
 	* the execption factory for storing and retrieving DataExceptions
 	*/
-	protected DataExceptionFactory dataExceptionFactory = 
+	protected DataExceptionFactory dataExceptionFactory =
 		new DataExceptionFactory();
 	/*
 	* the execption factory for storing and retrieving DBExceptions

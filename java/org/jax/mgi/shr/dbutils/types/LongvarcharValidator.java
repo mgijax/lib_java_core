@@ -6,7 +6,7 @@ import org.jax.mgi.shr.dbutils.ColumnDef;
 import org.jax.mgi.shr.dbutils.DataException;
 
 /**
- * @is A TypeValidator object for validating objects against a
+ *  A TypeValidator object for validating objects against a
  * column definition of type longvarchar
  * @has a column definition for type longvarchar and methods for
  * validating a given object against the represented column definition.
@@ -14,7 +14,6 @@ import org.jax.mgi.shr.dbutils.DataException;
  * if validation fails.
  * @company Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 public class LongvarcharValidator extends TypeValidator
 {

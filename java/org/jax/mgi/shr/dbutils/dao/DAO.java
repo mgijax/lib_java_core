@@ -7,10 +7,10 @@ import org.jax.mgi.shr.dbutils.DBException;
 import org.jax.mgi.shr.dbutils.bcp.BCPException;
 
 /**
- * @is an abstract class which represents a record in the database. It
+ * An abstract class which represents a record in the database. It
  * implements the BCPTranslatable and SQLTranslatable interfaces which
  * requires all subclasses to support inserts, updates and deletes through
- * both bcp and sql tactics.
+ * both bcp and sql.
  * @has a couple of indicators to indicate whether or not the record exists
  * in the database and whether the record has been batched for update
  * @does provides accessor to the in-database and in-batch indicators
@@ -19,7 +19,6 @@ import org.jax.mgi.shr.dbutils.bcp.BCPException;
  * the BCPTranslatable and SQLTranslatable interfaces.
  * @company The Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 abstract public class DAO
     implements BCPTranslatable, SQLTranslatable
@@ -115,7 +114,8 @@ abstract public class DAO
     }
 
     /**
-     * set whether or not this record exists in the database
+     * set whether or not this record has been batched for insert into the
+     * database
      * @assumes nothing
      * @effects nothing
      * @param bool true if the record exists in the database, false otherwise
@@ -126,8 +126,7 @@ abstract public class DAO
     }
 
     /**
-     * set whether or not this record has been batched for insert into the
-     * database
+     * set whether or not this record exists in the database
      * @assumes nothing
      * @effects nothing
      * @param bool true if this record has been batched for insert into the

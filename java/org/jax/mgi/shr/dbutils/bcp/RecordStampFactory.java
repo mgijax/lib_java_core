@@ -10,10 +10,14 @@ import org.jax.mgi.shr.dbutils.bcp.RecordStamper_RADAR;
 import org.jax.mgi.shr.dbutils.bcp.RecordStamper_None;
 
 /**
- * @author mbw
  *
- * To change the template for this generated type comment go to
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * A factory class for obtaining a RecordStamp class for a given table name.
+ * @has the knowledge of all RecordStamp classes and their associations
+ * to the various time stamping formats found throught the database
+ * @does provides the appropriate RecordStamp class for a given table name.
+ * @company The Jackson Laboratory
+ * @author M Walker
+ *
  */
 public class RecordStampFactory {
   private static RecordStamper mgd = new RecordStamper_MGD();
@@ -28,7 +32,9 @@ public class RecordStampFactory {
    * RecordStamp class to use
    * @assumes nothing
    * @effects nothing
+   * @param table the table to use for obtaining a RecordStamper
    * @return the RecordStamp class
+   * @throws DBException thrown if there is an error accessing the database
    */
   public static RecordStamper getRecordStamp(Table table) throws DBException {
     RecordStamper stamp = null;
@@ -71,9 +77,10 @@ public class RecordStampFactory {
   /**
    * search through the column definitions and see if there is a column with
    * the given name
-   * @param iterator a Iterator for ColumnDef objects
+   * @param table the table to use
    * @param name the given column name to search on
    * @return true if there is a column with that name, false otherwise
+   * @throws DBException thrown if there is an error accessing the database
    */
   private static boolean hasColumnName(Table table, String name) throws
       DBException {

@@ -3,12 +3,11 @@ package org.jax.mgi.shr.dbutils.dao;
 import org.jax.mgi.shr.exception.ExceptionFactory;
 
 /**
- * @is An ExceptionFactory for RecordStampExceptions.
+ *  An ExceptionFactory for RecordStampExceptions.
  * @has a hashmap of predefined RecordStampExceptions stored by a name
  * @does looks up RecordStampExceptions by name
  * @company The Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 public class RecordStampExceptionFactory
     extends ExceptionFactory

@@ -7,14 +7,13 @@ import org.jax.mgi.shr.dbutils.DataException;
 
 
 /**
- * @is A TypeValidator object for validating objects against a
+ *  A TypeValidator object for validating objects against a
  * column definition of type bit
  * @has a column definition for type bit and methods for validating
  * a given object against the represented column definition.
  * @does validates objects to be converted to bit
  * @company Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 
 public class BitValidator extends TypeValidator

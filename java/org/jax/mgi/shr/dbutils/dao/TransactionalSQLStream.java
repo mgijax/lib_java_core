@@ -1,13 +1,12 @@
 package org.jax.mgi.shr.dbutils.dao;
 
 /**
- * @is a SQLStream which can execute sql in a transactional way.
+ * A SQLStream which can execute sql in a transactional way.
  * @has nothing.
  * @does provides a commit and rollback method and the sql statements for
  * insert, update and delete.
  * @company Jackson Laboratory
  * @author M. Walker
- * @version 1.0
  */
 public abstract class TransactionalSQLStream
     extends SQLStream

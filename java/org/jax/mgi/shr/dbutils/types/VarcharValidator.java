@@ -7,18 +7,17 @@ import org.jax.mgi.shr.dbutils.DataException;
 import org.jax.mgi.shr.types.Converter;
 
 /**
-* @is A TypeValidator object for validating objects against a
+*  A TypeValidator object for validating objects against a
 * column definition of type varchar
 * @has a column definition for type varchar and methods for validating
 * a given object against the represented column definition.
 * @does validates objects to be converted to Strings
 * @company Jackson Laboratory
 * @author M Walker
-* @version 1.0
 */
 public class VarcharValidator extends TypeValidator
 {
-	
+
 
 	/**
 	* default constructor which accepts the ColumnDefinition object for the

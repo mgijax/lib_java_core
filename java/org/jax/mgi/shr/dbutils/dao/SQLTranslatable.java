@@ -3,13 +3,12 @@ package org.jax.mgi.shr.dbutils.dao;
 import org.jax.mgi.shr.dbutils.DBException;
 
 /**
- * @is An object which can translate it's internal contents into sql
+ *  An object which can translate it's internal contents into sql
  * statements for insert, update and delete.
  * @has nothing.
  * @does provides sql statements for insert, update and delete.
  * @company Jackson Laboratory
  * @author M. Walker
- * @version 1.0
  */
 public interface SQLTranslatable
 {

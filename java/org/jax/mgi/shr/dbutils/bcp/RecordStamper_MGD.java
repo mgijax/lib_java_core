@@ -18,7 +18,7 @@ import org.jax.mgi.shr.types.Converter;
 import org.jax.mgi.dbs.SchemaConstants;
 
 /**
- * @is a RecordStamper object for tables in the MGD database which
+ * A RecordStamper object for tables in the MGD database which
  * contain the fields _CreatedBy_key, _ModifiedBy_key, creation_date,
  * modification_date
  * @has a UserLookup class for resolving use names into ids
@@ -26,7 +26,6 @@ import org.jax.mgi.dbs.SchemaConstants;
  * stamping each seperated by a designated delimiter
  * @company The Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 
 public class RecordStamper_MGD implements RecordStamper
@@ -50,6 +49,7 @@ public class RecordStamper_MGD implements RecordStamper
    * given delimiter
    * @param delimiter the delimiter to use to sepearte the stamp fields
    * @return the record stamp string
+   * @throws BCPException thrown if there is an error obtaining the user id
    */
   public String getStamp(String delimiter) throws BCPException
   {
@@ -90,14 +90,12 @@ public class RecordStamper_MGD implements RecordStamper
   }
 
   /**
-   * @is a RowDataCacheHandler class for looking up userids stored within
+   *  a RowDataCacheHandler class for looking up userids stored within
    * the MGI_USER table
    * @has a cache for storing database data in memory
    * @does gets data from the database and caches it into memory and provides
    * lookup methods for accessing the data
-   * @copyright: The Jackson Laboratory
    * @author M Walker
-   * @version 1.0
    */
 
   public class UserLookup extends FullCachedLookup
@@ -125,6 +123,9 @@ public class RecordStamper_MGD implements RecordStamper
      * @assumes nothing
      * @effects nothing
      * @return the userid
+     * @throws CacheException thrown if there is an error accessing the cache
+     * @throws DBException thrown if there is an error accessing the database
+     * @throws KeyNotFoundException thrown if the key was not found
      */
     public Integer lookupByName(String name)
     throws CacheException, DBException, KeyNotFoundException

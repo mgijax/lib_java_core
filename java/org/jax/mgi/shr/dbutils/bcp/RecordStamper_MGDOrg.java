@@ -8,7 +8,7 @@ import org.jax.mgi.shr.config.ConfigException;
 import org.jax.mgi.shr.types.Converter;
 
 /**
- * @is a RecordStamper object for tables in the MGD database which
+ *  A RecordStamper object for tables in the MGD database which
  * contain the fields createdBy, modifiedBy, creation_date,
  * modification_date
  * @has a BCPManagerCfg for looking up the values of MODIFIED_BY and
@@ -17,7 +17,6 @@ import org.jax.mgi.shr.types.Converter;
  * stamping each seperated by a designated delimiter
  * @company The Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 
 public class RecordStamper_MGDOrg implements RecordStamper
@@ -29,6 +28,7 @@ public class RecordStamper_MGDOrg implements RecordStamper
    * given delimiter
    * @param delimiter the delimiter to use to sepearte the stamp fields
    * @return the record stamp string
+   * @throws BCPException thrown if there is an error obtaining the user id
    */
   public String getStamp(String delimiter) throws BCPException
   {

@@ -6,14 +6,13 @@ import org.jax.mgi.shr.dbutils.ColumnDef;
 import org.jax.mgi.shr.dbutils.DataException;
 
 /**
-* @is A TypeValidator object for validating objects against a
+*  A TypeValidator object for validating objects against a
 * column definition of type char
 * @has a column definition for type char and methods for validating
 * a given object against the represented column definition.
 * @does validates objects to be converted to char
 * @company Jackson Laboratory
 * @author M Walker
-* @version 1.0
 */
 public class CharValidator extends TypeValidator
 {

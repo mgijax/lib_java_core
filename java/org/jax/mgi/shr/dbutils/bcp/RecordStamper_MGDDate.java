@@ -6,14 +6,13 @@ import java.util.Date;
 import org.jax.mgi.shr.types.Converter;
 
 /**
- * @is a RecordStamper object for tables in the MGD database which
+ *  A RecordStamper object for tables in the MGD database which
  * contain the fields creation_date, modification_date
  * @has nothing
  * @does creates a string containing the fields required for record
  * stamping each seperated by a designated delimiter
  * @company The Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 
 public class RecordStamper_MGDDate implements RecordStamper

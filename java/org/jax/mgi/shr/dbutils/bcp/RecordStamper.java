@@ -1,7 +1,7 @@
 package org.jax.mgi.shr.dbutils.bcp;
 
 /**
- * @is a class that provides the user-time stamp field values to a BCPWriter
+ *  A class that provides the user-time stamp field values to a BCPWriter
  * in aid of composing a line for a bcp file
  * @has nothing
  * @does calculates the user-time fields for the implemented format and

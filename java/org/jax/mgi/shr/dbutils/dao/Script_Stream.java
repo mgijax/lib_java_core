@@ -6,12 +6,11 @@ import org.jax.mgi.shr.dbutils.ScriptWriter;
 import org.jax.mgi.shr.dbutils.ScriptException;
 
 /**
- * @is a SQLStream for doing inserts, updates and deletes using scripting
+ * A SQLStream for doing inserts, updates and deletes using scripting
  * @has a ScriptStrategy for performing updates, inserts and deletes
  * @does inserts, updates and deletes DAO objects using scripting
  * @company The Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 public class Script_Stream
     extends SQLStream

@@ -6,9 +6,9 @@ import org.jax.mgi.shr.config.RecordStampCfg;
 import org.jax.mgi.shr.config.ConfigException;
 
 /**
- * @is a class for stamping DAO (State) classes by modifying their user and time
+ * A class for stamping DAO (State) classes by modifying their user and time
  * fields
- * @has a recordStampCfg for looking up job stream names within the
+ * @has a RecordStampCfg for looking up job stream names within the
  * configuration
  * @does determines what type of record stamp being implemented by the given
  * DAO (State) class and modifies the appropriate fields for update and insert
@@ -214,7 +214,7 @@ public class RecordStamper
         createdBy = cfg.getCreatedBy();
         rcd.setCreatedBy(createdBy);
         rcd.setModifiedBy(modifiedBy);
-        rcd.setCreationdate(t);
+        rcd.setCreationDate(t);
         rcd.setModificationDate(t);
     }
 

@@ -6,18 +6,14 @@ import org.jax.mgi.shr.dbutils.BatchProcessor;
 import org.jax.mgi.shr.dbutils.DBException;
 import org.jax.mgi.shr.dbutils.DBExceptionFactory;
 import org.jax.mgi.shr.dbutils.BatchException;
-import org.jax.mgi.shr.dbutils.bcp.BCPManager;
 
 /**
- * @is a SQLStream for doing inserts with bcp and updates and deletes with
- * JDBC batch
- * @has a JDBCBatchStrategy for performing updates and deletes and a
- * BCPStrategy for perfoming inserts
+ * A SQLStream for doing inserts, updates and deletes through JDBC batch
+ * @has a BatchStrategy for performing updates and deletes
  * @does provides a set of update, insert and delete strategies for updating
- * a given DAO objects in a database
+ * a given DAO object in a database
  * @company The Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 public class Batch_Stream
     extends SQLStream
@@ -36,7 +32,6 @@ public class Batch_Stream
     /**
      * constructor
      * @param sqlMgr the SQLDataManager to use
-     * @param bcpMgr the BCPManager to use
      * @throws DBException thrown if there is an error accessing the database
      */
     public Batch_Stream(SQLDataManager sqlMgr)
@@ -52,7 +47,7 @@ public class Batch_Stream
     }
 
     /**
-     * execute the bcp commands followed by the batch statements
+     * execute the batch commands
      * @assumes nothing
      * @effects data will be modified in bulk within the database
      * @throws DBException thrown if there is an error accessing the database
