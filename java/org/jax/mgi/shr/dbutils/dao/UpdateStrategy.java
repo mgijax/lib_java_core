@@ -3,14 +3,12 @@ package org.jax.mgi.shr.dbutils.dao;
 import org.jax.mgi.shr.dbutils.DBException;
 
 /**
- * @is an interface which defines a method to update a given  DAO
+ * An interface which defines a method to update a given  DAO
  * object within the database. This could be implemented in a number of
  * different ways, including inline sql, batch JDBC or scripting
  * @has nothing
  * @does provides an interface
- * @Copyright Jackson Lab
  * @author M Walker
- * @version 1.0
  */
 public interface UpdateStrategy
 {
