@@ -49,7 +49,6 @@ public class CacheStrategyHelper
         CacheException, DBException
     {
         putResultsInMap(navigator, cache, cacheHandler, new ConsoleLogger());
-
     }
 
     /**
@@ -85,7 +84,7 @@ public class CacheStrategyHelper
         {
             /**
              * process multiple rows for each cache entry using a
-             * MultiResultsIterator
+             * MultiRowIterator
              */
             MultiRowInterpreter multiRowInterpreter =
                 (MultiRowInterpreter) interpreter;
