@@ -27,8 +27,8 @@ public class MultipleResults {
   // indicator that the call to getNextResults is the first call
   boolean firstTime = true;
   // the following constant definitions are exceptions thrown by this class
-  private static final String JDBCException =
-      DBExceptionFactory.JDBCException;
+  private static final String JDBCException = DBExceptionFactory.JDBCException;
+   private static final String CloseErr = DBExceptionFactory.CloseErr;
 
   /**
    * constructor
@@ -81,5 +81,25 @@ public class MultipleResults {
       e2.bind("obtain results from executing the following:\n" + sql);
       throw e2;
     }
+  }
+
+  /**
+   * close this object and free JDBC resources
+   * @assumes nothing
+   * @effects the internal JDBC resources will be closed
+   */
+  public void close() throws DBException
+  {
+      try
+      {
+          s.close();
+      }
+      catch (SQLException e)
+      {
+          DBExceptionFactory eFactory = new DBExceptionFactory();
+          DBException e2 = (DBException)
+              eFactory.getException(CloseErr, e);
+          throw e2;
+      }
   }
 }
