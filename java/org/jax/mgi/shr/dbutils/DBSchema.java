@@ -33,20 +33,15 @@ public class DBSchema {
    * regular expression for locating drop index commands in the dbschema
    * files
    */
-  private static final String REGEX_DROP_INDEX =
+  private static final String REGEX_DROP =
       "^[dD][rR][oO][pP] .*";
   /**
    * regular expression for locating create index commands in the dbschema
    * files
    */
-  private static final String REGEX_CREATE_INDEX =
+  private static final String REGEX_CREATE =
       "^[cC][rR][eE][aA][tT][eE] .*";
-  /**
-   * regular expression for locating create table commands in the dbschema
-   * files
-   */
-  private static final String REGEX_CREATE_TABLE =
-      "^[cC][rR][eE][aA][tT][eE] .*";
+
   /**
    * regular expression for locating isql go commands in the dbschema files
    */
@@ -56,20 +51,14 @@ public class DBSchema {
    * compiled regex pattern for locating drop index commands in the dbschema
    * files
    */
-  private static final Pattern dropIndexPattern =
-      Pattern.compile(REGEX_DROP_INDEX);
+  private static final Pattern dropPattern =
+      Pattern.compile(REGEX_DROP);
   /**
    * compiled regex pattern for locating create index commands in the
    * dbschema files
    */
-  private static final Pattern createIndexPattern =
-      Pattern.compile(REGEX_CREATE_INDEX);
-  /**
-   * compiled regex pattern for locating create table commands in the
-   * dbschema files
-   */
-  private static final Pattern createTablePattern =
-      Pattern.compile(REGEX_CREATE_TABLE);
+  private static final Pattern createPattern =
+      Pattern.compile(REGEX_CREATE);
   /**
    * compiled regex pattern for locating isql go commands in the dbschema
    * files used when locating the end of a create table command.
@@ -204,7 +193,7 @@ public class DBSchema {
   public Vector getCreateIndexCommands(String pTablename)
       throws DBSchemaException {
     String filename = calculateFilename("index", "create", pTablename);
-    Vector v1 = getCommands(filename, createIndexPattern);
+    Vector v1 = getCommands(filename, createPattern);
     // do text substition for segment names
     Vector v2 = new Vector();
     String s = null;
@@ -228,7 +217,7 @@ public class DBSchema {
   public Vector getDropIndexCommands(String pTablename)
       throws DBSchemaException {
     String filename = calculateFilename("index", "drop", pTablename);
-    return getCommands(filename, dropIndexPattern);
+    return getCommands(filename, dropPattern);
   }
 
   /**
@@ -246,7 +235,7 @@ public class DBSchema {
     String filename = calculateFilename("table", "create", pTablename);
     String line = null;
     StringBuffer command = new StringBuffer();
-    Pattern commandPattern = createTablePattern;
+    Pattern commandPattern = createPattern;
     Pattern goPattern = goCommandPattern;
     Matcher commandMatcher = null;
     Matcher goMatcher = null;
@@ -303,7 +292,7 @@ public class DBSchema {
     if (command.length() == 0) {
       DBSchemaException e2 = (DBSchemaException)
           exceptionFactory.getException(NoRegexMatch);
-      e2.bind(REGEX_CREATE_TABLE);
+      e2.bind(REGEX_CREATE);
       e2.bind(filename);
       throw e2;
     }
@@ -327,8 +316,8 @@ public class DBSchema {
    * @param pFilename the file to search
    * @param pRegex the regular expression to match on
    * @return the vector of lines which matched the regular expression
-   * @throws DBSchemaException thrown if ddl commands could
-   * not be obtained fron the dbschema product
+   * @throws DBSchemaException thrown if there is an error accessing the
+   * dbschema files
    */
   private Vector getCommands(String pFilename, Pattern pRegex)
       throws DBSchemaException {
@@ -392,10 +381,11 @@ public class DBSchema {
                                      String tablename) {
     String root = sqlmanager.getDBSchemaDir();
     String system = System.getProperties().getProperty("os.name");
-	String delimiter = null;
+        String delimiter = null;
     if (system.equals("Windows 2000"))
-		delimiter = "\\";	else
-		delimiter = "/";
+                delimiter = "\\";
+        else
+                delimiter = "/";
     String filename = sqlmanager.getDBSchemaDir() + delimiter + pCommandNoun + delimiter +
         tablename + "_" + pCommandVerb + ".object";
     return filename;
@@ -418,6 +408,9 @@ public class DBSchema {
 }
 
 // $Log$
+// Revision 1.2  2004/01/14 17:59:49  sc
+// changed getCreateIndexCommands to replace environ var reference with new segment names
+//
 // Revision 1.1  2003/12/30 16:50:24  mbw
 // imported into this product
 //
