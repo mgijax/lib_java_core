@@ -53,6 +53,12 @@ public class DBSchema
      * files
      */
     private static final String REGEX_GO_COMMAND = "^[gG][oO]$";
+    /**
+     * regular expression whcih locates lines with nested quotes
+     */
+    //private static final String REGEX_QUOTE_CONFLICT = "\"[.*'.*]\"";
+    private static final String REGEX_QUOTE_CONFLICT = ".*\".*'.*\".*";
+
 
     /**
      * compiled regex pattern for locating drop index commands in the
@@ -84,6 +90,12 @@ public class DBSchema
      */
     private static final Pattern goCommandPattern =
         Pattern.compile(REGEX_GO_COMMAND);
+    /**
+     * compiled regex pattern for locating lines with nested quotation marks.
+     */
+    private static final Pattern quoteConflictPattern =
+        Pattern.compile(REGEX_QUOTE_CONFLICT);
+
     /*
      * the exception factory for DBScemaExceptions
      */
@@ -103,6 +115,8 @@ public class DBSchema
         DBSchemaExceptionFactory.NoRegexMatch;
     private static String UnexpectedString =
         DBSchemaExceptionFactory.UnexpectedString;
+    private static String NestedQuotesErr =
+        DBSchemaExceptionFactory.NestedQuotesErr;
 
     /**
      * constructor which sets the database configuartion
@@ -560,7 +574,8 @@ public class DBSchema
         Vector commands = getCreateCommands("trigger", pTablename);
         for (int i = 0; i < commands.size(); i++)
         {
-            String s = ((String)commands.get(i)).replaceAll("\"", "'");
+            String s = ((String)commands.get(i));
+            s = s.replaceAll("\"", "'");
             v.add(s);
         }
         return v;
@@ -641,6 +656,18 @@ public class DBSchema
                         goMatcher = goPattern.matcher(line);
                         if (!goMatcher.matches())
                         {
+                          Matcher quoteConflictMatcher =
+                              quoteConflictPattern.matcher(line);
+                          if (quoteConflictMatcher.matches())
+                          {
+                              DBSchemaException e = (DBSchemaException)
+                                  exceptionFactory.getException(NestedQuotesErr);
+                              e.bind(targetObject);
+                              e.bind(pTablename);
+                              e.bind(line);
+                              throw e;
+                          }
+
                             command.append(" " + line);
                         }
                         else
@@ -658,7 +685,8 @@ public class DBSchema
                         throw e2;
                     }
                     allCommands.add(new String(command));
-                    break;
+                    command = new StringBuffer();
+                    //break;
                 }
             }
         }
@@ -669,7 +697,7 @@ public class DBSchema
             e2.bind(filename);
             throw e2;
         }
-        if (command.length() == 0)
+        if (allCommands.size() == 0)
         {
             DBSchemaException e2 = (DBSchemaException)
                 exceptionFactory.getException(NoRegexMatch);
@@ -860,6 +888,9 @@ public class DBSchema
 
 }
 // $Log$
+// Revision 1.9  2004/07/26 16:30:36  mbw
+// formatting only
+//
 // Revision 1.8  2004/07/21 19:33:07  mbw
 // added create trigger functionality along with create primary and foreign key functionality and also incorporated code to make more portable across different databases (namely MySQL and Oracle)
 //
