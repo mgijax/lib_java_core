@@ -544,7 +544,7 @@ public class Configurator
         {
             return o;
         }
-        return createNewObject(name);
+        return createNewObject(str);
     }
 
     /**
@@ -566,7 +566,7 @@ public class Configurator
         {
             return null;
         }
-        return createNewObject(name);
+        return createNewObject(str);
     }
 
 
@@ -599,31 +599,31 @@ public class Configurator
         return baseName;
     }
 
-	/**
-	 * does translation of allowable configuration values for a file
-	 * delimiter into a java string suitable for using as the file delimiter
-	 * @param s the string to convert
-	 * @return the converted value
-	 * @throws MGIException thrown if the given string is not a valid delimiter
-	 * representation. Allowable values are space and tab (without any
-	 * regard for case) and the strings "' '" or "\t".
-	 */
-	protected String convertDelimiter(String s) throws ConfigException {
-		if (s == null  || s.equals("")) {
-			ConfigExceptionFactory eFactory = new ConfigExceptionFactory();
-			ConfigException e = (ConfigException)
-				eFactory.getException(ConfigExceptionFactory.InvalidDelimiter);
-			e.bind(s);
-			throw e;
-		}
-		if (s.toUpperCase().equals("SPACE") || s.equals("' '"))
-			return new String(" ");
-		else if (s.toUpperCase().equals("TAB") || s.equals("\t"))
-			return Character.toString('\t');
-		else {
-			return s;
-		}
-	}
+        /**
+         * does translation of allowable configuration values for a file
+         * delimiter into a java string suitable for using as the file delimiter
+         * @param s the string to convert
+         * @return the converted value
+         * @throws MGIException thrown if the given string is not a valid delimiter
+         * representation. Allowable values are space and tab (without any
+         * regard for case) and the strings "' '" or "\t".
+         */
+        protected String convertDelimiter(String s) throws ConfigException {
+                if (s == null  || s.equals("")) {
+                        ConfigExceptionFactory eFactory = new ConfigExceptionFactory();
+                        ConfigException e = (ConfigException)
+                                eFactory.getException(ConfigExceptionFactory.InvalidDelimiter);
+                        e.bind(s);
+                        throw e;
+                }
+                if (s.toUpperCase().equals("SPACE") || s.equals("' '"))
+                        return new String(" ");
+                else if (s.toUpperCase().equals("TAB") || s.equals("\t"))
+                        return Character.toString('\t');
+                else {
+                        return s;
+                }
+        }
 
     /**
      * create a new object for the given class
@@ -669,6 +669,9 @@ public class Configurator
 
 }
 // $Log$
+// Revision 1.2  2004/03/29 19:39:25  mbw
+// added accessor methods for datatypes of data and object
+//
 // Revision 1.1  2003/12/30 16:50:06  mbw
 // imported into this product
 //
