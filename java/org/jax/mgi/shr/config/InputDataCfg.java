@@ -21,13 +21,10 @@ package org.jax.mgi.shr.config;
 
 public class InputDataCfg extends Configurator {
 
-  // default begin delimiter...equals anyline
-  private String DEFAULT_BEGIN_DELIMITER = "$";
-  // default end delimiter...equals anyline
-  private String DEFAULT_END_DELIMITER = "$";
-
   //default bufferSize
   private int DEFAULT_BUFFER_SIZE = 512000;
+  //default charset
+  private String DEFAULT_CHARSET = "ISO-8859-1";
 
   /**
    * default constructor
@@ -65,7 +62,6 @@ public class InputDataCfg extends Configurator {
    * as a java based regular expression or a sequence of bytes, depending on
    * the value of the INFILE_USE_REGEX parameter. The parameter name read from
    * the configuration file or system properties is INFILE_BEGIN_DELIMITER.
-   * The default value is null which causes the begin delimiter to not be used
    * @return the value used as record delimiter
    */
   public String getBeginDelimiter() {
@@ -73,16 +69,14 @@ public class InputDataCfg extends Configurator {
   }
 
   /**
-   * get the end delimeter for the input file. The delimiter is interpreted
+   * get the end delimeter for the input file. The delimiter is interprete
    * as a java based regular expression or a sequence of bytes, depending on
    * the value of the INFILE_USE_REGEX parameter. The parameter name read from
    * the configuration file or system properties is INFILE_END_DELIMITER.
-   * The default value is newline
    * @return the value used as record delimiter
    */
   public String getEndDelimiter() {
-    return getConfigString("INFILE_END_DELIMITER",
-                           this.DEFAULT_END_DELIMITER);
+    return getConfigStringNull("INFILE_END_DELIMITER");
   }
 
   /**
@@ -111,11 +105,25 @@ public class InputDataCfg extends Configurator {
     return getConfigBoolean("INFILE_USE_REGEX", new Boolean(true));
   }
 
+  /**
+   * get the charset to use when decoding bytes. The parameter name read
+   * from the configuration file or system properties is INFILE_CHARSET.
+   * The default value = "US-ASCII".
+   * @return the charset to use
+   */
+  public String getCharset() throws ConfigException {
+    return getConfigString("INFILE_CHARSET", this.DEFAULT_CHARSET);
+  }
+
+
 
 
 
 }
 // $Log$
+// Revision 1.3  2004/02/10 16:30:01  mbw
+// added new begin delimiter parameter
+//
 // Revision 1.2  2004/01/05 21:47:23  mbw
 // changed the method getDelimiter to getEndDelimiter and changed config variable from INFILE_DELIMITER to INFILE_END_DELIMITER
 //
