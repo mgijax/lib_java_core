@@ -116,8 +116,8 @@ public class ConfigurationManager {
         String filename = configfiles[0];
         try
         {
-            // load first file
-            config = Configuration.load(filename);
+            // load first file and do not use previously cached file
+            config = Configuration.load(filename, false);
             // include the remaining
             for (int i = 1; i < len; i++)
             {
@@ -139,11 +139,16 @@ public class ConfigurationManager {
         }
 
     }
+    else // null out the instance in case the reinit() method was called
+        config = null;
   }
 
 
 }
 // $Log$
+// Revision 1.3  2004/07/21 18:30:05  mbw
+// javadocs only
+//
 // Revision 1.2  2004/04/14 20:18:08  mbw
 // now reads multiple config files and handles parameters set in one to be refered by another
 //
