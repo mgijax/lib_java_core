@@ -1,8 +1,7 @@
 package org.jax.mgi.shr.dbutils;
 
 import junit.framework.*;
-import org.jax.mgi.shr.unitTest.TableCreator;
-import org.jax.mgi.shr.unitTest.FileUtility;
+import org.jax.mgi.shr.unitTest.*;
 
 public class TestSQLDataManager
     extends TestCase {
@@ -11,9 +10,10 @@ public class TestSQLDataManager
   private FileUtility fileUtility = new FileUtility();
   private String originalConfigValue = null;
   private String query = "SELECT * FROM TEST_DBtypes";
-  String insert = "INSERT INTO TEST_DBtypes " +
+  private String insert = "INSERT INTO TEST_DBtypes " +
                "VALUES ('column', '2003/07/04', 1, null, 'some text', " +
                "1.111, 0)";
+  private TestManager testMgr = null;
 
 
   public TestSQLDataManager(String name) {
@@ -23,6 +23,9 @@ public class TestSQLDataManager
   protected void setUp() throws Exception {
     super.setUp();
     sqlman = new SQLDataManager();
+    testMgr = new TestManager();
+    //testMgr.setConfig("DBDEBUG", "true");
+    //testMgr.setConfig("LOG_DEBUG", "true");
     tableCreator = new TableCreator(sqlman.getUrl(),
                                     sqlman.getDatabase(),
                                     sqlman.getUser(),
@@ -37,6 +40,7 @@ public class TestSQLDataManager
     sqlman = null;
     tableCreator.dropDBtypes();
     tableCreator = null;
+    testMgr = null;
     super.tearDown();
   }
 

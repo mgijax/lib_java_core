@@ -3,13 +3,14 @@ package org.jax.mgi.shr.dbutils;
 import junit.framework.*;
 import java.util.Vector;
 
-import org.jax.mgi.shr.unitTest.TableCreator;
+import org.jax.mgi.shr.unitTest.*;
 
 public class TestBindableStatement
     extends TestCase {
   private BindableStatement bindableStatement = null;
   private TableCreator tableCreator = null;
   private SQLDataManager manager = null;
+  private TestManager testMgr = null;
 
   public TestBindableStatement(String name) {
     super(name);
@@ -20,6 +21,9 @@ public class TestBindableStatement
     /**@todo verify the constructors*/
     bindableStatement = null;
     manager = new SQLDataManager();
+    testMgr = new TestManager();
+    //testMgr.setConfig("DBDEBUG", "true");
+    //testMgr.setConfig("LOG_DEBUG", "true");
     String sql =
         "insert into test_dbtypes values (" +
         "?, ?, ?, ?, ?, ?, ?)";
@@ -37,6 +41,7 @@ public class TestBindableStatement
     bindableStatement = null;
     tableCreator.dropDBtypes();
     tableCreator = null;
+    testMgr = null;
     super.tearDown();
   }
 
