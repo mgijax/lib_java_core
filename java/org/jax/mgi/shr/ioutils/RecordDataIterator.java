@@ -3,24 +3,27 @@
 
 package org.jax.mgi.shr.ioutils;
 
+import org.jax.mgi.shr.dbutils.DataIterator;
+
 /**
- * @is An iterator for iterating through records of data
+ * An iterator for iterating through records of data
  * @has A data file. A RecordDataReader for parsing the data file into
  * records. A RecordDataInterpreter for instantiating java data objects
  * based on the current record. If the interpreter is null then the current
  * record is returned as a String. The interpreter also defines whether a
- * current record is considered to be vaild or not. If an interpreter is
- * defined then only valid records are returned during iteration.
+ * current record is considered to be valid or not by returning true or false
+ * to the isValid(RowReference) method. If an interpreter is
+ * defined then only "valid" records (those that return true on the call to
+ * isValid(RowReference)) are returned during iteration.
  * @does iterates through data as a collection of records and returns java
- * data objects. The caller must set the Interpreter and cast the return
- * objects to the known type.
+ * data objects. The caller must set the RecordDataInterpreter and cast the
+ * return objects to the expected type.
  * @company Jackson Laboratory
  * @author M. Walker
- * @version 1.0
  */
 
 
-public interface RecordDataIterator {
+public interface RecordDataIterator extends DataIterator {
 
   /**
    * Set the reference of a RecordDataInterpreter which will then be used on
@@ -31,40 +34,11 @@ public interface RecordDataIterator {
 
   public void setInterpreter(RecordDataInterpreter interpreter);
 
-  /**
-   * return a boolean value that designates whether there are any records
-   * remaining within the current iteration of the input file. If there
-   * is a RecordDataInterpreter set for this iteration then this method
-   * returns true only if the record is considered valid by the interpreter,
-   * that is if the isValid() method of the interpreter returns true.
-   * @return true if more records remain
-   */
-
-  public boolean hasNext();
-
-  /**
-   * Retrieves the next record from the input file which can be represented
-   * as any java data object depending on the type of Interpreter
-   * provided. If a RecordDataInterpreter is defined then only a record that
-   * is considered valid by the interpreter is returned, that is if the
-   * isValid() method of the interpreter is true.
-   * @return the next object from the file.
-   * @throws RecordFormatException thrown if the next record was badly
-   * formated
-   * @throws IOUException thrown if there is an io error in retrieving the
-   * next record
-   */
-
-  public java.lang.Object next() throws IOUException, RecordFormatException;
-
-  /**
-   * closes the record source
-   * @throws IOUException thrown if an io error occurs
-   */
-  public void close() throws IOUException;
-
 }
 // $Log$
+// Revision 1.1  2003/12/30 16:56:37  mbw
+// imported into this product
+//
 // Revision 1.4  2003/06/04 15:06:34  mbw
 // javadoc edits
 //
