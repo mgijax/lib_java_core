@@ -9,14 +9,14 @@ import org.jax.mgi.shr.types.TypesException;
 
 /**
  *  A TypeValidator object for validating objects against a
- * column definition of type timestamp
- * @has a column definition for type timestamp and methods for validating
+ * column definition of type double
+ * @has a column definition for type double and methods for validating
  * a given object against the represented column definition.
- * @does validates the given object
+ * @does validates objects to be converted to double
  * @company Jackson Laboratory
  * @author M Walker
  */
-public class TimestampValidator extends TypeValidator
+public class DoubleValidator extends TypeValidator
 {
 
     /**
@@ -24,13 +24,13 @@ public class TimestampValidator extends TypeValidator
      * represented column definition
      * @param cd the given ColumnDefinition
      */
-    protected TimestampValidator(ColumnDef cd)
+    protected DoubleValidator(ColumnDef cd)
     {
         super(cd);
     }
 
     /**
-     * validates a String object against the column definition for timestamp
+     * validates a String object against the column definition for double
      * @param s the given String
      * @throws DataException
      */
@@ -40,51 +40,49 @@ public class TimestampValidator extends TypeValidator
             failNullValue();
         try
         {
-            Timestamp t = Converter.toTimestamp(s);
+            Double f = Converter.toDouble(s);
         }
         catch (TypesException e)
         {
-            failTypeConversion(s, "timestamp");
+            failTypeConversion(s, "double");
         }
+
     }
 
     /**
-     * validates a Integer object against the column definition for timestamp
+     * validates a Integer object against the column definition for double
      * @param i the given Integer
      * @throws DataException thrown if a validation error occurs
      */
     public void validateInteger(Integer i) throws DataException
-    {
-        failUnhandledConversion("integer", "timestamp");
-    }
+    {}
 
     /**
-     * validates a Double object against the column definition for timestamp
+     * validates a Double object against the column definition for double
      * @param d the given Double
      * @throws DataException thrown if a validation error occurs
      */
     public void validateDouble(Double d) throws DataException
-    {
-        failUnhandledConversion("double", "timestamp");
-    }
+    {}
 
     /**
-     * validates a Boolean object against the column definition for timestamp
+     * validates a Boolean object against the column definition for double
      * @param b the given Boolean
      * @throws DataException thrown if a validation error occurs
      */
     public void validateBoolean(Boolean b) throws DataException
     {
-        failUnhandledConversion("boolean", "timestamp");
+        failUnhandledConversion("boolean", "double");
     }
 
     /**
-     * validates a Timestamp object against the column definition for
-     * timestamp
+     * validates a Timestamp object against the column definition for double
      * @param t the given Timestamp
      * @throws DataException thrown if a validation error occurs
      */
     public void validateTimestamp(Timestamp t) throws DataException
-    {}
+    {
+        failUnhandledConversion("timestamp", "double");
+    }
 
 }

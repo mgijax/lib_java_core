@@ -242,7 +242,7 @@ import org.jax.mgi.shr.dbutils.types.TypeValidator;
      *   <LI> DBTypeConstants.DB_TEXT maps to String
      *   <LI> DBTypeConstants.DB_INTEGER maps to Integer
      *   <LI> DBTypeConstants.DB_DATETIME maps to Timestamp
-     *   <LI> DBTypeConstants.DB_FLOAT maps to Float
+     *   <LI> DBTypeConstants.DB_DOUBLE maps to Double
      *   <LI> DBTypeConstants.DB_BIT maps to Boolean
      * </UL>
      * @return the java type name or null if the type is unknown
@@ -262,8 +262,8 @@ import org.jax.mgi.shr.dbutils.types.TypeValidator;
                 case DBTypeConstants.DB_DATETIME:
                    name = "Timestamp";
                    break;
-                case DBTypeConstants.DB_FLOAT:
-                   name = "Float";
+                case DBTypeConstants.DB_DOUBLE:
+                   name = "Double";
                    break;
                 case DBTypeConstants.DB_BIT:
                    name = "Boolean";

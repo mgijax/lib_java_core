@@ -12,7 +12,7 @@ import java.util.Vector;
  * @has nothing.
  * @does provides additional convienence methods that provide vector
  * functionality for adding, removing and locating primitive types int,
- * float and boolean. All values are promoted to their corresponding wrapper
+ * double and boolean. All values are promoted to their corresponding wrapper
  * types before Vector operations are performed.
  * @company Jackson Laboratory
  * @author M Walker
@@ -51,7 +51,7 @@ public class DataVector extends Vector {
    * @param input the primitive to add
    * @return true (as per the general contract of Collection.add)
    */
-  public boolean add(float input) {
+  public boolean add(double input) {
     return super.add(Converter.wrap(input));
   }
 
@@ -60,7 +60,7 @@ public class DataVector extends Vector {
    * @param position the position at which to insert primitive
    * @param input the primitive to add
    */
-  public void add(int position, float input) {
+  public void add(int position, double input) {
     super.add(position, Converter.wrap(input));
   }
 
@@ -99,7 +99,7 @@ public class DataVector extends Vector {
    * @param input the primitive given
    * @return the associated wrapper class for the given primitive
    */
-  public Object set(int position, float input) {
+  public Object set(int position, double input) {
     return super.set(position, Converter.wrap(input));
   }
 
@@ -127,7 +127,7 @@ public class DataVector extends Vector {
    * @param input the specified primitive
    * @return true if the vector containe the specified primitive
    */
-  public boolean removeValue(float input) {
+  public boolean removeValue(double input) {
     return super.remove(Converter.wrap(input));
   }
 
@@ -158,7 +158,7 @@ public class DataVector extends Vector {
    * @return the index of the first occurence or -1 if the primitive was not
    * found
    */
-  public int indexOf(float input) {
+  public int indexOf(double input) {
     return super.indexOf(Converter.wrap(input));
   }
 
@@ -195,7 +195,7 @@ public class DataVector extends Vector {
    * @return the index of the first occurence or -1 if the primitive was not
    * found
    */
-  public int indexOf(float input, int position) {
+  public int indexOf(double input, int position) {
     return super.indexOf(Converter.wrap(input), position);
   }
 
@@ -215,6 +215,9 @@ public class DataVector extends Vector {
 }
 
 // $Log$
+// Revision 1.2  2004/07/21 20:52:15  mbw
+// javadocs edits only
+//
 // Revision 1.1  2003/12/30 16:56:54  mbw
 // imported into this product
 //

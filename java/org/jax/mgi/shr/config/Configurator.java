@@ -378,11 +378,11 @@ public class Configurator
          * @assumes Nothing.
          * @effects Nothing
          * @param name The name of the configuration parameter to search on.
-         * @return A Float representing the configuration value.
+         * @return A Double representing the configuration value.
          * @exception ConfigException Thrown if the given name is not found by the
          * configuration manager or a conversion error occurs.
          */
-        protected Float getConfigFloat(String name)
+        protected Double getConfigDouble(String name)
             throws ConfigException
         {
             // Have the configuration manager find the value for the name.
@@ -395,7 +395,7 @@ public class Configurator
             //
             if (str != null) {
               try {
-                return Converter.toFloat(str);
+                return Converter.toDouble(str);
               }
               catch (TypesException e) {
                 ConfigException e2 = (ConfigException)
@@ -423,10 +423,10 @@ public class Configurator
          * @param name The name of the configuration parameter to search on.
          * @param defaultValue The value to be returned if the configuration
          * parameter is not found.
-         * @return A Float representing the configuration value.
+         * @return A Double representing the configuration value.
          * @exception ConfigException Thrown if a conversion error occurs.
          */
-        protected Float getConfigFloat(String name, Float defaultValue)
+        protected Double getConfigDouble(String name, Double defaultValue)
             throws ConfigException
         {
             // Have the configuration manager find the value for the name.
@@ -439,7 +439,7 @@ public class Configurator
             //
             if (str != null) {
               try {
-                return Converter.toFloat(str);
+                return Converter.toDouble(str);
               }
               catch (TypesException e) {
                 ConfigException e2 = (ConfigException)
@@ -460,12 +460,12 @@ public class Configurator
          * @assumes Nothing.
          * @effects Nothing
          * @param name The name of the configuration parameter to search on.
-         * @return A Float representing the configuration value or null if
+         * @return A Double representing the configuration value or null if
          * not found
          * @exception ConfigException thrown if the value cannot be converted to
          * an Integer
          */
-        protected Float getConfigFloatNull(String name)
+        protected Double getConfigDoubleNull(String name)
             throws ConfigException
         {
             // Have the configuration manager find the value for the name.
@@ -478,7 +478,7 @@ public class Configurator
             //
             if (str != null) {
               try {
-                return Converter.toFloat(str);
+                return Converter.toDouble(str);
               }
               catch (TypesException e) {
                 ConfigException e2 = (ConfigException)
@@ -912,6 +912,9 @@ public class Configurator
 
 }
 // $Log$
+// Revision 1.7  2004/10/11 15:49:22  mbw
+// added methods for obtainning floats from the configuration
+//
 // Revision 1.6  2004/09/30 15:36:54  mbw
 // changed so that any empty string read in as a parameter value will be interpreted as a null.
 //

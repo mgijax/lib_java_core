@@ -42,9 +42,9 @@ public class DBTypeConstants {
    */
   public static final int DB_TEXT = Types.LONGVARCHAR;
   /**
-   * the Sybase float type assigned the value of java.sql.Types.DOUBLE
+   * the Sybase double type assigned the value of java.sql.Types.DOUBLE
    */
-  public static final int DB_FLOAT = Types.DOUBLE;
+  public static final int DB_DOUBLE = Types.DOUBLE;
   /**
    * the Sybase bit type assigned the value of java.sql.Types.BIT
    */
@@ -52,6 +52,9 @@ public class DBTypeConstants {
 }
 
 // $Log$
+// Revision 1.4  2004/09/22 17:06:36  mbw
+// javadocs only
+//
 // Revision 1.3  2004/07/21 19:37:52  mbw
 // reverted back to values for Sybase database
 //
