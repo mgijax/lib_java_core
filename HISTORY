@@ -1,3 +1,8 @@
+TAG: lib_java_core-1-0-2
+DATE: 01/21/2004
+STAFF: mbw
+CHANGES: Tagged for new dev release ... see changes below since last tag
+
 DATE: 01/21/04
 STAFF: mbw
 CHANGES: changed SQLStream from an interface to an abstract base class and changed all streams to extend vs implement this class
