@@ -40,8 +40,6 @@ public class BCPStrategy
      */
     private Vector bcpWriters = new Vector();
 
-    private boolean needToResetKey = false;
-
     /*
      * the following constant definitions are exceptions thrown by this class
      */
