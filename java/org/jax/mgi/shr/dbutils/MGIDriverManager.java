@@ -2,13 +2,13 @@
 // $Name$
 
 /**
- * Title:        MGI Driver Manager  <p>
- * Description:  A convenience library to allow Java clients to easily use <p>
- *               JNDI/LDAP or a direct database URL to connect to a database. <p>
+ * Title:        MGI Driver Manager
+ * Description:  A convenience library to allow Java clients to easily use
+ *               JNDI/LDAP or a direct database URL to connect to a database.
  * Limitations:  Currently Sybase-specific, but can probably be changed easily
  *               to support multiple database vendors.
- * Copyright:    Copyright (c) 2000 The Jackson Laboratory <p>
- * Company:      Mouse Genome Informatics<p>
+ * Copyright:    Copyright (c) 2000 The Jackson Laboratory
+ * Company:      Mouse Genome Informatics
  * @author       gld
  */
 
@@ -78,7 +78,8 @@ public class MGIDriverManager implements ConnectionManager
       }
 
       /**
-       *  Loads the database driver. Must be called prior to using getConnection().
+       *  Loads the database driver. Must be called prior to using
+       *  getConnection().
        *  requires: nothing
        *  modifies: nothing
        */
@@ -86,7 +87,8 @@ public class MGIDriverManager implements ConnectionManager
       {
         try {
           Driver d =
-          (Driver) Class.forName("com.sybase.jdbc2.jdbc.SybDriver").newInstance();
+          (Driver) Class.forName(
+                   "com.sybase.jdbc2.jdbc.SybDriver").newInstance();
            DriverManager.registerDriver(d);
         }
         catch (Exception ex)
@@ -112,7 +114,8 @@ public class MGIDriverManager implements ConnectionManager
           throws SQLException
       {
         init();
-        return getConnection(null, database, user, password, directDatabaseURL);
+        return getConnection(null, database, user,
+                             password, directDatabaseURL);
       }
 
 
@@ -130,6 +133,9 @@ public class MGIDriverManager implements ConnectionManager
 }
 
 // $Log$
+// Revision 1.2  2004/07/21 19:42:21  mbw
+// javadocs edits only
+//
 // Revision 1.1  2003/12/30 16:50:30  mbw
 // imported into this product
 //
