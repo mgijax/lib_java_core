@@ -53,8 +53,6 @@ public class RowDataIterator implements DataIterator
     nav.setInterpreter(interpreter);
     if (!nav.next())
       done = true;
-    else
-        cacheObject = nav.getCurrent();
   }
 
   /**
@@ -101,18 +99,9 @@ public class RowDataIterator implements DataIterator
               (DBException)factory.getException(PastEndOfResultSet);
           throw e;
       }
-
-      if (cacheObject != null)
-      {
-          nextObject = cacheObject;
-          if (!nav.next())
-          {
-              done = true;
-              cacheObject = null;
-          }
-          else
-              cacheObject = nav.getCurrent();
-      }
+      nextObject = nav.getCurrent();
+      if (!nav.next())
+          done = true;
 
       return nextObject;
   }

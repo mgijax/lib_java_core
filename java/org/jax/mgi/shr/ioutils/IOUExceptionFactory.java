@@ -121,7 +121,8 @@ import org.jax.mgi.shr.exception.ExceptionFactory;
           "org.jax.mgi.shr.ioutils.NullFilename";
       static {
         exceptionsMap.put(NullFilename, new IOUException (
-            "The input filename was not configured. Expected INFILE_NAME.",
+            "The input filename was not configured. Expected either " +
+            "INFILE_NAME or OUTFILE_NAME.",
             false));
       }
       /**
