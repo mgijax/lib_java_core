@@ -1,3 +1,8 @@
+DATE: 04/26/2004
+STAFF: mbw
+CHANGES:
+1) changed caching classes so that lookups are case insensitive if the key is of type String
+
 TAG: lib_java_core-1-0-14
 DATE: 04/14/2004
 STAFF: mbw
