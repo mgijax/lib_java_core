@@ -264,8 +264,8 @@ public class DBSchema {
     Vector v2 = new Vector();
     String s = null;
     for (int i = 0; i < v1.size(); i++) {
-      s = ((String)v1.get(i)).replaceAll("\\$\\{DBCLUSTIDXSEG\\}", "mgd_seg_0");
-      s = (s.replaceAll("\\$\\{DBNONCLUSTIDXSEG\\}", "mgd_seg_1"));
+      s = ((String)v1.get(i)).replaceAll("\\$DBCLUSTIDXSEG", "mgd_seg_0");
+      s = (s.replaceAll("\\$DBNONCLUSTIDXSEG", "mgd_seg_1"));
       v2.add(s);
     }
     return v2;
@@ -372,7 +372,7 @@ public class DBSchema {
       throw e2;
     }
     String s = new String(command);
-    s = (s.replaceFirst("\\$\\{DBTABLESEGMENT\\}", "mgd_seg_0"));
+    s = (s.replaceFirst("\\$DBTABLESEGMENT", "mgd_seg_0"));
     return s;
   }
 
@@ -510,6 +510,9 @@ public class DBSchema {
 }
 
 // $Log$
+// Revision 1.4.4.2  2004/01/26 17:33:14  mbw
+// changed hardcoded name for table segment
+//
 // Revision 1.4.4.1  2004/01/26 17:01:35  mbw
 // changed names of database segments for cluster and nonclustered indexes
 //
