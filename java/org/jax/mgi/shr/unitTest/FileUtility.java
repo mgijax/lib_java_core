@@ -56,10 +56,6 @@ public class FileUtility {
       throws IOException {
     File file1 = new File(filename1);
     File file2 = new File(filename2);
-    long l1 = file1.length();
-    long l2 = file2.length();
-    if (file1.length() != file2.length())
-      return false;
     BufferedReader r1 = new BufferedReader(new FileReader(file1));
     BufferedReader r2 = new BufferedReader(new FileReader(file2));
     String str1, str2;
