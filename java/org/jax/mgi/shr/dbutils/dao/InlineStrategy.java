@@ -5,15 +5,11 @@ import org.jax.mgi.shr.dbutils.DBException;
 import org.jax.mgi.shr.dbutils.DBExceptionFactory;
 
 /**
- * @is a class which implements the InsertStrategy, UpdateStrategy,
+ * A class which implements the InsertStrategy, UpdateStrategy,
  * and DeleteStrategy using a direct in-line JDBC approach
  * @has a SQLDataManager.
- * @does casts the given DAO to a SQLTranslatable from which to
- * obtain the sql statements and executes the sql for either insert, update or
- * delete.
- * @copyright Jackson Lab
+ * @does extracts SQL from DAO objects and executes the sql as direct inline
  * @author M Walker
- * @version 1.0
  */
 public class InlineStrategy
     implements InsertStrategy, DeleteStrategy, UpdateStrategy
@@ -26,8 +22,7 @@ public class InlineStrategy
     /*
      * the following constant definitions are exceptions thrown by this class
      */
-    private static String DataInstanceErr =
-        DBExceptionFactory.DataInstanceErr;
+    private static String DAOErr = DBExceptionFactory.DAOErr;
 
     /**
      * constructor
@@ -54,6 +49,7 @@ public class InlineStrategy
     {
         SQLTranslatable translator = (SQLTranslatable) dao;
         String sql = translator.getUpdateSQL();
+        sql = SQLStrategyHelper.convertToJDBCProc(sql);
         try
         {
             sqlDataManager.execute(sql);
@@ -62,14 +58,14 @@ public class InlineStrategy
         {
             DBExceptionFactory eFactory = new DBExceptionFactory();
             DBException e2 = (DBException)
-                eFactory.getException(DataInstanceErr, e);
+                eFactory.getException(DAOErr, e);
             e2.bind(dao.getClass().getName());
             throw e2;
         }
     }
 
     /**
-     * delete the given DAO using direct inline JDBS
+     * delete the given DAO using direct inline JDBC
      * @assumes nothing
      * @effects the given DAO will be deleted from the database
      * @param dao the dao object to delete
@@ -81,6 +77,7 @@ public class InlineStrategy
     {
         SQLTranslatable translator = (SQLTranslatable) dao;
         String sql = translator.getDeleteSQL();
+        sql = SQLStrategyHelper.convertToJDBCProc(sql);
         try
         {
             sqlDataManager.execute(sql);
@@ -89,7 +86,7 @@ public class InlineStrategy
         {
             DBExceptionFactory eFactory = new DBExceptionFactory();
             DBException e2 = (DBException)
-                eFactory.getException(DataInstanceErr, e);
+                eFactory.getException(DAOErr, e);
             e2.bind(dao.getClass().getName());
             throw e2;
         }
@@ -108,6 +105,7 @@ public class InlineStrategy
     {
         SQLTranslatable translator = (SQLTranslatable) dao;
         String sql = translator.getInsertSQL();
+        sql = SQLStrategyHelper.convertToJDBCProc(sql);
         try
         {
             sqlDataManager.execute(sql);
@@ -116,7 +114,7 @@ public class InlineStrategy
         {
             DBExceptionFactory eFactory = new DBExceptionFactory();
             DBException e2 = (DBException)
-                eFactory.getException(DataInstanceErr, e);
+                eFactory.getException(DAOErr, e);
             e2.bind(dao.getClass().getName());
             throw e2;
         }
