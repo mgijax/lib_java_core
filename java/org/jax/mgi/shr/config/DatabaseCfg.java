@@ -23,9 +23,9 @@ public class DatabaseCfg
   private String DEFAULT_USER = "mgd_dbo";
   private String DEFAULT_URL = "rohan.informatics.jax.org:4100";
   private String DEFAULT_PWFILE =
-      "/usr/local/mgi/dbutils/mgidbutilities/.mgd_dbo_dev_password";
+      "/usr/local/mgi/live/dbutils/mgidbutilities/.mgd_dbo_dev_password";
   private String DEFAULT_DBSCHEMA_DIR =
-      "/usr/local/mgi/dbutils/mgd/mgddbschema";
+      "/usr/local/mgi/live/dbutils/mgd/mgddbschema";
   private String DEFAULT_CONNECTION_MANAGER =
       "org.jax.mgi.shr.dbutils.MGIDriverManager";
 
@@ -141,6 +141,9 @@ public class DatabaseCfg
 
 }
 // $Log$
+// Revision 1.3  2004/07/21 19:08:50  mbw
+// removed the use of parameter prefixing from this class since it was recently moved to the base class
+//
 // Revision 1.2  2004/04/02 19:01:33  mbw
 // changed default value of dbo password file to refect new file name
 //
