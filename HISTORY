@@ -1,3 +1,8 @@
+DATE: 9/03/2004
+STAFF: mbw
+CHANGES:
+1) added a check in the DBSchema class to look for improperly nested quotations in dbschema product
+
 TAG:lib_java_core-1-0-23
 DATE: 8/27/2004
 STAFF: mbw
