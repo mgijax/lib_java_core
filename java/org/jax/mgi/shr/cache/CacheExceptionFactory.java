@@ -48,4 +48,16 @@ public class CacheExceptionFactory
             "The method getFullInitQuery must be implemented with a " +
             "non-null value", false));
     }
+
+    /**
+     * Error accessing the configuration file
+     */
+    public static final String ConfigErr =
+        "org.jax.mgi.shr.cache.ConfigErr";
+    static
+    {
+        exceptionsMap.put(ConfigErr, new CacheException(
+            "Could not access the configuration file", false));
+    }
+
 }
