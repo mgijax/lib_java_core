@@ -3,12 +3,11 @@ package org.jax.mgi.shr.dbutils;
 import org.jax.mgi.shr.exception.ExceptionFactory;
 
 /**
- * @is An ExceptionFactory.
+ * An ExceptionFactory for storing ScriptExceptions.
  * @has a hashmap of predefined ScriptExceptions stored by a name key
  * @does looks up ScriptExceptions by name
  * @company The Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 
 public class ScriptExceptionFactory extends ExceptionFactory {
@@ -76,7 +75,7 @@ public class ScriptExceptionFactory extends ExceptionFactory {
   }
 
   /**
-   * An interrupt signal was received during the execution of bcp
+   * A nozero return value was received during the execution of the script
    */
   public static final String NonZeroErr =
       "org.jax.mgi.shr.dbutils.NonZeroErr";

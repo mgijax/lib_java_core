@@ -5,14 +5,13 @@ import org.jax.mgi.shr.config.DatabaseCfg;
 import org.jax.mgi.shr.config.ConfigException;
 
 /**
- * @is a class for accessing SQLDataManager references by name. The name
- * matches the prefix used for the configuration parameters for configuring
- * a SQLDataManager. The references accessed can be shared or new.
+ * A class for accessing SLDataManager instances by name. The name
+ * matches the prefix used for the SQLDataManager configuration parameters.
+ * The references accessed can be shared or new.
  * @has a mapping of SQLDataManager references by name
  * @does provides a either a shared or new reference to a SQLDataManager
- * @company: The Jackson Laboratory
+ * @company The Jackson Laboratory
  * @author M Walker
- * @version 1.0
  */
 
 public class SQLDataManagerFactory {
@@ -25,7 +24,7 @@ public class SQLDataManagerFactory {
 
   /**
    * get a new reference to a SQLDataManager by name
-   * @param name the name of the reference which would match some prefix used
+   * @param cfgPrefix the name of the reference which would match some prefix used
    * for a set of SQLDataManager configuration parameters
    * @return the SQLDataManager reference
    * @throws ConfigException thrown if there was an error accessing the
@@ -43,7 +42,7 @@ public class SQLDataManagerFactory {
 
   /**
    * get a shared reference to a SQLDataManager by name
-   * @param name the name of the reference which would match some prefix used
+   * @param cfgPrefix the name of the reference which would match some prefix used
    * for a set of SQLDataManager configuration parameters
    * @return the shared SQLDataManager reference
    * @throws ConfigException thrown if there was an error accessing the
