@@ -297,14 +297,14 @@ public class DBSchema
             if (this.sqlmanager.isSybase())
             {
                 s = ((String)v1.get(i)).replaceAll(
-                    "\\$(\\{)??DBCLUSTIDXSEG(\\})??", "seg0");
-                s = (s.replaceAll("\\$(\\{)??DBNONCLUSTIDXSEG(\\})??", "seg1"));
+                    "\\$(\\{)?+DBCLUSTIDXSEG(\\})?+", "seg0");
+                s = (s.replaceAll("\\$(\\{)?+DBNONCLUSTIDXSEG(\\})?+", "seg1"));
             }
             else
             {
                 s = ((String)v1.get(i)).replaceAll(
-                    "on \\$(\\{)??DBCLUSTIDXSEG(\\})??", "");
-                s = (s.replaceAll("on \\$(\\{)??DBNONCLUSTIDXSEG(\\})??", ""));
+                    "on \\$(\\{)?+DBCLUSTIDXSEG(\\})?+", "");
+                s = (s.replaceAll("on \\$(\\{)?+DBNONCLUSTIDXSEG(\\})?+", ""));
                 s = (s.replaceAll("on system", ""));
                 s = (s.replaceAll("nonclustered index", "index"));
                 s = (s.replaceAll("clustered index", "index"));
@@ -482,10 +482,10 @@ public class DBSchema
         }
         String s = new String(command);
         if (this.sqlmanager.isSybase())
-            s = (s.replaceFirst("\\$(\\{)??DBTABLESEGMENT(\\})?+", "seg0"));
+            s = (s.replaceFirst("\\$(\\{)?+DBTABLESEGMENT(\\})?+", "seg0"));
         else
         {
-            s = (s.replaceFirst("on \\$(\\{)??DBTABLESEGMENT(\\})?+", ""));
+            s = (s.replaceFirst("on \\$(\\{)?+DBTABLESEGMENT(\\})?+", ""));
             s = (s.replaceFirst("on seg\\d", ""));
         }
         return s;
@@ -637,6 +637,9 @@ public class DBSchema
 
 }
 // $Log$
+// Revision 1.6  2004/04/02 16:00:33  mbw
+// bug fix: fixed regex string
+//
 // Revision 1.5  2004/03/29 19:49:46  mbw
 // added compatibility with mysql databases
 //
