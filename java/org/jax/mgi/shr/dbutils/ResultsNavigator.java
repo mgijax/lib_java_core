@@ -113,6 +113,19 @@ public class ResultsNavigator {
   }
 
   /**
+   * Returns a RowReference object for the current row.
+   * @assumes nothing
+   * @effects any previously returned RowReference object would now
+   * referencing this returned RowReference
+   * @return the RowReference object for the current row.
+   * @throws DBException thrown if there is a JDBC Exception
+   */
+  public RowReference getCurrentRef() throws DBException {
+    return new RowReference(rs);
+  }
+
+
+  /**
    * Moves the iterator to the first row
    * @assumes nothing
    * @effects the pointer within the ResultSet is moved to the beginning
@@ -301,34 +314,34 @@ public class ResultsNavigator {
                         "first row", e);
     }
   }
-  
-	/**
-	 * get the row metadata
-	 * @assumes nothing
-	 * @effects nothing
-	 * @return the metadata
-	 * @throws DBException thrown if there is an error from the database
-	 */
-	public ResultSetMetaData getMetaData() throws DBException {
-		if (meta == null)
-			setMetaData();
-		return meta;
-	}
-	
-	/**
-	 * set the internal reference for the row metadata
-	 * @assumes nothing
-	 * @effects the internal reference for the row metadata will be set
-	 * @throws DBException
-	 */
-	private void setMetaData() throws DBException {
-		try {
-			meta = rs.getMetaData();
-		}
-		catch (SQLException e) {
-			throw dbException("get metadata from ResultSet", e);
-		}
-	}
+
+        /**
+         * get the row metadata
+         * @assumes nothing
+         * @effects nothing
+         * @return the metadata
+         * @throws DBException thrown if there is an error from the database
+         */
+        public ResultSetMetaData getMetaData() throws DBException {
+                if (meta == null)
+                        setMetaData();
+                return meta;
+        }
+
+        /**
+         * set the internal reference for the row metadata
+         * @assumes nothing
+         * @effects the internal reference for the row metadata will be set
+         * @throws DBException
+         */
+        private void setMetaData() throws DBException {
+                try {
+                        meta = rs.getMetaData();
+                }
+                catch (SQLException e) {
+                        throw dbException("get metadata from ResultSet", e);
+                }
+        }
 
   /**
    * get a DBException with name DBExceptionFactory.JDBCException and
@@ -348,6 +361,9 @@ public class ResultsNavigator {
 }
 
 // $Log$
+// Revision 1.1  2003/12/30 16:50:34  mbw
+// imported into this product
+//
 // Revision 1.2  2003/12/09 22:49:06  mbw
 // merged jsam branch onto the trunk
 //
