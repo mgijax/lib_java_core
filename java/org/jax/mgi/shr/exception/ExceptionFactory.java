@@ -6,21 +6,26 @@ package org.jax.mgi.shr.exception;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
 
 /**
- * @is a base class object that stores Exceptions.
+ *  A base class object that stores Exceptions.
  * @has a static hasmap for storing Exceptions.
  * @does provides static storage and static lookup methods.
  * @company The Jackson Laboratory
  * @author dbm
- * @version 1.0
  */
 
 public class ExceptionFactory
 {
   // the storage for Exceptions
   static protected HashMap exceptionsMap = new HashMap();
+
+  // flag indicating whether or not include a stack trace in the message
+  private static boolean okToStackTrace = true;
+
 
   /**
    * overrides the toString() method from the Object class
@@ -52,12 +57,23 @@ public class ExceptionFactory
       MGIException e = (MGIException)exceptionsMap.get(pExceptionName);
       if (e == null) {
         throw new RuntimeException(
-          "Internal error: an exception was raised " +
-          "which has not yet been defined: " +
+          "Internal error: a named exception was raised " +
+          "which has not yet been defined for this ExceptionFactory: " +
           "exception name " + pExceptionName + ". " +
           "This should be considered as a bug");
       }
-      return (MGIException)e.clone(); // return a copy not original
+      MGIException eCloned = (MGIException) e.clone();
+      eCloned.setName(pExceptionName);
+      if (okToStackTrace)
+      // include the stack trace in the message
+      {
+        ByteArrayOutputStream trace = new ByteArrayOutputStream();
+        Exception e2 = new Exception();
+        e2.printStackTrace(new PrintStream(trace));
+        eCloned.appendMessage(trace.toString());
+      }
+
+      return eCloned; // return a copy not original
     }
 
     /**
@@ -85,12 +101,42 @@ public class ExceptionFactory
       // return a copy not original
       MGIException eCloned = (MGIException) e.clone();
       eCloned.setParent(pExceptionParent);
+      eCloned.setName(pExceptionName);
+      if (okToStackTrace)
+      // include the stack trace in the message
+      {
+        ByteArrayOutputStream trace = new ByteArrayOutputStream();
+        pExceptionParent.printStackTrace(new PrintStream(trace));
+        eCloned.appendMessage(trace.toString());
+      }
+
       return eCloned;
     }
+
+    /**
+     * set whether or not to include a stack trace in the exception message
+     * @param bool true or false
+     */
+    public static void setOkToStackTrace(boolean bool) {
+      okToStackTrace = bool;
+    }
+
+    /**
+     * set whether or not to include a stack trace in the exception message
+     * @param bool true or false
+     */
+    public static boolean isOkToStackTrace() {
+      return okToStackTrace;
+    }
+
+
 
 }
 
 // $Log$
+// Revision 1.1  2003/12/30 16:56:32  mbw
+// imported into this product
+//
 // Revision 1.18  2003/09/23 20:07:53  mbw
 // removed definition of unsupported method exception
 //
