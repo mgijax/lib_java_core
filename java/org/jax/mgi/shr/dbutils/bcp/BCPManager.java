@@ -1,5 +1,8 @@
 // $Header$
+
 // $Name$
+
+
 
 package org.jax.mgi.shr.dbutils.bcp;
 
@@ -7,7 +10,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Vector;
 import java.util.Iterator;
-
 import org.jax.mgi.shr.unix.RunCommand;
 import org.jax.mgi.shr.config.BCPManagerCfg;
 import org.jax.mgi.shr.config.BCPWriterCfg;
@@ -18,7 +20,6 @@ import org.jax.mgi.shr.dbutils.DBSchema;
 import org.jax.mgi.shr.dbutils.DBSchemaException;
 import org.jax.mgi.shr.dbutils.SQLDataManager;
 import org.jax.mgi.shr.dbutils.Table;
-
 
 /**
  * @is an object for executing the Sybase bcp command against multiple
@@ -38,11 +39,7 @@ import org.jax.mgi.shr.dbutils.Table;
  * @author M. Walker
  * @version 1.0
  */
-
-
-
 public class BCPManager {
-
   /*
    * the SQLDataManager used for executing DDL commands before and after bcp
    */
@@ -103,7 +100,6 @@ public class BCPManager {
    * bcp exception factory used to store and obtain bcp exceptions
    */
   private BCPExceptionFactory exceptionFactory = new BCPExceptionFactory();
-
   /*
    * the following constant definitions are exceptions thrown by this class
    */
@@ -115,8 +111,6 @@ public class BCPManager {
       BCPExceptionFactory.NonZeroErr;
   private static String InvalidDelimiter =
       BCPExceptionFactory.InvalidDelimiter;
-
-
   /**
    * default constructor which reads the configuration from a
    * default configuration object
@@ -127,6 +121,7 @@ public class BCPManager {
   public BCPManager() throws ConfigException, DBException {
     configure(new BCPManagerCfg());
   }
+
   /**
    * constructer which uses a given configuration object for obtaining
    * configuration parameters normally used for selecting a certain
@@ -138,10 +133,10 @@ public class BCPManager {
    * @throws DBException thrown if there is an error accessing the
    * database
    */
-  public BCPManager(BCPManagerCfg config)
-      throws ConfigException, DBException {
+  public BCPManager(BCPManagerCfg config) throws ConfigException, DBException {
     configure(config);
   }
+
   /**
    * set the SQLDataManager used for record validation and DDL calls.
    * @assumes nothing
@@ -152,6 +147,7 @@ public class BCPManager {
   public void setSQLDataManager(SQLDataManager pSqlmanager) {
     sqlmanager = pSqlmanager;
   }
+
   /**
    * set the Logger instance
    * @assumes nothing
@@ -161,6 +157,7 @@ public class BCPManager {
   public void setLogger(Logger pLogger) {
     logger = pLogger;
   }
+
   /**
    * set the name of the path where bcp files should be created, overriding
    * the value found in the configuration file or system properties.
@@ -171,6 +168,7 @@ public class BCPManager {
   public void setPathname(String pathParam) {
     path = pathParam;
   }
+
   /**
    * set the delimiter used as a field seperator in bcp files, overriding the
    * value found in the configuration file or system properties.
@@ -181,6 +179,7 @@ public class BCPManager {
   public void setDelimiter(String delimiterParam) {
     delimiter = delimiterParam;
   }
+
   /**
    * set the option to prevent executing the bcp command when called,
    * overriding the value found in the configuration file or system
@@ -192,6 +191,7 @@ public class BCPManager {
   public void setPreventExecute(boolean boolParam) {
     preventExecute = boolParam;
   }
+
   /**
    * set the option which allows existing files to be overwritten by new
    * bcp files with the same name, overriding the value found in the
@@ -203,6 +203,7 @@ public class BCPManager {
   public void setOkToOverwrite(boolean boolParam) {
     okToOverwrite = boolParam;
   }
+
   /**
    * set the option which designates whether to use temporary files when
    * creating bcp files, overriding the value found in the configuration file
@@ -215,6 +216,7 @@ public class BCPManager {
   public void setUseTempFile(boolean boolParam) {
     useTempFile = boolParam;
   }
+
   /**
    * set the option which designates that the bcp files will be removed
    * from the system after they are executed, overriding the value found
@@ -229,6 +231,7 @@ public class BCPManager {
   public void setRemoveAfterExecute(boolean boolParam) {
     removeAfterExecute = boolParam;
   }
+
   /**
    * set the option which designates whether to automatically
    * add the record stamping fields, overriding the value found
@@ -240,6 +243,7 @@ public class BCPManager {
   public void setOkToRecordStamp(boolean boolParam) {
     okToRecordStamp = boolParam;
   }
+
   /**
    * set the option which designates whether to automatically
    * flush a buffer after each bcp write, overriding the value found
@@ -251,6 +255,7 @@ public class BCPManager {
   public void setOkToAutoFlush(boolean boolParam) {
     okToAutoFlush = boolParam;
   }
+
   /**
    * set the option which designates whether to automatically
    * truncate the log after doing a bcp, overriding the value found in the
@@ -262,22 +267,22 @@ public class BCPManager {
   public void setOkToTruncateLog(boolean boolParam) {
     okToTruncateLog = boolParam;
   }
+
   /**
    * get the SQLDataManager instance set for this object.
    * @assumes nothing
    * @effects nothing
    * @return the SQLDataManager.
    */
-  public SQLDataManager getSQLDataManager()
-      throws DBException, ConfigException {
+  public SQLDataManager getSQLDataManager() throws DBException, ConfigException {
     // if the SQLDataManager instance is null, then create a default one
     SQLDataManager sqlMgrRef = sqlmanager;
-    if (sqlMgrRef == null)
-    {
+    if (sqlMgrRef == null) {
       sqlMgrRef = new SQLDataManager();
     }
     return sqlMgrRef;
   }
+
   /**
    * get the field delimiter for the BCP file.
    * @assumes nothing
@@ -287,6 +292,7 @@ public class BCPManager {
   public String getDelimiter() {
     return delimiter;
   }
+
   /**
    * get the path name where bcp files are created.
    * @assumes nothing
@@ -296,6 +302,7 @@ public class BCPManager {
   public String getPathname() {
     return path;
   }
+
   /**
    * get the value of the attribute which designates whether to use temporary
    * files when creating bcp files.
@@ -306,6 +313,7 @@ public class BCPManager {
   public boolean getUseTempFile() {
     return useTempFile;
   }
+
   /**
    * get the value of the attribute which designates whether it is ok to
    * overwrite an existing bcp file.
@@ -316,6 +324,7 @@ public class BCPManager {
   public boolean getOkToOverwrite() {
     return okToOverwrite;
   }
+
   /**
    * get the value of the option which designates whether to prevent
    * executing the bcp command when called.
@@ -326,6 +335,7 @@ public class BCPManager {
   public boolean getPreventExecute() {
     return preventExecute;
   }
+
   /**
    * get the value of the option which designates whether to remove the bcp
    * files after executing.
@@ -336,6 +346,7 @@ public class BCPManager {
   public boolean getRemoveAfterExecute() {
     return removeAfterExecute;
   }
+
   /**
    * get the value of the option which designates whether to automatically
    * truncate the log after running bcp.
@@ -346,6 +357,7 @@ public class BCPManager {
   public boolean getOkToTruncateLog() {
     return okToTruncateLog;
   }
+
   /**
    * get the value of the option which designates whether to automatically
    * add the fields createdBy, modifiedBy and the the fields
@@ -357,6 +369,7 @@ public class BCPManager {
   public boolean getOkToRecordStamp() {
     return okToRecordStamp;
   }
+
   /**
    * get the value of the option which designates whether to automatically
    * flush a buffer after each bcp write.
@@ -367,6 +380,7 @@ public class BCPManager {
   public boolean getOkToAutoFlush() {
     return okToAutoFlush;
   }
+
   /**
    * get a BCPWriter object for a given table
    * @assumes nothing
@@ -379,13 +393,14 @@ public class BCPManager {
    * @throws ConfigException thrown if there is an error during
    * configuration
    */
-  public BCPWriter getBCPWriter(Table pTable)
-      throws BCPException, DBException, ConfigException {
+  public BCPWriter getBCPWriter(Table pTable) throws BCPException, DBException,
+      ConfigException {
     BCPWriterCfg bcpCfg = new BCPWriterCfg();
     bcpCfg.setDefaultOkToRecordStamp(okToRecordStamp);
     bcpCfg.setDefaultOkToAutoFlush(okToAutoFlush);
     return getBCPWriter(pTable, bcpCfg);
   }
+
   /**
    * get a BCPWriter object through which a client class can create
    * bcp files.
@@ -402,8 +417,8 @@ public class BCPManager {
    * configure the BCPWriter object
    *
    */
-  public BCPWriter getBCPWriter(Table pTable, BCPWriterCfg pCfg)
-      throws BCPException, DBException, ConfigException {
+  public BCPWriter getBCPWriter(Table pTable, BCPWriterCfg pCfg) throws
+      BCPException, DBException, ConfigException {
     pCfg.setDefaultOkToRecordStamp(okToRecordStamp);
     pCfg.setDefaultOkToAutoFlush(okToAutoFlush);
     pCfg.setDefaultOkToDropIndexes(this.okToDropIndexes);
@@ -412,6 +427,7 @@ public class BCPManager {
     allWriters.add(writer);
     return writer;
   }
+
   /**
    * get a BCPWriter object for a given table
    * @assumes nothing
@@ -424,13 +440,14 @@ public class BCPManager {
    * @throws ConfigException thrown if there is an error during
    * configuration
    */
-  public BCPWriter getBCPWriter(String pTable)
-      throws BCPException, DBException, ConfigException {
+  public BCPWriter getBCPWriter(String pTable) throws BCPException, DBException,
+      ConfigException {
     BCPWriterCfg bcpCfg = new BCPWriterCfg();
     bcpCfg.setDefaultOkToRecordStamp(okToRecordStamp);
     bcpCfg.setDefaultOkToAutoFlush(okToAutoFlush);
     return getBCPWriter(pTable, bcpCfg);
   }
+
   /**
    * get a BCPWriter object through which a client class can create
    * bcp files.
@@ -447,8 +464,8 @@ public class BCPManager {
    * configure the BCPWriter object
    *
    */
-  public BCPWriter getBCPWriter(String pTable, BCPWriterCfg pCfg)
-      throws BCPException, DBException, ConfigException {
+  public BCPWriter getBCPWriter(String pTable, BCPWriterCfg pCfg) throws
+      BCPException, DBException, ConfigException {
     pCfg.setDefaultOkToRecordStamp(this.okToRecordStamp);
     pCfg.setDefaultOkToAutoFlush(this.okToAutoFlush);
     pCfg.setDefaultOkToDropIndexes(this.okToDropIndexes);
@@ -457,6 +474,7 @@ public class BCPManager {
     allWriters.add(writer);
     return writer;
   }
+
   /**
    * execute all the existing bcp files
    * @throws BCPException thrown if there is some error handling the bcp
@@ -465,11 +483,10 @@ public class BCPManager {
    * @throws DBSchemaException thrown if there is an error obtainning DDL
    * commands, for example commands for dropping and creating indexes
    */
-  public void executeBCP()
-      throws BCPException, DBException, DBSchemaException {
+  public void executeBCP() throws BCPException, DBException, DBSchemaException {
     BCPWriter writer = null;
     for (Iterator it = allWriters.iterator(); it.hasNext(); ) {
-      writer = (BCPWriter)it.next();
+      writer = (BCPWriter) it.next();
       writer.close();
     }
     for (Iterator it = allWriters.iterator(); it.hasNext(); ) {
@@ -481,6 +498,7 @@ public class BCPManager {
     // clear all writers
     allWriters = new Vector();
   }
+
   /**
    * sets all the attributes from the configuration object
    * @assumes nothing
@@ -501,6 +519,7 @@ public class BCPManager {
     this.okToDropIndexes = pConfig.getOkToDropIndexes().booleanValue();
     this.okToTruncateTable = pConfig.getOkToTruncateTable().booleanValue();
   }
+
   /**
    * executes the associated bcp file for the given BCPWriter.
    * @assumes nothing
@@ -514,8 +533,8 @@ public class BCPManager {
    * @throws DBSchemaException thrown if there is an error running DDL
    * commands using the DBSchema product
    */
-  private void executeBCPFile(BCPWriter bcpWriter)
-       throws BCPException, DBException, DBSchemaException {
+  private void executeBCPFile(BCPWriter bcpWriter) throws BCPException,
+      DBException, DBSchemaException {
     SQLDataManager sqlmanager = bcpWriter.getTable().getSQLDataManager();
     String server = sqlmanager.getServer();
     String db = sqlmanager.getDatabase();
@@ -525,8 +544,8 @@ public class BCPManager {
     String file = bcpWriter.getFilename();
     String table = bcpWriter.getTablename();
     String cmd = "cat " + pwFile + " | bcp " + db + ".." + table +
-                 " in " + file + " -c -S " + server + " -U " + user +
-                 " -t " + convertDelimiter(delimiter);
+        " in " + file + " -c -S " + server + " -U " + user +
+        " -t " + convertDelimiter(delimiter);
     int exitCode = 0;
     // check attributes to see if the bcp command should not be performed
     if (preventExecute)
@@ -589,16 +608,16 @@ public class BCPManager {
       // standard out and standard error
       String msgErr = null;
       String msgOut = null;
-      if ((msgErr = runner.getStdErr()) != null)
+      if ( (msgErr = runner.getStdErr()) != null)
         logger.logInfo(msgErr);
-      if ((msgOut = runner.getStdOut()) != null) {
+      if ( (msgOut = runner.getStdOut()) != null) {
         if (logger != null)
           logger.logInfo(msgOut);
       }
       // exit code of non-zero indicates an error occurred while running bcp.
       // recreate indexes if they were dropped and throw a BCPException
       if (exitCode != 0) {
-       BCPException e2 = (BCPException)
+        BCPException e2 = (BCPException)
             exceptionFactory.getException(NonZeroErr);
         e2.bind(cmd);
         // need to recreate indexes if they were dropped
@@ -625,7 +644,8 @@ public class BCPManager {
                bcpWriter.getTable().getSQLDataManager());
     // truncate the log if configured to do so
     if (okToTruncateLog) {
-      if (logger != null) logger.logInfo("Truncate transaction log");
+      if (logger != null)
+        logger.logInfo("Truncate transaction log");
       dbSchema.truncateLog();
     }
     // see if bcp file should be removed
@@ -634,6 +654,7 @@ public class BCPManager {
       f.delete();
     }
   }
+
   /**
    * executes a vector of sql strings
    * @assumes nothing
@@ -641,15 +662,16 @@ public class BCPManager {
    * @param v the vector of sql strings
    * @throws DBException thrown if there is an sql exception
    */
-  private void executeSql(Vector v, SQLDataManager sqlmanager)
-      throws DBException {
+  private void executeSql(Vector v, SQLDataManager sqlmanager) throws
+      DBException {
     if (v != null) {
       for (Iterator it = v.iterator(); it.hasNext(); ) {
-        String sql = (String)it.next();
+        String sql = (String) it.next();
         sqlmanager.executeUpdate(sql);
       }
     }
   }
+
   /**
    * converts a string representing the delimiter to a string suitable
    * for writing to the command line
@@ -677,6 +699,9 @@ public class BCPManager {
   }
 }
 // $Log$
+// Revision 1.1  2003/12/30 16:50:46  mbw
+// imported into this product
+//
 // Revision 1.2  2003/12/09 22:49:18  mbw
 // merged jsam branch onto the trunk
 //
@@ -782,26 +807,3 @@ public class BCPManager {
 //
 // Revision 1.5.2.10  2003/03/21 16:52:48  mbw
 // added standard header/footer
-//
-/**************************************************************************
-*
-* Warranty Disclaimer and Copyright Notice
-*
-*  THE JACKSON LABORATORY MAKES NO REPRESENTATION ABOUT THE SUITABILITY OR
-*  ACCURACY OF THIS SOFTWARE OR DATA FOR ANY PURPOSE, AND MAKES NO WARRANTIES,
-*  EITHER EXPRESS OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR A
-*  PARTICULAR PURPOSE OR THAT THE USE OF THIS SOFTWARE OR DATA WILL NOT
-*  INFRINGE ANY THIRD PARTY PATENTS, COPYRIGHTS, TRADEMARKS, OR OTHER RIGHTS.
-*  THE SOFTWARE AND DATA ARE PROVIDED "AS IS".
-*
-*  This software and data are provided to enhance knowledge and encourage
-*  progress in the scientific community and are to be used only for research
-*  and educational purposes.  Any reproduction or use for commercial purpose
-*  is prohibited without the prior express written permission of The Jackson
-*  Laboratory.
-*
-* Copyright \251 1996, 1999, 2002 by The Jackson Laboratory
-*
-* All Rights Reserved
-*
-**************************************************************************/
