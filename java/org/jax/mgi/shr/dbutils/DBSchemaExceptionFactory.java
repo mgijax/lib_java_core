@@ -15,7 +15,7 @@ public class DBSchemaExceptionFactory extends ExceptionFactory {
    * Could not obtain ddl statements from dbSchema file
    */
   public static final String FileNotFoundErr =
-      "org.jax.mgi.shr.shrdbutils.FileNotFoundErr";
+      "org.jax.mgi.shr.dbschema.FileNotFoundErr";
   static {
     exceptionsMap.put(FileNotFoundErr, new DBSchemaException(
         "DBSchema file ?? does not exist", false));
@@ -24,7 +24,7 @@ public class DBSchemaExceptionFactory extends ExceptionFactory {
    * Could not obtain ddl statements from dbSchema file
    */
   public static final String FileReadErr =
-      "org.jax.mgi.shr.shrdbutils.FileReadErr";
+      "org.jax.mgi.shr.dbschema.FileReadErr";
   static {
     exceptionsMap.put(FileReadErr, new DBSchemaException(
         "Error reading from file ??", false));
@@ -33,7 +33,7 @@ public class DBSchemaExceptionFactory extends ExceptionFactory {
    * Could not obtain ddl statements from dbSchema file
    */
   public static final String FileCloseErr =
-      "org.jax.mgi.shr.shrdbutils.FileCloseErr";
+      "org.jax.mgi.shr.dbschema.FileCloseErr";
   static {
     exceptionsMap.put(FileCloseErr, new DBSchemaException(
         "Error trying to close file ??", false));
@@ -42,7 +42,7 @@ public class DBSchemaExceptionFactory extends ExceptionFactory {
    * Could not obtain ddl statements from dbSchema file
    */
   public static final String NoRegexMatch =
-      "org.jax.mgi.shr.shrdbutils.NoRegexMatch";
+      "org.jax.mgi.shr.dbschema.NoRegexMatch";
   static {
     exceptionsMap.put(NoRegexMatch, new DBSchemaException(
         "Could not locate regular expression ?? within " +
@@ -52,7 +52,7 @@ public class DBSchemaExceptionFactory extends ExceptionFactory {
    * Could not obtain ddl statements from dbSchema file
    */
   public static final String UnexpectedString =
-      "org.jax.mgi.shr.shrdbutils.UnexpectedString";
+      "org.jax.mgi.shr.dbschema.UnexpectedString";
   static {
     exceptionsMap.put(UnexpectedString, new DBSchemaException(
         "File search returned unexpected string value " +

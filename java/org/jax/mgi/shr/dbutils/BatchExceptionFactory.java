@@ -16,7 +16,7 @@ public class BatchExceptionFactory extends ExceptionFactory {
    * One of the batch commands failed
    */
   public static final String BatchCommandFailed =
-      "org.jax.mgi.shr.shrdbutils.BatchCommandFailed";
+      "org.jax.mgi.shr.batch.BatchCommandFailed";
   static {
     exceptionsMap.put(BatchCommandFailed, new BatchException(
         "One of the batch commands failed", false));
