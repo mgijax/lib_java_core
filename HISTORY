@@ -1,3 +1,8 @@
+TAG:lib_java_core-tr6046-BP
+DATE: 04/07/2005
+STAFF: mbw
+CHANGES: adding bucketizer, graphs, sva packages for the entrezgene load
+
 TAG: lib_java_core-3-1-1-2
 DATE: 02/18/2005
 STAFF: dbm
