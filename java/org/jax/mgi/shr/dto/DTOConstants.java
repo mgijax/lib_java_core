@@ -65,6 +65,27 @@ public class DTOConstants
     public static String AlleleTypeName = "alleleTypeName";
     public static String AlleleTypeKey = "alleleTypeKey";
     public static String AlleleTypeCount = "alleleTypeCount";
+    public static String AlleleKey = "alleleKey";
+    public static String AlleleSymbol = "alleleSymbol";
+    public static String AlleleName = "alleleName";
+    public static String AlleleType = "alleleType";
+    public static String AlleleStatus = "alleleStatus";
+    public static String InheritanceMode = "inheritanceMode";
+    public static String StrainOfOrigin = "strainOfOrigin";
+    public static String ESCellLine = "eSCellLine";
+    public static String ESCellLineStrain = "eSCellLineStrain";
+    public static String MutantESCellLine = "mutantESCellLine";
+    public static String CellLineProvider = "cellLineProvider";
+    public static String ApprovalDate = "approvalDate";
+    public static String SubmittedBy = "submittedBy";
+    public static String NomenNotes = "nomenNotes";
+    public static String MolecularNotes = "molecularNotes";
+    public static String MolecularJNums = "molecularJNums";
+    public static String InIMSR = "inIMSR";
+    public static String GenomeCoordinates = "genomeCoordinates";
+    public static String Phenotypes = "phenotypes";
+    public static String Mutations = "mutantions";
+    public static String QtlExpts = "qtlExpts";
 
     // mapping -- constants dealing with mapping information
 
@@ -210,10 +231,22 @@ public class DTOConstants
     public static String Notes = "notes";
     public static String SearchToolResults = "searchToolResults";
     public static String GlossaryKey = "glossaryKey";
+
+    // MP Term related
+
+    public static String MPId = "mPId";
+    public static String MPTerm = "mPTerm";
+    public static String GenotypeCount = "genotypeCount";
 }
 
 /*
 * $Log$
+* Revision 1.12.4.1  2005/04/10 17:31:36  dow
+* added values to DTOConstants for mpr release.
+*
+* Revision 1.12  2005/01/26 14:43:36  pf
+* lib_java_core-3-1-1-1
+*
 * Revision 1.11.10.1  2005/01/20 18:16:59  pf
 * maint6300
 *
