@@ -76,6 +76,7 @@ public class DTOConstants
     public static String ESCellLineStrain = "eSCellLineStrain";
     public static String MutantESCellLine = "mutantESCellLine";
     public static String CellLineProvider = "cellLineProvider";
+    public static String ProviderURL = "providerURL";
     public static String ApprovalDate = "approvalDate";
     public static String SubmittedBy = "submittedBy";
     public static String NomenNotes = "nomenNotes";
@@ -241,6 +242,9 @@ public class DTOConstants
 
 /*
 * $Log$
+* Revision 1.13  2005/04/12 17:12:19  dow
+* lib_java_core-3-2-0-0
+*
 * Revision 1.12.4.1  2005/04/10 17:31:36  dow
 * added values to DTOConstants for mpr release.
 *
