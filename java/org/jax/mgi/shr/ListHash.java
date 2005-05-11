@@ -257,4 +257,15 @@ public class ListHash extends Hashtable {
 			}
 		}
 	}
+
+	public void removeDuplicates(Object key) {
+		ArrayList alVal = (ArrayList)get(key);
+		if(alVal!=null) {
+			ArrayList newList = new ArrayList();
+			for(int i=0;i<alVal.size();i++)
+				if(!newList.contains(alVal.get(i)))
+					newList.add(alVal.get(i));
+			super.put(key,newList);
+		}
+	}
 }
