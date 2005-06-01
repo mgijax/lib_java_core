@@ -6,6 +6,9 @@ import java.sql.BatchUpdateException;
 import java.util.Vector;
 
 import org.jax.mgi.shr.log.Logger;
+import org.jax.mgi.shr.ioutils.InputDataFile;
+import org.jax.mgi.shr.ioutils.RecordDataIterator;
+import org.jax.mgi.shr.exception.MGIException;
 
 /**
  * A class for handling jdbc batch execution
@@ -40,18 +43,19 @@ public class BatchProcessor
     /*
      * the following constant definitions are exceptions thrown by this class
      */
-    private static String AddBatchErr =
-        DBExceptionFactory.AddBatchErr;
-    private static String ExecuteBatchErr =
-        DBExceptionFactory.ExecuteBatchErr;
     private static String BatchNotSupported =
-        DBExceptionFactory.BatchNotSupported;
-    private static String ResourceClosed =
-        DBExceptionFactory.ResourceClosed;
-    private static String JDBCException =
-        DBExceptionFactory.JDBCException;
+        BatchExceptionFactory.BatchNotSupported;
     private static String BatchCommandFailed =
         BatchExceptionFactory.BatchCommandFailed;
+    private static String BatchComplete =
+        BatchExceptionFactory.BatchComplete;
+    private static String AddBatchErr =
+        BatchExceptionFactory.AddBatchErr;
+    private static String CloseErr =
+        BatchExceptionFactory.CloseErr;
+    private static String FileIO =
+        BatchExceptionFactory.FileIO;
+
 
     /**
      * constructor
@@ -84,28 +88,79 @@ public class BatchProcessor
      * @throws DBException thrown if there is an error in the database
      */
     public void addBatch(String sql)
-        throws DBException
+        throws BatchException
     {
         if (isClosed)
         {
-            DBExceptionFactory eFactory = new DBExceptionFactory();
-            DBException e = (DBException)
-                eFactory.getException(ResourceClosed);
-            e.bind("add the following sql to the batchProcessor: " + sql);
+            BatchExceptionFactory eFactory = new BatchExceptionFactory();
+            BatchException e = (BatchException)
+                eFactory.getException(BatchComplete);
             throw e;
         }
         try
         {
             statement.addBatch(sql);
-            history.add(sql);
         }
         catch (SQLException e)
         {
-            DBExceptionFactory eFactory = new DBExceptionFactory();
-            DBException e2 = (DBException)
+            BatchExceptionFactory eFactory = new BatchExceptionFactory();
+            BatchException e2 = (BatchException)
                 eFactory.getException(AddBatchErr, e);
             e2.bind(sql);
             throw e2;
+        }
+        history.add(sql);
+    }
+
+    /**
+     * adds batch statements for the sql found in the given file
+     * @param filename the file name
+     * @throws BatchException thrown if there is an error accessing the file
+     * or an error accessing the database
+     *
+     */
+
+    public void addScriptBatch(String filename) throws BatchException
+    {
+        InputDataFile file = null;
+        RecordDataIterator it = null;
+
+        if (isClosed)
+        {
+            BatchExceptionFactory eFactory = new BatchExceptionFactory();
+            BatchException e = (BatchException)
+                eFactory.getException(BatchComplete);
+            throw e;
+        }
+
+        try
+        {
+            file = new InputDataFile(filename);
+            file.setOkToUseRegex(true);
+            file.setEndDelimiter("^/n");
+            it = file.getIterator();
+            while (it.hasNext())
+            {
+                String sql = (String)it.next();
+                statement.addBatch(sql);
+                history.add(sql);
+            }
+        }
+        catch (MGIException e)
+        {
+            BatchExceptionFactory eFactory = new BatchExceptionFactory();
+            BatchException e2 = (BatchException)
+                eFactory.getException(FileIO, e);
+            e2.bind(filename);
+            throw e2;
+        }
+        catch (SQLException e)
+        {
+            BatchExceptionFactory eFactory = new BatchExceptionFactory();
+            BatchException e2 = (BatchException)
+                eFactory.getException(AddBatchErr, e);
+            throw e2;
+
         }
     }
 
@@ -122,10 +177,9 @@ public class BatchProcessor
     {
         if (isClosed)
         {
-            DBExceptionFactory eFactory = new DBExceptionFactory();
-            DBException e = (DBException)
-                eFactory.getException(ResourceClosed);
-            e.bind("execute the batchProcessor");
+            BatchExceptionFactory eFactory = new BatchExceptionFactory();
+            BatchException e = (BatchException)
+                eFactory.getException(BatchComplete);
             throw e;
         }
         try
@@ -192,7 +246,7 @@ public class BatchProcessor
      * @throws DBException thrown if there is an error with the database
      */
     public void close()
-        throws DBException
+        throws BatchException
     {
         try
         {
@@ -200,10 +254,9 @@ public class BatchProcessor
         }
         catch (SQLException e)
         {
-            DBExceptionFactory eFactory = new DBExceptionFactory();
-            DBException e2 = (DBException)
-                eFactory.getException(JDBCException, e);
-            e2.bind("close the BatchProcessor " + this.getClass().getName());
+            BatchExceptionFactory eFactory = new BatchExceptionFactory();
+            BatchException e2 = (BatchException)
+                eFactory.getException(CloseErr, e);
             throw e2;
         }
         history = null;
