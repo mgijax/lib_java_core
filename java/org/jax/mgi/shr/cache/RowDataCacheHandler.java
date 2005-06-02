@@ -3,6 +3,7 @@ package org.jax.mgi.shr.cache;
 import java.util.Map;
 import java.util.Iterator;
 import java.util.HashMap;
+import java.util.ArrayList;
 import java.io.OutputStream;
 import java.io.IOException;
 import org.jax.mgi.shr.dbutils.RowDataInterpreter;
@@ -14,6 +15,9 @@ import org.jax.mgi.shr.log.ConsoleLogger;
 import org.jax.mgi.shr.config.LogCfg;
 import org.jax.mgi.shr.config.CacheCfg;
 import org.jax.mgi.shr.config.ConfigException;
+import org.jax.mgi.shr.exception.MGIException;
+import org.jax.mgi.shr.ioutils.OutputDataFile;
+import org.jax.mgi.shr.ioutils.IOUException;
 
 /**
  * An abstract class for coordinating data between the database and
@@ -45,6 +49,8 @@ import org.jax.mgi.shr.config.ConfigException;
  */
 abstract public class RowDataCacheHandler
 {
+
+    protected InClause inClause = null;
     /*
      * the following constant definitions are exceptions thrown by this class
      */
@@ -52,6 +58,10 @@ abstract public class RowDataCacheHandler
         CacheExceptionFactory.UnknownStrategy;
     private static String ConfigErr =
         CacheExceptionFactory.ConfigErr;
+    private static String CacheInitErr =
+        CacheExceptionFactory.CacheInitErr;
+    private static String PrintErr =
+        CacheExceptionFactory.PrintErr;
     /**
      * the class used to create KeyValue objects from a database row
      * which is used by the cache strategy class for adding new entries
@@ -60,6 +70,7 @@ abstract public class RowDataCacheHandler
     protected RowDataInterpreter interpreter;
     /**
      * the strategy class for performing cache lookups
+     * @label uses
      */
     protected RowDataCacheStrategy cacheStrategy;
     /**
@@ -68,6 +79,8 @@ abstract public class RowDataCacheHandler
      *  RowDataCacheStrategy
      */
     protected Map cache = new HashMap();
+
+    protected SQLDataManager sqlMgr = null;
 
     /**
      * constructor which accepts a cache type and a SQLDataManager
@@ -90,18 +103,55 @@ abstract public class RowDataCacheHandler
      * @throws IOException thrown if a write error occurs during printing
      */
     public void printCache(OutputStream out)
-        throws IOException
+    throws CacheException
     {
         for (Iterator it = cache.keySet().iterator(); it.hasNext(); )
         {
             Object key = it.next();
             Object value = cache.get(key);
-            out.write(key.toString().getBytes());
-            out.write(new String(" ").getBytes());
-            out.write(value.toString().getBytes());
-            out.write(new String("\n").getBytes());
+            try
+            {
+                out.write(key.toString().getBytes());
+                out.write(new String(" ").getBytes());
+                out.write(value.toString().getBytes());
+                out.write(new String("\n").getBytes());
+            }
+            catch (IOException e)
+            {
+                CacheExceptionFactory f = new CacheExceptionFactory();
+                CacheException e2 = (CacheException)f.getException(PrintErr, e);
+                throw e2;
+            }
         }
     }
+
+    /**
+     * prints the values from the cache onto the given output stream
+     * @param out the output stream to print on
+     * @throws IOException thrown if a write error occurs during printing
+     */
+    public void printCache(OutputDataFile out)
+    throws CacheException
+    {
+        for (Iterator it = cache.keySet().iterator(); it.hasNext(); )
+        {
+            Object key = it.next();
+            Object value = cache.get(key);
+            String s = key.toString() + " " + value.toString();
+            try
+            {
+                out.write(s);
+            }
+            catch (IOUException e)
+            {
+               CacheExceptionFactory f = new CacheExceptionFactory();
+               CacheException e2 = (CacheException)f.getException(PrintErr, e);
+               throw e2;
+            }
+
+        }
+    }
+
 
     /**
      * get the current size of the cache
@@ -161,6 +211,15 @@ abstract public class RowDataCacheHandler
         return this.cacheStrategy.getDebug();
     }
 
+    public void setInClause(String columnName, ArrayList columnValues)
+    {
+        this.inClause = new InClause(columnName, columnValues);
+    }
+
+    public void runPostInit() throws MGIException {}
+
+    public void runPreInit() throws MGIException {}
+
 
     /**
      * obtain the sql for fully initializing a cache
@@ -213,7 +272,28 @@ abstract public class RowDataCacheHandler
     public void initCache()
         throws DBException, CacheException
     {
+        try
+        {
+            this.runPreInit();
+        }
+        catch (MGIException e)
+        {
+            CacheExceptionFactory f = new CacheExceptionFactory();
+            CacheException e2 = (CacheException)f.getException(CacheInitErr, e);
+            throw e2;
+        }
         this.cacheStrategy.init(this.cache);
+        try
+        {
+            this.runPostInit();
+        }
+        catch (MGIException e)
+        {
+            CacheExceptionFactory f = new CacheExceptionFactory();
+            CacheException e2 = (CacheException)f.getException(CacheInitErr, e);
+            throw e2;
+        }
+
     }
 
     /**
@@ -227,8 +307,28 @@ abstract public class RowDataCacheHandler
     public void initCache(Map cache)
         throws DBException, CacheException
     {
+        try
+        {
+            this.runPreInit();
+        }
+        catch (MGIException e)
+        {
+            CacheExceptionFactory f = new CacheExceptionFactory();
+            CacheException e2 = (CacheException)f.getException(CacheInitErr, e);
+            throw e2;
+        }
         this.cache = cache;
         this.cacheStrategy.init(cache);
+        try
+        {
+            this.runPostInit();
+        }
+        catch (MGIException e)
+        {
+            CacheExceptionFactory f = new CacheExceptionFactory();
+            CacheException e2 = (CacheException)f.getException(CacheInitErr, e);
+            throw e2;
+        }
     }
 
 
@@ -243,6 +343,11 @@ abstract public class RowDataCacheHandler
         return this.cache;
     }
 
+    public SQLDataManager getSQLDataManager()
+    {
+        return this.sqlMgr;
+    }
+
     /**
      * setup this instance
      * @param cacheType the cache type from CacheConstants (either lazy or
@@ -254,6 +359,7 @@ abstract public class RowDataCacheHandler
                         SQLDataManager sqlDataManager)
         throws CacheException
     {
+        this.sqlMgr = sqlDataManager;
         Logger logger = null;
         Boolean debug = null;
         try
@@ -291,6 +397,17 @@ abstract public class RowDataCacheHandler
         }
         strategy.setCacheHandler(this);
         this.cacheStrategy = strategy;
+    }
+
+    public class InClause
+    {
+        public String columnName;
+        public ArrayList columnValues;
+        public InClause(String columnName, ArrayList columnValues)
+        {
+            this.columnName = columnName;
+            this.columnValues = columnValues;
+        }
     }
 
 }
