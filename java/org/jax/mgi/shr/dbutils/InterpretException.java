@@ -20,5 +20,8 @@ public class InterpretException extends MGIException {
     super.setParent(e);
   }
 
+  public InterpretException(String message) {
+      super(message, false);
+  }
 
 }
