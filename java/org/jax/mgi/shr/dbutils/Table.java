@@ -48,6 +48,10 @@ public class Table {
    * the primary jeys for this table
    */
   private Vector pKeyDefinitions = new Vector();
+  /*
+   * the name of the single incremental key ... not all tables have one
+   */
+  private String incrementalKeyName = null;
   /**
    * the RecordFormat class to use for user/time stamping database records
    */
@@ -318,6 +322,12 @@ throws DBException, ConfigException
     return v;
   }
 
+  public String getIncrementalKeyName() throws DBException
+  {
+      if (!this.metadataRead) getTableDefinitions();
+      return this.incrementalKeyName;
+  }
+
     /**
      * get the next key value for the table from cache. This value is cached
      * and may not reflect the actual max key value in the table. This
@@ -391,6 +401,7 @@ throws DBException, ConfigException
     // all tests have shown that it is a single value incremental key
     // get the current key value
     isIncremental = true;
+    this.incrementalKeyName = keyName;
     String sql = "SELECT MAX(" + keyName + ") FROM " + tableName;
     ResultsNavigator it = dataManager.executeQuery(sql);
     if (it.next()) {
@@ -539,6 +550,9 @@ throws DBException, ConfigException
 }
 
 // $Log$
+// Revision 1.6  2004/12/16 21:18:53  mbw
+// merged assembly branch onto the trunk
+//
 // Revision 1.5.2.1  2004/12/02 19:27:01  mbw
 // changed use of floats to doubles
 //
