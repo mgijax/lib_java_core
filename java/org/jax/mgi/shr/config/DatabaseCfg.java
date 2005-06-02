@@ -28,6 +28,7 @@ public class DatabaseCfg
       "/usr/local/mgi/live/dbutils/mgd/mgddbschema";
   private String DEFAULT_CONNECTION_MANAGER =
       "org.jax.mgi.shr.dbutils.MGIDriverManager";
+  private int DEFAULT_MAX_INCLAUSE = 400;
 
   /**
    * default constructor which obtains a reference to the ConfigurationManager
@@ -143,7 +144,8 @@ public class DatabaseCfg
    * The parameter name read from the configuration file or system properties
    * is DBDEBUG. The default value is false.
    * @return true if debug messages are to be logged, otherwise false
-   * @throws ConfigException
+   * @throws ConfigException thrown if the paramater value has some format
+   * errors
    */
   public Boolean getDebug() throws ConfigException
   {
@@ -151,8 +153,27 @@ public class DatabaseCfg
   }
 
 
+  /**
+   * get the maximum allowed number of objects to use for each sql statement
+   * when composing a dynamic 'in clause'. There is a limit in Sybase for
+   * this number. The default value is set to 400.
+   * @return
+   * @throws ConfigException
+   */
+  public Integer getMaxInClause() throws ConfigException
+  {
+      return this.getConfigInteger("DB_MAX_INCLAUSE",
+                                   new Integer(DEFAULT_MAX_INCLAUSE));
+  }
+
+
+
+
 }
 // $Log$
+// Revision 1.5  2004/09/30 15:37:40  mbw
+// added a getDebug() method
+//
 // Revision 1.4  2004/08/25 20:25:01  mbw
 // changed test on default values to reflect use of new "live" directory
 //
