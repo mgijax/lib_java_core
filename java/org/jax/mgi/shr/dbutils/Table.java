@@ -112,6 +112,9 @@ public class Table {
  * if one does not already exist.
  * @param tableName the name of the table
  * @return the Table instance
+ * @throws DBException thrown if there is an error accessing the database
+ * @throws ConfigException thrown if there is an error accessing the
+ * configuration
  */
 public static Table getInstance(String tableName)
 throws DBException, ConfigException
@@ -135,6 +138,7 @@ throws DBException, ConfigException
    * @param tableName the name of the table
    * @param sqlMgr the SQLDataManager
    * @return the Table instance
+   * @throws DBException thrown if there is an error accessing the database
    */
   public static Table getInstance(String tableName, SQLDataManager sqlMgr)
   throws DBException
@@ -474,6 +478,12 @@ throws DBException, ConfigException
     }
   }
 
+  /**
+   * query the database metadata for the given table and assign the results
+   * to the instance variable pKeyDefinitions
+   * @param metadata the database metadata
+   * @throws SQLException throwsn if there is an error accessing the metadata
+   */
   private void getPrimaryKeys(DatabaseMetaData metadata) throws SQLException
   {
       boolean foundKeys = false;
@@ -550,6 +560,9 @@ throws DBException, ConfigException
 }
 
 // $Log$
+// Revision 1.6.2.1  2005/06/02 14:40:47  mbw
+// added method getIncrementalKeyName
+//
 // Revision 1.6  2004/12/16 21:18:53  mbw
 // merged assembly branch onto the trunk
 //

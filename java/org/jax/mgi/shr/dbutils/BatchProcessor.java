@@ -85,7 +85,7 @@ public class BatchProcessor
      * @assumes nothing
      * @effects adds the given string the batch of sql statements
      * @param sql the sql string
-     * @throws DBException thrown if there is an error in the database
+     * @throws BatchException thrown if there is a database processing error
      */
     public void addBatch(String sql)
         throws BatchException
@@ -119,7 +119,6 @@ public class BatchProcessor
      * or an error accessing the database
      *
      */
-
     public void addScriptBatch(String filename) throws BatchException
     {
         InputDataFile file = null;
@@ -243,7 +242,7 @@ public class BatchProcessor
      * @assumes nothing
      * @effects the resources are freed and the processor will no longer
      * be available for operations
-     * @throws DBException thrown if there is an error with the database
+     * @throws BatchException thrown if there is a database processing error
      */
     public void close()
         throws BatchException

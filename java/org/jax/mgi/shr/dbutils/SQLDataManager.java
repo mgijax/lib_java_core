@@ -712,7 +712,17 @@ public class SQLDataManager {
   }
 
 
-
+  /**
+   * appends an 'in clause' to the given sql string for the given column and
+   * column values
+   * @param sql the sql to append an 'in clause' to
+   * @param columnName the name of the column
+   * @param columnValues an ArrayList of values
+   * @return a QuerySeries
+   * @throws DBException thrown if there is an error accessing the database
+   * @throws ConfigException thrown if there is an error accessing the
+   * configuration
+   */
   public QuerySeries buildInClauseQuery(String sql,
                                         String columnName,
                                         ArrayList columnValues)
@@ -1452,6 +1462,9 @@ public class SQLDataManager {
 }
 
 // $Log$
+// Revision 1.13.4.1  2005/06/02 14:47:41  mbw
+// added method addInClause
+//
 // Revision 1.13  2004/10/12 17:49:04  mbw
 // setting isDebug instance variable to false during initialization (was setting true)
 //

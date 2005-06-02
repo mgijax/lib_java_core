@@ -100,7 +100,8 @@ abstract public class RowDataCacheHandler
     /**
      * prints the values from the cache onto the given output stream
      * @param out the output stream to print on
-     * @throws IOException thrown if a write error occurs during printing
+     * @throws CacheException thrown if there is an error accessing the
+     * configuration
      */
     public void printCache(OutputStream out)
     throws CacheException
@@ -128,7 +129,8 @@ abstract public class RowDataCacheHandler
     /**
      * prints the values from the cache onto the given output stream
      * @param out the output stream to print on
-     * @throws IOException thrown if a write error occurs during printing
+     * @throws CacheException thrown if there is an error accessing the
+     * configuration
      */
     public void printCache(OutputDataFile out)
     throws CacheException
@@ -194,6 +196,7 @@ abstract public class RowDataCacheHandler
      * will also have to be set with debug turned on. This is an extra level
      * of control for logging messages pertaining to caches since they are
      * rarely ever needed.
+     * @param debug true if bebug mode is to be activated, false otherwise
      */
     public void setDebug(boolean debug)
     {
@@ -211,13 +214,34 @@ abstract public class RowDataCacheHandler
         return this.cacheStrategy.getDebug();
     }
 
+    /**
+     * dynamically adds an 'in clause' to the sql for this cache which filters
+     * the given column name by the array of given values
+     * @param columnName the name of the column to be used within the 'in
+     * clause'
+     * @param columnValues the values to be used within the 'in clause'
+     */
     public void setInClause(String columnName, ArrayList columnValues)
     {
         this.inClause = new InClause(columnName, columnValues);
     }
 
+    /**
+     * a noopt method intended to be overridden by a subclass for performing
+     * processing before initializing the cache. This is useful for creating
+     * new temp tables and selecting data from them for caching
+     * @throws MGIException thrown if any error takes place specific to the
+     * implementation
+     */
     public void runPostInit() throws MGIException {}
 
+    /**
+     * a noopt method intended to be overridden by a subclass for performing
+     * processing after initializing the cache. This is useful for removing
+     * new temp tables created for the purpose of selecting into a cache
+     * @throws MGIException thrown if any error takes place specific to the
+     * implementation
+     */
     public void runPreInit() throws MGIException {}
 
 
