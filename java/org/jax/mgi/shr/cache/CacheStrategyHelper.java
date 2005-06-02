@@ -1,6 +1,8 @@
 package org.jax.mgi.shr.cache;
 
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.Iterator;
 import org.jax.mgi.shr.dbutils.ResultsNavigator;
 import org.jax.mgi.shr.dbutils.MultiRowInterpreter;
 import org.jax.mgi.shr.dbutils.MultiRowIterator;
@@ -100,6 +102,19 @@ public class CacheStrategyHelper
         }
     }
 
+    protected static void putResultsInMap(ArrayList navigators,
+                                          Map cache,
+                                          RowDataCacheHandler cacheHandler,
+                                          Logger logger,
+                                          boolean debug)
+    throws DBException, CacheException
+    {
+        for (Iterator it = navigators.iterator(); it.hasNext();)
+        {
+            ResultsNavigator nav = (ResultsNavigator)it.next();
+            putResultsInMap(nav, cache, cacheHandler, logger, debug);
+        }
+    }
 
 
     /**
