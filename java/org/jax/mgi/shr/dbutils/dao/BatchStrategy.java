@@ -1,7 +1,9 @@
 package org.jax.mgi.shr.dbutils.dao;
 
 import org.jax.mgi.shr.dbutils.BatchProcessor;
+import org.jax.mgi.shr.dbutils.BatchException;
 import org.jax.mgi.shr.dbutils.DBException;
+import org.jax.mgi.shr.dbutils.DBExceptionFactory;
 
 /**
  * A class which implements the InsertStrategy, UpdateStrategy,
@@ -13,10 +15,16 @@ import org.jax.mgi.shr.dbutils.DBException;
 public class BatchStrategy
     implements DeleteStrategy, InsertStrategy, UpdateStrategy
 {
+
     /**
      * the BatchProcessor used for executing batch sql
      */
     private BatchProcessor batch = null;
+
+    private static final String DAOErr =
+      DBExceptionFactory.DAOErr;
+
+
     /**
      * constructor
      * @param batch the BatchProcessor to use
@@ -38,7 +46,17 @@ public class BatchStrategy
         throws DBException
     {
         String sql = ( (SQLTranslatable) dao).getUpdateSQL();
-        batch.addBatch(SQLStrategyHelper.convertToJDBCProc(sql));
+        try
+        {
+            batch.addBatch(SQLStrategyHelper.convertToJDBCProc(sql));
+        }
+        catch (BatchException e)
+        {
+            DBExceptionFactory eFactory = new DBExceptionFactory();
+            DBException e2 = (DBException)eFactory.getException(DAOErr, e);
+            e2.bind(this.getClass().getName());
+            throw e2;
+        }
     }
 
     /**
@@ -53,7 +71,17 @@ public class BatchStrategy
         throws DBException
     {
         String sql = ( (SQLTranslatable) dao).getDeleteSQL();
-        batch.addBatch(SQLStrategyHelper.convertToJDBCProc(sql));
+        try
+        {
+            batch.addBatch(SQLStrategyHelper.convertToJDBCProc(sql));
+        }
+        catch (BatchException e)
+        {
+            DBExceptionFactory eFactory = new DBExceptionFactory();
+            DBException e2 = (DBException)eFactory.getException(DAOErr, e);
+            e2.bind(this.getClass().getName());
+            throw e2;
+        }
     }
 
     /**
@@ -68,7 +96,18 @@ public class BatchStrategy
         throws DBException
     {
         String sql = ( (SQLTranslatable) dao).getDeleteSQL();
-        batch.addBatch(SQLStrategyHelper.convertToJDBCProc(sql));
+        try
+        {
+            batch.addBatch(SQLStrategyHelper.convertToJDBCProc(sql));
+        }
+        catch (BatchException e)
+        {
+            DBExceptionFactory eFactory = new DBExceptionFactory();
+            DBException e2 = (DBException)eFactory.getException(DAOErr, e);
+            e2.bind(this.getClass().getName());
+            throw e2;
+        }
+
     }
 }
 
