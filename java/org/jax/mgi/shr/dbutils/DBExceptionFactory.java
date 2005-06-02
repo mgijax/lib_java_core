@@ -350,6 +350,27 @@ public class DBExceptionFactory
         "Unexpected format for stored procedure call: ??", false));
   }
 
+  /**
+   * not allowed null value found while attempting to format
+   */
+  public static final String FormatNullErr =
+      "org.jax.mgi.shr.dbutils.FormatNullErr";
+  static {
+    exceptionsMap.put(FormatNullErr, new DBException(
+        "The column ?? was found to be null. Null values are not " +
+        "allowed when formatting", false));
+  }
+
+  /**
+   * error occured while executing some pre or post sql
+   */
+  public static final String PrePostSQLErr =
+      "org.jax.mgi.shr.dbutils.PrePostSQLErr";
+  static {
+    exceptionsMap.put(PrePostSQLErr, new DBException(
+        "Error executing pre or post sql", false));
+  }
+
 
 
 }
