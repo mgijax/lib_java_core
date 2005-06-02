@@ -92,7 +92,7 @@ public class TestBatchProcessor
             //expect exception block to take over
             assertTrue(false);
         }
-        catch (DBException e)
+        catch (BatchException e)
         {
             // this is expected
             assertTrue(true);
