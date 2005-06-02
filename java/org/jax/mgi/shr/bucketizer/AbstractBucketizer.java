@@ -15,17 +15,17 @@ import org.jax.mgi.shr.timing.Stopwatch;
  * A class which sorts out the relationships between members from two sets
  * of data based on their shared attributes. A relationship is defined as a
  * one to one, one to many, one to zero, many to one, zero to one, and many to
- * many. The attributes are stored as set valued attribute sets (SVASets),
- * which are sets of mult-valued attributes, each containing a set of values.
+ * many. The attributes are stored as SVASets, which are sets of mult-valued
+ * attributes.
  * For example, one SVA can represent genback sequences associated to the
  * object. And another could be the set of XM refseq sequences associated to
- * the object. The SVAset in this example would then contain these two sets
+ * the object. The SVASet in this example would then contain these two sets
  * plus possibly others. The bucketizer algorithm finds attributes from each
  * SVA that are shared between objects across the two data sets and if that
- * attribute is not shared by any other object from either data set, then
- * that pair of objects are considered a match. By finding all matches between
- * all objects in both sets, the bucketizer can sort the objects out by the
- * cardinality of their relationships.
+ * attribute is shared by only one object from set 1 and only one from set 2,
+ * then that pair of objects is considered a match. By finding all matches
+ * between all objects in both sets, the bucketizer can sort the objects out
+ * by the cardinality of their relationships.
  * @has two data sets and a Decider class which is called when two members
  * from the the two data sets are found to match. The Decider interface
  * provides a simple boolean operation to determine whether the two objects
