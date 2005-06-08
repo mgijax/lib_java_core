@@ -21,15 +21,15 @@ import org.jax.mgi.shr.log.LoggerFactory;
  * @has Configurable parameters
  * @does Provides the ability to write to the output file.
  * @company The Jackson Laboratory
- * @author dbm
+ * @author mbw
  */
 
 public class OutputDataFile
 {
     // String constants.
     //
-    private static final String TAB = "\t";
-    private static final String CRT = "\n";
+    public static final String TAB = "\t";
+    public static final String CRT = System.getProperty("line.separator");
 
     // The name of the output file to write to.
     //
@@ -64,7 +64,6 @@ public class OutputDataFile
      * Constructor which gets its values from the system configuration.
      * @assumes Nothing
      * @effects Nothing
-     * @param None
      * @throws ConfigException if there is a configuration error.
      * @throws IOUException if an error occurs finding or opening the file.
      */
@@ -116,14 +115,18 @@ public class OutputDataFile
      * @assumes Nothing
      * @effects Nothing
      * @param pFilename The name of the output file to write to.
-     * @return Nothing
-     * @throws Nothing
      */
     public void setFilename(String pFilename)
     {
         this.filename = pFilename;
     }
 
+    /**
+     * sets whether or not to flush the output buffer on each write
+     * @assumes nothing
+     * @effects nothing
+     * @param pDelimiter true if the buffer should be flushed, false otherwise
+     */
     public void setOKToAutoFlush(boolean pDelimiter)
     {
         this.okToAutoFlush = pDelimiter;
@@ -134,15 +137,20 @@ public class OutputDataFile
      * Gets the name of the output file to write to.
      * @assumes Nothing
      * @effects Nothing
-     * @param None
      * @return The name of the output file to write to.
-     * @throws Nothing
      */
     public String getFilename()
     {
         return this.filename;
     }
 
+    /**
+     * gets the current configured value for whether or not to flush the
+     * output buffer on every write
+     * @assumes Nothing
+     * @effects Nothing
+     * @return true if the buffer is set to be flushed, false otherwise
+     */
     public boolean getOKToAutoFlush()
     {
         return this.okToAutoFlush;
@@ -155,7 +163,6 @@ public class OutputDataFile
      * @effects Nothing
      * @param pConfig The configuration object from which to configure this
      *                object.
-     * @return
      * @throws ConfigException if there is a configuration error.
      * @throws IOUException if an error occurs finding or opening the file.
      */
@@ -202,6 +209,35 @@ public class OutputDataFile
         return;
     }
 
+    /**
+     * Write a string to the output file.
+     * @assumes a newline is not wanted after the write
+     * @effects new output will be written to the file
+     * @params s the string to write
+     * @throws IOUException if an error occurs finding or opening the file.
+     */
+    public void write(String s)
+        throws IOUException
+    {
+        // Write a newline character to the output file.
+        //
+        try
+        {
+            writer.write(s);
+            if (this.okToAutoFlush)
+                writer.flush();
+        }
+        catch (IOException e)
+        {
+            IOUExceptionFactory exceptionFactory = new IOUExceptionFactory();
+            IOUException ke = (IOUException)
+                exceptionFactory.getException(FileWriteErr, e);
+            ke.bind(filename);
+            throw ke;
+        }
+    }
+
+
 
     /**
      * Write a string to the output file.
@@ -210,7 +246,7 @@ public class OutputDataFile
      * @param s the string to write
      * @throws IOUException if an error occurs finding or opening the file.
      */
-    public void write(String s)
+    public void writeln(String s)
         throws IOUException
     {
         // Write a newline character to the output file.
@@ -233,12 +269,12 @@ public class OutputDataFile
     }
 
 
+
+
     /**
      * Close the output file.
      * @assumes Nothing
      * @effects Nothing
-     * @param None
-     * @return Nothing
      * @throws IOUException if an error occurs finding or opening the file.
      */
     public void close()
@@ -261,6 +297,9 @@ public class OutputDataFile
 
 
 //  $Log$
+//  Revision 1.1.4.1  2005/06/02 16:58:51  mbw
+//  initial version
+//
 //  Revision 1.1.2.5  2005/01/08 00:57:42  mbw
 //  added okToAutoFlush param
 //
