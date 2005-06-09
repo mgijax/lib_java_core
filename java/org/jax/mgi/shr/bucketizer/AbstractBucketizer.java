@@ -135,8 +135,6 @@ abstract public class AbstractBucketizer
 
         while (it.hasNext())
         {
-
-
             connectedComponent = (Graph)it.next();
             bucketItem = new BucketItem(connectedComponent);
             int cardinality = bucketItem.getCardinality(provider1, provider2);

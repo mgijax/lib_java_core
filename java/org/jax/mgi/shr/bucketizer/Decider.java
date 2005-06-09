@@ -5,8 +5,8 @@ import java.util.Hashtable;
 /**
  *
  * An interface for defining a class which can decide whether two objects are
- * truely associated. The AbstractBucketizer has a Decider which it calls
- * when it derives that the two objects are associated and will allow an
+ * truely related to each other. The AbstractBucketizer has a Decider which it
+ * calls when it derives that the two objects are related and will allow an
  * implementation to accept or decline the association. A default Decider is
  * used by the AbstractBucketizer which always returns true.
  * @has nothing
