@@ -693,23 +693,6 @@ public class SQLDataManager {
     return (ResultsNavigator)iterator;
   }
 
-    /**
-     * execute the InterpretedQuery class
-     * @assumes nothing
-     * @effects a query will be executed against the database
-     * @param query the InterpretedQuery class which has a query and a
-     * RowDataInterpreter
-     * @return a ResultsNavigator for the query results with the
-     * InterpretedQuery object plugged into it as a RowDataInterpreter
-     * @throws org.jax.mgi.shr.dbutils.DBException
-     */
-    public ResultsNavigator executeQuery(InterpretedQuery query)
-        throws DBException {
-        String sql = query.getQuery();
-        ResultsNavigator nav = executeQuery(sql);
-        nav.setInterpreter(query);
-        return nav;
-    }
 
   /**
    * execute the update, delete or insert statement
@@ -1277,6 +1260,9 @@ public class SQLDataManager {
 }
 
 // $Log$
+// Revision 1.13  2004/10/12 17:49:04  mbw
+// setting isDebug instance variable to false during initialization (was setting true)
+//
 // Revision 1.12  2004/09/30 15:40:53  mbw
 // added the ability to configure whether or not to print debug information to the log files
 //
