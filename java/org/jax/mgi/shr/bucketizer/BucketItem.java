@@ -75,8 +75,9 @@ public class BucketItem
 
     /**
      * gets the reason why any two members are associated to each other. It is
-     * assigned by the AbstractBucketizer and represents all the attributes
-     * which were found in common between the two members
+     * assigned by the AbstractBucketizer and is application specific. By
+     * default it represents all the attributes which were found in common 
+     * between the two members (retyurned as an SVASet instance)
      * @assumes nothing
      * @effects nothing
      * @param b1 member one
