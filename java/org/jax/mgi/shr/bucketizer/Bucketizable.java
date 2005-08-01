@@ -8,7 +8,7 @@ import org.jax.mgi.shr.sva.SVASet;
 
 /**
  *
- * An interface for defining a class which which can be represented within the
+ * An interface for defining a class which can be represented within the
  * bucketizer algorithm of the AbstractBucketizer as one that contains an
  * SVASet (attributes used for determing the members that are related to each
  * other from two data sets). Two sets of Bucketizables are compared by the
