@@ -106,11 +106,13 @@ public class OutputDataFile
 
 
     public OutputDataFile()
+    throws IOUException, ConfigException
     {
         configure(new OutputDataCfg());
     }
 
     public OutputDataFile(OutputDataCfg cfg)
+    throws IOUException, ConfigException
     {
         configure(cfg);
     }
@@ -636,6 +638,9 @@ public class OutputDataFile
 
 
 //  $Log$
+//  Revision 1.1.4.3  2005/08/01 15:55:32  mbw
+//  added post formatting functionality
+//
 //  Revision 1.1.4.2  2005/06/08 18:30:55  mbw
 //  javadocs only
 //
