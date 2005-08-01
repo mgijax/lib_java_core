@@ -397,11 +397,10 @@ public class DTO implements java.util.Map
     /* -------------------------------------------------------------------- */
 
     /** make the given DTO available for re-use.
-    * @param DTO the DTO with which we have finished and which we want to
+    * @param dto the DTO with which we have finished and which we want to
     *    make available for re-use.
     * @return nothing
     * @assumes nothing
-    * @param dto the DTO object
     * @effects adds the given DTO to the DTO.POOL, if possible
     * @throws nothing
     * @notes We make sure that we do not add the DTO to the pool if there is
@@ -490,6 +489,9 @@ public class DTO implements java.util.Map
 
 /*
 * $Log$
+* Revision 1.2.6.1  2005/08/01 19:14:12  mbw
+* javadocs only
+*
 * Revision 1.2  2004/07/21 20:25:12  mbw
 * javadocs edits only
 *
