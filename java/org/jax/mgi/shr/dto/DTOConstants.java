@@ -177,6 +177,7 @@ public class DTOConstants
     public static String InterProTerms = "interProTerms";
     public static String ActualDB = "actualDB";
     public static String ActualDBs = "actualDBs";
+    public static String NumericPart = "numericPart";
 
     // Sequences -- constants dealing with sequence data
 
@@ -225,6 +226,19 @@ public class DTOConstants
     public static String TermKey = "_Term_key";
     public static String Term = "term";
 
+    // images -- constants dealing with images
+
+    public static String ImageKey = "_Image_key";
+    public static String Width = "xDim";
+    public static String Height = "yDim";
+    public static String FigureLabel = "figureLabel";
+    public static String ThumbnailImageKey = "_ThumbnailImage_key";
+    public static String FullSizeImageKey = "_FullSizeImage_key";
+    public static String ObjectKey = "_Object_key";
+    public static String Genotypes = "genotypes";
+    public static String Alleles = "alleles";
+    public static String Images = "images";
+
     // miscellaneous -- constants which fit none of the other sections
 
     public static String DatabaseVersion = "databaseVersion";
@@ -232,6 +246,8 @@ public class DTOConstants
     public static String Notes = "notes";
     public static String SearchToolResults = "searchToolResults";
     public static String GlossaryKey = "glossaryKey";
+    public static String GenotypeKey = "_Genotype_key";
+    public static String AlleleCombinations = "alleleCombinations";
 
     // MP Term related
 
@@ -242,6 +258,9 @@ public class DTOConstants
 
 /*
 * $Log$
+* Revision 1.14  2005/04/26 13:39:01  dow
+* Added ProviderURL.
+*
 * Revision 1.13  2005/04/12 17:12:19  dow
 * lib_java_core-3-2-0-0
 *
