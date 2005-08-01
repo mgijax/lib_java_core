@@ -1,6 +1,11 @@
+// $HEADER$
+// $NAME$
+
 package org.jax.mgi.shr.bucketizer;
 
 import java.util.Hashtable;
+
+import org.jax.mgi.shr.sva.SVASet;
 
 /**
  * An implementation of a Decider which always returns true. It is used
@@ -16,9 +21,11 @@ import java.util.Hashtable;
 
 public class DefaultDecider implements Decider
 {
-    public Object decide(Bucketizable b1, Bucketizable b2, Hashtable sva)
+    public Object decide(Bucketizable b1, Bucketizable b2, SVASet svaSet)
     {
-        return new Object();
+        return svaSet;
     }
 
 }
+
+// $LOG$
