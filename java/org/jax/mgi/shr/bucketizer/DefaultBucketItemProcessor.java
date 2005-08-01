@@ -16,6 +16,12 @@ package org.jax.mgi.shr.bucketizer;
 
 public class DefaultBucketItemProcessor implements BucketItemProcessor
 {
+        /**
+         * empty method which is intended to be overridden by the superclass
+         * @assumes nothing
+         * @effects nothing
+         * @param BucketItem the BucketItem instance to process
+         */
         public void processBucketItem(BucketItem bucketItem) {}
 }
 
