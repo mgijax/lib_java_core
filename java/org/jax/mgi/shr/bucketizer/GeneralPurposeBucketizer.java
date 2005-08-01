@@ -6,6 +6,20 @@ package org.jax.mgi.shr.bucketizer;
 import java.util.*;
 import org.jax.mgi.shr.exception.MGIException;
 
+/**
+ *
+ * An implementation of an AbstractBucketizer that uses 
+ * BucketItemProcessors to handle 1:1, 1:N, N:1,
+ * 0:1, 1:0, N:N types of BucketItems
+ * @has a BucketItemProcessor for for each type of BucketItem
+ * cardinality
+ * @does bucketizing the input data and processes the results
+ * using the given BucketItemProcessors
+ * @company Jackson Laboratory
+ * @author M Walker
+ *
+ */
+
 
 public class GeneralPurposeBucketizer extends AbstractBucketizer
 {

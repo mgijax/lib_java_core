@@ -8,6 +8,18 @@ import java.util.*;
 import org.jax.mgi.shr.exception.MGIException;
 import org.jax.mgi.shr.ioutils.OutputDataFile;
 
+/**
+ *
+ * An implementation of an AbstractBucketizer used for tesing
+ * @has nothing
+ * @does counts the incoming BucketItems for testing purposes
+ * and provides access to the counts
+ * @company Jackson Laboratory
+ * @author M Walker
+ *
+ */
+
+
 public class TestCaseBucketizer extends AbstractBucketizer
 {
     int counts[] = {0,0,0,0,0,0,0,0,0};
