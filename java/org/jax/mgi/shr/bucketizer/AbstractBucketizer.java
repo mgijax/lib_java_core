@@ -46,11 +46,16 @@ import org.jax.mgi.shr.timing.Stopwatch;
 
 abstract public class AbstractBucketizer
 {
-    // The Decider instance which is used to determine definitively whether
-    // or no two objects are associated
+    /**
+     * The Decider instance which is used to determine definitively whether
+     * or not two objects are associated
+     */
     protected Decider decider = new DefaultDecider();
 
-    // lookups which index Bucketizables based upon their associated SVASet
+    /**
+     * A lookup class which finds Bucketizables that share a given set valued
+     * attribute
+     */
     protected SVAIndex index = null;
 
     // a hashtable of matching elements which will be passed to the Decider

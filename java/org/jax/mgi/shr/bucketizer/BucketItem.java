@@ -13,7 +13,7 @@ import org.jax.mgi.shr.sva.SVASet;
  * An object used to store a cluster of members from two data sets which were
  * determined by the bucketizer algorithm from the AbstractBucketizer to be
  * related. This object is passed to the process methods of the
- * AbstractBucketizerfor for subsequent processing
+ * AbstractBucketizer for subsequent processing
  * @has members from set 1 and two, and a label object which describes the
  * relationship at the application level
  * @does stores the data and provides accessors and calculates the cardinality
