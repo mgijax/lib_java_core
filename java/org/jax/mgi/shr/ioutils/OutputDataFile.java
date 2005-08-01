@@ -253,8 +253,8 @@ public class OutputDataFile
      * Write a string to the output file.
      * @assumes a newline is not wanted after the write
      * @effects new output will be written to the file
-     * @params s the string to write
-     * @throw IOUException if an error occurs finding or opening the file.
+     * @params the string to write
+     * @throws IOUException if an error occurs finding or opening the file.
      */
     public void write(String s)
         throws IOUException
@@ -638,6 +638,9 @@ public class OutputDataFile
 
 
 //  $Log$
+//  Revision 1.1.4.5  2005/08/01 19:14:14  mbw
+//  javadocs only
+//
 //  Revision 1.1.4.4  2005/08/01 18:22:39  mbw
 //  fixed compile error
 //
