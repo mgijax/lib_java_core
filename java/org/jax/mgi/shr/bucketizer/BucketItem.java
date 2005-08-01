@@ -25,18 +25,39 @@ import org.jax.mgi.shr.sva.SVASet;
 
 public class BucketItem
 {
+    /**
+     * constant value to represent a 1:1
+     */
     public static final int ONE_TO_ONE = 0;
+    /**
+     * constant value to represent a 1:N
+     */
     public static final int ONE_TO_MANY = 1;
+    /**
+     * constant value to represent a 1:0
+     */
     public static final int ONE_TO_ZERO = 2;
+    /**
+     * constant value to represent a N:1
+     */
     public static final int MANY_TO_ONE = 3;
+    /**
+     * constant value to represent a N:N
+     */
     public static final int MANY_TO_MANY = 4;
+    /**
+     * constant value to represent a 0:1
+     */
     public static final int ZERO_TO_ONE = 5;
-    public static final int ZERO_TO_ZERO = 6;
-    public static final int ZERO_TO_MANY = 7;
-    public static final int MANY_TO_ZERO = 8;
+    /**
+     * constant value to represent an unkown cardinality
+     */
     public static final int UNKNOWN = 9;
 
-    // internal representation of the data
+
+    /**
+     * representation of connected Bucketizables as a graph
+     */
     protected Graph graph = null;
 
     // object reference established for reuse
