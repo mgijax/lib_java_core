@@ -1,3 +1,6 @@
+// $HEADER$
+// $NAME$
+
 package org.jax.mgi.shr.bucketizer;
 
 import java.util.*;
@@ -107,3 +110,6 @@ public class GeneralPurposeBucketizer extends AbstractBucketizer
     }
 
 }
+
+// $LOG$
+

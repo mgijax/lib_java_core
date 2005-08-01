@@ -1,3 +1,6 @@
+// $HEADER$
+// $NAME$
+
 package org.jax.mgi.shr.bucketizer;
 
 import java.util.Set;
@@ -23,3 +26,6 @@ public interface Bucketizable {
     public String getProvider();
     public SVASet getSVASet();
 }
+
+// $LOG$
+

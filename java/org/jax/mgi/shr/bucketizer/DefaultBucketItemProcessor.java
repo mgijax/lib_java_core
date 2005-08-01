@@ -1,3 +1,6 @@
+// $HEADER$
+// $NAME$
+
 package org.jax.mgi.shr.bucketizer;
 
 /**
@@ -15,3 +18,6 @@ public class DefaultBucketItemProcessor implements BucketItemProcessor
 {
         public void processBucketItem(BucketItem bucketItem) {}
 }
+
+// $LOG$
+
