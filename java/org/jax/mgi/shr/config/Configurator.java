@@ -73,6 +73,11 @@ public class Configurator
         return this.parameterPrefix;
     }
 
+    public String[] getConfigurationParameters()
+    {
+        return this.cm.getKeys();
+    }
+
     /**
      * reread the configuration file.
      * @assumes Nothing
@@ -751,7 +756,7 @@ public class Configurator
             e.bind(name);
             throw e;
         }
-        return createNewObject(str);
+        return createObjectFromName(str);
     }
 
     /**
@@ -772,9 +777,9 @@ public class Configurator
 
         if (str == null)
         {
-            return createNewObject(defaultObj);
+            return createObjectFromName(defaultObj);
         }
-        return createNewObject(str);
+        return createObjectFromName(str);
     }
 
     /**
@@ -795,8 +800,37 @@ public class Configurator
         {
             return null;
         }
-        return createNewObject(str);
+        return createObjectFromName(str);
     }
+
+    /**
+     * Gets an array of objects listed in the given configuration parameter
+     * or NULL if the value is not found. An object is instantiated for each
+     * one listed in the configuration setting
+     * @assumes an object can be instantiated with no arguments
+     * @effects Nothing
+     * @param name The name of the configuration parameter to search on.
+     * @return An array of objects as listed in the configuration setting
+     * or NULL if the given name is not found.
+     */
+    protected Object[] getConfigObjectArrayNull(String name)
+    throws ConfigException
+    {
+        // Return the value from the configuration manager.  It may be NULL.
+        //
+        String[] objectNames = this.getConfigStringArrayNull(name);
+        if (objectNames == null)
+            return null;
+        Vector objects = new Vector();
+        for (int i = 0; i < objectNames.length; i++)
+        {
+            String objectName = objectNames[i];
+            Object object = this.createObjectFromName(objectName);
+            objects.add(object);
+        }
+        return objects.toArray();
+    }
+
 
 
 
@@ -865,7 +899,7 @@ public class Configurator
      * @throws ConfigException thrown if there is an error accessing the
      * configuration or if there is an exception during object creation
      */
-    private Object createNewObject(String className) throws ConfigException
+    private Object createObjectFromName(String className) throws ConfigException
     {
         Object o = null;
         try
@@ -912,6 +946,9 @@ public class Configurator
 
 }
 // $Log$
+// Revision 1.8  2004/12/16 21:18:51  mbw
+// merged assembly branch onto the trunk
+//
 // Revision 1.7.2.1  2004/12/02 19:26:52  mbw
 // changed use of floats to doubles
 //
