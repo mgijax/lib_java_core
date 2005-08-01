@@ -5,13 +5,14 @@ import java.nio.*;
 import java.nio.channels.*;
 
 /**
- * <p>Title: </p>
- * <p>Description: </p>
- * <p>Copyright: Copyright (c) 2004</p>
- * <p>Company: </p>
- * @author not attributable
- * @version 1.0
+ * An object which provides file handling functions such as create,
+ * delete and copy
+ * @has nothing.
+ * @does provides static file handling methods
+ * @company Jackson Laboratory
+ * @author M. Walker
  */
+
 
 public class FileUtility {
 
@@ -30,11 +31,25 @@ public class FileUtility {
         IOUExceptionFactory.FileCreateErr;
 
 
+  /**
+   * deletes a file by the given name
+   * @assumes nothing
+   * @effects the named file will be removed from the system
+   * @param filename the name of the file to delete
+   */
     public static void deleteFile(String filename)
     {
         File file = new File(filename);
         file.delete();
     }
+
+  /**
+   * create a new empty file for the given filename
+   * @assumes nothing
+   * @effects  a new file will be created on the system
+   * @param filename the name of the file to create
+   * @throws IOUException thrown if there are error in io
+   */
 
     public static void createFile(String filename)
     throws IOUException
@@ -56,6 +71,16 @@ public class FileUtility {
     }
 
 
+  /**
+   * copies file contents from one named file to another
+   * @assumes nothing
+   * @effects the contents of the named file will be copied from one file
+   * to another
+   * @param infilename the name of the file to copy contents from
+   * object
+   * @param outfilename the name of the file to copy contents to
+   * @throws IOUException thrown if there are error with io
+   */
     public static void copyFile(String infilename, String outfilename)
     throws IOUException
     {
