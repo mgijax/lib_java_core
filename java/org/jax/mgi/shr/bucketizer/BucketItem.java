@@ -175,22 +175,16 @@ public class BucketItem
             else if (bucketizable.getProvider().equals(provider2))
                 cntProvider2++;
         }
-        if (cntProvider1 == 0 && cntProvider2 == 0)
-            return ZERO_TO_ZERO;
-        else if (cntProvider1 == 1 && cntProvider2 == 0)
+        if (cntProvider1 == 1 && cntProvider2 == 0)
             return ONE_TO_ZERO;
         else if (cntProvider1 == 1 && cntProvider2 == 1)
             return ONE_TO_ONE;
         else if (cntProvider1 == 1 && cntProvider2 > 1)
             return ONE_TO_MANY;
-        else if (cntProvider1 > 1 && cntProvider2 == 0)
-            return MANY_TO_ZERO;
         else if (cntProvider1 > 1 && cntProvider2 == 1)
             return MANY_TO_ONE;
         else if (cntProvider1 == 0 && cntProvider2 == 1)
             return ZERO_TO_ONE;
-        else if (cntProvider1 == 0 && cntProvider2 > 1)
-            return ZERO_TO_MANY;
         else if (cntProvider1 > 1 && cntProvider2 > 1)
             return MANY_TO_MANY;
 
