@@ -1,3 +1,6 @@
+// $HEADER$
+// $NAME$
+
 package org.jax.mgi.shr.bucketizer;
 
 import java.util.*;
@@ -35,6 +38,8 @@ public class SimpleBucketizable implements Bucketizable
 
     /**
      * return the id tag
+     * @assumes nothing
+     * @effects nothing
      * @return the id tag
      */
     public String getId()
@@ -44,6 +49,8 @@ public class SimpleBucketizable implements Bucketizable
 
     /**
      * return the provider tag
+     * @assumes nothing
+     * @effects nothing
      * @return the provider tag
      */
     public String getProvider()
@@ -53,6 +60,8 @@ public class SimpleBucketizable implements Bucketizable
 
     /**
      * add a new attribute to the SVASet
+     * @assumes nothing
+     * @effects the object is added to the SVA
      * @param svaName the name of the SVA
      * @param svaValue the value of the attribute
      */
@@ -63,6 +72,8 @@ public class SimpleBucketizable implements Bucketizable
 
     /**
      * get the SVASet
+     * @assumes nothing
+     * @effects nothing
      * @return the SVASet
      */
     public SVASet getSVASet()
@@ -76,16 +87,10 @@ public class SimpleBucketizable implements Bucketizable
      */
     public String toString()
     {
-        StringBuffer buff = new StringBuffer();
-        buff.append(this.provider + ":" + this.id);
-        String[] svaNames = this.svaSet.getSVANames();
-        for (int i = 0; i < svaNames.length; i++)
-        {
-            buff.append(",");
-            Set set = this.svaSet.getSVA(svaNames[i]);
-            buff.append(svaNames[i] + "=" + set.toString());
-        }
-        return buff.toString();
+        return this.svaSet.toString();
     }
 
 }
+
+// $LOG$
+
