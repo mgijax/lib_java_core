@@ -1,17 +1,21 @@
+// $HEADER$
+// $NAME$
+
 package org.jax.mgi.shr.bucketizer;
 
 import java.util.*;
 
 import org.jax.mgi.shr.graphs.Graph;
+import org.jax.mgi.shr.sva.SVASet;
 
 /**
  *
- * An object used to store a grouping of members from two data sets which were
+ * An object used to store a cluster of members from two data sets which were
  * determined by the bucketizer algorithm from the AbstractBucketizer to be
- * related. This object is passed to the process methods for subsequent
- * processing of the members
- * @has members from set 1 and two, and label objects which describes why
- * any two members are related
+ * related. This object is passed to the process methods of the
+ * AbstractBucketizerfor for subsequent processing
+ * @has members from set 1 and two, and a label object which describes the
+ * relationship at the application level
  * @does stores the data and provides accessors and calculates the cardinality
  * between the two sets
  * @company Jackson Laboratory
@@ -32,6 +36,7 @@ public class BucketItem
     public static final int MANY_TO_ZERO = 8;
     public static final int UNKNOWN = 9;
 
+    // internal representation of the data
     protected Graph graph = null;
 
     // object reference established for reuse
@@ -51,18 +56,22 @@ public class BucketItem
      * gets the reason why any two members are associated to each other. It is
      * assigned by the AbstractBucketizer and represents all the attributes
      * which were found in common between the two members
+     * @assumes nothing
+     * @effects nothing
      * @param b1 member one
      * @param b2 member two
      * @return the String value of the reason why the two members are
      * associated
      */
-    public String getLabel(Bucketizable b1, Bucketizable b2)
+    public Object getLabel(Bucketizable b1, Bucketizable b2)
     {
-        return (String)this.graph.getEdgeLabel(b1, b2);
+        return this.graph.getEdgeLabel(b1, b2);
     }
 
     /**
      * access all the members with an Iterator
+     * @assumes nothing
+     * @effects nothing
      * @return an Iterator for all the members of this instance
      */
     public Iterator membersIterator()
@@ -72,6 +81,8 @@ public class BucketItem
 
     /**
      * access all the members for a given provider with an Iterator
+     * @assumes nothing
+     * @effects nothing
      * @return an Iterator for all the members of this instance for a given
      * provider
      */
@@ -90,10 +101,13 @@ public class BucketItem
 
     /**
      * returns an Iterator of all the pairs of associated members
+     * @assumes nothing
+     * @effects nothing
      * @param provider the provider name which determines which dataset is
      * used as the focal set (that is the set which comes first when refering
      * to the grouping as a one to one, one to many, etc)
-     * @return
+     * @return an Iterator for all associations using the given provider as
+     * the focal point
      */
     public Iterator associationsIterator(String provider)
     {
@@ -106,7 +120,7 @@ public class BucketItem
                 for (Iterator j = graph.iterNeighbors(b); j.hasNext();)
                 {
                     Bucketizable neighbor = (Bucketizable)j.next();
-                    String label = (String)graph.getEdgeLabel(b, neighbor);
+                    Object label = graph.getEdgeLabel(b, neighbor);
                     Association a = new Association(b, neighbor, label);
                     associations.add(a);
                 }
@@ -119,6 +133,8 @@ public class BucketItem
     /**
      * gets the cardinality of this grouping, which can be a one to one,
      * one to many, one to zero, etc
+     * @assumes nothing
+     * @effects nothing
      * @param provider1 the name of the provider which determines the first
      * data set when naming the cardinality
      * @param provider2 the name of the provider which determines the second
@@ -176,8 +192,8 @@ public class BucketItem
 
     /**
      *
-     * An objects which represents an association between two members, one from
-     * each data set, which were determined to be related
+     * An objects which represents an association between two members, one
+     * from each data set, which were determined to be related
      * @has a member from each data set and a label describing why the two
      * members are related (a list of attributes which were found in common)
      * @does nothing
@@ -189,9 +205,9 @@ public class BucketItem
     {
         private Bucketizable b1 = null;
         private Bucketizable b2 = null;
-        private String label = null;
+        private Object label = null;
 
-        protected Association(Bucketizable b1, Bucketizable b2, String label)
+        protected Association(Bucketizable b1, Bucketizable b2, Object label)
         {
             this.b1 = b1;
             this.b2 = b2;
@@ -207,10 +223,13 @@ public class BucketItem
             return null;
         }
 
-        public String getLabel()
+        public Object getLabel()
         {
             return this.label;
         }
     }
 
 }
+
+// $LOG$
+
