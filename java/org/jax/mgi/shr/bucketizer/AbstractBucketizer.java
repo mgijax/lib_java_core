@@ -1,3 +1,6 @@
+// $HEADER$
+// $NAME$
+
 package org.jax.mgi.shr.bucketizer;
 
 import java.util.*;
@@ -13,19 +16,17 @@ import org.jax.mgi.shr.timing.Stopwatch;
 /**
  *
  * A class which sorts out the relationships between members from two sets
- * of data based on their shared attributes. A relationship is defined as a
- * one to one, one to many, one to zero, many to one, zero to one, and many to
- * many. The attributes are stored as SVASets, which are sets of mult-valued
- * attributes.
- * For example, one SVA can represent genback sequences associated to the
- * object. And another could be the set of XM refseq sequences associated to
- * the object. The SVASet in this example would then contain these two sets
- * plus possibly others. The bucketizer algorithm finds attributes from each
- * SVA that are shared between objects across the two data sets and if that
- * attribute is shared by only one object from set 1 and only one from set 2,
- * then that pair of objects is considered a match. By finding all matches
- * between all objects in both sets, the bucketizer can sort the objects out
- * by the cardinality of their relationships.
+ * of data based on their shared attributes and clusters the data members
+ * based upon the cardinality of the two data sets this cluster represents.
+ * A cluster of data elements can be classified as a one to one, one to many,
+ * one to zero, many to one, zero to one, and many to many.
+ * For example, one set valued attribute (SVA) can represent genback sequences
+ * associated to the object. And another could be the set of XM refseq
+ * sequences associated to the object. The SVASet in this example would then
+ * contain these two sets plus possibly others. The bucketizer algorithm finds
+ * attributes from each SVA that are shared between objects from the two data
+ * sets and if that attribute is shared by only one object from set 1 and only
+ * one from set 2, then that pair of objects is considered a match.
  * @has two data sets and a Decider class which is called when two members
  * from the the two data sets are found to match. The Decider interface
  * provides a simple boolean operation to determine whether the two objects
@@ -44,19 +45,23 @@ import org.jax.mgi.shr.timing.Stopwatch;
 
 abstract public class AbstractBucketizer
 {
-
+    // The Decider instance which is used to determine definitively whether
+    // or no two objects are associated
     protected Decider decider = new DefaultDecider();
 
+    // lookups which index Bucketizables based upon their associated SVASet
     protected SVAIndex index = null;
 
+    // a hashtable of matching elements which will be passed to the Decider
     private Hashtable namedDeciderItems = new Hashtable();
-    private Graph connectedComponentsGraph = new SimpleGraph();
-    private String[] attributeNamesToIndexOn = {};
 
-    private Runtime runtime = Runtime.getRuntime();
-    private long memStart = runtime.freeMemory();
-    private long memLast = 0;
-    //private OutputDataFile stats = null;
+    // the internal graph used for storing the data elements where a
+    // graph nodes are the elements and the graph edges are the associations
+    private Graph connectedComponentsGraph = new SimpleGraph();
+
+    // a list of attribute names used when comparing Bucketizables
+    private String[] attributeNames;
+
 
     /**
      * constructor
@@ -70,6 +75,7 @@ abstract public class AbstractBucketizer
         throws MGIException
     {
         this.index = new SVAIndex(attrNames);
+        this.attributeNames = attrNames;
         initialize(it1, it2, attrNames);
     }
 
@@ -86,12 +92,15 @@ abstract public class AbstractBucketizer
         throws MGIException
     {
         this.index = new SVAIndex(attrNames);
+        this.attributeNames = attrNames;
         initialize(it1, it2, attrNames);
     }
 
 
     /**
      * the method for running the bucketizer algorithm
+     * @assumes nothing
+     * @effects the data elements are bucketized and processed
      * @param provider1 the name of provider one. Which provider is
      * considered to be one vs two determines how a cardinality is
      * assigned. For example all cardinilaties are based on provider1 to
@@ -104,34 +113,23 @@ abstract public class AbstractBucketizer
     public void run(String provider1, String provider2)
         throws MGIException
     {
-        //stats = new OutputDataFile("reports/bucketizerStats.txt");
-        for (Iterator i = this.namedDeciderItems.keySet().iterator(); i.hasNext(); )
+        for (Iterator i = this.namedDeciderItems.keySet().iterator();
+             i.hasNext(); )
         {
-            DeciderItem decision = (DeciderItem)this.namedDeciderItems.get(i.
-                next());
-            Object truth = this.decider.decide(decision.b1,
+            DeciderItem decision =
+                (DeciderItem)this.namedDeciderItems.get(i.next());
+            Object label = this.decider.decide(decision.b1,
                                                decision.b2,
-                                               decision.decisionSVA);
-            if (truth != null)
+                                               decision.commonAttributes);
+            if (label != null)
                 this.connectedComponentsGraph.addEdge(decision.b1,
-                    decision.b2, decision.decisionSVA.toString());
+                    decision.b2, label);
         }
-        Iterator it = Graphs.iterConnectedComponents(connectedComponentsGraph);
-/*
-        Graph connectedComponent = (Graph)it.next();
-        BucketItem bucketItem = new BucketItem(connectedComponent);
-        int cardinality = bucketItem.getCardinality(provider1, provider2);
-        while (cardinality != BucketItem.ONE_TO_ONE)
-        {
-            connectedComponent = (Graph)it.next();
-            bucketItem = new BucketItem(connectedComponent);
-            cardinality = bucketItem.getCardinality(provider1, provider2);
-        }
-*/
+        Iterator it =
+            Graphs.iterConnectedComponents(connectedComponentsGraph);
+
         Graph connectedComponent = null;
         BucketItem bucketItem = null;
-        Stopwatch loadStopWatch = new Stopwatch();
-        loadStopWatch.start();
 
         while (it.hasNext())
         {
@@ -160,18 +158,9 @@ abstract public class AbstractBucketizer
                     this.process_Many_To_Many(bucketItem);
                     break;
             }
-            long memEnd = runtime.freeMemory();
-            long totalDiff = this.memStart - memEnd;
-            long delta = this.memLast - memEnd;
-            this.memLast = memEnd;
-            //stats.write("Total bytes: " + totalDiff);
-            //stats.write("Incr bytes: " + delta);
 
 
         }
-        loadStopWatch.stop();
-        double totalProcessTime = loadStopWatch.time();
-        //this.stats.close();
         postProcess();
     }
 
@@ -240,7 +229,10 @@ abstract public class AbstractBucketizer
 
     /**
      * initializes any caches required by the bucketizer algorithm
-     * @param it1 an Iteartor for data set 1
+     * @assumes nothing
+     * @effects the bucketizer will add all the data elements to the
+     * internal graph and create associations between them as graph edges
+     * @param it1 an Iterator for data set 1
      * @param it2 an Iterator for data set 2
      * @param attrNames an array of names of attributes to be used in
      * determining the groupings
@@ -264,6 +256,9 @@ abstract public class AbstractBucketizer
 
     /**
      * initializes any caches required by the bucketizer algorithm
+     * @assumes nothing
+     * @effects the bucketizer will add all the data elements to the
+     * internal graph and create associations between them as graph edges
      * @param it1 a DataIteartor for data set 1
      * @param it2 a DataIterator for data set 2
      * @param attrNames an array of names of attributes to be used in
@@ -293,8 +288,10 @@ abstract public class AbstractBucketizer
 
 
     /**
-     * builds an internal cache of all the groupings which is stored for
+     * builds an internal cache of all the matched elements which is stored for
      * subsequent processing
+     * @assumes nothing
+     * @effects the hashtable of matched elements is created
      */
     private void createAllDeciderItems()
     {
@@ -310,6 +307,9 @@ abstract public class AbstractBucketizer
                 Set indexedItems = this.index.lookup(indexName, indexKey);
                 Bucketizable[] bucketizables =
                     (Bucketizable[])indexedItems.toArray(new Bucketizable[1]);
+                // Create a key for this pair of Bucketizables of the form
+                // provider id 1 + element id 1 + provider id 2 + element id 2
+                // Provider id i is determined by alphabetic sort order
                 if (bucketizables.length == 2 &&
                     bucketizables[0].getProvider() !=
                     bucketizables[1].getProvider())
@@ -327,8 +327,10 @@ abstract public class AbstractBucketizer
                           bucketizables[0].getId()).equals(sortIds[0]))
                         rearranged = true;
                     String key = sortIds[0] + "-" + sortIds[1];
-                    DeciderItem decision = (DeciderItem)this.namedDeciderItems.
-                        get(key);
+
+                    // create a DeciderItem for this pair
+                    DeciderItem decision =
+                        (DeciderItem)this.namedDeciderItems.get(key);
                     if (decision == null)
                     {
                         decision = new DeciderItem();
@@ -343,11 +345,7 @@ abstract public class AbstractBucketizer
                             decision.b2 = bucketizables[0];
                         }
                     }
-                    HashSet ids = (HashSet)decision.decisionSVA.get(indexName);
-                    if (ids == null)
-                        ids = new HashSet();
-                    ids.add(indexKey);
-                    decision.decisionSVA.put(indexName, ids);
+                    decision.commonAttributes.addSVAMember(indexName, indexKey);
                     namedDeciderItems.put(key, decision);
                 }
             }
@@ -355,28 +353,6 @@ abstract public class AbstractBucketizer
 
     }
 
-
-/*
-    private void addToIndex(Bucketizable b)
-    {
-        //SVASet set = createSVASet(b);
-        //this.index.add(b, set);
-        this.index.add(b, b.getSVASet());
-    }
-*/
-
-/*
-    private SVASet createSVASet(Bucketizable b)
-    {
-        String[] svaNames = b.getSVANames();
-        SVASet set = new SVASet(svaNames);
-        for (int i = 0; i < svaNames.length; i++)
-        {
-            set.addSVA(svaNames[i], b.getSVA(svaNames[i]));
-        }
-        return set;
-    }
-*/
 
 /**
  *
@@ -392,7 +368,7 @@ abstract public class AbstractBucketizer
     {
         public Bucketizable b1 = null;
         public Bucketizable b2 = null;
-        public Hashtable decisionSVA = new Hashtable();
+        public SVASet commonAttributes = new SVASet(attributeNames);
         public String toString()
         {
             StringBuffer buff = new StringBuffer();
@@ -400,14 +376,11 @@ abstract public class AbstractBucketizer
             buff.append("|");
             buff.append(b2.toString());
             buff.append("|");
-            for (Iterator i = decisionSVA.keySet().iterator(); i.hasNext(); )
-            {
-                String s = (String)i.next();
-                HashSet set = (HashSet)decisionSVA.get(s);
-                buff.append(s + "=" + set.toString());
-            }
+            buff.append(commonAttributes.toString());
             return buff.toString();
         }
     }
 
 }
+
+// $LOG$
