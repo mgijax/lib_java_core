@@ -1,0 +1,69 @@
+package id3g22le9ravdy2e9regxub;
+
+/**
+@version 2.0
+@__modelType diagram 
+*/
+class diagram {
+/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.bucketizer.BucketItemProcessor:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.bucketizer.DefaultBucketItemProcessor:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference63 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.bucketizer.GeneralPurposeBucketizer:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference64 {
+}/**
+@__ref <oiref:design#Class#id3g22le9ravdy2e9regxub.node24:oiref><oihard>
+@__modelType reference 
+*/
+class reference65 {
+}}/**
+
+@__tags
+@shapeType ClassDiagram 
+*/
+class __tags {
+}/**
+@__options option.detail = Implementation 
+*/
+class __options {
+}/**
+@__positions <oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.bucketizer.GeneralPurposeBucketizer#Many_To_Many_Processor:oiref>=550,92,640,92:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.bucketizer.GeneralPurposeBucketizer#Zero_To_One_Processor:oiref>=550,78,640,78:oigroup>
+<oigroup:<oiref:design#Class#id3g22le9ravdy2e9regxub.node24:oiref>=690,359,102,40,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.bucketizer.BucketItemProcessor:oiref>=640,50,310,101,0:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.bucketizer.GeneralPurposeBucketizer#One_To_One_Processor:oiref>=550,136,640,136:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.bucketizer.DefaultBucketItemProcessor:oiref>=640,210,300,85,0:oigroup>
+<oigroup:<oiref:design#Class#id3g22le9ravdy2e9regxub.node24.link:oiref>=741,359,741,295:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.bucketizer.GeneralPurposeBucketizer#Many_To_One_Processor:oiref>=550,106,640,106:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.bucketizer.GeneralPurposeBucketizer#One_To_Zero_Processor:oiref>=550,64,640,64:oigroup>
+<oigroup:<oiref:java#Implements#org.jax.mgi.shr.bucketizer.DefaultBucketItemProcessor#org.jax.mgi.shr.bucketizer.BucketItemProcessor:oiref>=775,210,775,151:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.bucketizer.GeneralPurposeBucketizer#One_To_Many_Processor:oiref>=550,121,640,121:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.bucketizer.GeneralPurposeBucketizer:oiref>=30,30,520,309,0:oigroup> 
+*/
+class __positions {
+}/**
+@shapeType Note
+@__modelType node
+@name Note2
+@text does nothing 
+*/
+class node24 {
+/**
+@shapeType NoteLink
+@__modelType link
+@__ref <oiref:java#Class#org.jax.mgi.shr.bucketizer.DefaultBucketItemProcessor:oiref><oihard> 
+*/
+class link {
+}}

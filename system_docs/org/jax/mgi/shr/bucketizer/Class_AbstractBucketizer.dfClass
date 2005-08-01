@@ -1,0 +1,98 @@
+package id3zwf2e9ravdy2e9rdrozx;
+
+/**
+@version 2.0
+@__modelType diagram 
+*/
+class diagram {
+/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.bucketizer.AbstractBucketizer:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.bucketizer.Decider:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference58 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.bucketizer.DefaultDecider:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference59 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.bucketizer.TestCaseBucketizer:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference60 {
+}/**
+@__ref <oiref:design#Class#id3zwf2e9ravdy2e9rdrozx.node:oiref><oihard>
+@__modelType reference 
+*/
+class reference61 {
+}/**
+@__ref <oiref:design#Class#id3zwf2e9ravdy2e9rdrozx.node26:oiref><oihard>
+@__modelType reference 
+*/
+class reference62 {
+}}/**
+
+@__tags
+@shapeType ClassDiagram 
+*/
+class __tags {
+}/**
+@__options option.detail = Implementation 
+*/
+class __options {
+}/**
+@__positions <oigroup:<oiref:java#Class#org.jax.mgi.shr.bucketizer.TestCaseBucketizer:oiref>=20,390,420,197,0:oigroup>
+<oigroup:<oiref:java#Implements#org.jax.mgi.shr.bucketizer.DefaultDecider#org.jax.mgi.shr.bucketizer.Decider:oiref>=665,180,665,111:oigroup>
+<oigroup:<oiref:design#Class#id3zwf2e9ravdy2e9rdrozx.node.link:oiref>=617,290,617,265:oigroup>
+<oigroup:<oiref:design#Class#id3zwf2e9ravdy2e9rdrozx.node26.link38:oiref>=350,300,350,271:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.bucketizer.AbstractBucketizer:oiref>=20,10,420,261,0:oigroup>
+<oigroup:<oiref:java#Extends#org.jax.mgi.shr.bucketizer.TestCaseBucketizer#org.jax.mgi.shr.bucketizer.AbstractBucketizer:oiref>=170,390,170,271:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.bucketizer.AbstractBucketizer#decider:oiref>=440,60,480,60:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.bucketizer.Decider:oiref>=480,10,480,101,0:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.bucketizer.DefaultDecider:oiref>=520,180,430,85,0:oigroup>
+<oigroup:<oiref:design#Class#id3zwf2e9ravdy2e9rdrozx.node26:oiref>=260,300,230,70,0:oigroup>
+<oigroup:<oiref:design#Class#id3zwf2e9ravdy2e9rdrozx.node:oiref>=550,290,134,40,1:oigroup> 
+*/
+class __positions {
+}/**
+@shapeType Note
+@__modelType node
+@name Note1
+@text always returns true
+*/
+class node {
+/**
+@shapeType NoteLink
+@__modelType link
+@__ref <oiref:java#Class#org.jax.mgi.shr.bucketizer.DefaultDecider:oiref><oihard> 
+*/
+class link {
+}}/**
+@shapeType Note
+@__modelType node
+@name Note3
+@text The Iterators passed in to the constructor must contain Bucketizables
+*/
+class node26 {
+/**
+@shapeType NoteLink
+@__modelType link
+@__ref <oiref:java#Class#org.jax.mgi.shr.bucketizer.BSet:oiref><oihard> 
+*/
+class link {
+}/**
+@shapeType NoteLink
+@__modelType link
+@__ref <oiref:java#Class#org.jax.mgi.shr.bucketizer.AbstractBucketizer:oiref><oihard> 
+*/
+class link38 {
+}}
