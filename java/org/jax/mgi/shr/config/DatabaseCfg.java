@@ -157,7 +157,7 @@ public class DatabaseCfg
    * get the maximum allowed number of objects to use for each sql statement
    * when composing a dynamic 'in clause'. There is a limit in Sybase for
    * this number. The default value is set to 400.
-   * @return
+   * @return the maximum number of objects
    * @throws ConfigException
    */
   public Integer getMaxInClause() throws ConfigException
@@ -171,6 +171,9 @@ public class DatabaseCfg
 
 }
 // $Log$
+// Revision 1.5.4.1  2005/06/02 19:43:25  mbw
+// added getMaxInClause method
+//
 // Revision 1.5  2004/09/30 15:37:40  mbw
 // added a getDebug() method
 //

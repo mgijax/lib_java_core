@@ -187,7 +187,7 @@ public class OutputDataFile
      * sets whether or not to flush the output buffer on each write
      * @assumes nothing
      * @effects nothing
-     * @param pDelimiter true if the buffer should be flushed, false otherwise
+     * @param bool true if the buffer should be flushed, false otherwise
      */
     public void setOKToAutoFlush(boolean bool)
     {
@@ -254,7 +254,7 @@ public class OutputDataFile
      * @assumes a newline is not wanted after the write
      * @effects new output will be written to the file
      * @params s the string to write
-     * @throws IOUException if an error occurs finding or opening the file.
+     * @throw IOUException if an error occurs finding or opening the file.
      */
     public void write(String s)
         throws IOUException
@@ -638,6 +638,9 @@ public class OutputDataFile
 
 
 //  $Log$
+//  Revision 1.1.4.4  2005/08/01 18:22:39  mbw
+//  fixed compile error
+//
 //  Revision 1.1.4.3  2005/08/01 15:55:32  mbw
 //  added post formatting functionality
 //

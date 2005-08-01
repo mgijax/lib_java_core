@@ -70,7 +70,6 @@ abstract public class RowDataCacheHandler
     protected RowDataInterpreter interpreter;
     /**
      * the strategy class for performing cache lookups
-     * @label uses
      */
     protected RowDataCacheStrategy cacheStrategy;
     /**

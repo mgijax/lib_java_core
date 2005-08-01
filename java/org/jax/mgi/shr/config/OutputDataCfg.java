@@ -28,7 +28,6 @@ public class OutputDataCfg extends Configurator {
      * Default constructor.
      * @assumes Nothing
      * @effects Nothing
-     * @param pParameterPrefix the given prefix string
      * @throws ConfigException thrown if there is a configuration error
      */
     public OutputDataCfg()
@@ -42,7 +41,8 @@ public class OutputDataCfg extends Configurator {
      * all configuration parameter names on lookup.
      * @assumes Nothing
      * @effects Nothing
-     * @param None
+     * @param pParameterPrefix the prefix to apply to all configuration
+     * parameter names
      * @throws ConfigException thrown if there is a configuration error
      */
     public OutputDataCfg(String pParameterPrefix)
@@ -56,9 +56,7 @@ public class OutputDataCfg extends Configurator {
      * Gets the name of the output file.
      * @assumes Nothing
      * @effects Nothing
-     * @param None
      * @return The name of the output file or null if the name is not found.
-     * @throws Nothing
      */
       public String getOutputFileName()
       {
@@ -116,6 +114,9 @@ public class OutputDataCfg extends Configurator {
 
 
 //  $Log$
+//  Revision 1.1.4.1  2005/08/01 17:43:58  mbw
+//  initial version
+//
 //  Revision 1.1.2.2  2005/01/08 00:57:00  mbw
 //  added okToAutoFlush param
 //
