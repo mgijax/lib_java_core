@@ -21,6 +21,16 @@ import org.jax.mgi.shr.sva.SVASet;
 
 public class DefaultDecider implements Decider
 {
+        /**
+         * returns the value of svaSet argument which if not null
+         * indicates to the AbstractBucketizer that b1 and b2 are related
+         * @assumes nothing
+         * @effects nothing
+         * @param b1 Bucketizable one to compare
+         * @param b2 Bucketizable two to compare
+         * @svaSet the SVASet of common attributes between b1 and b2
+         */
+
     public Object decide(Bucketizable b1, Bucketizable b2, SVASet svaSet)
     {
         return svaSet;
