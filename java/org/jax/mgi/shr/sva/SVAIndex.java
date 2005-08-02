@@ -7,15 +7,14 @@ import java.util.*;
 
 /**
  * A class which allows one to associate an object with a SVASet so that the
- * values from the SVASet get indexed to the object and llokups are provided
- * for looking up the objects by the SVASet values. Each named set valued
+ * values from the named set valued attributes get indexed to the object and 
+ * lookups are provide so objects can be found by attribute values. Each 
  * attribute becomes a lookup with the values from the attribute are used 
- * as keys and the associated objects stored as the lookup values.
- * @has an array of SVA names from which to obtain the SVASet attributes used
- * used creating the lookups and also used to name the lookups
- * @does provides a way to add SVASets and their associated objects to the
- * index and a way to lookup the associated objects by attribute value for a
- * any name from the SVA names
+ * as keys and the associated objectare retreived
+ * @has an array of attribute names expected in any given SVASet
+ * @does provides a way to add attributes and their associated objects to the
+ * index and a way to lookup for each attribute name the associated objects 
+ * by attribute value
  * @company Jackson Laboratory
  * @author M Walker
  *
