@@ -19,8 +19,17 @@ import org.jax.mgi.shr.sva.SVASet;
 
 public class SimpleBucketizable implements Bucketizable
 {
+    /**
+     *  the id of the instance
+     */
     protected String id = null;
+    /**
+     *  the name of the provider for this instance
+     */
     protected String provider = null;
+    /**
+     *  the SVASet of attributes used when bucketizing
+     */
     protected SVASet svaSet = null;
 
     /**
