@@ -8,9 +8,9 @@ import java.util.*;
 /**
  * A class which allows one to associate an object with a SVASet so that the
  * values from the named set valued attributes get indexed to the object and 
- * lookups are provide so objects can be found by attribute values. Each 
- * attribute becomes a lookup with the values from the attribute are used 
- * as keys and the associated objectare retreived
+ * lookups are provide so objects can be found by the attribute values. Each 
+ * attribute name becomes a lookup for finding associated objects by the 
+ * attribute values
  * @has an array of attribute names expected in any given SVASet
  * @does provides a way to add attributes and their associated objects to the
  * index and a way to lookup for each attribute name the associated objects 
