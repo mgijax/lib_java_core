@@ -7,7 +7,8 @@ import java.util.*;
 
 /**
  * A class which allows one to associate an object with a SVASet so that the
- * values from the SVASet get indexed to the object. Each named set valued
+ * values from the SVASet get indexed to the object and llokups are provided
+ * for looking up the objects by the SVASet values. Each named set valued
  * attribute becomes a lookup with the values from the attribute are used 
  * as keys and the associated objects stored as the lookup values.
  * @has an array of SVA names from which to obtain the SVASet attributes used
