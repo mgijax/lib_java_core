@@ -6,7 +6,7 @@ package org.jax.mgi.shr.graphs;
 import java.util.*;
 import java.io.*;
 
-/** @is a container of graph utilities, which are static methods.
+/** a container of graph utilities, which are static methods.
  *  @has nothing
  *  @does nothing
  */
