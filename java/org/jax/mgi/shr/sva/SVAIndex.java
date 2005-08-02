@@ -1,20 +1,20 @@
+// $HEADER$
+// $NAME$
+
 package org.jax.mgi.shr.sva;
 
 import java.util.*;
 
 /**
- * A class which represents a collection of lookups which were derived from
- * a collection of SVASets and their associated objects. SVASets are sets of
- * named set-valued attributes (SVAs). An object can be associated with
- * an SVASet and this class allows one to lookup attribute values and get
- * back the associated objects. The names of the SVAs correspond to the names of
- * the lookups. The attribute values of the SVAs are the keys and the lookup
- * values are objects given to be associated with a SVASet.
- * @has an array of SVA names from which to obtain the attributes used in
- * creating the lookups
+ * A class which allows one to associate an object with a SVASet so that the
+ * values from the SVASet get indexed to the object. Each named set valued
+ * attribute becomes a lookup with the values from the attribute are used 
+ * as keys and the associated objects stored as the lookup values.
+ * @has an array of SVA names from which to obtain the SVASet attributes used
+ * used creating the lookups and also used to name the lookups
  * @does provides a way to add SVASets and their associated objects to the
  * index and a way to lookup the associated objects by attribute value for a
- * any name from the array of SVA names
+ * any name from the SVA names
  * @company Jackson Laboratory
  * @author M Walker
  *
@@ -22,12 +22,13 @@ import java.util.*;
 
 public class SVAIndex
 {
-    Hashtable indexes = new Hashtable();
-    String[] indexNames = {};
+    private Hashtable indexes = new Hashtable();
+    private String[] indexNames = {};
 
     /**
      * Constructor
-     * @param attrNames the names of the SVAs to use for indexing the associated
+     * @param attrNames the names of the SVAs to use for indexing the
+     * associated
      * objects by their attribute values
      */
 
@@ -86,7 +87,8 @@ public class SVAIndex
     }
 
     /**
-     * get all the names of SVAs used as lookups as provided in the constructor
+     * get all the names of SVAs used as lookups as provided in the
+     * constructor
      * @return the names of SVAs used as lookups
      */
     public String[] getIndexNames()
@@ -111,7 +113,7 @@ public class SVAIndex
         else
             return t.keySet();
     }
-
-
-
 }
+
+// $LOG
+
