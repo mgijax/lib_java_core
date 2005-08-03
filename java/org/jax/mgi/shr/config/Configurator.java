@@ -73,6 +73,12 @@ public class Configurator
         return this.parameterPrefix;
     }
 
+    /**
+     * get the names of the coniguration parameters
+     * @assumes nothing
+     * @effects nothing
+     * @return the names of the coniguration parameters
+     */
     public String[] getConfigurationParameters()
     {
         return this.cm.getKeys();
@@ -946,6 +952,9 @@ public class Configurator
 
 }
 // $Log$
+// Revision 1.8.2.1  2005/08/01 18:35:10  mbw
+// added getConfigObjectArrayNull method
+//
 // Revision 1.8  2004/12/16 21:18:51  mbw
 // merged assembly branch onto the trunk
 //
