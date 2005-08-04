@@ -28,7 +28,7 @@ public class DefaultDecider implements Decider
          * @effects nothing
          * @param b1 Bucketizable one to compare
          * @param b2 Bucketizable two to compare
-         * @svaSet the SVASet of common attributes between b1 and b2
+         * @param svaSet the SVASet of common attributes between b1 and b2
          */
 
     public Object decide(Bucketizable b1, Bucketizable b2, SVASet svaSet)
