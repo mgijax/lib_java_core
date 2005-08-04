@@ -1,11 +1,18 @@
+// $HEADER$
+// $NAME$
+
 package org.jax.mgi.shr.sva;
 
 import java.util.*;
 
 /**
- * A class which represents a set of named set-valued attributes
- * @has named set-valued attribute
- * @does provides accessors for these attributes
+ * A class which represents a set of named set-valued attributes. It
+ * can be thought of as a Set of Maps where each map entry is a name
+ * as a key and a set of objects as a value
+ * @has a list of set valued attribute (SVA) names and will only 
+ * manage SVAs named from this list
+ * @does provides accessors for these attributes named from the SVA
+ * name list
  * @company Jackson Laboratory
  * @author M Walker
  *
@@ -69,7 +76,8 @@ public class SVASet
     }
 
     /**
-     * add a single attribute value to a SVA from this set with the given name.
+     * add a single attribute value to a SVA from this set with the given
+     * name.
      * @param attrName the name of the SVA
      * @param data the object to add
      */
@@ -91,16 +99,10 @@ public class SVASet
      */
     public String toString()
     {
-        StringBuffer buff = new StringBuffer();
-        for (Iterator i = this.attrNames.iterator(); i.hasNext(); )
-        {
-            Object name = i.next();
-            Set s = (Set)this.hash.get(name);
-            buff.append("|" + name.toString() + "=" + s.toString());
-        }
-        if (buff.length() != 0)
-            buff.append("|");
-        return buff.toString();
+        return this.hash.toString();
     }
 
 }
+
+// $LOG
+
