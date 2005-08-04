@@ -12,18 +12,6 @@ class diagram {
 @__fqn <oiref:#Package#org:oiref> 
 */
 class reference {
-}/**
-@__ref <oiref:design#Class#idp67nduee1vorduef1vqy.diagram:oiref><oihard>
-@__modelType reference
-@__fqn <oiref:#Package#final:oiref> 
-*/
-class reference10 {
-}/**
-@__ref <oiref:design#Class#id42c6duee1vorduef1vrs.diagram:oiref><oihard>
-@__modelType reference
-@__fqn <oiref:#Package#ok2delete:oiref> 
-*/
-class reference11 {
 }}/**
 @__tags
 @shapeType ClassDiagram 
@@ -34,9 +22,7 @@ class __tags {
 */
 class __options {
 }/**
-@__positions <oigroup:<oiref:design#Class#idp67nduee1vorduef1vqy.diagram:oiref>=606,239,83,95,1:oigroup>
-<oigroup:<oiref:design#Class#id9ekodue2cmokduedmorw.diagram:oiref>=113,10,83,104,1:oigroup>
-<oigroup:<oiref:design#Class#id42c6duee1vorduef1vrs.diagram:oiref>=506,139,83,95,1:oigroup>
+@__positions <oigroup:<oiref:design#Class#id9ekodue2cmokduedmorw.diagram:oiref>=113,10,83,104,1:oigroup>
 */
 class __positions {
 }
