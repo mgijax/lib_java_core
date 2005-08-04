@@ -19,9 +19,9 @@ import org.jax.mgi.shr.timing.Stopwatch;
  * of data based on their shared attributes and clusters the data members
  * based upon the cardinality of the two data sets this cluster represents.
  * A cluster of data elements can be classified as a one to one, one to many,
- * one to zero, many to one, zero to one, and many to many. SVASets (set 
- * valued attributes) of the objects are compared in order to discover the 
- * relationships. For example, one set valued attribute can represent genback 
+ * one to zero, many to one, zero to one, and many to many. SVASets (set
+ * valued attributes) of the objects are compared in order to discover the
+ * relationships. For example, one set valued attribute can represent genback
  * sequences associated to the object. And another could be the set of XM refseq
  * sequences associated to the object. The SVASet in this example would then
  * contain these two sets plus possibly others. The bucketizer algorithm finds

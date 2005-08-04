@@ -10,21 +10,23 @@ import java.util.*;
  *
  *  @is a set of nodes and a set of undirected edges between the nodes.
  *  <B>Nodes</B>. A node can be anything of type Object. Nodes must honor the
- *  general object contract, to wit: if a.equals(b), then a.hashCode() == b.hashCode().
+ *  general object contract, to wit: if a.equals(b), then a.hashCode() ==
+ *  b.hashCode().
  *  (NOTE: if you don't understand this, it's probably not a problem. For more
- *  information, see the Java documentation, particularly, class Object and the
- *  java.util.Collection framework.)
- *  <B>Edges</B>. An edge is a non-directional (or bi-directional - take your pick)
- *  association between two nodes. When denoting an edge, we are forced to pick
- *  an order because text is linear, the edge itself is unordered. Thus, if nodes
- *  a and b are connected by an edge, then both (a,b) and (b,a) denote that edge.
- *  In concrete terms, methods like hasEdge do not care which order the nodes
- *  arguments are given. Edges are not directly visible to the user; there is no
- *  Edge class/interface. Instead, the user specifies edges by the nodes they join.
- *  <B>Edge labels</B>. Each edge may optionally carry an object of the user's
- *  choosing. We generically refer to these objects as 'labels' because they often
- *  are Strings; however, an edge label can be any object, such as a weight, or
- *  annotation record, or whatever.
+ *  information, see the Java documentation, particularly, class Object and
+ *  the java.util.Collection framework.)
+ *  <B>Edges</B>. An edge is a non-directional (or bi-directional - take your
+ *  pick) association between two nodes. When denoting an edge, we are forced
+ *  to pick an order because text is linear, the edge itself is unordered.
+ *  Thus, if nodes a and b are connected by an edge, then both (a,b) and (b,a)
+ *  denote that edge. In concrete terms, methods like hasEdge do not care
+ *  which order the nodes arguments are given. Edges are not directly visible
+ *  to the user; there is no Edge class/interface. Instead, the user specifies
+ *  edges by the nodes they join. <B>Edge labels</B>. Each edge may
+ *  optionally carry an object of the user's choosing. We generically refer
+ *  to these objects as 'labels' because they often are Strings; however, an
+ *  edge label can be any object, such as a weight, or annotation record, or
+ *  whatever.
  * <P>
  *  For now, Graphs do not allow self-edges (an edge between
  *  a node and itself) nor multi-edges (multiple edges between
@@ -79,17 +81,21 @@ public interface Graph {
      *  @param n1 an object
      *  @param n2 another object
      *  @param lbl would you believe, a third object
-     *  @return true if a new edge was created, false if the edge already existed.
-     *  @effects May add n1 and n2 as nodes. May create new edge. Sets the edge's label.
+     *  @return true if a new edge was created, false if the edge already
+     *  existed.
+     *  @effects May add n1 and n2 as nodes. May create new edge. Sets the
+     *  edge's label.
      */
     public boolean	addEdge(Object n1, Object n2, Object lbl);
 
     /** If an edge exists bewteen n1 and n2, has no effect.
-     *  Otherwise, creates an edge between n1 and n2, with the default edge label.
+     *  Otherwise, creates an edge between n1 and n2, with the default edge
+     *  label.
      *  n1 and n2 are added as nodes, if necessary.
      *  @param n1 an object
      *  @param n2 another object
-     *  @return true if a new edge was created, false if the edge already existed.
+     *  @return true if a new edge was created, false if the edge already
+     *  existed.
      *  @effects None if there is already an edge between n1 and n2.
      *  Otherwise, creates an edge. May add n1 and n2 as nodes.
      */

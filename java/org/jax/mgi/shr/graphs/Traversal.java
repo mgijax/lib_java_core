@@ -17,7 +17,8 @@ import java.util.*;
  *  by the classes in this package, while the latter are implemented
  *  via callbacks issues at defined points during the traversal.
  *  <P>
- *  Traversal execution consis of a top-level loop and a nested reachability loop.
+ *  Traversal execution consis of a top-level loop and a nested reachability
+ *  loop.
  *  The top-level loop considers each starting node in turn. (If no
  *  starting nodes have been specified, the top level considers each
  *  node in the graph.) If the
@@ -76,7 +77,8 @@ public interface Traversal {
 
     /** Traverses current graph from current set of starting nodes.
      *  @return nothing
-     *  @effects Updates visited set. Other effects depend on specific traversal.
+     *  @effects Updates visited set. Other effects depend on specific
+     *  traversal.
      */
     public void go();
 
