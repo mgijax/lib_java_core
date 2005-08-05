@@ -397,7 +397,7 @@ public class DTO implements java.util.Map
     /* -------------------------------------------------------------------- */
 
     /** make the given DTO available for re-use.
-    * @param DTO the DTO with which we have finished and which we want to
+    * @param dto the DTO with which we have finished and which we want to
     *    make available for re-use.
     * @return nothing
     * @assumes nothing
@@ -489,6 +489,15 @@ public class DTO implements java.util.Map
 
 /*
 * $Log$
+* Revision 1.2.6.2  2005/08/01 19:20:10  mbw
+* javadocs only
+*
+* Revision 1.2.6.1  2005/08/01 19:14:12  mbw
+* javadocs only
+*
+* Revision 1.2  2004/07/21 20:25:12  mbw
+* javadocs edits only
+*
 * Revision 1.1  2003/12/30 16:56:27  mbw
 * imported into this product
 *

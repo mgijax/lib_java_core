@@ -60,4 +60,28 @@ public class CacheExceptionFactory
             "Could not access the configuration file", false));
     }
 
+    /**
+     * Error running sql during cache initialization
+     */
+    public static final String CacheInitErr =
+        "org.jax.mgi.shr.cache.CacheInitErr";
+    static
+    {
+        exceptionsMap.put(CacheInitErr, new CacheException(
+            "Error executing cache initialization.", false));
+    }
+
+    /**
+     * Error trying to print the cache to a stream
+     */
+    public static final String PrintErr =
+        "org.jax.mgi.shr.cache.PrintErr";
+    static
+    {
+        exceptionsMap.put(PrintErr, new CacheException(
+            "Error trying to print cache to output stream.", false));
+    }
+
+
+
 }

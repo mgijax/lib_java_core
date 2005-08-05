@@ -242,6 +242,12 @@ public class DTOConstants
 
 /*
 * $Log$
+* Revision 1.11.4.2  2005/08/02 20:01:52  mbw
+* fixed merge conflict when merging tag lib_java_core-omim-BP onto branch
+*
+* Revision 1.14  2005/04/26 13:39:01  dow
+* Added ProviderURL.
+*
 * Revision 1.13  2005/04/12 17:12:19  dow
 * lib_java_core-3-2-0-0
 *

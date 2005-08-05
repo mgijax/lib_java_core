@@ -1,6 +1,8 @@
 package org.jax.mgi.shr.cache;
 
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.Iterator;
 import org.jax.mgi.shr.dbutils.ResultsNavigator;
 import org.jax.mgi.shr.dbutils.MultiRowInterpreter;
 import org.jax.mgi.shr.dbutils.MultiRowIterator;
@@ -100,6 +102,35 @@ public class CacheStrategyHelper
         }
     }
 
+    /**
+     * An overload to the putResultsInMap method above except this one takes
+     * an ArrayList of ResultNavigators. See documentation for putResultsInMap
+     * above.
+     * @param navigators an ArrayList of ResultNavigators
+     * @param cache the cache to add the objects to
+     * @param cacheHandler the RowDataCacheHandler class from which to obtain
+     * the RowDataInterpreter classes for interpreting results of a database
+     * query
+     * @param logger the logger to use
+     * @param debug indicator of whether or not to log debug messages
+     * @throws CacheException if there is an error putting objects in the
+     * cache
+     * @throws DBException if there is an error accessing data from the
+     * database
+     */
+    protected static void putResultsInMap(ArrayList navigators,
+                                          Map cache,
+                                          RowDataCacheHandler cacheHandler,
+                                          Logger logger,
+                                          boolean debug)
+    throws DBException, CacheException
+    {
+        for (Iterator it = navigators.iterator(); it.hasNext();)
+        {
+            ResultsNavigator nav = (ResultsNavigator)it.next();
+            putResultsInMap(nav, cache, cacheHandler, logger, debug);
+        }
+    }
 
 
     /**
@@ -131,6 +162,9 @@ public class CacheStrategyHelper
      * @param cache the cache to put the object into
      * @param cacheHandler is used for error reporting in that the name
      * of the handler class is obtained and reported on error
+     * @param logger an implementation of the Logger interface
+     * @param debug true if method should print debug statements to Logger,
+     * false otherwise
      * @throws CacheException thrown if the given object is not of type
      * KeyValue
      */
