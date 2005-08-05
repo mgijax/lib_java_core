@@ -1,3 +1,8 @@
+TAG:lib_java_core-tr6427-1
+DATE: 08/03/2005
+CHANGES: initial integration test
+STAFF: mbw
+
 TAG:lib_java_core-omim-BP
 DATE: 07/20/2005
 STAFF: jsb
@@ -54,6 +59,11 @@ STAFF: mbw
 
 TAG:lib_java_core-tr5939-BP
 DATE: 12/20/2004
+STAFF: mbw
+
+TAG:lib_java_core-tr6427-1
+DATE: 08/03/2005
+CHANGES: initial integration test
 STAFF: mbw
 
 TAG:lib_java_core-tr6427-BP

@@ -711,7 +711,6 @@ public class SQLDataManager {
     return (ResultsNavigator)iterator;
   }
 
-
   /**
    * appends an 'in clause' to the given sql string for the given column and
    * column values
@@ -742,7 +741,6 @@ public class SQLDataManager {
           formatter.createSQL(newSQL, columnValues);
       return new QuerySeries(sqlStatements, this);
   }
-
 
   /**
    * execute the update, delete or insert statement
@@ -1462,11 +1460,17 @@ public class SQLDataManager {
 }
 
 // $Log$
+// Revision 1.14  2005/08/05 16:05:06  mbw
+// merged code from lib_java_core-tr6427-1
+//
 // Revision 1.13.4.2  2005/06/02 19:39:49  mbw
 // javadocs only
 //
 // Revision 1.13.4.1  2005/06/02 14:47:41  mbw
 // added method addInClause
+//
+// Revision 1.13.12.1  2005/08/01 15:49:49  mbw
+// added executeQuery(InterpretedQuery query)
 //
 // Revision 1.13  2004/10/12 17:49:04  mbw
 // setting isDebug instance variable to false during initialization (was setting true)

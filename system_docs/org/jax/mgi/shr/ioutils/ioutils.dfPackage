@@ -6,7 +6,117 @@ package id3829qdue2cmokduedmowc;
 @__modelType diagram 
 */
 class diagram {
+/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.ioutils.DataCompare2c:oiref><oihard>
+@__modelType reference 
+*/
+class reference {
 }/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.ioutils.InputDataFile:oiref><oihard>
+@__modelType reference 
+*/
+class reference14 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.ioutils.RecordDataInterpreter:oiref><oihard>
+@__modelType reference 
+*/
+class reference15 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.ioutils.CustomFormat:oiref><oihard>
+@__modelType reference 
+*/
+class reference16 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.ioutils.DataCompare3:oiref><oihard>
+@__modelType reference 
+*/
+class reference17 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.ioutils.RecordFormatException:oiref><oihard>
+@__modelType reference 
+*/
+class reference18 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.ioutils.OutputDataFile:oiref><oihard>
+@__modelType reference 
+*/
+class reference19 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.ioutils.RecordDataReader:oiref><oihard>
+@__modelType reference 
+*/
+class reference20 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.ioutils.IOUExceptionFactory:oiref><oihard>
+@__modelType reference 
+*/
+class reference21 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.ioutils.DataCompare1:oiref><oihard>
+@__modelType reference 
+*/
+class reference22 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.ioutils.TestRecordDataReader:oiref><oihard>
+@__modelType reference 
+*/
+class reference23 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.ioutils.TestBaselineIO:oiref><oihard>
+@__modelType reference 
+*/
+class reference24 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.ioutils.IOUException:oiref><oihard>
+@__modelType reference 
+*/
+class reference25 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.ioutils.DataCompare2b:oiref><oihard>
+@__modelType reference 
+*/
+class reference26 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.ioutils.DataCompare1a:oiref><oihard>
+@__modelType reference 
+*/
+class reference27 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.ioutils.DataCompare2:oiref><oihard>
+@__modelType reference 
+*/
+class reference28 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.ioutils.TestInputDataFile:oiref><oihard>
+@__modelType reference 
+*/
+class reference29 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.ioutils.DataCompare2a:oiref><oihard>
+@__modelType reference 
+*/
+class reference30 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.ioutils.RecordDataIterator:oiref><oihard>
+@__modelType reference 
+*/
+class reference31 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.ioutils.DataInput2:oiref><oihard>
+@__modelType reference 
+*/
+class reference32 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.ioutils.DataInput3:oiref><oihard>
+@__modelType reference 
+*/
+class reference33 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.ioutils.DataInput1:oiref><oihard>
+@__modelType reference 
+*/
+class reference34 {
+}}/**
 @__tags
 @shapeType ClassDiagram 
 */
@@ -16,7 +126,44 @@ class __tags {
 */
 class __options {
 }/**
-@__positions 
+@__positions <oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.ioutils.TestRecordDataReader#dataInput2:oiref>=752,516,1100,120:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.ioutils.DataCompare2c:oiref>=531,1192,140,110,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.ioutils.TestInputDataFile:oiref>=1630,10,186,494,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.ioutils.TestRecordDataReader#dataCompare1:oiref>=781,571,931,571:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.ioutils.TestRecordDataReader#dataInput3:oiref>=619,516,240,454,240,120:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.ioutils.TestRecordDataReader#dataCompare2:oiref>=724,516,724,120:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.ioutils.DataCompare1:oiref>=931,516,140,110,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.ioutils.TestInputDataFile#inputFile:oiref>=1630,257,1550,257:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.ioutils.DataCompare2:oiref>=710,10,140,110,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.ioutils.TestRecordDataReader#dataCompare3:oiref>=600,516,80,444,80,120:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.ioutils.CustomFormat:oiref>=1547,710,161,101,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.ioutils.DataCompare3:oiref>=10,10,140,110,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.ioutils.IOUException:oiref>=1343,1010,103,101,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.ioutils.TestRecordDataReader#dataCompare2a:oiref>=657,516,657,120:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.ioutils.InputDataFile:oiref>=1350,10,200,510,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.ioutils.TestBaselineIO:oiref>=911,1192,181,318,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.ioutils.TestRecordDataReader#dataCompare2b:oiref>=766,516,1260,120:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.ioutils.TestRecordDataReader#dataCompare2c:oiref>=626,1122,626,1192:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.ioutils.DataCompare1a:oiref>=870,10,140,110,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.ioutils.TestBaselineIO#fileCreator:oiref>=911,1247,831,1247:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.ioutils.DataInput1:oiref>=691,1192,140,110,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.ioutils.IOUExceptionFactory:oiref>=1373,590,154,299,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.ioutils.TestRecordDataReader:oiref>=581,516,200,606,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.ioutils.DataInput2:oiref>=1030,10,140,110,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.ioutils.RecordDataIterator:oiref>=1466,1010,200,146,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.ioutils.TestBaselineIO#dataCompare:oiref>=1001,1192,1001,626:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.ioutils.DataInput3:oiref>=170,10,140,110,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.ioutils.OutputDataFile:oiref>=1093,590,200,398,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.ioutils.RecordDataInterpreter:oiref>=1600,550,168,117,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.ioutils.InputDataFile#exceptionFactory:oiref>=1450,520,1450,590:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.ioutils.RecordDataReader:oiref>=330,10,200,446,1:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.ioutils.DataCompare2a:oiref>=550,10,140,110,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.ioutils.TestRecordDataReader#dataCompare1a:oiref>=738,516,940,120:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.ioutils.OutputDataFile#exceptionFactory:oiref>=1293,739,1373,739:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.ioutils.RecordFormatException:oiref>=1547,850,162,117,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.ioutils.TestRecordDataReader#recordDataReader:oiref>=638,516,430,456:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.ioutils.TestRecordDataReader#dataInput1:oiref>=736,1122,736,1192:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.ioutils.DataCompare2b:oiref>=1190,10,140,110,1:oigroup> 
 */
 class __positions {
 }

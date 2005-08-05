@@ -489,10 +489,16 @@ public class DTO implements java.util.Map
 
 /*
 * $Log$
+* Revision 1.3  2005/08/05 16:29:18  mbw
+* merged code from branch lib_java_core-tr6427-1
+*
 * Revision 1.2.6.2  2005/08/01 19:20:10  mbw
 * javadocs only
 *
 * Revision 1.2.6.1  2005/08/01 19:14:12  mbw
+* javadocs only
+*
+* Revision 1.2.14.1  2005/08/01 19:28:54  mbw
 * javadocs only
 *
 * Revision 1.2  2004/07/21 20:25:12  mbw

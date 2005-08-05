@@ -62,7 +62,7 @@ class __options {
 }/**
 @__positions <oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.RowDataInterpreter:oiref>=510,10,360,101,0:oigroup>
 <oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.DataIterator:oiref>=830,140,180,133,0:oigroup>
-<oigroup:Composite#label#MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.MultiRowIterator#nav:oiref>=449,344,41,16,0,0.0,1.0:oigroup>
+<oigroup:Composite#label#MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.MultiRowIterator#nav:oiref>=449,344,51,16,0:oigroup>
 <oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.ResultsNavigator#rowref:oiref>=213,380,213,470:oigroup>
 <oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.MultiRowIterator#interp:oiref>=606,340,606,277:oigroup>
 <oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.ResultsNavigator#interpreter:oiref>=397,60,510,60:oigroup>
@@ -72,10 +72,9 @@ class __options {
 <oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.ResultsIterator:oiref>=430,150,123,133,1:oigroup>
 <oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.SQLDataManager#connectionManager:oiref>=1380,840,1260,840:oigroup>
 <oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.Table#dataManager:oiref>=1320,405,1380,405:oigroup>
-<oigroup:Composite#label#MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.MultiRowIterator#interp:oiref>=606,289,37,16,0,1.0,0.0:oigroup>
+<oigroup:Composite#label#MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.MultiRowIterator#interp:oiref>=606,289,46,16,0:oigroup>
 <oigroup:<oiref:java#Class#org.jax.mgi.shr.dbutils.RowReference:oiref>=30,470,390,420,0:oigroup>
 <oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.Table#dbExceptionFactory:oiref>=758,609,758,549:oigroup>
-<oigroup:Composite#label#MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.ResultsNavigator#interpreter:oiref>=471,60,37,16,0,0.0,-1.0:oigroup>
 <oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.dbutils.MultiRowIterator#nav:oiref>=530,360,397,360:oigroup>
 <oigroup:<oiref:java#Implements#org.jax.mgi.shr.dbutils.MultiRowIterator#org.jax.mgi.shr.dbutils.ResultsIterator:oiref>=500,380,500,283:oigroup>
 <oigroup:<oiref:java#Implements#org.jax.mgi.shr.dbutils.MultiRowIterator#org.jax.mgi.shr.dbutils.DataIterator:oiref>=875,340,875,273:oigroup>
