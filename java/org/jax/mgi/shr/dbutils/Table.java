@@ -48,6 +48,10 @@ public class Table {
    * the primary jeys for this table
    */
   private Vector pKeyDefinitions = new Vector();
+  /*
+   * the name of the single incremental key ... not all tables have one
+   */
+  private String incrementalKeyName = null;
   /**
    * the RecordFormat class to use for user/time stamping database records
    */
@@ -108,6 +112,9 @@ public class Table {
  * if one does not already exist.
  * @param tableName the name of the table
  * @return the Table instance
+ * @throws DBException thrown if there is an error accessing the database
+ * @throws ConfigException thrown if there is an error accessing the
+ * configuration
  */
 public static Table getInstance(String tableName)
 throws DBException, ConfigException
@@ -131,6 +138,7 @@ throws DBException, ConfigException
    * @param tableName the name of the table
    * @param sqlMgr the SQLDataManager
    * @return the Table instance
+   * @throws DBException thrown if there is an error accessing the database
    */
   public static Table getInstance(String tableName, SQLDataManager sqlMgr)
   throws DBException
@@ -318,6 +326,12 @@ throws DBException, ConfigException
     return v;
   }
 
+  public String getIncrementalKeyName() throws DBException
+  {
+      if (!this.metadataRead) getTableDefinitions();
+      return this.incrementalKeyName;
+  }
+
     /**
      * get the next key value for the table from cache. This value is cached
      * and may not reflect the actual max key value in the table. This
@@ -391,6 +405,7 @@ throws DBException, ConfigException
     // all tests have shown that it is a single value incremental key
     // get the current key value
     isIncremental = true;
+    this.incrementalKeyName = keyName;
     String sql = "SELECT MAX(" + keyName + ") FROM " + tableName;
     ResultsNavigator it = dataManager.executeQuery(sql);
     if (it.next()) {
@@ -463,6 +478,12 @@ throws DBException, ConfigException
     }
   }
 
+  /**
+   * query the database metadata for the given table and assign the results
+   * to the instance variable pKeyDefinitions
+   * @param metadata the database metadata
+   * @throws SQLException throwsn if there is an error accessing the metadata
+   */
   private void getPrimaryKeys(DatabaseMetaData metadata) throws SQLException
   {
       boolean foundKeys = false;
@@ -539,6 +560,15 @@ throws DBException, ConfigException
 }
 
 // $Log$
+// Revision 1.6.2.2  2005/06/02 19:39:50  mbw
+// javadocs only
+//
+// Revision 1.6.2.1  2005/06/02 14:40:47  mbw
+// added method getIncrementalKeyName
+//
+// Revision 1.6  2004/12/16 21:18:53  mbw
+// merged assembly branch onto the trunk
+//
 // Revision 1.5.2.1  2004/12/02 19:27:01  mbw
 // changed use of floats to doubles
 //

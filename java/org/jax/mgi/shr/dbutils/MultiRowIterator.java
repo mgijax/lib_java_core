@@ -19,12 +19,14 @@ public class MultiRowIterator implements DataIterator
 {
   /**
    * the ResultsNavigator used for iterating through the query results
+   * @label iterates
    */
   private ResultsNavigator nav = null;
 
   /**
    * the MultiRowInterpreter used for creating java data objects based on
    * multiple rows.
+   * @label plug in
    */
   private MultiRowInterpreter interp = null;
 
@@ -122,7 +124,8 @@ public class MultiRowIterator implements DataIterator
             eFactory.getException(InterpretErr, e);
         throw e2;
     }
-    v.add(initialObject);
+    if (initialObject != null)
+        v.add(initialObject);
 
     /**
      * get all the remainning rows which share the same key as the initial
@@ -135,7 +138,6 @@ public class MultiRowIterator implements DataIterator
       Object thisKey = null;
       try
       {
-          thisObject = interp.interpret(thisRef);
           thisKey = interp.interpretKey(thisRef);
       }
       catch (InterpretException e)
@@ -147,7 +149,20 @@ public class MultiRowIterator implements DataIterator
       }
       if (thisKey.toString().equals(initialKey.toString()))
       {
-        v.add(thisObject);
+          try
+          {
+              thisObject = interp.interpret(thisRef);
+          }
+          catch (InterpretException e)
+          {
+              DBExceptionFactory eFactory = new DBExceptionFactory();
+              DBException e2 = (DBException)
+                  eFactory.getException(InterpretErr, e);
+              throw e2;
+          }
+
+          if (thisObject != null)
+              v.add(thisObject);
       }
       else // the keys dont match so this indicates we are done
       {

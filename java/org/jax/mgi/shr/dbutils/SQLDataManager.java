@@ -13,6 +13,10 @@ import java.sql.PreparedStatement;
 import java.sql.DatabaseMetaData;
 import java.io.FileReader;
 import java.io.BufferedReader;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.jax.mgi.shr.config.DatabaseCfg;
 import org.jax.mgi.shr.config.DatabaseConfigurator;
@@ -25,6 +29,8 @@ import org.jax.mgi.shr.config.ConfigException;
 import org.jax.mgi.shr.timing.Stopwatch;
 import org.jax.mgi.shr.config.BCPManagerCfg;
 import org.jax.mgi.shr.dbutils.bcp.BCPManager;
+import org.jax.mgi.shr.ioutils.IOUException;
+import org.jax.mgi.shr.ioutils.OutputDataFile;
 
 
 /**
@@ -115,6 +121,11 @@ public class SQLDataManager {
   private String ORACLE_CM = "org.jax.mgi.shr.dbutils.OrclConnection";
   private String MYSQL_CM = "org.jax.mgi.shr.dbutils.MySqlConnection";
 
+  /**
+   * the maximum number of elements to use within an in clause
+   */
+  private int maxcount = 400;
+
   // the following constant definitions are exceptions thrown by this class
   private static final String JDBCException =
       DBExceptionFactory.JDBCException;
@@ -134,6 +145,8 @@ public class SQLDataManager {
         DBExceptionFactory.ClassFornameErr;
   private static final String JDBCWarning =
         DBExceptionFactory.JDBCWarning;
+  private static final String UnhandledDataType =
+        DBExceptionFactory.UnhandledDataType;
 
   /**
    * constructer which uses a DatabaseCfg object for obtaining
@@ -350,6 +363,11 @@ public class SQLDataManager {
 
       }
     }
+  }
+
+  public void setMaxInClauseCount(int maxcount)
+  {
+      this.maxcount = maxcount;
   }
 
   /**
@@ -693,23 +711,38 @@ public class SQLDataManager {
     return (ResultsNavigator)iterator;
   }
 
-    /**
-     * execute the InterpretedQuery class
-     * @assumes nothing
-     * @effects a query will be executed against the database
-     * @param query the InterpretedQuery class which has a query and a
-     * RowDataInterpreter
-     * @return a ResultsNavigator for the query results with the
-     * InterpretedQuery object plugged into it as a RowDataInterpreter
-     * @throws org.jax.mgi.shr.dbutils.DBException
-     */
-    public ResultsNavigator executeQuery(InterpretedQuery query)
-        throws DBException {
-        String sql = query.getQuery();
-        ResultsNavigator nav = executeQuery(sql);
-        nav.setInterpreter(query);
-        return nav;
-    }
+
+  /**
+   * appends an 'in clause' to the given sql string for the given column and
+   * column values
+   * @param sql the sql to append an 'in clause' to
+   * @param columnName the name of the column
+   * @param columnValues an ArrayList of values
+   * @return a QuerySeries
+   * @throws DBException thrown if there is an error accessing the database
+   * @throws ConfigException thrown if there is an error accessing the
+   * configuration
+   */
+  public QuerySeries buildInClauseQuery(String sql,
+                                        String columnName,
+                                        ArrayList columnValues)
+      throws DBException, ConfigException
+  {
+      ArrayList allResultNavigtaors = new ArrayList();
+      ResultSet rs = null;
+      if (this.isDebug())
+      {
+          timer.reset();
+          timer.start();
+      }
+      this.checkConnection("execute query");
+      InClauseFormatter formatter = new InClauseFormatter();
+      String newSQL = formatter.addInClause(sql, columnName);
+      ArrayList sqlStatements =
+          formatter.createSQL(newSQL, columnValues);
+      return new QuerySeries(sqlStatements, this);
+  }
+
 
   /**
    * execute the update, delete or insert statement
@@ -1087,6 +1120,7 @@ public class SQLDataManager {
       logger = loggerFactory.getLogger();
     }
     this.isDebug = pConfig.getDebug().booleanValue();
+    this.maxcount = pConfig.getMaxInClause().intValue();
   }
 
 
@@ -1167,6 +1201,28 @@ public class SQLDataManager {
       throw this.getJDBCException("set auto commit", e);
     }
   }
+
+  public SQLDataManager newConnection()
+  throws DBException, ConfigException
+  {
+      return new SQLDataManager(this.getServer(), this.getDatabase(),
+                                this.getUser(), this.getPasswordFile(),
+                                this.getUrl(),  this.connectionManager);
+
+  }
+
+  protected InClauseFormatter getInClauseFormatterInstance()
+  throws ConfigException
+  {
+      return new InClauseFormatter();
+  }
+
+  protected InClauseFormatter getInClauseFormatterInstance(DatabaseCfg cfg)
+  throws ConfigException
+  {
+      return new InClauseFormatter(cfg);
+  }
+
 
   /**
    * throw a DBException if the database connection is closed. This method
@@ -1273,10 +1329,148 @@ public class SQLDataManager {
       return this.logger.isDebug() && this.isDebug;
   }
 
+  public class InClauseFormatter
+  {
+
+      private DatabaseCfg cfg = null;
+      private int maxcount = 0;
+
+      // the following constant definitions are exceptions thrown by this class
+      private static final String UnhandledDataType =
+          DBExceptionFactory.UnhandledDataType;
+
+      public InClauseFormatter()
+          throws ConfigException
+      {
+          super();
+          this.cfg = new DatabaseCfg();
+          maxcount = this.cfg.getMaxInClause().intValue();
+      }
+
+      public InClauseFormatter(DatabaseCfg cfg)
+          throws ConfigException
+      {
+          super();
+          this.cfg = cfg;
+          maxcount = this.cfg.getMaxInClause().intValue();
+      }
+
+
+      public void setMaxInClause(int maxcount)
+      {
+          this.maxcount = maxcount;
+      }
+
+      public int getMaxCount()
+      {
+          return this.maxcount;
+      }
+
+
+      public ArrayList createSQL(String sql, ArrayList elements)
+          throws DBException, ConfigException
+      {
+          ArrayList expandedSQL = new ArrayList();
+          int iterationStart = 0;
+          int iterationEnd = maxcount;
+          int totalRemaining = elements.size();
+
+
+          String prependString = null;
+          String appendString = null;
+          Object o = elements.get(0);
+          if (o instanceof Integer)
+          {
+              prependString = "";
+              appendString = "";
+          }
+          else if (o instanceof String)
+          {
+              prependString = "'";
+              appendString = "'";
+          }
+          else
+          {
+              DBExceptionFactory eFactory = new DBExceptionFactory();
+              DBException e = (DBException)
+                  eFactory.getException(UnhandledDataType);
+              e.bind(o.getClass().getName());
+              throw e;
+          }
+
+          while (totalRemaining > 0)
+          {
+              StringBuffer buff = new StringBuffer("(");
+              if (totalRemaining > maxcount)
+              {
+                  totalRemaining = totalRemaining - maxcount;
+                  iterationEnd = iterationStart + maxcount;
+              }
+              else
+              {
+                  iterationEnd = iterationStart + totalRemaining;
+                  totalRemaining = 0;
+              }
+              for (int i = iterationStart; i < iterationEnd; i++)
+              {
+                  buff.append(prependString +
+                              (elements.get(i)).toString() +
+                              appendString + ",");
+              }
+              iterationStart = iterationEnd;
+              buff.deleteCharAt(buff.length() - 1);
+              buff.append(")");
+              String newSql = sql.replaceFirst("\\?\\?", buff.toString());
+              expandedSQL.add(newSql.toString());
+          }
+          return expandedSQL;
+
+      }
+
+      public String addInClause(String sql, String columnName)
+      {
+          String appendClause = null;
+          Pattern sqlWithWhereClausePattern =
+              Pattern.compile("[sS][eE][lL][eE][cC][tT].*[fF][rR][oO][mM].*" +
+                              "[wW][hH][eE][rR][eE].*");
+          Matcher sqlWithWhereClauseMathcher =
+              sqlWithWhereClausePattern.matcher(sql);
+          if (sqlWithWhereClauseMathcher.find())
+              appendClause = " and " + columnName + " in ??";
+          else
+              appendClause = " where " + columnName + " in ??";
+          Pattern sqlWithOrderClausePattern =
+              Pattern.compile("[sS][eE][lL][eE][cC][tT].*[fF][rR][oO][mM].*" +
+                              "[oO][rR][dD][eE][rR]\\s*[bB][yY].*");
+          Matcher sqlWithOrderClauseMatcher =
+              sqlWithOrderClausePattern.matcher(sql);
+          String newSQL = null;
+          if (sqlWithOrderClauseMatcher.find())
+          {
+              int index = sql.toLowerCase().indexOf("order");
+              newSQL = sql.substring(0, index) + appendClause + " " +
+                  sql.substring(index);
+          }
+          else
+              newSQL = sql + appendClause;
+          return newSQL;
+      }
+  }
+
+
 
 }
 
 // $Log$
+// Revision 1.13.4.2  2005/06/02 19:39:49  mbw
+// javadocs only
+//
+// Revision 1.13.4.1  2005/06/02 14:47:41  mbw
+// added method addInClause
+//
+// Revision 1.13  2004/10/12 17:49:04  mbw
+// setting isDebug instance variable to false during initialization (was setting true)
+//
 // Revision 1.12  2004/09/30 15:40:53  mbw
 // added the ability to configure whether or not to print debug information to the log files
 //
