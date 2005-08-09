@@ -24,18 +24,25 @@ import org.jax.mgi.shr.unix.RunCommand;
 import org.jax.mgi.shr.exception.MGIException;
 
 /**
- * @is An object that represents an output file.
- * @has Configurable parameters
- * @does Provides the ability to write to the output file.
+ * Is an object that represents an output data file. It is configurable using
+ * the org.jax.mgi.shr.config package
+ * @has OutputDataCfg object for configuration and a collection of
+ * OutputFormatter objects
+ * @does Provides the ability to write raw data to an output file and format
+ * the data in various ways as configured to do in the configuration settings.
  * @company The Jackson Laboratory
- * @author mbw
+ * @author M Walker
  */
 
 public class OutputDataFile
 {
-    // String constants.
-    //
+    /**
+     * a system constant for representing the tab character
+     */
     public static final String TAB = "\t";
+    /**
+     * a system constant for representing the carriage return character
+     */
     public static final String CRT = System.getProperty("line.separator");
 
     // The name of the output file to write to.
@@ -51,32 +58,44 @@ public class OutputDataFile
     //
     private Logger logger = null;
 
+    // an arraylist of OutputFormatter objects
     private ArrayList formatters = new ArrayList();
 
+    // an arraylist of FileWriters corresponding to each OutputFormatter
+    // object
     private ArrayList formatFiles = new ArrayList();
 
+    // an arraylist of filenames corresponding to each formatted
+    // output file
     private ArrayList formatFilenames = new ArrayList();
 
+    // an array of OutputFormatters obtained from the configuration file
     private OutputFormatter[] configuredFormatters = null;
 
+    // boolean indicator to determine whether or not it is ok to prevent
+    // the raw output from being saved and only save formatted output
     private boolean okToPreventRawout = false;
 
-    /*
-     * option to auto-flush the buffer after each bcp write
-     */
+    // option to auto-flush the buffer after each bcp write
     private boolean okToAutoFlush = false;
 
+    // boolean indicator to determine whether it is ok or not to prevent files
+    // form being formatted
     private boolean okToPreventFormatting = false;
 
-    /*
-     * sort command line options
-     */
+    // sort command line options
     private String sortopts = null;
 
+    // boolean indicator to determine if the file has been closed already
     private boolean isOpen = false;
 
+    // the configuration object
     private OutputDataCfg config = null;
 
+    // a HashMap to keep track of the number of times a particular suffix has
+    // been used when creating new formatted output. This count is used in
+    // the naming of the formatted output files if there are more than one for
+    // any given filename suffix
     private HashMap formatCounts = new HashMap();
 
     // The following are the exceptions that are thrown.
@@ -105,25 +124,39 @@ public class OutputDataFile
         IOUExceptionFactory.PostFormatErr;
 
 
+    /**
+     * default constructor
+     * @throws IOUException thrown if there is a problem accessing the
+     * database
+     * @throws ConfigException thrown if there is a problem accessing the
+     * configuration
+     */
     public OutputDataFile()
     throws IOUException, ConfigException
     {
         configure(new OutputDataCfg());
     }
 
+    /**
+     * constructor which accepts a configuration object as input
+     * @param cfg the configuration object from which to configure this
+     * instance
+     * @throws IOUException thrown if there is a problem creating the file
+     * @throws ConfigException thrown if there is a problem accessing the
+     * configuration
+     */
     public OutputDataFile(OutputDataCfg cfg)
     throws IOUException, ConfigException
     {
         configure(cfg);
     }
+
     /**
-     * Constructor which allows specifying the filename at runtime and would
+     * constructor which allows specifying the filename at runtime and would
      * override any specified filename value from the configuration.
-     * @assumes Nothing
-     * @effects Nothing
      * @param filename The name of the output file to write to.
      * @throws ConfigException if there is a configuration error.
-     * @throws IOUException if an error occurs finding or opening the file.
+     * @throws IOUException thrown if there is a problem creating the file.
      */
     public OutputDataFile(String filename)
         throws ConfigException, IOUException
@@ -132,6 +165,13 @@ public class OutputDataFile
         configure(new OutputDataCfg());
     }
 
+    /**
+     * constructor which takes both a configuration object and a filename
+     * @param filename The name of the output file to write to.
+     * @param cfg The configuration object
+     * @throws ConfigException if there is a configuration error.
+     * @throws IOUException thrown if there is a problem creating the file.
+     */
     public OutputDataFile(String filename, OutputDataCfg cfg)
         throws ConfigException, IOUException
     {
@@ -139,14 +179,29 @@ public class OutputDataFile
         configure(cfg);
     }
 
+    /**
+     * add an OutputFormatter for this instance. All formatted output is
+     * created when the close() method
+     * @param formatter the OutputFormatter to add
+     * @throws IOUException thrown if a new file could not be created
+     * @throws ConfigException thrown if there is an error accessing the
+     * configuration
+     */
     public void addFormatter(OutputFormatter formatter)
     throws IOUException, ConfigException
     {
         addFormatter(formatter, this.deriveFormattedFilename(formatter));
     }
 
-
-
+    /**
+     * add an OutputFormatter for this instance while designating the name of
+     * the formatted filename
+     * @param formatter the OutputFormatter object to add
+     * @param filename the name of the formatted output file
+     * @throws IOUException thrown if a new file could not be created
+     * @throws ConfigException thrown if there is an error accessing the
+     * configuration
+     */
     public void addFormatter(OutputFormatter formatter,
                              String filename)
     throws IOUException, ConfigException
@@ -186,7 +241,7 @@ public class OutputDataFile
     /**
      * sets whether or not to flush the output buffer on each write
      * @assumes nothing
-     * @effects nothing
+     * @effects alters the indicator value
      * @param bool true if the buffer should be flushed, false otherwise
      */
     public void setOKToAutoFlush(boolean bool)
@@ -194,16 +249,35 @@ public class OutputDataFile
         this.okToAutoFlush = bool;
     }
 
+    /**
+     * sets whether or not to prevent the saving of the raw output and only
+     * save formatted output
+     * @assumes nothing
+     * @effects alters the indicator value
+     * @param bool true if raw data should not be written, false otherwise
+     */
     public void setOkToPreventRawOutput(boolean bool)
     {
         this.okToPreventRawout = bool;
     }
 
+    /**
+     * set the Logger for this instance.
+     * @assumes nothing
+     * @effects alters the logger being used
+     * @param logger the Logger object to use for logging
+     */
     public void setLogger(Logger logger)
     {
         this.logger = logger;
     }
 
+    /**
+     * sets the unix sort command options for this instance
+     * @assumes nothing
+     * @effects effects the way the raw output is sorted
+     * @param opts the unix sort command options
+     */
     public void setSortOptions(String opts)
     {
         this.sortopts = opts;
@@ -233,16 +307,35 @@ public class OutputDataFile
         return this.okToAutoFlush;
     }
 
+    /**
+     * gets the current configured value for the unix command sort options
+     * @assumes Nothing
+     * @effects Nothing
+     * @return current configured value for the unix command sort options
+     */
     public String getSortOptions()
     {
         return this.sortopts;
     }
 
+    /**
+     * gets the current configured value for whether or not to prevent
+     * raw output from being saved
+     * @assumes Nothing
+     * @effects Nothing
+     * @return true if the raw output should be saved, false otherwise
+     */
     public boolean getOkToPreventRawOutput()
     {
         return this.okToPreventRawout;
     }
 
+    /**
+     * get the instance of the current Logger
+     * @assumes Nothing
+     * @effects Nothing
+     * @return the instance of the current Logger
+     */
     public Logger getLogger()
     {
         return this.logger;
@@ -250,7 +343,7 @@ public class OutputDataFile
 
 
     /**
-     * Write a string to the output file.
+     * write a string to the output file.
      * @assumes a newline is not wanted after the write
      * @effects new output will be written to the file
      * @param s the string to write
@@ -283,7 +376,7 @@ public class OutputDataFile
 
 
     /**
-     * Write a string to the output file.
+     * write a string to the output file followed by a newline character.
      * @assumes a newline is wanted after the write
      * @effects new output will be written to the file
      * @param s the string to write
@@ -299,9 +392,9 @@ public class OutputDataFile
 
 
     /**
-     * Close the output file.
+     * close the output file, sort the raw data and run the formatters
      * @assumes Nothing
-     * @effects Nothing
+     * @effects the raw data will be saved along with all formatted files
      * @throws IOUException if an error occurs finding or opening the file.
      */
     public void close()
@@ -336,6 +429,16 @@ public class OutputDataFile
 
     }
 
+    /**
+     * just run the format methods of OutputFormatters on existing raw data
+     * instead of creating new raw data
+     * @assumes nothing
+     * @effects formatted output files will be created
+     * @throws IOUException thrown if there is an error accessing the
+     * file system
+     * @throws ConfigException thrown if there is an error accessing the
+     * configuration
+     */
     public void postFormat()
     throws IOUException, ConfigException
     {
@@ -350,6 +453,16 @@ public class OutputDataFile
         formatFile();
     }
 
+    /**
+     * sort and format the raw output
+     * @assumes nothing
+     * @effects the formatters will be run and new formatted output files
+     * will be created
+     * @throws IOUException thrown if there is an error accessing the file
+     * system
+     * @throws ConfigException thrown if there is an error accessing the
+     * configuration
+     */
     protected void formatFile()
     throws IOUException, ConfigException
     {
@@ -422,6 +535,19 @@ public class OutputDataFile
         callAllFormatters();
     }
 
+    /**
+     * derive the name of a formatted file based upon properties of
+     * the given OutputFormatter
+     * @assumes nothing
+     * @effects nothing
+     * @param formatter the OutputFormatter object on which to base the
+     * derived file name
+     * @return the derived file name
+     * @throws ConfigException thrown if there is an error accessing the
+     * configuration
+     * @throws IOUException thrown if there is an error accessing the file
+     * system
+     */
     protected String deriveFormattedFilename(OutputFormatter formatter)
     throws ConfigException, IOUException
     {
@@ -468,6 +594,13 @@ public class OutputDataFile
 
 
 
+    /**
+     * flush the buffered output to the output file
+     * @assumes nothing
+     * @effects buffer content will be written to the file
+     * @throws IOUException thrown if there is an error accessing the file
+     * system
+     */
     protected void flush()
     throws IOUException
     {
@@ -638,6 +771,9 @@ public class OutputDataFile
 
 
 //  $Log$
+//  Revision 1.2  2005/08/05 16:30:11  mbw
+//  merged code from branch lib_java_core-tr6427-1
+//
 //  Revision 1.1.4.8  2005/08/01 19:22:32  mbw
 //  javadocs only
 //

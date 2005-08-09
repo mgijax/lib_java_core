@@ -8,16 +8,17 @@ import org.jax.mgi.shr.config.OutputDataCfg;
 import org.jax.mgi.shr.config.ConfigException;
 
 /**
- * is a class which reads application configuration properties to determine
+ * Is a class which reads application configuration properties to determine
  * a set of OutputDataFile classes to create and manage and provides static
- * methods for writing to them. The configuration parameters read should be prefixed
- * by the name of the output data file so that the specific instances can later
- * be refered to by name when calling the static write methods. 
+ * methods for writing to them. The configuration parameters read should be
+ * prefixed by the name to be later used when calling the static write methods
+ * and referring to a specifix instance.
  * @has nothing
- * @does provides write access to a set of OutputDataFile instances configured in
- * the application configuration parameters and performs report formatting on them
+ * @does provides write access to a set of OutputDataFile instances configured
+ * by the application configuration parameters and performs report formatting
+ * on each them
  * @company The Jackson Laboratory
- * @author MWalker
+ * @author M Walker
  *
  */
 
@@ -25,6 +26,17 @@ public class OutputManager
 {
     private static HashMap reports = new HashMap();
 
+    /**
+     * reads the configuration settings and initializes the OutputDataFile
+     * instances
+     * @assumes configuration settings have been set
+     * @effects this instance will be initialized and ready for calling
+     * write methods
+     * @throws ConfigException thrown if there is an error accessing the
+     * configuration file
+     * @throws IOUException thrown if there is an error accessing the file
+     * system
+     */
     public static void initialize()
     throws ConfigException, IOUException
     {
@@ -80,7 +92,7 @@ public class OutputManager
   /**
    * closes all the named OutputDataFile instances
    * @assumes nothing
-   * @effects all OutputDataFile instances configured through the config file 
+   * @effects all OutputDataFile instances configured through the config file
    * will be closed
    */
     public static void close()
@@ -98,7 +110,7 @@ public class OutputManager
    * creates instances of OutputDataFile classes based on the application
    * configuration settings and calls the postFormat() method on them
    * @assumes nothing
-   * @effects reporst will be created based on raw output files previously 
+   * @effects reporst will be created based on raw output files previously
    * created on a prior run of the application
    */
 
