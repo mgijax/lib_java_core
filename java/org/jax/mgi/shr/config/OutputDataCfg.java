@@ -16,7 +16,7 @@ import org.jax.mgi.shr.ioutils.OutputFormatter;
  *        string within the configuration file or system properties.
  *   </UL>
  * @company The Jackson Laboratory
- * @author dbm
+ * @author D Miers, M Walker
  *
  */
 
@@ -77,22 +77,55 @@ public class OutputDataCfg extends Configurator {
                                     new Boolean(false));
     }
 
+    /**
+     * get the value of the option which designates whether to prevent storing
+     * the raw output
+     * The parameter name read from the configuration file for setting this
+     * option is OUTFILE_REMOVE_RAW_OUTPUT and its default is false.
+     * @return true or false
+     * @throws ConfigException throws if configuration value does not represent
+     * a boolean
+     */
     public Boolean getOkToPreventRawOutput() throws ConfigException {
       return super.getConfigBoolean("OUTFILE_REMOVE_RAW_OUTPUT",
                                     new Boolean(false));
     }
 
+    /**
+     * get the value of the option which designates whether to prevent formatting
+     * the raw output
+     * The parameter name read from the configuration file for setting this
+     * option is OUTFILE_PREVENT_FORMATTING and its default is false.
+     * @return true or false
+     * @throws ConfigException throws if configuration value does not represent
+     * a boolean
+     */
     public Boolean getOkToPreventFormatting() throws ConfigException {
       return super.getConfigBoolean("OUTFILE_PREVENT_FORMATTING",
                                     new Boolean(false));
     }
 
-
+    /**
+     * get the value of the setting for the unix sort options
+     * The parameter name read from the configuration file for setting this
+     * option is OUTFILE_SORT_DEF and it has no default value
+     * @return the unix sort command options
+     * @throws ConfigException throws if there is an error accessing the 
+     * configuration
+     */
     public String getSortDef() throws ConfigException {
         return super.getConfigStringNull("OUTFILE_SORT_DEF");
     }
 
-
+    /**
+     * get an array of OutputFormatter instances based on the configuration
+     * setting.
+     * The parameter name read from the configuration file for setting this
+     * option is OUTFILE_FORMATTERS and it has no default value
+     * @return an array of OutputFormatter instances
+     * @throws ConfigException throws if there is an error accessing the 
+     * configuration
+     */
     public OutputFormatter[] gerFormatters()
     throws ConfigException
     {
@@ -114,6 +147,9 @@ public class OutputDataCfg extends Configurator {
 
 
 //  $Log$
+//  Revision 1.2  2005/08/05 16:28:00  mbw
+//  merged code from branch lib_java_core-tr6427-1
+//
 //  Revision 1.1.4.2  2005/08/01 19:14:08  mbw
 //  javadocs only
 //
