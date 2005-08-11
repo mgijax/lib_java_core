@@ -1,0 +1,45 @@
+package id3f0s3e9ravdy2e9reoinn;
+
+/**
+@version 2.0
+@__modelType diagram 
+*/
+class diagram {
+/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.bucketizer.BucketItem:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.bucketizer.Bucketizable:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference66 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.bucketizer.SimpleBucketizable:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference67 {
+}}/**
+
+@__tags
+@shapeType ClassDiagram 
+*/
+class __tags {
+}/**
+@__options option.detail = Implementation 
+*/
+class __options {
+}/**
+@__positions <oigroup:<oiref:java#Implements#org.jax.mgi.shr.bucketizer.SimpleBucketizable#org.jax.mgi.shr.bucketizer.Bucketizable:oiref>=485,230,485,143:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.jax.mgi.shr.bucketizer.BucketItem#bucketizable:oiref>=310,76,390,76:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.bucketizer.BucketItem:oiref>=10,10,300,350,0:oigroup>
+<oigroup:Composite#clientCardinality#MemberLink#<oiref:java#Member#org.jax.mgi.shr.bucketizer.BucketItem#bucketizable:oiref>=320,60,18,16,0,0.0,1.0:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.bucketizer.SimpleBucketizable:oiref>=390,230,400,165,0:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.bucketizer.Bucketizable:oiref>=390,10,190,133,0:oigroup> 
+*/
+class __positions {
+}
