@@ -6,7 +6,7 @@ package org.jax.mgi.shr.config;
 import org.jax.mgi.shr.ioutils.OutputFormatter;
 
 /**
- * @is An object for configuring an OutputDataFile object.
+ * is An object for configuring an OutputDataFile object.
  * @has OutputDataFile configuration parameters with default values.
  * @does
  *   <UL>
@@ -147,6 +147,9 @@ public class OutputDataCfg extends Configurator {
 
 
 //  $Log$
+//  Revision 1.3  2005/08/11 17:00:25  mbw
+//  javadocs only
+//
 //  Revision 1.2  2005/08/05 16:28:00  mbw
 //  merged code from branch lib_java_core-tr6427-1
 //
