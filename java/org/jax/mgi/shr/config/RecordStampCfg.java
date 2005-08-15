@@ -13,7 +13,7 @@ import org.jax.mgi.shr.exception.MGIException;
 import org.jax.mgi.dbs.SchemaConstants;
 
 /**
- * An object for configuring a RecordStamp parameters.
+ * A class for configuring a RecordStamp parameters.
  * @has a ConfigurationManager object
  * @does provides a method for getting the job stream name from the
  * configuration file or system properties and lookups up key values

@@ -5,7 +5,7 @@ package org.jax.mgi.shr.config;
 
 
 /**
- * An object for configuring an InputDataFile object.
+ * A class for configuring an InputDataFile object.
  * @has a set of InputDataFile configuration parameters and a
  * reference to a ConfigurationManager singleton object.
  * @does provides methods for getting configuration paramaters
@@ -124,6 +124,9 @@ public class InputDataCfg extends Configurator {
 
 }
 // $Log$
+// Revision 1.5  2004/07/21 19:09:39  mbw
+// javadocs only
+//
 // Revision 1.4  2004/05/24 16:09:49  mbw
 // changed so that no defaults are provided on lookups for begin and end delimiters and also added the lookup for the charset parameter INFILE_CHARSET
 //

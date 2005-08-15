@@ -7,7 +7,7 @@ import java.util.Vector;
 import java.util.StringTokenizer;
 
 /**
- * An object for configuring a BCPWriter.
+ * A class for configuring a BCPWriter.
  * @has a set of BCPWriter configuration parameters and a reference to
  * a ConfigurationManager
  * @does provides methods for getting configuration paramaters

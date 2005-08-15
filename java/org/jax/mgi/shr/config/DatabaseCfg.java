@@ -5,7 +5,7 @@ package org.jax.mgi.shr.config;
 
 
 /**
- * An object for configuring a database connection.
+ * A class for configuring a database connection.
  * @has a set of database connection parameters and a reference to
  * a ConfigurationManager
  * @does provides methods for getting configuration paramaters
@@ -171,6 +171,9 @@ public class DatabaseCfg
 
 }
 // $Log$
+// Revision 1.6  2005/08/05 16:28:00  mbw
+// merged code from branch lib_java_core-tr6427-1
+//
 // Revision 1.5.4.2  2005/08/01 19:14:08  mbw
 // javadocs only
 //

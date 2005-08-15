@@ -5,7 +5,7 @@ package org.jax.mgi.shr.config;
 
 
 /**
- * An object for configuring a BCPManager.
+ * A class for configuring a BCPManager.
  * @has a set of BCPManager configuration parameters and a reference to
  * a ConfigurationManager
  * @does provides methods for getting configuration paramaters
@@ -293,6 +293,9 @@ public class BCPManagerCfg extends Configurator {
 
 
 // $Log$
+// Revision 1.2  2004/07/21 18:26:32  mbw
+// added a getOkToDropTriggers method and made some javadocs edits
+//
 // Revision 1.1  2003/12/30 16:50:02  mbw
 // imported into this product
 //
