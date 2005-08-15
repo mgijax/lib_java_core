@@ -16,6 +16,10 @@ package org.jax.mgi.shr.bucketizer;
  */
 
 public interface BucketItemProcessor {
+    /**
+     * processes a BucketItem
+     * @param bucketItem the BucketItem to process
+     */
     void processBucketItem(BucketItem bucketItem);
 }
 

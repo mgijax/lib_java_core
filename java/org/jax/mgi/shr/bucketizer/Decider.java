@@ -24,6 +24,14 @@ import org.jax.mgi.shr.sva.SVASet;
  */
 
 public interface Decider {
+    /**
+     * decides whether or not two given Bucketizables are equivalent
+     * @param setMember1 Bucketizable from set 1
+     * @param setMember2 Bucketizable from set 2
+     * @param svaSet the SVASet representation of the common attributes between
+     * the two Bucketizables
+     * @return true if the two are equivalent, false otherwise
+     */
     Object decide(Bucketizable setMember1, Bucketizable setMember2,
                   SVASet svaSet);
 }

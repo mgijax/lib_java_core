@@ -22,8 +22,20 @@ import org.jax.mgi.shr.sva.SVASet;
  */
 
 public interface Bucketizable {
+    /**
+	* get the id for this instance
+	* @return id for this instance
+	*/
     public String getId();
+    /**
+     * get the provider name for this instance
+	* @return provider name for this instance
+	*/
     public String getProvider();
+    /**
+     * get the SVASet for this instance
+	* @return SVASet for this instance
+	*/
     public SVASet getSVASet();
 }
 
