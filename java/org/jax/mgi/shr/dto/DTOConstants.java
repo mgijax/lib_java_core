@@ -85,8 +85,9 @@ public class DTOConstants
     public static String InIMSR = "inIMSR";
     public static String GenomeCoordinates = "genomeCoordinates";
     public static String Phenotypes = "phenotypes";
-    public static String Mutations = "mutantions";
+    public static String Mutations = "mutations";
     public static String QtlExpts = "qtlExpts";
+    public static String DiseaseCount = "diseaseCount";
 
     // mapping -- constants dealing with mapping information
 
@@ -104,6 +105,8 @@ public class DTOConstants
 
     public static String HasHumanOrthology = "hasHumanOrthology";
     public static String OrthologousSpecies = "orthologousSpecies";
+    public static String OrthologKey = "orthologKey";
+    public static String OrthologSymbol = "orthologSymbol";
 
     // polymorphisms -- constants dealing with polymorphism
 
@@ -238,6 +241,7 @@ public class DTOConstants
     public static String Genotypes = "genotypes";
     public static String Alleles = "alleles";
     public static String Images = "images";
+    public static String AllelePrimaryImage = "allelePrimaryImage";
 
     // miscellaneous -- constants which fit none of the other sections
 
@@ -248,6 +252,7 @@ public class DTOConstants
     public static String GlossaryKey = "glossaryKey";
     public static String GenotypeKey = "_Genotype_key";
     public static String AlleleCombinations = "alleleCombinations";
+    public static String Diseases = "diseases";
 
     // MP Term related
 
@@ -258,6 +263,9 @@ public class DTOConstants
 
 /*
 * $Log$
+* Revision 1.14.2.1  2005/08/01 12:01:09  jsb
+* additions needed for ImageFactory, for OMIM release
+*
 * Revision 1.14  2005/04/26 13:39:01  dow
 * Added ProviderURL.
 *
