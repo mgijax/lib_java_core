@@ -238,10 +238,19 @@ public class DTOConstants
     public static String MPId = "mPId";
     public static String MPTerm = "mPTerm";
     public static String GenotypeCount = "genotypeCount";
+
+    // imsr  --	 constants used by the IMSR product
+
+    public static String Chromosomes = "chromosomes";
+    public static String StrainTypes = "strainTypes";
+
 }
 
 /*
 * $Log$
+* Revision 1.15  2005/08/05 16:29:18  mbw
+* merged code from branch lib_java_core-tr6427-1
+*
 * Revision 1.11.4.2  2005/08/02 20:01:52  mbw
 * fixed merge conflict when merging tag lib_java_core-omim-BP onto branch
 *
