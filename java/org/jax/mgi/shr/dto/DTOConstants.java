@@ -85,8 +85,9 @@ public class DTOConstants
     public static String InIMSR = "inIMSR";
     public static String GenomeCoordinates = "genomeCoordinates";
     public static String Phenotypes = "phenotypes";
-    public static String Mutations = "mutantions";
+    public static String Mutations = "mutations";
     public static String QtlExpts = "qtlExpts";
+    public static String DiseaseCount = "diseaseCount";
 
     // mapping -- constants dealing with mapping information
 
@@ -104,6 +105,8 @@ public class DTOConstants
 
     public static String HasHumanOrthology = "hasHumanOrthology";
     public static String OrthologousSpecies = "orthologousSpecies";
+    public static String OrthologKey = "orthologKey";
+    public static String OrthologSymbol = "orthologSymbol";
 
     // polymorphisms -- constants dealing with polymorphism
 
@@ -177,6 +180,7 @@ public class DTOConstants
     public static String InterProTerms = "interProTerms";
     public static String ActualDB = "actualDB";
     public static String ActualDBs = "actualDBs";
+    public static String NumericPart = "numericPart";
 
     // Sequences -- constants dealing with sequence data
 
@@ -225,6 +229,20 @@ public class DTOConstants
     public static String TermKey = "_Term_key";
     public static String Term = "term";
 
+    // images -- constants dealing with images
+
+    public static String ImageKey = "_Image_key";
+    public static String Width = "xDim";
+    public static String Height = "yDim";
+    public static String FigureLabel = "figureLabel";
+    public static String ThumbnailImageKey = "_ThumbnailImage_key";
+    public static String FullSizeImageKey = "_FullSizeImage_key";
+    public static String ObjectKey = "_Object_key";
+    public static String Genotypes = "genotypes";
+    public static String Alleles = "alleles";
+    public static String Images = "images";
+    public static String AllelePrimaryImage = "allelePrimaryImage";
+
     // miscellaneous -- constants which fit none of the other sections
 
     public static String DatabaseVersion = "databaseVersion";
@@ -232,6 +250,9 @@ public class DTOConstants
     public static String Notes = "notes";
     public static String SearchToolResults = "searchToolResults";
     public static String GlossaryKey = "glossaryKey";
+    public static String GenotypeKey = "_Genotype_key";
+    public static String AlleleCombinations = "alleleCombinations";
+    public static String Diseases = "diseases";
 
     // MP Term related
 
@@ -248,11 +269,20 @@ public class DTOConstants
 
 /*
 * $Log$
+* Revision 1.16  2005/08/19 18:58:06  dow
+* Added IMSR Constants back into DTOConstants class...dunno where they went.
+*
+* Revision 1.14.2.2  2005/08/18 17:43:09  dow
+* Added some constants for OMIM/Image release.
+*
 * Revision 1.15  2005/08/05 16:29:18  mbw
 * merged code from branch lib_java_core-tr6427-1
 *
 * Revision 1.11.4.2  2005/08/02 20:01:52  mbw
 * fixed merge conflict when merging tag lib_java_core-omim-BP onto branch
+*
+* Revision 1.14.2.1  2005/08/01 12:01:09  jsb
+* additions needed for ImageFactory, for OMIM release
 *
 * Revision 1.14  2005/04/26 13:39:01  dow
 * Added ProviderURL.

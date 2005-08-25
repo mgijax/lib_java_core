@@ -1,3 +1,13 @@
+TAG:lib_java_core-3-3-0-0
+DATE: 08/25/2005
+STAFF: dow
+CHANGES: Merged omim branch for OMIM/Images release
+
+TAG:lib_java_core-omim-1
+DATE: 08/23/2005
+STAFF: jsb, dow
+CHANGES: changes to DTOConstants.java
+
 TAG:lib_java_core-3-2-0-5
 DATE: 08/15/2005
 STAFF: mbw
