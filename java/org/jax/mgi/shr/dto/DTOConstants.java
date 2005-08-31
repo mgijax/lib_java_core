@@ -88,6 +88,7 @@ public class DTOConstants
     public static String Mutations = "mutations";
     public static String QtlExpts = "qtlExpts";
     public static String DiseaseCount = "diseaseCount";
+    public static String IsWildType = "isWildType";
 
     // mapping -- constants dealing with mapping information
 
@@ -269,6 +270,9 @@ public class DTOConstants
 
 /*
 * $Log$
+* Revision 1.17  2005/08/25 15:29:59  dow
+* lib_java_core-3-3-0-0
+*
 * Revision 1.16  2005/08/19 18:58:06  dow
 * Added IMSR Constants back into DTOConstants class...dunno where they went.
 *
