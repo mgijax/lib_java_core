@@ -1,3 +1,8 @@
+TAG:lib_java_core-tr7067-1
+DATE: 09/07/2005
+STAFF: mbw
+CHANGES: added support for JConnect 6.0 to MGIDriverManager
+
 TAG:lib_java_core-tr5972-BP
 DATE: 09/07/2005
 STAFF: mbw
