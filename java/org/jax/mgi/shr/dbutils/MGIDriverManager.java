@@ -85,10 +85,16 @@ public class MGIDriverManager implements ConnectionManager
        */
       public static void init()
       {
+          String classpath = System.getProperty("java.class.path",".");
+          int jconn3 = classpath.indexOf("jconn3");
+          int jconn2 = classpath.indexOf("jconn2");
+          String driver = "com.sybase.jdbc2.jdbc.SybDriver";
+          if ((jconn3 > 0 && (jconn2 < 0 || jconn3 < jconn2)))
+              driver = "com.sybase.jdbc3.jdbc.SybDriver";
+
         try {
           Driver d =
-          (Driver) Class.forName(
-                   "com.sybase.jdbc2.jdbc.SybDriver").newInstance();
+          (Driver) Class.forName(driver).newInstance();
            DriverManager.registerDriver(d);
         }
         catch (Exception ex)
@@ -133,6 +139,9 @@ public class MGIDriverManager implements ConnectionManager
 }
 
 // $Log$
+// Revision 1.3  2004/07/26 16:22:49  mbw
+// Formatting only
+//
 // Revision 1.2  2004/07/21 19:42:21  mbw
 // javadocs edits only
 //
