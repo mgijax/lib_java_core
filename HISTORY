@@ -1,3 +1,8 @@
+TAG:lib_java_core-tr7081-2
+DATE: 09/21/2005
+STAFF: mbw
+CHANGES: moved AbstractCommand classes over from lib_java_dla
+
 TAG:lib_java_core-tr7081-1
 DATE: 09/21/2005
 STAFF: mbw
