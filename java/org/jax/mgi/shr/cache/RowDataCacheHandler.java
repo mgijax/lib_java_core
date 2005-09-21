@@ -141,7 +141,7 @@ abstract public class RowDataCacheHandler
             String s = key.toString() + " " + value.toString();
             try
             {
-                out.write(s);
+                out.writeln(s);
             }
             catch (IOUException e)
             {
