@@ -19,5 +19,10 @@ public class ConfigException extends MGIException {
     super(pMessage, pDataRelated);
   }
 
+  public ConfigException(String pMessage, Exception e) {
+    super(pMessage, e);
+  }
+
+
 
 }

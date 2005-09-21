@@ -12,6 +12,8 @@ import java.lang.reflect.Array;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import org.jax.mgi.shr.unix.RunCommand;
+
 
 /**
  * An object that looks up configuration parameters in the java system
@@ -58,6 +60,19 @@ public class ConfigurationManager {
     return instance;
   }
 
+  public static String[] createEnvArray()
+  throws ConfigException
+  {
+      ConfigurationManager cm = ConfigurationManager.getInstance();
+      String[] props = cm.getKeys();
+      for (int i = 0; i < props.length; i++)
+      {
+          String keyvalue = props[i] + "=" + cm.get(props[i]);
+          props[i] = keyvalue;
+      }
+      return props;
+  }
+
   /**
    * look up a value of a named parameter in the system properties
    * and if not found then lookup within the set of Configuration classes.
@@ -69,6 +84,7 @@ public class ConfigurationManager {
    */
   protected String get(String name) {
     String value;
+    this.systemProperties = System.getProperties();
     value = (String)systemProperties.get(name);
     if (value == null && config != null)
       value = config.get(name);
@@ -86,6 +102,7 @@ public class ConfigurationManager {
   {
       int counter = 0;
       ArrayList list = new ArrayList();
+      this.systemProperties = System.getProperties();
       Enumeration e = this.systemProperties.propertyNames();
       while (e.hasMoreElements())
       {
@@ -108,6 +125,7 @@ public class ConfigurationManager {
       }
       return keys;
   }
+
 
   /**
    * reread system properties and configuration files
@@ -182,6 +200,12 @@ public class ConfigurationManager {
 
 }
 // $Log$
+// Revision 1.5.26.1  2005/09/21 20:36:19  mbw
+// new method called createEnvArray
+//
+// Revision 1.5  2004/10/11 15:48:18  mbw
+// added the getKeys() method
+//
 // Revision 1.4  2004/08/25 20:24:14  mbw
 // fixed so that the Configuration instanace is nulled out if reinit() is called and the CONFIG parameter is not set
 //
