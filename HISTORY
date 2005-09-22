@@ -1,3 +1,9 @@
+DATE: 09/22/2005
+STAFF: mbw
+CHANGES: added third part stax jar to classpath in build.properties.default. 
+Note this is pointing to temporary location of jars and will need to be 
+updated once the third party jars are installed
+
 TAG:lib_java_core-tr7081-2
 DATE: 09/21/2005
 STAFF: mbw
