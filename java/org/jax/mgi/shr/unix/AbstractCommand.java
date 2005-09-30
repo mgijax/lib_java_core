@@ -93,6 +93,7 @@ public abstract class AbstractCommand {
     public void run()
     throws CommandException, ConfigException
     {
+        prerun();
         String cmd = getCommandLine();
         String[] envp = ConfigurationManager.createEnvArray();
         RunCommand runner = new RunCommand(cmd, envp);
@@ -134,12 +135,18 @@ public abstract class AbstractCommand {
         // exit code of non-zero indicates an error occurred
         if (exitCode != 0)
         {
-            CommandExceptionFactory exceptionFactory = new CommandExceptionFactory();
+            CommandExceptionFactory exceptionFactory =
+                new CommandExceptionFactory();
             CommandException e2 = (CommandException)
                 exceptionFactory.getException(NonZeroStatus);
             e2.bind(cmd);
             throw e2;
         }
+        postrun();
     }
+
+    protected void prerun() throws CommandException {}
+
+    protected void postrun() throws CommandException {}
 
 }
