@@ -19,5 +19,10 @@ public class CommandException extends MGIException {
     super(pMessage, pDataRelated);
   }
 
+  public CommandException(String pMessage, Exception e)
+  {
+      super(pMessage, false);
+      super.setParent(e);
+  }
 
 }
