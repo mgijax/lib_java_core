@@ -1,3 +1,12 @@
+TAG:lib_java_core-tr7081-3
+DATE: 09/30/2005
+STAFF: mbw
+CHANGES: development build
+
+DATE: 09/30/2005
+STAFF: mbw
+CHANGES: updated to point to newly installed stax jars and made some development changes to XML classes in ioutils
+
 DATE: 09/22/2005
 STAFF: mbw
 CHANGES: added third part stax jar to classpath in build.properties.default. 
