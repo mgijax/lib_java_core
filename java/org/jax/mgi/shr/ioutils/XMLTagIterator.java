@@ -235,8 +235,26 @@ public class XMLTagIterator
      * @return the name of the current tag
      */
     public String getText()
+    throws IOUException
     {
-        return this.reader.getText();
+        StringBuffer text = new StringBuffer();
+        while (reader.getEventType() != XMLStreamConstants.END_ELEMENT)
+        {
+            text.append(this.reader.getText());
+            try
+            {
+                this.reader.next();
+            }
+            catch (XMLStreamException e)
+            {
+                IOUExceptionFactory factory = new IOUExceptionFactory();
+                IOUException e2 =
+                    (IOUException)factory.getException(XMLStreamErr, e);
+                throw e2;
+            }
+
+        }
+        return text.toString();
     }
 
 
