@@ -162,8 +162,8 @@ public class InputXMLDataFile
   {
 
       LogCfg logcfg = new LogCfg();
-      LoggerFactory factory = logcfg.getLoggerFactory();
-      this.logger = factory.getLogger();
+      LoggerFactory logFactory = logcfg.getLoggerFactory();
+      this.logger = logFactory.getLogger();
       if (this.filename == null)
 
           // filename may not have been defined through constructor
@@ -174,8 +174,9 @@ public class InputXMLDataFile
           throw (IOUException)exceptionFactory.getException(NullFilename);
       try
       {
-          this.streamReader = XMLInputFactory.newInstance().
-              createXMLStreamReader(
+          XMLInputFactory xmlFactory = XMLInputFactory.newInstance();
+          this.streamReader =
+              xmlFactory.createXMLStreamReader(
                 new java.io.FileInputStream(this.filename));
       }
       catch (java.io.FileNotFoundException e)
