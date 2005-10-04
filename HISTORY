@@ -1,3 +1,8 @@
+TAG:lib_java_core-tr7081-4
+DATE: 10/04/2005
+STAFF: jsb
+CHANGES: moved DTOConstants.java to dbsmgd product
+
 TAG:lib_java_core-tr7081-3
 DATE: 09/30/2005
 STAFF: mbw
