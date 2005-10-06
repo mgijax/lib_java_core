@@ -258,5 +258,16 @@ import org.jax.mgi.shr.exception.ExceptionFactory;
             "The attribute index ?? was out of range for element ??", false));
       }
 
+      /**
+       * could not read configuration
+       */
+      public static final String ConfigErr =
+          "org.jax.mgi.shr.ioutils.ConfigErr";
+      static {
+        exceptionsMap.put(ConfigErr, new IOUException (
+            "Could not read configuration file while trying to ??", false));
+      }
+
+
 
 }
