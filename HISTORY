@@ -1,3 +1,8 @@
+TAG:lib_java_core-tr7081-5
+DATE: 10/04/2005
+STAFF: mbw
+CHANGES: modified ioutils classes to support additional reporting functionality
+
 TAG:lib_java_core-tr7081-4
 DATE: 10/04/2005
 STAFF: jsb
