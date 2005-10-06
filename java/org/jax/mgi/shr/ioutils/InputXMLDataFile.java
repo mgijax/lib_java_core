@@ -175,9 +175,17 @@ public class InputXMLDataFile
       try
       {
           XMLInputFactory xmlFactory = XMLInputFactory.newInstance();
-          this.streamReader =
-              xmlFactory.createXMLStreamReader(
-                new java.io.FileInputStream(this.filename));
+          if (this.filename.toUpperCase().equals("STDIN"))
+          {
+              this.streamReader =
+                  xmlFactory.createXMLStreamReader(System.in);
+          }
+          else
+          {
+              this.streamReader =
+                  xmlFactory.createXMLStreamReader(
+                  new java.io.FileInputStream(this.filename));
+          }
       }
       catch (java.io.FileNotFoundException e)
       {
