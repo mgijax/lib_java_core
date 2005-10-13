@@ -1,11 +1,11 @@
-package org.jax.mgi.shr.config;
+package org.jax.mgi.shr.unix;
 
 import org.jax.mgi.shr.exception.MGIException;
 
 
 /**
  * An MGIException which represents exceptions occuring during
- * the reading of configuration parameters.
+ * the execution of external commands from the Java application.
  * @has an exception message, a data related indicator and a parent
  * exception which can be null.
  * @does nothing
@@ -14,15 +14,15 @@ import org.jax.mgi.shr.exception.MGIException;
  */
 
 
-public class ConfigException extends MGIException {
-  public ConfigException(String pMessage, boolean pDataRelated) {
+public class CommandException extends MGIException {
+  public CommandException(String pMessage, boolean pDataRelated) {
     super(pMessage, pDataRelated);
   }
 
-  public ConfigException(String pMessage, Exception e) {
-    super(pMessage, e);
+  public CommandException(String pMessage, Exception e)
+  {
+      super(pMessage, false);
+      super.setParent(e);
   }
-
-
 
 }

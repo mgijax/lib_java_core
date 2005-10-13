@@ -220,18 +220,6 @@ public class OutputDataFile
             throw ke;
 
         }
-        try
-        {
-            file.write(formatter.getHeader() + this.CRT);
-        }
-        catch (IOException e)
-        {
-            IOUExceptionFactory exceptionFactory = new IOUExceptionFactory();
-            IOUException ke = (IOUException)
-                exceptionFactory.getException(FileWriteErr, e);
-            ke.bind(filename);
-            throw ke;
-        }
         this.formatters.add(formatter);
         this.formatFiles.add(file);
         this.formatFilenames.add(filename);
@@ -676,6 +664,20 @@ public class OutputDataFile
                 (OutputFormatter)this.formatters.get(i);
             formatter.preprocess();
             FileWriter file = (FileWriter)this.formatFiles.get(i);
+            try
+            {
+                file.write(formatter.getHeader() + this.CRT);
+            }
+            catch (IOException e)
+            {
+                IOUExceptionFactory exceptionFactory =
+                    new IOUExceptionFactory();
+                IOUException ke = (IOUException)
+                    exceptionFactory.getException(FileWriteErr, e);
+                ke.bind(filename);
+                throw ke;
+            }
+
             InputDataFile infile = new InputDataFile(this.filename);
             RecordDataIterator it = infile.getIterator();
             while (it.hasNext())
@@ -771,6 +773,12 @@ public class OutputDataFile
 
 
 //  $Log$
+//  Revision 1.3.10.1  2005/10/06 20:44:45  mbw
+//  header is now being written after the call to preprocess()
+//
+//  Revision 1.3  2005/08/09 19:48:23  mbw
+//  javadocs only
+//
 //  Revision 1.2  2005/08/05 16:30:11  mbw
 //  merged code from branch lib_java_core-tr6427-1
 //

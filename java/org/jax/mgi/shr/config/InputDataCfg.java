@@ -67,6 +67,8 @@ public class InputDataCfg extends Configurator {
     return getConfigStringNull("INFILE_BEGIN_DELIMITER");
   }
 
+
+
   /**
    * get the end delimeter for the input file. The delimiter is interprete
    * as a java based regular expression or a sequence of bytes, depending on
@@ -77,6 +79,18 @@ public class InputDataCfg extends Configurator {
   public String getEndDelimiter() {
     return getConfigStringNull("INFILE_END_DELIMITER");
   }
+
+  /**
+   * get the xml tag to iterate over. The parameter name read from
+   * the configuration file or system properties is INFILE_XML_ITERATOR_TAG.
+   * @return the value used as record delimiter
+   * @throws an exception if the parameter is not set in the configuration
+   */
+  public String getXMLIteratorTag()
+ throws ConfigException {
+    return getConfigString("INFILE_XML_ITERATOR_TAG");
+  }
+
 
   /**
    * get the size of the internal memory buffer. The parameter name read
@@ -124,6 +138,15 @@ public class InputDataCfg extends Configurator {
 
 }
 // $Log$
+// Revision 1.6.10.1  2005/09/21 20:48:16  mbw
+// merged from tr5972
+//
+// Revision 1.6.6.1  2005/09/21 20:27:05  mbw
+// added new method to get xml iterator tag from conig
+//
+// Revision 1.6  2005/08/15 14:58:43  mbw
+// javadocs only
+//
 // Revision 1.5  2004/07/21 19:09:39  mbw
 // javadocs only
 //

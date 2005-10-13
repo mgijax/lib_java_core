@@ -155,6 +155,11 @@ public class InputDataFile
     this.useRegex = bool;
   }
 
+  public String getFilename()
+  {
+      return this.filename;
+  }
+
   /**
    * return the end delimiter
    * @return the end delimiter

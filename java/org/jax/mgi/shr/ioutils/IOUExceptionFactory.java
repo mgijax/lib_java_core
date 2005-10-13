@@ -131,7 +131,7 @@ import org.jax.mgi.shr.exception.ExceptionFactory;
           "org.jax.mgi.shr.ioutils.NullFilename";
       static {
         exceptionsMap.put(NullFilename, new IOUException (
-            "The input filename was not configured. Expected either " +
+            "The filename was not configured. Expected either " +
             "INFILE_NAME or OUTFILE_NAME.",
             false));
       }
@@ -218,7 +218,55 @@ import org.jax.mgi.shr.exception.ExceptionFactory;
             "Error running post format for file ??", false));
       }
 
+      /**
+       * could not read from XMLStream
+       */
+      public static final String XMLStreamErr =
+          "org.jax.mgi.shr.ioutils.XMLStreamErr";
+      static {
+        exceptionsMap.put(XMLStreamErr, new IOUException (
+            "Error reading from XML Stream", false));
+      }
 
+      /**
+       * could not close XMLStream
+       */
+      public static final String XMLStreamCloseErr =
+          "org.jax.mgi.shr.ioutils.XMLStreamCloseErr";
+      static {
+        exceptionsMap.put(XMLStreamCloseErr, new IOUException (
+            "Error closing XML Stream", false));
+      }
+
+      /**
+       * could not open XMLStream
+       */
+      public static final String XMLStreamOpenErr =
+          "org.jax.mgi.shr.ioutils.XMLStreamOpenErr";
+      static {
+        exceptionsMap.put(XMLStreamOpenErr, new IOUException (
+            "Error opening XML Stream from file ??", false));
+      }
+
+      /**
+       * xml element attribute out of range
+       */
+      public static final String XMLAttributeOutOfRange =
+          "org.jax.mgi.shr.ioutils.XMLAttributeOutOfRange";
+      static {
+        exceptionsMap.put(XMLAttributeOutOfRange, new IOUException (
+            "The attribute index ?? was out of range for element ??", false));
+      }
+
+      /**
+       * could not read configuration
+       */
+      public static final String ConfigErr =
+          "org.jax.mgi.shr.ioutils.ConfigErr";
+      static {
+        exceptionsMap.put(ConfigErr, new IOUException (
+            "Could not read configuration file while trying to ??", false));
+      }
 
 
 
