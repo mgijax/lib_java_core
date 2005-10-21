@@ -10,9 +10,9 @@ import org.jax.mgi.shr.log.LoggerFactory;
 import org.jax.mgi.shr.exception.MGIException;
 
 /**
- * An class that represents an input file in xml format.
+ * A class that represents an input file in xml format.
  * @has an xml file to parse and an optional InputDataCfg for configuring
- * an instance at runtime
+ * an instance using configuration parameter prefixes
  * @does manages the xml file resource and provides an iterator for
  * iterating over the xml elements of the file
  * @company The Jackson Laboratory
@@ -29,11 +29,13 @@ public class InputXMLDataFile
   // a Logger for logging debug messages
   private Logger logger = null;
 
+  // Stax class for reading an xml file
   private XMLStreamReader streamReader = null;
 
   // the exception factory
   private IOUExceptionFactory exceptionFactory = new IOUExceptionFactory();
 
+  // the following are the exceptions that are thrown
   private static final String NullFilename =
       IOUExceptionFactory.NullFilename;
   private static final String FileNotFoundErr =
@@ -44,7 +46,8 @@ public class InputXMLDataFile
 
   /**
    * default constructor
-   * @throws IOUException thrown if an error occurs during configuration
+   * @throws IOUException thrown thown if file name is not configured or
+   * it cannot be opened
    * @throws ConfigException thrown if there is an error reading the
    * configuration file
    */
@@ -58,7 +61,8 @@ public class InputXMLDataFile
    * constructor which allows overridding default values with a configuration
    * object.
    * @param config the configuration object
-   * @throws IOUException thrown if an error occurs during configuration
+   * @throws IOUException thrown thown if file name is not configured or
+   * it cannot be opened
    * @throws ConfigException thrown if there is an error reading the
    * configuration file
    */
@@ -72,7 +76,7 @@ public class InputXMLDataFile
    * constructor which uses default configuration values and allows specifying
    * the filename
    * @param filename the name of the file to process
-   * @throws IOUException thown if file cannot be configured and opened
+   * @throws IOUException thown if file cannot be opened
    * @throws ConfigException thrown if there is an error accessing the
    * configuration
    */
@@ -90,7 +94,9 @@ public class InputXMLDataFile
    * given configuration object and allows specifying
    * the filename at runtime
    * @param filename the name of the file to process
-   * @throws IOUException thown if file cannot be configured and opened
+   * @param cfg the configuration object for specifying a subset of
+   * configuration values using parameter name prefixing
+   * @throws IOUException thown if file cannot be opened
    * @throws ConfigException thrown if there is an error accessing the
    * configuration
    */
@@ -102,7 +108,6 @@ public class InputXMLDataFile
       if (filename == null)
           throw (IOUException) exceptionFactory.getException(
               NullFilename);
-
   }
 
 
@@ -152,7 +157,7 @@ public class InputXMLDataFile
 
   /**
    * configure the instance variables
-   * @param pConfig the configuration object from which to configure
+   * @param inputcfg the configuration object from which to configure
    * this object
    * @throws IOUException
    * @throws ConfigException
@@ -204,7 +209,7 @@ public class InputXMLDataFile
 
   }
 
-  public class Iterator implements XMLDataIterator
+  private class Iterator implements XMLDataIterator
   {
 
       private XMLDataInterpreter interpreter = null;
