@@ -384,6 +384,8 @@ public class OutputDataFile
      * @assumes Nothing
      * @effects the raw data will be saved along with all formatted files
      * @throws IOUException if an error occurs finding or opening the file.
+     * @throws ConfigException thrown if there is an error accessing the
+     * configuration for formatting the output file
      */
     public void close()
         throws IOUException, ConfigException
@@ -773,6 +775,9 @@ public class OutputDataFile
 
 
 //  $Log$
+//  Revision 1.4  2005/10/13 11:35:01  sc
+//  tr7108 branch merge to trunk
+//
 //  Revision 1.3.10.1  2005/10/06 20:44:45  mbw
 //  header is now being written after the call to preprocess()
 //

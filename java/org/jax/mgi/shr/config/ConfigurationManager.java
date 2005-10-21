@@ -60,6 +60,15 @@ public class ConfigurationManager {
     return instance;
   }
 
+  /**
+   * creates an array of strings of the form name=value which represents
+   * the current environment which may be useful for running exec methods
+   * or methods in the RunCommand class
+   * @return the array of environment parameters
+   * @throws ConfigException thrown if there is an error accessing the
+   * configuration
+   */
+
   public static String[] createEnvArray()
   throws ConfigException
   {
@@ -200,6 +209,9 @@ public class ConfigurationManager {
 
 }
 // $Log$
+// Revision 1.6  2005/10/13 11:35:00  sc
+// tr7108 branch merge to trunk
+//
 // Revision 1.5.30.1  2005/09/21 20:48:15  mbw
 // merged from tr5972
 //

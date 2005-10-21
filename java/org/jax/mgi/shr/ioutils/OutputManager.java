@@ -11,8 +11,8 @@ import org.jax.mgi.shr.config.ConfigException;
  * Is a class which reads application configuration properties to determine
  * a set of OutputDataFile classes to create and manage and provides static
  * methods for writing to them. The configuration parameters read should be
- * prefixed by the name to be later used when calling the static write methods
- * and referring to a specifix instance.
+ * prefixed by an alias name to be later used when calling the static write
+ * methods.
  * @has nothing
  * @does provides write access to a set of OutputDataFile instances configured
  * by the application configuration parameters and performs report formatting
@@ -62,6 +62,10 @@ public class OutputManager
    * @effects text will be written to the named OutputDataFile instance
    * @param alias the name of the OutputDataFile instance
    * @param text the text to write to the instance
+   * @throws ConfigException thrown if there is an error accessing the
+   * configuration
+   * @throws IOUException thrown if there is an error accessing the file
+   * system
    */
     public static void write(String alias, String text)
     throws ConfigException, IOUException
@@ -81,6 +85,10 @@ public class OutputManager
    * @effects text will be written to the named OutputDataFile instance
    * @param alias the name of the OutputDataFile instance
    * @param text the text to write to the instance
+   * @throws ConfigException thrown if there is an error accessing the
+   * configuration
+   * @throws IOUException thrown if there is an error accessing the file
+   * system
    */
     public static void writeln(String alias, String text)
     throws ConfigException, IOUException
@@ -94,6 +102,10 @@ public class OutputManager
    * @assumes nothing
    * @effects all OutputDataFile instances configured through the config file
    * will be closed
+   * @throws ConfigException thrown if there is an error accessing the
+   * configuration
+   * @throws IOUException thrown if there is an error accessing the file
+   * system
    */
     public static void close()
     throws ConfigException, IOUException
@@ -108,10 +120,16 @@ public class OutputManager
 
   /**
    * creates instances of OutputDataFile classes based on the application
-   * configuration settings and calls the postFormat() method on them
+   * configuration settings for files that were previously created and calls
+   * the postFormat() method on them so that they can be formatted without
+   * recreating them
    * @assumes nothing
    * @effects reporst will be created based on raw output files previously
    * created on a prior run of the application
+   * @throws ConfigException thrown if there is an error accessing the
+   * configuration
+   * @throws IOUException thrown if there is an error accessing the file
+   * system
    */
 
     public static void postFormat()
