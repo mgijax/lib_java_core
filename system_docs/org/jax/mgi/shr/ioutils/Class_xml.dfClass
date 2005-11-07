@@ -1,0 +1,49 @@
+package id2lmayef00p53eef8gyjxj;
+
+/**
+@version 2.0
+@__modelType diagram 
+*/
+class diagram {
+/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.ioutils.InputXMLDataFile:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.ioutils.XMLDataInterpreter:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference72 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.ioutils.XMLDataIterator:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference73 {
+}/**
+@__ref <oiref:java#Class#org.jax.mgi.shr.ioutils.XMLTagIterator:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference74 {
+}}/**
+
+@__tags
+@shapeType ClassDiagram 
+*/
+class __tags {
+}/**
+@__options option.detail = Implementation 
+*/
+class __options {
+}/**
+@__positions <oigroup:<oiref:java#Class#org.jax.mgi.shr.ioutils.XMLDataInterpreter:oiref>=510,170,310,101,0:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.ioutils.XMLTagIterator:oiref>=10,300,380,270,0:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.ioutils.XMLDataIterator:oiref>=510,30,330,117,0:oigroup>
+<oigroup:<oiref:java#Class#org.jax.mgi.shr.ioutils.InputXMLDataFile:oiref>=10,30,470,250,0:oigroup>
+*/
+class __positions {
+}
