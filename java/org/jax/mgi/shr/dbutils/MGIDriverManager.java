@@ -1,6 +1,3 @@
-// $Header$
-// $Name$
-
 /**
  * Title:        MGI Driver Manager
  * Description:  A convenience library to allow Java clients to easily use
@@ -139,6 +136,12 @@ public class MGIDriverManager implements ConnectionManager
 }
 
 // $Log$
+// Revision 1.3.30.1  2005/09/07 15:09:28  mbw
+// added support for JConnect 6.0 driver
+//
+// Revision 1.5  2005/09/07 15:04:19  mbw
+// reverted previous commit to incorporate on branch tr7067 instead
+//
 // Revision 1.3  2004/07/26 16:22:49  mbw
 // Formatting only
 //

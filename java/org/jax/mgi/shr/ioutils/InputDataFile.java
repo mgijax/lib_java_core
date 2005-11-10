@@ -14,7 +14,7 @@ import org.jax.mgi.shr.log.LoggerFactory;
 import org.jax.mgi.shr.exception.MGIException;
 
 /**
- * An class that represents an input file.
+ * A class that represents an input file.
  * @has configurable parameters such as begin and end delimiters, buffersize and
  * character set.
  * @does provides the ability to iterate over objects from the input file
@@ -153,6 +153,11 @@ public class InputDataFile
    */
   public void setOkToUseRegex(boolean bool) {
     this.useRegex = bool;
+  }
+
+  public String getFilename()
+  {
+      return this.filename;
   }
 
   /**
