@@ -3,6 +3,7 @@ package org.jax.mgi.shr.ioutils;
 import javax.xml.stream.*;
 
 import org.jax.mgi.shr.ioutils.IOUExceptionFactory;
+import java.util.HashMap;
 
 /**
  * Is a class which views an xml file simply as a series of tags where each
@@ -65,12 +66,14 @@ public class XMLTagIterator
     public static final int TAG_EOF = 3;
 
     private int state = TAG_PRIOR;
-    private int MAX_ATTRIBUTES = 10;
+    private int MAX_ATTRIBUTES = 15;
 
     private String target = null;
     private XMLStreamReader reader = null;
 
-    private String[] attributes = new String[MAX_ATTRIBUTES];
+    private String[] attributeNames = new String[MAX_ATTRIBUTES];
+    private String[] attributeValues = new String[MAX_ATTRIBUTES];
+
     private int currentAttributeCount = 0;
     private String currentTag = null;
 
@@ -208,12 +211,22 @@ public class XMLTagIterator
     }
 
     /**
+     * get the count of the set of attributes for the current tag on which the
+     * XMLStreamReader is positioned
+     * @return count of the current set of attributes
+     */
+    public int getAttributeCount() {
+        return currentAttributeCount;
+    }
+
+    /**
      * get the attribute value for the given index of attributes for the
      * current tag the XMLStreamReader is positioned on
      * @param index the index of the attribute, starting at 0
-     * @return the attribute value
+     * @return the attribute value or null if attribute doesn't exist
      * @throws IOUException thrown if the index is out of range
      */
+    //public String getAttributeValue(String attributeLocalName)
     public String getAttributeValue(int index)
     throws IOUException
     {
@@ -227,9 +240,17 @@ public class XMLTagIterator
             throw e;
 
         }
-        return this.attributes[index];
+        //return reader.getAttributeValue(index);
+        return (String)this.attributeValues[index];
     }
-
+    /**
+     *
+     * @return
+     * @throws IOUException
+     */
+    public String[] getAttributeNames() {
+        return this.attributeNames;
+    }
     /**
      * get the name of the current tag the XMLStreamReader is positioned on
      * @return the name of the current tag
@@ -318,7 +339,9 @@ public class XMLTagIterator
         this.currentAttributeCount = reader.getAttributeCount();
         for (int i = 0; i < this.currentAttributeCount; i++)
         {
-            this.attributes[i] = reader.getAttributeValue(i);
+            // parallel arrays for attribute names/values
+            this.attributeNames[i] = reader.getAttributeLocalName(i);
+            this.attributeValues[i] = reader.getAttributeValue(i);
         }
     }
 
