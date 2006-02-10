@@ -1,3 +1,17 @@
+TAG: lib_java_core-3-4-3-1
+DATE: 2/10/2006
+STAFF: sc
+CHANGES: TR7392 MGI3.43 merge branch tr7203 to trunk
+         Note 7203 is a 3.44 Tr. The change needed to 
+         be done in the shoe-horn release 3.43
+
+TAG: lib_java_core-tr7203-1
+DATE: 1/16/2006
+STAFF: sc
+CHANGES:
+1) XMLTagIterator - updated to support varying number 
+   of attributes for a given TAG line
+
 TAG: lib_java_core-tr7203-BP
 DATE: 1/10/2006
 STAFF: sc
