@@ -15,4 +15,5 @@ public class SchemaConstants
         public static final String MGD = "MGD";
         public static final String RADAR = "RADAR";
         public static final String IMSR = "IMSR";
+	public static final String SNP = "SNP";
 }
