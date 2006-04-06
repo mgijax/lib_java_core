@@ -1,7 +1,18 @@
+TAG: lib_java_core-3-4-4-1
+DATE: 4/6/2006
+STAFF: sc
+CHANGES: merge tr7379 branch to trunk
+
 TAG: lib_java_core-tr6594-BP
 DATE: 3/2/2006
 STAFF: dbm
 CHANGES: Branch point tag for configuration changes
+
+TAG: lib_java_core-tr7379-1
+DATE: 03/27/2006 
+STAFF: sc
+CHANGES:
+1) SchemaConstants -added SNP 
 
 TAG: lib_java_core-tr7379-BP
 DATE: 2/28/2006
