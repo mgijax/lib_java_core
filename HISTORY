@@ -1,3 +1,9 @@
+TAG: lib_java_core-3-5-0-1
+DATE: 4/27/2006
+STAFF: sc
+CHANGES:
+1) mergetr7067 to trunk
+
 TAG: lib_java_core-3-4-4-1
 DATE: 4/6/2006
 STAFF: sc
@@ -113,6 +119,81 @@ TAG:lib_java_core-tr7081-BP
 DATE: 09/21/2005
 STAFF: mbw
 CHANGES: branch point tag for MGI 3.4 release
+
+TAG:lib_java_core-tr7067-2
+DATE: 11/10/2005
+STAFF: mbw
+CHANGES: merged latest core changes to this branch
+
+TAG:lib_java_core-tr7067-1
+DATE: 09/07/2005
+STAFF: mbw
+CHANGES: added support for JConnect 6.0 to MGIDriverManager
+
+TAG:lib_java_core-3-4-0-2
+DATE: 10/25/2005
+STAFF: mbw
+CHANGES: javadocs
+
+TAG:lib_java_core-3-4-0-1
+DATE: 10/21/2005
+STAFF: mbw
+CHANGES: javadocs 
+
+TAG:lib_java_core-tr7041-BP
+DATE: 10/19/2005
+STAFF: mbw
+CHANGES: branch point tag
+
+TAG:lib_java_core-3-4-0-0
+DATE: 10/13/2005
+STAFF: sc
+CHANGES: tr7081 branch merge to trunk
+
+TAG:lib_java_core-tr7081-5
+DATE: 10/04/2005
+STAFF: mbw
+CHANGES: modified ioutils classes to support additional reporting functionality
+
+TAG:lib_java_core-tr7081-4
+DATE: 10/04/2005
+STAFF: jsb
+CHANGES: moved DTOConstants.java to dbsmgd product
+
+TAG:lib_java_core-tr7081-3
+DATE: 09/30/2005
+STAFF: mbw
+CHANGES: development build
+
+DATE: 09/30/2005
+STAFF: mbw
+CHANGES: updated to point to newly installed stax jars and made some development changes to XML classes in ioutils
+
+DATE: 09/22/2005
+STAFF: mbw
+CHANGES: added third part stax jar to classpath in build.properties.default. 
+Note this is pointing to temporary location of jars and will need to be 
+updated once the third party jars are installed
+
+TAG:lib_java_core-tr7081-2
+DATE: 09/21/2005
+STAFF: mbw
+CHANGES: moved AbstractCommand classes over from lib_java_dla
+
+TAG:lib_java_core-tr7081-1
+DATE: 09/21/2005
+STAFF: mbw
+CHANGES: merged branch tr5972
+
+TAG:lib_java_core-tr7081-BP
+DATE: 09/21/2005
+STAFF: mbw
+CHANGES: branch point tag for MGI 3.4 release
+
+TAG:lib_java_core-tr7067-1
+DATE: 09/07/2005
+STAFF: mbw
+CHANGES: added support for JConnect 6.0 to MGIDriverManager
 
 TAG:lib_java_core-tr5972-BP
 DATE: 09/07/2005

@@ -1,6 +1,3 @@
-// $Header$
-// $Name$
-
 /**
  * Title:        MGI Driver Manager
  * Description:  A convenience library to allow Java clients to easily use
@@ -85,10 +82,16 @@ public class MGIDriverManager implements ConnectionManager
        */
       public static void init()
       {
+          String classpath = System.getProperty("java.class.path",".");
+          int jconn3 = classpath.indexOf("jconn3");
+          int jconn2 = classpath.indexOf("jconn2");
+          String driver = "com.sybase.jdbc2.jdbc.SybDriver";
+          if ((jconn3 > 0 && (jconn2 < 0 || jconn3 < jconn2)))
+              driver = "com.sybase.jdbc3.jdbc.SybDriver";
+
         try {
           Driver d =
-          (Driver) Class.forName(
-                   "com.sybase.jdbc2.jdbc.SybDriver").newInstance();
+          (Driver) Class.forName(driver).newInstance();
            DriverManager.registerDriver(d);
         }
         catch (Exception ex)
@@ -132,47 +135,3 @@ public class MGIDriverManager implements ConnectionManager
       }
 }
 
-// $Log$
-// Revision 1.3  2004/07/26 16:22:49  mbw
-// Formatting only
-//
-// Revision 1.2  2004/07/21 19:42:21  mbw
-// javadocs edits only
-//
-// Revision 1.1  2003/12/30 16:50:30  mbw
-// imported into this product
-//
-// Revision 1.4  2003/12/09 22:49:02  mbw
-// merged jsam branch onto the trunk
-//
-// Revision 1.2.2.3  2003/06/17 20:21:36  mbw
-// now implements the ConnectionManager interface
-//
-// Revision 1.2.2.2  2003/05/08 01:56:13  mbw
-// incorporated changes from code review
-//
-// Revision 1.2.2.1  2003/03/21 16:52:58  mbw
-// added standard header/footer
-//
-/**************************************************************************
-*
-* Warranty Disclaimer and Copyright Notice
-*
-*  THE JACKSON LABORATORY MAKES NO REPRESENTATION ABOUT THE SUITABILITY OR
-*  ACCURACY OF THIS SOFTWARE OR DATA FOR ANY PURPOSE, AND MAKES NO WARRANTIES,
-*  EITHER EXPRESS OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR A
-*  PARTICULAR PURPOSE OR THAT THE USE OF THIS SOFTWARE OR DATA WILL NOT
-*  INFRINGE ANY THIRD PARTY PATENTS, COPYRIGHTS, TRADEMARKS, OR OTHER RIGHTS.
-*  THE SOFTWARE AND DATA ARE PROVIDED "AS IS".
-*
-*  This software and data are provided to enhance knowledge and encourage
-*  progress in the scientific community and are to be used only for research
-*  and educational purposes.  Any reproduction or use for commercial purpose
-*  is prohibited without the prior express written permission of The Jackson
-*  Laboratory.
-*
-* Copyright \251 1996, 1999, 2002 by The Jackson Laboratory
-*
-* All Rights Reserved
-*
-**************************************************************************/
