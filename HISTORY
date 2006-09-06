@@ -1,3 +1,13 @@
+TAG: lib_java_core-3-5-1-1
+DATE: 09/06/2006
+STAFF: sc
+CHANGES: merge build36 branch to trunK
+
+TAG: lib_java_core-build36-1
+DATE: 8/16/2006
+STAFF: sc
+CHANGES: SchemaConstants - added SNPBE
+
 TAG: lib_java_core-build36-BP
 DATE: 8/3/2006
 STAFF: sc
