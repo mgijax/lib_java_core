@@ -47,14 +47,6 @@ public interface OutputFormatter {
      * @effects nothing
      * @return the trailer text for this formatted file
      */
-    public String getTrailer();
-
-    /**
-     * get the file name suffix for the formatted file name
-     * @assumes nothing
-     * @effects nothing
-     * @return the suffix tstring
-     */
     public String getFileSuffix();
 
     /**

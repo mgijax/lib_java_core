@@ -733,21 +733,6 @@ public class OutputDataFile
                 ke.bind(this.filename);
                 throw ke;
             }
-            String trailer =
-                    ((OutputFormatter)this.formatters.get(i)).getTrailer();
-            try
-            {
-                file.write(this.CRT + trailer);
-            }
-            catch (IOException e)
-            {
-                IOUExceptionFactory exceptionFactory = new
-                    IOUExceptionFactory();
-                IOUException ke = (IOUException)
-                    exceptionFactory.getException(FileWriteErr, e);
-                ke.bind((String)this.formatFilenames.get(i));
-                throw ke;
-            }
             try
             {
                 file.close();
