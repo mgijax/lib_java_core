@@ -337,8 +337,8 @@ public class OutputDataFile
     public void write(String s)
         throws IOUException
     {
-        if (!this.isOpen)
-            this.openWriter();
+        //if (!this.isOpen)
+        //    this.openWriter();
         // Write a newline character to the output file.
         //
         try
@@ -632,6 +632,7 @@ public class OutputDataFile
                 OutputFormatter formatter = this.configuredFormatters[i];
                 this.addFormatter(formatter);
             }
+	this.openWriter();
     }
 
     private void openWriter()
