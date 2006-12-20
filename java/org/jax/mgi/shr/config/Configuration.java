@@ -371,6 +371,23 @@ public class Configuration
     {
         String name = null;
         String value = "";
+        int eqPos;
+	
+	// if line begins with "export", skip it
+
+	if (line.startsWith("export"))
+	{
+	    return;
+	}
+
+	// if line does not contain an equal sign, skip it
+	// note that this does not work for "if" statements that contain the equal sign!
+
+	eqPos = line.indexOf("=");
+	if (eqPos < 0)
+	{
+	    return;
+	}
 
         ArrayList parts = StringLib.split (line, "=");
         if (parts.size() >= 1)
@@ -383,7 +400,7 @@ public class Configuration
             // empty String default
             if (parts.size() >= 2)
             {
-                int eqPos = line.indexOf ("=");
+                eqPos = line.indexOf ("=");
                 value = line.substring (eqPos + 1).trim();
             }
             this.setOption (name, value);
@@ -641,6 +658,9 @@ public class Configuration
     private static Hashtable loaded = new Hashtable();
 }
 // $Log$
+// Revision 1.4  2004/12/16 21:18:51  mbw
+// merged assembly branch onto the trunk
+//
 // Revision 1.3.8.1  2004/12/02 18:14:56  mbw
 // bug fix: now throws exception if a referenced paramater cannot be resolved
 //

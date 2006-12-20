@@ -1,6 +1,3 @@
-//  $Header$
-//  $Name$
-
 package org.jax.mgi.shr.config;
 
 import org.jax.mgi.shr.ioutils.OutputFormatter;
@@ -92,32 +89,6 @@ public class OutputDataCfg extends Configurator {
     }
 
     /**
-     * get the value of the option which designates whether to prevent formatting
-     * the raw output
-     * The parameter name read from the configuration file for setting this
-     * option is OUTFILE_PREVENT_FORMATTING and its default is false.
-     * @return true or false
-     * @throws ConfigException throws if configuration value does not represent
-     * a boolean
-     */
-    public Boolean getOkToPreventFormatting() throws ConfigException {
-      return super.getConfigBoolean("OUTFILE_PREVENT_FORMATTING",
-                                    new Boolean(false));
-    }
-
-    /**
-     * get the value of the setting for the unix sort options
-     * The parameter name read from the configuration file for setting this
-     * option is OUTFILE_SORT_DEF and it has no default value
-     * @return the unix sort command options
-     * @throws ConfigException throws if there is an error accessing the 
-     * configuration
-     */
-    public String getSortDef() throws ConfigException {
-        return super.getConfigStringNull("OUTFILE_SORT_DEF");
-    }
-
-    /**
      * get an array of OutputFormatter instances based on the configuration
      * setting.
      * The parameter name read from the configuration file for setting this
@@ -126,7 +97,7 @@ public class OutputDataCfg extends Configurator {
      * @throws ConfigException throws if there is an error accessing the 
      * configuration
      */
-    public OutputFormatter[] gerFormatters()
+    public OutputFormatter[] getFormatters()
     throws ConfigException
     {
         Object[] formatters =
@@ -145,30 +116,6 @@ public class OutputDataCfg extends Configurator {
 
 }
 
-
-//  $Log$
-//  Revision 1.4  2005/08/15 14:37:55  mbw
-//  javadocs only
-//
-//  Revision 1.3  2005/08/11 17:00:25  mbw
-//  javadocs only
-//
-//  Revision 1.2  2005/08/05 16:28:00  mbw
-//  merged code from branch lib_java_core-tr6427-1
-//
-//  Revision 1.1.4.2  2005/08/01 19:14:08  mbw
-//  javadocs only
-//
-//  Revision 1.1.4.1  2005/08/01 17:43:58  mbw
-//  initial version
-//
-//  Revision 1.1.2.2  2005/01/08 00:57:00  mbw
-//  added okToAutoFlush param
-//
-//  Revision 1.1.2.1  2005/01/05 14:27:30  dbm
-//  New
-//
-//
 /**************************************************************************
 *
 * Warranty Disclaimer and Copyright Notice

@@ -66,7 +66,7 @@ public class Configurator
      * configuration parameters
      * @assumes nothing
      * @effects nothing
-     * @return the coniguration prefix string
+     * @return the configuration prefix string
      */
     public String getConfigPrefix()
     {
@@ -74,10 +74,10 @@ public class Configurator
     }
 
     /**
-     * get the names of the coniguration parameters
+     * get the names of the configuration parameters
      * @assumes nothing
      * @effects nothing
-     * @return the names of the coniguration parameters
+     * @return the names of the configuration parameters
      */
     public String[] getConfigurationParameters()
     {
@@ -952,6 +952,9 @@ public class Configurator
 
 }
 // $Log$
+// Revision 1.9  2005/08/05 16:28:00  mbw
+// merged code from branch lib_java_core-tr6427-1
+//
 // Revision 1.8.2.2  2005/08/03 17:28:38  mbw
 // javadocs only
 //
