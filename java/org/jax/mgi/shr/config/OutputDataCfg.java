@@ -1,6 +1,6 @@
 package org.jax.mgi.shr.config;
 
-import org.jax.mgi.shr.ioutils.OutputFormatter;
+//import org.jax.mgi.shr.ioutils.OutputFormatter;
 
 /**
  * A class for configuring an OutputDataFile object.
@@ -73,46 +73,6 @@ public class OutputDataCfg extends Configurator {
       return super.getConfigBoolean("OUTFILE_AUTO_FLUSH",
                                     new Boolean(false));
     }
-
-    /**
-     * get the value of the option which designates whether to prevent storing
-     * the raw output
-     * The parameter name read from the configuration file for setting this
-     * option is OUTFILE_REMOVE_RAW_OUTPUT and its default is false.
-     * @return true or false
-     * @throws ConfigException throws if configuration value does not represent
-     * a boolean
-     */
-    public Boolean getOkToPreventRawOutput() throws ConfigException {
-      return super.getConfigBoolean("OUTFILE_REMOVE_RAW_OUTPUT",
-                                    new Boolean(false));
-    }
-
-    /**
-     * get an array of OutputFormatter instances based on the configuration
-     * setting.
-     * The parameter name read from the configuration file for setting this
-     * option is OUTFILE_FORMATTERS and it has no default value
-     * @return an array of OutputFormatter instances
-     * @throws ConfigException throws if there is an error accessing the 
-     * configuration
-     */
-    public OutputFormatter[] getFormatters()
-    throws ConfigException
-    {
-        Object[] formatters =
-            super.getConfigObjectArrayNull("OUTFILE_FORMATTERS");
-        if (formatters == null)
-            return null;
-        OutputFormatter[] casted =
-            new OutputFormatter[formatters.length];
-        for (int i = 0; i < formatters.length; i++)
-        {
-            casted[i] = (OutputFormatter)formatters[i];
-        }
-        return casted;
-    }
-
 
 }
 
