@@ -245,7 +245,7 @@ public class XMLTagIterator
     }
     /**
      *
-     * @return
+     * @return attribute names
      * @throws IOUException
      */
     public String[] getAttributeNames() {

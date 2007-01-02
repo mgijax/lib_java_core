@@ -189,36 +189,6 @@ import org.jax.mgi.shr.exception.ExceptionFactory;
       }
 
       /**
-       * An error occurred during a format call to an OutputFormatter
-       */
-      public static final String FormatterErr =
-          "org.jax.mgi.shr.ioutils.FormatterErr";
-      static {
-        exceptionsMap.put(FormatterErr, new IOUException(
-            "The following formatter failed on file ??: ??", false));
-      }
-
-      /**
-       * Tried to run post formatting on an open file
-       */
-      public static final String FormatUnClosed =
-          "org.jax.mgi.shr.ioutils.FormatUnClosed";
-      static {
-        exceptionsMap.put(FormatUnClosed, new IOUException(
-            "Cannot post format the currently open file: ??", false));
-      }
-
-      /**
-       * Errot running post formatting of data file
-       */
-      public static final String PostFormatErr =
-          "org.jax.mgi.shr.ioutils.PostFormatErr";
-      static {
-        exceptionsMap.put(PostFormatErr, new IOUException(
-            "Error running post format for file ??", false));
-      }
-
-      /**
        * could not read from XMLStream
        */
       public static final String XMLStreamErr =

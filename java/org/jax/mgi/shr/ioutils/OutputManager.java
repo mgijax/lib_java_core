@@ -15,8 +15,7 @@ import org.jax.mgi.shr.config.ConfigException;
  * methods.
  * @has nothing
  * @does provides write access to a set of OutputDataFile instances configured
- * by the application configuration parameters and performs report formatting
- * on each them
+ * by the application configuration parameters
  * @company The Jackson Laboratory
  * @author M Walker
  *
@@ -117,40 +116,5 @@ public class OutputManager
             file.close();
         }
     }
-
-  /**
-   * creates instances of OutputDataFile classes based on the application
-   * configuration settings for files that were previously created and calls
-   * the postFormat() method on them so that they can be formatted without
-   * recreating them
-   * @assumes nothing
-   * @effects reporst will be created based on raw output files previously
-   * created on a prior run of the application
-   * @throws ConfigException thrown if there is an error accessing the
-   * configuration
-   * @throws IOUException thrown if there is an error accessing the file
-   * system
-   */
-
-    public static void postFormat()
-    throws ConfigException, IOUException
-    {
-        OutputDataCfg config = new OutputDataCfg();
-        String[] parameters = config.getConfigurationParameters();
-        for (int i = 0; i < parameters.length; i++)
-        {
-            String parm = parameters[i];
-            int index = parm.indexOf("_OUTFILE_NAME");
-            if (index > 0)
-            {
-                String prefix = parm.substring(0, index);
-                OutputDataFile file =
-                    new OutputDataFile(new OutputDataCfg(prefix));
-                file.postFormat();
-            }
-        }
-    }
-
-
 
 }

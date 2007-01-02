@@ -23,10 +23,8 @@ import org.jax.mgi.shr.exception.MGIException;
 /**
  * Is an object that represents an output data file. It is configurable using
  * the org.jax.mgi.shr.config package
- * @has OutputDataCfg object for configuration and a collection of
- * OutputFormatter objects
- * @does Provides the ability to write raw data to an output file and format
- * the data in various ways as configured to do in the configuration settings.
+ * @has OutputDataCfg object for configuration
+ * @does Provides the ability to write raw data to an output file
  * @company The Jackson Laboratory
  * @author M Walker
  */
@@ -55,45 +53,14 @@ public class OutputDataFile
     //
     private Logger logger = null;
 
-    // an arraylist of OutputFormatter objects
-    private ArrayList formatters = new ArrayList();
-
-    // an arraylist of FileWriters corresponding to each OutputFormatter
-    // object
-    private ArrayList formatFiles = new ArrayList();
-
-    // an arraylist of filenames corresponding to each formatted
-    // output file
-    private ArrayList formatFilenames = new ArrayList();
-
-    // an array of OutputFormatters obtained from the configuration file
-    private OutputFormatter[] configuredFormatters = null;
-
-    // boolean indicator to determine whether or not it is ok to prevent
-    // the raw output from being saved and only save formatted output
-    private boolean okToPreventRawout = false;
-
     // option to auto-flush the buffer after each bcp write
     private boolean okToAutoFlush = false;
-
-    // boolean indicator to determine whether it is ok or not to prevent files
-    // form being formatted
-    private boolean okToPreventFormatting = false;
-
-    // sort command line options
-    private String sortopts = null;
 
     // boolean indicator to determine if the file has been closed already
     private boolean isOpen = false;
 
     // the configuration object
     private OutputDataCfg config = null;
-
-    // a HashMap to keep track of the number of times a particular suffix has
-    // been used when creating new formatted output. This count is used in
-    // the naming of the formatted output files if there are more than one for
-    // any given filename suffix
-    private HashMap formatCounts = new HashMap();
 
     // The following are the exceptions that are thrown.
     //
@@ -107,19 +74,6 @@ public class OutputDataFile
         IOUExceptionFactory.FileReadErr;
     private static final String FileCloseErr =
         IOUExceptionFactory.FileCloseErr;
-    private static String SortInterrupt =
-        IOUExceptionFactory.SortInterrupt;
-    private static String SortIOErr =
-        IOUExceptionFactory.SortIOErr;
-    private static String SortNonZero =
-        IOUExceptionFactory.SortNonZero;
-    private static String FormatterErr =
-        IOUExceptionFactory.FormatterErr;
-    private static String FormatUnClosed =
-        IOUExceptionFactory.FormatUnClosed;
-    private static String PostFormatErr =
-        IOUExceptionFactory.PostFormatErr;
-
 
     /**
      * default constructor
@@ -177,53 +131,6 @@ public class OutputDataFile
     }
 
     /**
-     * add an OutputFormatter for this instance. All formatted output is
-     * created when the close() method
-     * @param formatter the OutputFormatter to add
-     * @throws IOUException thrown if a new file could not be created
-     * @throws ConfigException thrown if there is an error accessing the
-     * configuration
-     */
-    public void addFormatter(OutputFormatter formatter)
-    throws IOUException, ConfigException
-    {
-        addFormatter(formatter, this.deriveFormattedFilename(formatter));
-    }
-
-    /**
-     * add an OutputFormatter for this instance while designating the name of
-     * the formatted filename
-     * @param formatter the OutputFormatter object to add
-     * @param filename the name of the formatted output file
-     * @throws IOUException thrown if a new file could not be created
-     * @throws ConfigException thrown if there is an error accessing the
-     * configuration
-     */
-    public void addFormatter(OutputFormatter formatter,
-                             String filename)
-    throws IOUException, ConfigException
-    {
-        FileWriter file = null;
-        try
-        {
-            file = new FileWriter(filename);
-        }
-        catch (IOException e)
-        {
-            IOUExceptionFactory exceptionFactory = new IOUExceptionFactory();
-            IOUException ke = (IOUException)
-                exceptionFactory.getException(FileOpenErr, e);
-            ke.bind(filename);
-            throw ke;
-
-        }
-        this.formatters.add(formatter);
-        this.formatFiles.add(file);
-        this.formatFilenames.add(filename);
-    }
-
-
-    /**
      * sets whether or not to flush the output buffer on each write
      * @assumes nothing
      * @effects alters the indicator value
@@ -232,18 +139,6 @@ public class OutputDataFile
     public void setOKToAutoFlush(boolean bool)
     {
         this.okToAutoFlush = bool;
-    }
-
-    /**
-     * sets whether or not to prevent the saving of the raw output and only
-     * save formatted output
-     * @assumes nothing
-     * @effects alters the indicator value
-     * @param bool true if raw data should not be written, false otherwise
-     */
-    public void setOkToPreventRawOutput(boolean bool)
-    {
-        this.okToPreventRawout = bool;
     }
 
     /**
@@ -256,18 +151,6 @@ public class OutputDataFile
     {
         this.logger = logger;
     }
-
-    /**
-     * sets the unix sort command options for this instance
-     * @assumes nothing
-     * @effects effects the way the raw output is sorted
-     * @param opts the unix sort command options
-     */
-    public void setSortOptions(String opts)
-    {
-        this.sortopts = opts;
-    }
-
 
     /**
      * Gets the name of the output file to write to.
@@ -290,29 +173,6 @@ public class OutputDataFile
     public boolean getOKToAutoFlush()
     {
         return this.okToAutoFlush;
-    }
-
-    /**
-     * gets the current configured value for the unix command sort options
-     * @assumes Nothing
-     * @effects Nothing
-     * @return current configured value for the unix command sort options
-     */
-    public String getSortOptions()
-    {
-        return this.sortopts;
-    }
-
-    /**
-     * gets the current configured value for whether or not to prevent
-     * raw output from being saved
-     * @assumes Nothing
-     * @effects Nothing
-     * @return true if the raw output should be saved, false otherwise
-     */
-    public boolean getOkToPreventRawOutput()
-    {
-        return this.okToPreventRawout;
     }
 
     /**
@@ -339,8 +199,6 @@ public class OutputDataFile
     {
         //if (!this.isOpen)
         //    this.openWriter();
-        // Write a newline character to the output file.
-        //
         try
         {
             writer.write(s);
@@ -377,7 +235,7 @@ public class OutputDataFile
 
 
     /**
-     * close the output file, sort the raw data and run the formatters
+     * close the output file
      * @assumes Nothing
      * @effects the raw data will be saved along with all formatted files
      * @throws IOUException if an error occurs finding or opening the file.
@@ -406,180 +264,7 @@ public class OutputDataFile
             ke.bind(filename);
             throw ke;
         }
-        if (!this.okToPreventFormatting)
-            formatFile();
-        if (this.okToPreventRawout == true)
-        {
-            File file = new File(this.filename);
-            boolean b = file.delete();
-        }
-
     }
-
-    /**
-     * just run the format methods of OutputFormatters on existing raw data
-     * instead of creating new raw data
-     * @assumes nothing
-     * @effects formatted output files will be created
-     * @throws IOUException thrown if there is an error accessing the
-     * file system
-     * @throws ConfigException thrown if there is an error accessing the
-     * configuration
-     */
-    public void postFormat()
-    throws IOUException, ConfigException
-    {
-        if (this.isOpen)
-        {
-            IOUExceptionFactory eFactory = new IOUExceptionFactory();
-            IOUException e = (IOUException)
-                eFactory.getException(FormatUnClosed);
-            e.bind(this.filename);
-            throw e;
-        }
-        formatFile();
-    }
-
-    /**
-     * sort and format the raw output
-     * @assumes nothing
-     * @effects the formatters will be run and new formatted output files
-     * will be created
-     * @throws IOUException thrown if there is an error accessing the file
-     * system
-     * @throws ConfigException thrown if there is an error accessing the
-     * configuration
-     */
-    protected void formatFile()
-    throws IOUException, ConfigException
-    {
-        File file = new File(this.filename);
-        if (!file.exists())
-        {
-            return;
-        }
-        String tempfile = this.filename + "temporary";
-        if (this.sortopts != null)
-        {
-            int exitCode = 0;
-            String cmd =
-                "sort -t\"$TAB\" " + sortopts + " " + this.filename +
-                " -o " + tempfile;
-            RunCommand runner = new RunCommand();
-            String[] env = {"TAB=\t"};
-            try
-            {
-                runner.setCommand(cmd);
-                runner.setEnv(env);
-                exitCode = runner.run();
-            }
-            catch (InterruptedException e)
-            {
-                IOUExceptionFactory exceptionFactory =
-                    new IOUExceptionFactory();
-                IOUException e2 = (IOUException)
-                    exceptionFactory.getException(SortInterrupt, e);
-                e2.bind(cmd);
-                throw e2;
-            }
-            catch (IOException e)
-            {
-                IOUExceptionFactory exceptionFactory =
-                    new IOUExceptionFactory();
-                IOUException e2 = (IOUException)
-                    exceptionFactory.getException(SortIOErr, e);
-                e2.bind(cmd);
-                throw e2;
-            }
-            // The RunCommand executed without exception although the exit code
-            // may still indicate an error has occurred. Log the contents of
-            // standard out and standard error
-            String msgErr = null;
-            String msgOut = null;
-            if ((msgErr = runner.getStdErr()) != null)
-                logger.logInfo(msgErr);
-            if ((msgOut = runner.getStdOut()) != null)
-            {
-                if (logger != null)
-                    logger.logInfo(msgOut);
-            }
-            // exit code of non-zero indicates an error occurred while running
-            // sort command.
-            if (exitCode != 0)
-            {
-                FileUtility.deleteFile(tempfile);
-                IOUExceptionFactory exceptionFactory =
-                    new IOUExceptionFactory();
-                IOUException e = (IOUException)
-                    exceptionFactory.getException(SortNonZero);
-                e.bind(cmd);
-                e.bind(msgErr);
-                throw e;
-            }
-            FileUtility.copyFile(tempfile, filename);
-            FileUtility.deleteFile(tempfile);
-        }
-        callAllFormatters();
-    }
-
-    /**
-     * derive the name of a formatted file based upon properties of
-     * the given OutputFormatter
-     * @assumes nothing
-     * @effects nothing
-     * @param formatter the OutputFormatter object on which to base the
-     * derived file name
-     * @return the derived file name
-     * @throws ConfigException thrown if there is an error accessing the
-     * configuration
-     * @throws IOUException thrown if there is an error accessing the file
-     * system
-     */
-    protected String deriveFormattedFilename(OutputFormatter formatter)
-    throws ConfigException, IOUException
-    {
-        String newfilename = null;
-        int suffixPos = this.filename.lastIndexOf(".");
-        String fileSuffix = null;
-        if (suffixPos > 0)
-            fileSuffix = this.filename.substring(suffixPos + 1);
-
-        String newSuffix = formatter.getFileSuffix();
-
-        if (newSuffix == null || newSuffix.equals(""))
-            newSuffix = "formatted";
-
-        // keep track of how many times this suffix has been used
-        Integer count = (Integer)this.formatCounts.get(newSuffix);
-        String countString = null;
-        if (count == null)
-        {
-            this.formatCounts.put(newSuffix, new Integer(1));
-            countString = "";
-        }
-        else
-        {
-            int intCount = count.intValue();
-            this.formatCounts.put(newSuffix, new Integer(++intCount));
-            countString = count.toString();
-        }
-
-
-        if (fileSuffix != null)  // filename has a suffix
-        {
-            newfilename =
-                this.filename.substring(0, suffixPos) + countString +
-                "." + newSuffix;
-        }
-        else // filename has no suffix
-        {
-            newfilename = this.filename + countString +
-                "." + newSuffix;
-        }
-        return newfilename;
-    }
-
-
 
     /**
      * flush the buffered output to the output file
@@ -593,8 +278,7 @@ public class OutputDataFile
     {
         try
         {
-            if (!this.okToPreventRawout)
-                this.writer.flush();
+            this.writer.flush();
         }
         catch (IOException e)
         {
@@ -621,17 +305,6 @@ public class OutputDataFile
         }
         this.logger = new ConsoleLogger();
         this.okToAutoFlush = cfg.getOkToAutoFlush().booleanValue();
-        this.okToPreventRawout = cfg.getOkToPreventRawOutput().booleanValue();
-        this.okToPreventFormatting =
-            cfg.getOkToPreventFormatting().booleanValue();
-        this.configuredFormatters = cfg.gerFormatters();
-        this.sortopts = cfg.getSortDef();
-        if (this.configuredFormatters != null)
-            for (int i = 0; i < this.configuredFormatters.length; i++)
-            {
-                OutputFormatter formatter = this.configuredFormatters[i];
-                this.addFormatter(formatter);
-            }
 	this.openWriter();
     }
 
@@ -653,105 +326,5 @@ public class OutputDataFile
         this.isOpen = true;
 
     }
-
-
-    private void callAllFormatters()
-    throws IOUException, ConfigException
-    {
-        for (int i = 0; i < this.formatters.size(); i++)
-        {
-            OutputFormatter formatter =
-                (OutputFormatter)this.formatters.get(i);
-            formatter.preprocess();
-            FileWriter file = (FileWriter)this.formatFiles.get(i);
-            try
-            {
-                file.write(formatter.getHeader() + this.CRT);
-            }
-            catch (IOException e)
-            {
-                IOUExceptionFactory exceptionFactory =
-                    new IOUExceptionFactory();
-                IOUException ke = (IOUException)
-                    exceptionFactory.getException(FileWriteErr, e);
-                ke.bind(filename);
-                throw ke;
-            }
-
-            InputDataFile infile = new InputDataFile(this.filename);
-            RecordDataIterator it = infile.getIterator();
-            while (it.hasNext())
-            {
-                String s = null;
-                try
-                {
-                    s = (String)it.next();
-                }
-                catch (MGIException e)
-                {
-                    IOUExceptionFactory exceptionFactory = new
-                       IOUExceptionFactory();
-                   IOUException e2 = (IOUException)
-                       exceptionFactory.getException(FileReadErr, e);
-                   e2.bind((String)this.formatFilenames.get(i));
-                   throw e2;
-                }
-                try
-                {
-                    file.write(formatter.format(s));
-                }
-                catch (IOException e)
-                {
-                    IOUExceptionFactory exceptionFactory = new
-                        IOUExceptionFactory();
-                    IOUException ke = (IOUException)
-                        exceptionFactory.getException(FileWriteErr, e);
-                    ke.bind((String)this.formatFilenames.get(i));
-                    throw ke;
-                }
-                catch (RuntimeException e)
-                {
-                    IOUExceptionFactory exceptionFactory = new
-                        IOUExceptionFactory();
-                    IOUException ke = (IOUException)
-                        exceptionFactory.getException(FormatterErr, e);
-                    ke.bind((String)this.formatFilenames.get(i));
-                    ke.bind(formatter.getClass().getName());
-                    throw ke;
-
-                }
-            }
-            try
-            {
-                it.close();
-            }
-            catch (MGIException e)
-            {
-                IOUExceptionFactory exceptionFactory = new
-                    IOUExceptionFactory();
-                IOUException ke = (IOUException)
-                    exceptionFactory.getException(FileCloseErr, e);
-                ke.bind(this.filename);
-                throw ke;
-            }
-            try
-            {
-                file.close();
-            }
-            catch (IOException e)
-            {
-                IOUExceptionFactory exceptionFactory = new
-                    IOUExceptionFactory();
-                IOUException ke = (IOUException)
-                    exceptionFactory.getException(FileCloseErr, e);
-                ke.bind((String)this.formatFilenames.get(i));
-                throw ke;
-            }
-            formatter.postprocess();
-
-        }
-    }
-
-
 
 }

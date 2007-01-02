@@ -3,7 +3,7 @@
 
 package org.jax.mgi.shr.config;
 
-import org.jax.mgi.shr.ioutils.OutputFormatter;
+//import org.jax.mgi.shr.ioutils.OutputFormatter;
 
 /**
  * A class for configuring an OutputDataFile object.
@@ -77,76 +77,12 @@ public class OutputDataCfg extends Configurator {
                                     new Boolean(false));
     }
 
-    /**
-     * get the value of the option which designates whether to prevent storing
-     * the raw output
-     * The parameter name read from the configuration file for setting this
-     * option is OUTFILE_REMOVE_RAW_OUTPUT and its default is false.
-     * @return true or false
-     * @throws ConfigException throws if configuration value does not represent
-     * a boolean
-     */
-    public Boolean getOkToPreventRawOutput() throws ConfigException {
-      return super.getConfigBoolean("OUTFILE_REMOVE_RAW_OUTPUT",
-                                    new Boolean(false));
-    }
-
-    /**
-     * get the value of the option which designates whether to prevent formatting
-     * the raw output
-     * The parameter name read from the configuration file for setting this
-     * option is OUTFILE_PREVENT_FORMATTING and its default is false.
-     * @return true or false
-     * @throws ConfigException throws if configuration value does not represent
-     * a boolean
-     */
-    public Boolean getOkToPreventFormatting() throws ConfigException {
-      return super.getConfigBoolean("OUTFILE_PREVENT_FORMATTING",
-                                    new Boolean(false));
-    }
-
-    /**
-     * get the value of the setting for the unix sort options
-     * The parameter name read from the configuration file for setting this
-     * option is OUTFILE_SORT_DEF and it has no default value
-     * @return the unix sort command options
-     * @throws ConfigException throws if there is an error accessing the 
-     * configuration
-     */
-    public String getSortDef() throws ConfigException {
-        return super.getConfigStringNull("OUTFILE_SORT_DEF");
-    }
-
-    /**
-     * get an array of OutputFormatter instances based on the configuration
-     * setting.
-     * The parameter name read from the configuration file for setting this
-     * option is OUTFILE_FORMATTERS and it has no default value
-     * @return an array of OutputFormatter instances
-     * @throws ConfigException throws if there is an error accessing the 
-     * configuration
-     */
-    public OutputFormatter[] gerFormatters()
-    throws ConfigException
-    {
-        Object[] formatters =
-            super.getConfigObjectArrayNull("OUTFILE_FORMATTERS");
-        if (formatters == null)
-            return null;
-        OutputFormatter[] casted =
-            new OutputFormatter[formatters.length];
-        for (int i = 0; i < formatters.length; i++)
-        {
-            casted[i] = (OutputFormatter)formatters[i];
-        }
-        return casted;
-    }
-
-
 }
 
-
 //  $Log$
+//  Revision 1.7  2006/12/21 16:33:36  lec
+//  fixed on trunk
+//
 //  Revision 1.5  2005/08/15 14:58:43  mbw
 //  javadocs only
 //
