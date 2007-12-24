@@ -90,7 +90,7 @@ public class Configuration
     * @throws FileNotFoundException if the file cannot be found
     * @throws IOException if the file cannot be read and parsed properly
     */
-    private Configuration (String filename)
+    protected Configuration (String filename)
         throws IOException, FileNotFoundException
     {
         this.dirty = false;
@@ -265,7 +265,7 @@ public class Configuration
     * @throws IOException if there are problems reading from <tt>myFile</tt>
     *		or processing some of its contents
     */
-    private void processFile (File myFile)
+    protected void processFile (File myFile)
             throws FileNotFoundException, IOException
     {
         // steps through lines in the file as we read it
@@ -634,9 +634,9 @@ public class Configuration
     // This could be implemented as a HashMap, but I opted for synchronization
     // of the Hashtable over the ability to use nulls in HashMap.
 
-    private Hashtable options = null;		// set of config options
-    private Hashtable cache = null;		// set of resolved options
-    private boolean dirty = false;		// is cache clean or dirty?
+    protected Hashtable options = null;		// set of config options
+    protected Hashtable cache = null;		// set of resolved options
+    protected boolean dirty = false;		// is cache clean or dirty?
 
     ///////////////////
     // class variables:
@@ -655,9 +655,15 @@ public class Configuration
     // hash table of loaded configuration objects (to save re-parsing if we
     // are asked for the same file twice)
 
-    private static Hashtable loaded = new Hashtable();
+    protected static Hashtable loaded = new Hashtable();
 }
 // $Log$
+// Revision 1.5.4.1  2007/09/10 16:43:10  marka
+// changed some methods and variables to protected to aaccomodate the new WebAppCfg class
+//
+// Revision 1.5  2006/12/20 16:59:45  lec
+// fix bourne parser
+//
 // Revision 1.4  2004/12/16 21:18:51  mbw
 // merged assembly branch onto the trunk
 //
