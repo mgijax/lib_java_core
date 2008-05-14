@@ -131,6 +131,38 @@ public class ExpiringObjectCache
         return;
     }
 
+    /** guarantee that the lifetime of the cached object identified by 'key'
+    *    will be at least 'lifetime' seconds
+    * @param key unique String used to identify the desired object in the cache
+    * @param lifetime number of seconds for which the specified object must be
+    *    considered valid
+    * @return boolean true if the object has been successfully guaranteed, or
+    *    false if it already expired or has never existed
+    * @assumes nothing
+    * @effects nothing
+    * @throws nothing
+    */
+    public boolean guarantee (String key, long lifetime)
+    {
+        CacheEntry entry = null;
+	long lifetimeMillis = lifetime * 1000;
+
+	// if the given 'key' is not defined in this cache, bail out
+
+        if (!this.cache.containsKey(key)) { return false; }
+
+	// otherwise, see if the existing object already expired
+
+	entry = (CacheEntry) this.cache.get(key);
+	if (entry.getExpirationTime() <= System.currentTimeMillis())
+	{
+	    return false;
+	}
+
+	entry.guarantee (lifetimeMillis);
+	return true;
+    }
+
     /** retrieves the Object associated with <tt>key</tt> in the cache, if it
     *    has not expired.
     * @param key unique String used to identify the Object you want to return
@@ -291,16 +323,27 @@ public class ExpiringObjectCache
 	{
 	    return this.item;
 	}
+
+	/** mutator method -- guarantees that this object is valid for at
+	 *    least the specified number of milliseconds
+	 * @param lifetimeMillis number of milliseconds we must consider this
+	 *    cached object to be valid
+	 * @return nothing
+	 * @assumes nothing
+	 * @effects nothing
+	 * @throws nothing
+	 * @notes If 'lifetimeMillis' is zero or negative, this is a no-op.
+	 */
+	protected void guarantee (long lifetimeMillis)
+	{
+	    long extraNeeded = lifetimeMillis - (this.expirationTime - 
+		System.currentTimeMillis());
+
+	    if ((lifetimeMillis > 0) && (extraNeeded > 0))
+	    {
+	        this.expirationTime = this.expirationTime + extraNeeded;
+	    }
+	    return;
+	}
     }
 }
-
-/*
-* $Log$
-* Revision 1.1  2003/12/30 16:49:50  mbw
-* imported into this product
-*
-* Revision 1.1  2003/12/01 13:16:48  jsb
-* Added per JSAM code review
-*
-* $Copyright$
-*/
