@@ -11,6 +11,8 @@ package org.jax.mgi.shr.cache;
 */
 
 import java.util.HashMap;
+import java.util.Set;
+import java.util.Iterator;
 
 /** provides a mechanism for temporarily associating an object with a
 *    String identifier.
@@ -32,12 +34,18 @@ public class ExpiringObjectCache
     // instance variables
     /////////////////////
 
+    // number of 'get()' requests between calls to 'clean()'
+    private static int cleanFrequency = 10000;
+
     // maps String identifiers to the CacheEntry objects to which they refer
     private HashMap cache = null;
 
     // standard lifetime of an object in this cache (in milliseconds) if no
     // specific time is given when the object is added
     private long defaultLifetime;
+
+    // count of 'get()' requests, counting from 1 to 'cleanFrequency'
+    private int counter = 0;
 
     ///////////////////
     // static variables
@@ -105,7 +113,10 @@ public class ExpiringObjectCache
 	CacheEntry entry = new CacheEntry (obj,
 				this.defaultLifetime +
 				    System.currentTimeMillis() );
-	this.cache.put (key, entry);
+	synchronized (this)
+	{
+	    this.cache.put (key, entry);
+	}
 	return;
     }
 
@@ -127,7 +138,10 @@ public class ExpiringObjectCache
     {
 	CacheEntry entry = new CacheEntry (obj,
 				1000 * lifetime + System.currentTimeMillis());
-	this.cache.put (key, entry);
+	synchronized (this)
+	{
+	    this.cache.put (key, entry);
+	}
         return;
     }
 
@@ -177,6 +191,18 @@ public class ExpiringObjectCache
     {
         CacheEntry entry = null;
 
+	// every 'n' calls to 'get()', we will clean out any already-expired
+	// objects to help save memory.  Using '>=' here will allow this to
+	// trip even in the event that multiple threads update the counter
+	// at the same time.
+
+	this.counter = this.counter + 1;
+	if (this.counter >= cleanFrequency)
+	{
+	    this.clean();
+	    this.counter = 1;
+	}
+
 	// if the given 'key' is not defined in this cache, return null
 
         if (!this.cache.containsKey(key))
@@ -195,8 +221,43 @@ public class ExpiringObjectCache
 	// At this point, we know that the object exists and that it has
 	// expired, so just remove it from the cache.
 
-	this.cache.remove (key);
+	synchronized (this)
+	{
+	    this.cache.remove (key);
+	}
 	return null;
+    }
+
+    /** remove all expired objects from the cache (to allow them to be garbage
+     * collected and free up their memory)
+     * @return count of objects that were removed from the cache
+     * @assumes nothing
+     * @effects nothing
+     * @throws nothing
+     */
+    public int clean()
+    {
+	CacheEntry entry = null;
+	String key;
+	long now = System.currentTimeMillis();
+	int count = 0;
+
+	synchronized (this)
+	{
+	    Iterator keys = ((Set) this.cache.keySet()).iterator();
+
+	    while (keys.hasNext())
+	    {
+		key = (String) keys.next();
+		entry = (CacheEntry) this.cache.get (key);
+		if (entry.getExpirationTime() < now)
+		{
+		    this.cache.remove (key);
+		    count = count + 1;
+		}
+	    }
+	}
+	return count;
     }
 
     /** reset this cache by removing all keys and their associated objects.
@@ -207,7 +268,10 @@ public class ExpiringObjectCache
     */
     public void reset ()
     {
-        this.cache.clear();
+	synchronized (this)
+	{
+            this.cache.clear();
+	}
 	return;
     }
 
