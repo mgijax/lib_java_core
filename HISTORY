@@ -1,3 +1,9 @@
+TAG: lib_java_core-4-1-2-1
+DATE: 08/11/2008
+STAFF: jsb
+CHANGES: 
+1) improved synchronization in ExpiringObjectCache
+
 TAG: lib_java_core-4-1-2-0
 DATE: 08/06/2008
 STAFF: jsb

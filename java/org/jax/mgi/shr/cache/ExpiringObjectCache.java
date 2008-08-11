@@ -13,6 +13,7 @@ package org.jax.mgi.shr.cache;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.Iterator;
+import java.util.ArrayList;
 
 /** provides a mechanism for temporarily associating an object with a
 *    String identifier.
@@ -46,6 +47,9 @@ public class ExpiringObjectCache
 
     // count of 'get()' requests, counting from 1 to 'cleanFrequency'
     private int counter = 0;
+
+    // are we in the process of cleaning this cache?
+    private boolean isCleaning = false;
 
     ///////////////////
     // static variables
@@ -113,7 +117,7 @@ public class ExpiringObjectCache
 	CacheEntry entry = new CacheEntry (obj,
 				this.defaultLifetime +
 				    System.currentTimeMillis() );
-	synchronized (this)
+	synchronized (this.cache)
 	{
 	    this.cache.put (key, entry);
 	}
@@ -138,7 +142,7 @@ public class ExpiringObjectCache
     {
 	CacheEntry entry = new CacheEntry (obj,
 				1000 * lifetime + System.currentTimeMillis());
-	synchronized (this)
+	synchronized (this.cache)
 	{
 	    this.cache.put (key, entry);
 	}
@@ -221,7 +225,7 @@ public class ExpiringObjectCache
 	// At this point, we know that the object exists and that it has
 	// expired, so just remove it from the cache.
 
-	synchronized (this)
+	synchronized (this.cache)
 	{
 	    this.cache.remove (key);
 	}
@@ -237,26 +241,39 @@ public class ExpiringObjectCache
      */
     public int clean()
     {
+	if (this.isCleaning) { return 0; }
+
+	this.isCleaning = true;
+
 	CacheEntry entry = null;
 	String key;
 	long now = System.currentTimeMillis();
 	int count = 0;
 
-	synchronized (this)
-	{
-	    Iterator keys = ((Set) this.cache.keySet()).iterator();
+	/* To avoid a ConcurrentModificationException, we will not clean the
+	 * cache while iterating over it.  We first make a copy of the current
+	 * keys, then iterate over that separate list to modify the cache.
+	 */
+	ArrayList keyList = new ArrayList(this.cache.size());
 
-	    while (keys.hasNext())
+	synchronized (this.cache)
+	{
+	    keyList.addAll ((Set) this.cache.keySet());
+	}
+
+	Iterator keys = keyList.iterator();
+
+	while (keys.hasNext())
+	{
+	    key = (String) keys.next();
+	    entry = (CacheEntry) this.cache.get (key);
+	    if ((entry != null) && (entry.getExpirationTime() < now))
 	    {
-		key = (String) keys.next();
-		entry = (CacheEntry) this.cache.get (key);
-		if (entry.getExpirationTime() < now)
-		{
-		    this.cache.remove (key);
-		    count = count + 1;
-		}
+		this.cache.remove (key);
+		count = count + 1;
 	    }
 	}
+	this.isCleaning = false;
 	return count;
     }
 
@@ -268,7 +285,7 @@ public class ExpiringObjectCache
     */
     public void reset ()
     {
-	synchronized (this)
+	synchronized (this.cache)
 	{
             this.cache.clear();
 	}
