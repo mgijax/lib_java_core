@@ -1,3 +1,9 @@
+TAG: lib_java_core-tr9231-BP
+DATE: 09/03/2008
+STAFF: sc
+CHANGES: branch point tag for tr9231 remove
+  embedded single quotes from update statements
+
 TAG: lib_java_core-4-1-2-1
 DATE: 08/11/2008
 STAFF: jsb
