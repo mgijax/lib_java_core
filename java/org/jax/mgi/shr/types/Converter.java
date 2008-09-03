@@ -178,6 +178,7 @@ public class Converter {
    * given value
    */
   public static String toSQLString(String input) {
+    input = input.replaceAll("'", "''");
     return "'" + input + "'";
   }
 
@@ -425,6 +426,9 @@ public class Converter {
 }
 
 // $Log$
+// Revision 1.5  2004/12/16 21:18:58  mbw
+// merged assembly branch onto the trunk
+//
 // Revision 1.4.4.1  2004/12/02 19:27:11  mbw
 // changed use of floats to doubles
 //
