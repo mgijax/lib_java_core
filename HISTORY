@@ -1,3 +1,14 @@
+TAG: lib_java_core-4-1-2-2
+DATE: 10/08/2008
+STAFF: sc	
+CHANGES: Merge TR9231 changes to trunk
+
+TAG: lib_java_core-tr9231-1
+DATE: 09/03/2008
+STAFF: sc
+CHANGES: Converter.toSQLString - updated to remove 
+  embedded single quotes
+
 TAG: lib_java_core-tr9231-BP
 DATE: 09/03/2008
 STAFF: sc
