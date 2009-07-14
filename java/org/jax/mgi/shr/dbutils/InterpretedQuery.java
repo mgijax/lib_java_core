@@ -7,14 +7,16 @@ package org.jax.mgi.shr.dbutils;
  * @does provides a database query and an interpret method for the results.
  * @company The Jackson Laboratory
  * @author MWalker
- *
+ * 
  */
 
-public interface InterpretedQuery extends RowDataInterpreter
+public interface InterpretedQuery
 {
     /**
      * get the sql query string
      * @return the sql query string
      */
-	public String getQuery();
+    public String getQuery();
+
+    public RowDataInterpreter getRowDataInterpreter();
 }
