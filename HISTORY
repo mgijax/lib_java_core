@@ -1,3 +1,10 @@
+TAG: lib_java_core-4-3-4-3
+DATE: 06/13/2011
+STAFF: jsb
+CHANGES: 
+1) added extra constructor to SQLDataManater to allow password to be passed in
+2) added PostgresConnection class
+
 TAG: lib_java_core-4-3-4-2
 TAG: lib_java_core-4-3-4-1
 DATE: 05/19/2010
