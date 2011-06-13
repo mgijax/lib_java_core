@@ -251,6 +251,24 @@ public class SQLDataManager {
     connect();
   }
 
+  /** allows for a password to be passed in directly instead of a password
+   * file.
+   */
+  public SQLDataManager(ConnectionManager pConnectionManager,
+		        String pServer, String pDatabase, String pUser,
+                        String pPassword, String pUrl
+			)
+      throws ConfigException, DBException
+  {
+    server = pServer;
+    database = pDatabase;
+    url = pUrl;
+    user = pUser;
+    password = pPassword;
+    logger = new ConsoleLogger();
+    connectionManager = pConnectionManager;
+    connect();
+  }
 
   /**
    * constructor which takes all the parameters necessary for getting a
@@ -1460,6 +1478,9 @@ public class SQLDataManager {
 }
 
 // $Log$
+// Revision 1.15  2005/08/05 16:40:37  mbw
+// merged code from branch lib_java_core-tr6046-2
+//
 // Revision 1.14  2005/08/05 16:05:06  mbw
 // merged code from lib_java_core-tr6427-1
 //
