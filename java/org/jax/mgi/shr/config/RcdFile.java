@@ -148,11 +148,11 @@ public class RcdFile
     public Iterator keys ()
     {
 	Vector myKeys = new Vector();
-	Enumeration enum = this.rcds.keys();
+	Enumeration e = this.rcds.keys();
 
-	while (enum.hasMoreElements())
+	while (e.hasMoreElements())
 	{
-	    myKeys.add (enum.nextElement());
+	    myKeys.add (e.nextElement());
 	}
 	return myKeys.iterator();
     }
@@ -165,11 +165,11 @@ public class RcdFile
     public Iterator getRcds ()
     {
 	Vector myRcds = new Vector();
-	Enumeration enum = this.rcds.keys();
+	Enumeration e = this.rcds.keys();
 
-	while (enum.hasMoreElements())
+	while (e.hasMoreElements())
 	{
-	    myRcds.add (this.rcds.get ((String) enum.nextElement()) );
+	    myRcds.add (this.rcds.get ((String) e.nextElement()) );
 	}
 	return myRcds.iterator();
     }
@@ -207,11 +207,11 @@ public class RcdFile
     public Iterator constants ()
     {
 	Vector myKeys = new Vector();
-	Enumeration enum = this.constants.keys();
+	Enumeration e = this.constants.keys();
 
-	while (enum.hasMoreElements())
+	while (e.hasMoreElements())
 	{
-	    myKeys.add (enum.nextElement());
+	    myKeys.add (e.nextElement());
 	}
 	return myKeys.iterator();
     }
@@ -236,17 +236,17 @@ public class RcdFile
     {
 	Rcd rcd = null;				// steps through Rcds
 	StringBuffer s = new StringBuffer();	// string we're building
-	Enumeration enum = null;		// iterates through constants
+	Enumeration e = null;		// iterates through constants
 						//    then Rcds
 	String key = null;			// steps through constants
 
 	// first, add the set of constants to the string 's'
 
 	s.append ("Constants:\n----------\n");
-	enum = this.constants.keys();
-	while (enum.hasMoreElements())
+	e = this.constants.keys();
+	while (e.hasMoreElements())
 	{
-	    key = (String) enum.nextElement();
+	    key = (String) e.nextElement();
 	    s.append (key + ": " + (String) this.constants.get (key) + "\n");
 	}
 
@@ -254,10 +254,10 @@ public class RcdFile
 
 	s.append ("\n");
 	s.append ("Rcds:\n-----\n");
-	enum = this.rcds.keys();
-	while (enum.hasMoreElements())
+	e = this.rcds.keys();
+	while (e.hasMoreElements())
 	{
-	    rcd = (Rcd) this.rcds.get ((String) enum.nextElement());
+	    rcd = (Rcd) this.rcds.get ((String) e.nextElement());
 	    s.append (rcd.getString (this.keyname) + ": " + rcd.toString() +
 		"\n");
 	}
@@ -740,11 +740,11 @@ public class RcdFile
         public Iterator keys ()
         {
 	    Vector myKeys = new Vector();
-	    Enumeration enum = this.values.keys();
+	    Enumeration e = this.values.keys();
 
-	    while (enum.hasMoreElements())
+	    while (e.hasMoreElements())
 	    {
-		myKeys.add (enum.nextElement());
+		myKeys.add (e.nextElement());
 	    }
 	    return myKeys.iterator();
         }

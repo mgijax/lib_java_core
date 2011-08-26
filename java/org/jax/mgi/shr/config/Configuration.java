@@ -198,11 +198,11 @@ public class Configuration
     public Iterator keys ()
     {
         Vector myKeys = new Vector();
-        Enumeration enum = this.options.keys();
+        Enumeration e = this.options.keys();
 
-        while (enum.hasMoreElements())
+        while (e.hasMoreElements())
         {
-            myKeys.add (enum.nextElement());
+            myKeys.add (e.nextElement());
         }
         return myKeys.iterator();
     }
@@ -658,6 +658,9 @@ public class Configuration
     protected static Hashtable loaded = new Hashtable();
 }
 // $Log$
+// Revision 1.6  2007/12/24 15:38:16  pf
+// merging tr8087 branch
+//
 // Revision 1.5.4.1  2007/09/10 16:43:10  marka
 // changed some methods and variables to protected to aaccomodate the new WebAppCfg class
 //
