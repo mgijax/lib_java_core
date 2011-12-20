@@ -1,3 +1,8 @@
+TAG: lib_java_core-5-0-0-0
+DATE: 12/20/2011
+STAFF: jsb
+CHANGES: added PostgresConnectionWithRetry.java
+
 TAG: lib_java_core-4-4-1-1
 DATE: 08/26/2011
 STAFF: sc
