@@ -997,8 +997,6 @@ public class SQLDataManager {
    */
   public boolean isSybase()
   {
-	return false;
-	/*
       if (getConnectionManagerClass().equals(SYBASE_CM))
       {
           return true;
@@ -1007,7 +1005,6 @@ public class SQLDataManager {
       {
           return false;
       }
-	*/
   }
 
   /**

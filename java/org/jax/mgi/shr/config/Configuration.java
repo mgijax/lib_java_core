@@ -503,7 +503,6 @@ public class Configuration
         // retrieve the raw value associated with 'name', as read from the
         // configuration file and stored in this.options
         value = (String) this.options.get(name);
-	System.out.println("config name="+name+", value="+value);
         if (value == null)
         {
             throw new IllegalArgumentException("Cannot resolve: " + name);

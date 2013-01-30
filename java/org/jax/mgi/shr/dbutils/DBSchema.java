@@ -345,16 +345,7 @@ public class DBSchema
     public void truncateTable(String pTablename)
         throws DBException
     {
-	String command; 
-	if(sqlmanager.isSybase())
-	{
-        	command = "truncate table " + pTablename;
-	}
-	else
-	{
-		// postgres syntax
-        	command = "truncate table " + pTablename+" cascade ";
-	}
+        String command = "truncate table " + pTablename;
         Vector v = new Vector();
         v.add(command);
         executeSqlVector(v);

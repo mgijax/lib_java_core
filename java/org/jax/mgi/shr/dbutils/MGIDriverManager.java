@@ -27,7 +27,6 @@ import javax.naming.*;
 */
 public class MGIDriverManager implements ConnectionManager
 {
-	private static String CURRENT_DRIVER="sybase";
    /**
     * Returns a database connection to the server/database implied by
     *  the ldapurl_or_hostport. Note that "dataserver" is ignored if a non-LDAP
@@ -63,19 +62,11 @@ public class MGIDriverManager implements ConnectionManager
                             "/database=" + dataserver + ".." +
                             database + ",ou=Databases,o=MGI";
          }
-         else if(CURRENT_DRIVER.equals("postgres"))
-	 {
-            String directDatabaseURL = ldapurl_or_hostport;
-            connectionURL = "jdbc:postgresql://" +
-                             directDatabaseURL + "/" + database;
-	 }
-	 else
-	 {
+         else {
             String directDatabaseURL = ldapurl_or_hostport;
             connectionURL = "jdbc:sybase:Tds:" +
                              directDatabaseURL + "/" + database;
          }
-	System.out.println("conn url: "+connectionURL);
 
          // initialize the properties for the connection
          props.put("user",user);
@@ -92,21 +83,11 @@ public class MGIDriverManager implements ConnectionManager
       public static void init()
       {
           String classpath = System.getProperty("java.class.path",".");
-	System.out.println("classpath: "+classpath);
           int jconn3 = classpath.indexOf("jconn3");
           int jconn2 = classpath.indexOf("jconn2");
-	  int postgres = classpath.indexOf("postgresql");
           String driver = "com.sybase.jdbc2.jdbc.SybDriver";
           if ((jconn3 > 0 && (jconn2 < 0 || jconn3 < jconn2)))
               driver = "com.sybase.jdbc3.jdbc.SybDriver";
-	  if(postgres>0)
-	  {
-	    driver = "org.postgresql.Driver";
-	    CURRENT_DRIVER="postgres";
-	  }
-	 
-	System.out.println("db driver: "+driver);
-
 
         try {
           Driver d =
@@ -115,7 +96,6 @@ public class MGIDriverManager implements ConnectionManager
         }
         catch (Exception ex)
         {
-	   ex.printStackTrace();
            System.err.println("Error Message: " + ex.getMessage());
         }
       }

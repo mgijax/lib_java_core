@@ -15,4 +15,3 @@ cd `dirname $0`
 . ./Configuration
 
 $ANT buildall
-mv ../core.jar ${MGI_JAVALIB}/core.jar 
