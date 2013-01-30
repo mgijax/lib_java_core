@@ -997,6 +997,8 @@ public class SQLDataManager {
    */
   public boolean isSybase()
   {
+	return false;
+	/*
       if (getConnectionManagerClass().equals(SYBASE_CM))
       {
           return true;
@@ -1005,6 +1007,7 @@ public class SQLDataManager {
       {
           return false;
       }
+	*/
   }
 
   /**
@@ -1478,6 +1481,9 @@ public class SQLDataManager {
 }
 
 // $Log$
+// Revision 1.16  2011/06/13 15:38:31  jsb
+// added new constructor to allow passing in a password
+//
 // Revision 1.15  2005/08/05 16:40:37  mbw
 // merged code from branch lib_java_core-tr6046-2
 //

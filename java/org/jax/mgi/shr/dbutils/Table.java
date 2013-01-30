@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Vector;
 import java.util.Iterator;
 import java.util.StringTokenizer;
+import java.util.ArrayList;
 
 import org.jax.mgi.shr.dbutils.bcp.RecordStampFactory;
 import org.jax.mgi.shr.dbutils.types.TypeValidator;
@@ -292,6 +293,92 @@ throws DBException, ConfigException
     }
   }
 
+
+  private static ArrayList<String> columnTranslations = new ArrayList<String>();
+  static
+  {
+	  /*
+		*	These column translations are needed for postgres, because it natively stores
+		*	all column names in lowercase. 
+	   */
+	  columnTranslations.add("isMultiCoord");
+	  columnTranslations.add("entrezGeneId");
+	  columnTranslations.add("mutantCellLine");
+	  columnTranslations.add("numberOfOrganisms");
+	  columnTranslations.add("toSeqId");
+	  columnTranslations.add("newRawName");
+	  columnTranslations.add("newResolvedName");
+	  columnTranslations.add("oldResolvedName");
+	  columnTranslations.add("oldRawName");
+	  columnTranslations.add("isCuratorEdited");
+	  columnTranslations.add("goodHitCount");
+	  columnTranslations.add("refAssocType");
+	  columnTranslations.add("accID");
+	  columnTranslations.add("libName");
+	  columnTranslations.add("attrValue");
+	  columnTranslations.add("mapType");
+	  columnTranslations.add("toSeqId");
+	  columnTranslations.add("sequenceProvider");
+	  columnTranslations.add("columnName");
+	  columnTranslations.add("newSource");
+	  columnTranslations.add("newRawName");
+	  columnTranslations.add("oldSource");
+	  columnTranslations.add("foundMethod");
+	  columnTranslations.add("logicalDB");
+	  columnTranslations.add("MGIType");
+	  columnTranslations.add("prefixPart");
+	  columnTranslations.add("numericPart");
+	  columnTranslations.add("modifiedBy");
+	  columnTranslations.add("createdBy");
+	  columnTranslations.add("privateVal");
+	  columnTranslations.add("startCoordinate");
+	  columnTranslations.add("endCoordinate");
+	  columnTranslations.add("tagMethod");
+	  columnTranslations.add("vectorEnd");
+	  columnTranslations.add("reverseComp");
+	  columnTranslations.add("pointCoordinate");
+	  columnTranslations.add("segmentType");
+	  columnTranslations.add("ageMin");
+	  columnTranslations.add("ageMax");
+	  columnTranslations.add("jobStream");
+	  columnTranslations.add("isMutant");
+	  columnTranslations.add("isWildType");
+	  columnTranslations.add("isExtinct");
+	  columnTranslations.add("isMixed");
+	  columnTranslations.add("sequenceNum");
+	  columnTranslations.add("rawOrganism");
+	  columnTranslations.add("rawLibrary");
+	  columnTranslations.add("incomingValue");
+	  columnTranslations.add("attrName");
+	  columnTranslations.add("fromSeqId");
+	  columnTranslations.add("sequenceType");
+	  columnTranslations.add("sequenceQuality");
+	  columnTranslations.add("sequenceStatus");
+	  columnTranslations.add("rawType");
+	  columnTranslations.add("rawStrain");
+	  columnTranslations.add("rawTissue");
+	  columnTranslations.add("rawAge");
+	  columnTranslations.add("rawSex");
+	  columnTranslations.add("rawCellLine");
+	  columnTranslations.add("cellLine");
+	  columnTranslations.add("loadedBy");
+	  columnTranslations.add("buildCreated");
+	  columnTranslations.add("buildUpdated");
+	  columnTranslations.add("alleleSummary");
+	  columnTranslations.add("varClass");
+	  columnTranslations.add("iupacCode");
+	  columnTranslations.add("mgdStrain");
+	  columnTranslations.add("consensusSnp");
+	  columnTranslations.add("subSnp");
+	  columnTranslations.add("isConflict");
+	  columnTranslations.add("subHandle");
+	  columnTranslations.add("isExemplar");
+	  columnTranslations.add("is5Prime");
+	  columnTranslations.add("startCoord");
+	  columnTranslations.add("endCoord");
+	  columnTranslations.add("refseqNucleotide");
+	  columnTranslations.add("refseqProtein");
+  }
   /**
    * get the ColumnDef objects for this table
    * @assumes nothing
@@ -303,7 +390,24 @@ throws DBException, ConfigException
     if (!metadataRead)
       getTableDefinitions();
     Vector v = new Vector();
+	ArrayList<String> uniqueColumns = new ArrayList<String>();
     for (int i = 0; i < columnDefinitions.size(); i++) {
+	String colName = (String) ((ColumnDef) columnDefinitions.get(i)).getName();
+	// perform any case-specific column name transformations for postgres
+    	Iterator<String> iter = columnTranslations.iterator();
+    	while(iter.hasNext())
+    	{
+    		String trans = iter.next();
+    		if(colName.contains(trans.toLowerCase()))
+    		{
+    			colName = colName.replace(trans.toLowerCase(), trans);
+			((ColumnDef) columnDefinitions.get(i)).setName(colName);
+    		}
+    	}
+	// protect uniqueness of columns for postgres
+	if(uniqueColumns.contains(colName)) continue;
+	uniqueColumns.add(colName);
+
       v.add( ( (ColumnDef) columnDefinitions.get(i)).clone());
     }
     return v;
@@ -431,7 +535,7 @@ throws DBException, ConfigException
     try {
       DatabaseMetaData dbmd = dataManager.getMetaData();
       // obtain the column definitions for the table
-      ResultSet rs = dbmd.getColumns(null, null, tableName, "%");
+      ResultSet rs = dbmd.getColumns(null, null, tableName.toLowerCase(), "%");
       while (rs.next()) {
         ColumnDef c = new ColumnDef();
         c.setType(rs.getInt("DATA_TYPE"));
@@ -459,9 +563,13 @@ throws DBException, ConfigException
        * to obtain primary key metadata from JDBC
        */
       if (dataManager.isSybase())
+	{
         getSybasePrimaryKeys();
+	}
       else
+	{
           getPrimaryKeys(dbmd);
+	}
       // cache the next key value if there is a single valued incremental
       // primary key for this table. This call will set the isIncremental
       // class variable to true or false and if true, then cache the next
@@ -487,7 +595,7 @@ throws DBException, ConfigException
   private void getPrimaryKeys(DatabaseMetaData metadata) throws SQLException
   {
       boolean foundKeys = false;
-      ResultSet rs = metadata.getPrimaryKeys(null, null, tableName);
+      ResultSet rs = metadata.getPrimaryKeys(null, null, tableName.toLowerCase());
       while (rs.next())
       {
           String key = rs.getString("COLUMN_NAME");
@@ -560,6 +668,9 @@ throws DBException, ConfigException
 }
 
 // $Log$
+// Revision 1.7  2005/08/05 16:05:06  mbw
+// merged code from lib_java_core-tr6427-1
+//
 // Revision 1.6.2.2  2005/06/02 19:39:50  mbw
 // javadocs only
 //
