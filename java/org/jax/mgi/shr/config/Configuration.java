@@ -503,6 +503,7 @@ public class Configuration
         // retrieve the raw value associated with 'name', as read from the
         // configuration file and stored in this.options
         value = (String) this.options.get(name);
+	System.out.println("config name="+name+", value="+value);
         if (value == null)
         {
             throw new IllegalArgumentException("Cannot resolve: " + name);
@@ -658,6 +659,9 @@ public class Configuration
     protected static Hashtable loaded = new Hashtable();
 }
 // $Log$
+// Revision 1.7  2011/08/26 13:43:40  sc
+// lib_java_core-4-4-1-1
+//
 // Revision 1.6  2007/12/24 15:38:16  pf
 // merging tr8087 branch
 //
