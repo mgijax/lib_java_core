@@ -91,6 +91,7 @@ public abstract class TypeValidator
                 validator = new DoubleValidator(columnDef);
                 break;
             case DBTypeConstants.DB_BIT :
+		case 5:
                 validator = new BitValidator(columnDef);
                 break;
             default :
