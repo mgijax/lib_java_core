@@ -46,12 +46,19 @@ public class DBTypeConstants {
    */
   public static final int DB_DOUBLE = Types.DOUBLE;
   /**
+   * the Sybase double type assigned the value of java.sql.Types.NUMERIC
+   */
+  public static final int DB_NUMERIC = Types.NUMERIC;
+  /**
    * the Sybase bit type assigned the value of java.sql.Types.BIT
    */
   public static final int DB_BIT = Types.BIT;
 }
 
 // $Log$
+// Revision 1.5  2004/12/16 21:18:53  mbw
+// merged assembly branch onto the trunk
+//
 // Revision 1.4.2.1  2004/12/02 19:27:00  mbw
 // changed use of floats to doubles
 //

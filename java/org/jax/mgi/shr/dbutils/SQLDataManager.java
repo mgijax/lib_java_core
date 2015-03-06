@@ -80,6 +80,9 @@ public class SQLDataManager {
    * the directory where the dbSchema product is installed
    */
   private String dbSchemaDir = null;
+
+  private String schema = null;
+
   /**
    * the flag which indicates whether auto-commit is set
    */
@@ -458,6 +461,14 @@ public class SQLDataManager {
     return password;
   }
 
+  public String getSchema() {
+    return schema;
+  }
+
+  public void setSchema(String schema) throws DBException {
+    executeVoid("set search_path to '"+ schema +"'");
+  }
+
   /**
    * get the database url. The name of the configuration parameter is DBURL.
    * The default value if not set is rohan.informatics.jax.org:4100.
@@ -729,6 +740,30 @@ public class SQLDataManager {
     return (ResultsNavigator)iterator;
   }
 
+  
+  public void executeVoid(String sql) throws DBException {
+    ResultSet rs = null;
+    if (this.isDebug())
+    {
+        timer.reset();
+        timer.start();
+    }
+    this.checkConnection("execute query");
+    Statement statement = null;
+    try {
+      statement = conn.createStatement(scrollable,
+                                       ResultSet.CONCUR_READ_ONLY);
+      statement.executeUpdate(sql);
+    }
+    catch (SQLException e) {
+        if (!isOnlyWarning(e))
+        {
+            String msg = "execute query on the following sql string\n" + sql;
+            throw this.getJDBCException(msg, e);
+        }
+    }
+  }
+
   /**
    * appends an 'in clause' to the given sql string for the given column and
    * column values
@@ -898,7 +933,8 @@ public class SQLDataManager {
     DatabaseMetaData meta = this.getMetaData();
     ResultSet rs = null;
     try {
-      rs = meta.getTables(null, null, "%", null);
+      System.out.println("Finding tables for schema = " + this.schema);
+      rs = meta.getTables(null, this.schema, "%", null);
     }
     catch (SQLException e) {
       String msg = "get table metadata from database " + database +
@@ -914,6 +950,7 @@ public class SQLDataManager {
       }
 
       public Object interpret(RowReference row) throws DBException {
+	System.out.println("Found table = " + row.getString("TABLE_NAME"));
         return Table.getInstance(row.getString("TABLE_NAME"), sqlMgr);
       }
     }
@@ -1112,6 +1149,7 @@ public class SQLDataManager {
     database = pConfig.getDatabase();
     url = pConfig.getUrl();
     user = pConfig.getUser();
+    this.schema = pConfig.getSchema();
     password = pConfig.getPassword();
     passwordFile = pConfig.getPasswordFile();
     logger = new ConsoleLogger();
@@ -1481,6 +1519,9 @@ public class SQLDataManager {
 }
 
 // $Log$
+// Revision 1.18.4.2  2015/03/06 16:56:01  mgiadmin
+// postgres branch
+//
 // Revision 1.18  2013/01/30 16:45:57  kstone
 // reverting mistake
 //

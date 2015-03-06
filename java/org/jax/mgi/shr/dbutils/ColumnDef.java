@@ -263,6 +263,7 @@ import org.jax.mgi.shr.dbutils.types.TypeValidator;
                    name = "Timestamp";
                    break;
                 case DBTypeConstants.DB_DOUBLE:
+		case DBTypeConstants.DB_NUMERIC:
                    name = "Double";
                    break;
                 case DBTypeConstants.DB_BIT:
