@@ -933,7 +933,6 @@ public class SQLDataManager {
     DatabaseMetaData meta = this.getMetaData();
     ResultSet rs = null;
     try {
-      System.out.println("Finding tables for schema = " + this.schema);
       rs = meta.getTables(null, this.schema, "%", null);
     }
     catch (SQLException e) {
@@ -950,7 +949,6 @@ public class SQLDataManager {
       }
 
       public Object interpret(RowReference row) throws DBException {
-	System.out.println("Found table = " + row.getString("TABLE_NAME"));
         return Table.getInstance(row.getString("TABLE_NAME"), sqlMgr);
       }
     }
@@ -1519,6 +1517,9 @@ public class SQLDataManager {
 }
 
 // $Log$
+// Revision 1.18.4.3  2015/03/06 20:16:15  mgiadmin
+// dbsgen mgd postgres
+//
 // Revision 1.18.4.2  2015/03/06 16:56:01  mgiadmin
 // postgres branch
 //
