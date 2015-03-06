@@ -266,6 +266,7 @@ import org.jax.mgi.shr.dbutils.types.TypeValidator;
                    name = "Double";
                    break;
                 case DBTypeConstants.DB_BIT:
+		case 5:
                    name = "Boolean";
                    break;
                 default:
