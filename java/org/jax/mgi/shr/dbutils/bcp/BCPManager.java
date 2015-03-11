@@ -104,6 +104,8 @@ public class BCPManager {
    * class for handling database connections ... indicator of system
    */
   private String connectionClass = null;
+
+  private String bcpCommand = null;
   /*
    * bcp exception factory used to store and obtain bcp exceptions
    */
@@ -610,6 +612,7 @@ public class BCPManager {
     this.okToDropIndexes = pConfig.getOkToDropIndexes().booleanValue();
     this.okToTruncateTable = pConfig.getOkToTruncateTable().booleanValue();
     this.connectionClass = pConfig.getConnectionManagerClass();
+    this.bcpCommand = pConfig.getBcpCommand();
   }
 
   /**
@@ -731,13 +734,7 @@ public class BCPManager {
 
   public FileImporter chooseFileImporter()
   {
-      if (this.connectionClass.equals(
-        "org.jax.mgi.shr.dbutils.MGIDriverManager"))
-      {
-          return new FileImporterSybase();
-      }
-      else
-          return new FileImporterMySQL();
+	return new FileImporterPostgres(bcpCommand);
   }
 
   /**
@@ -767,6 +764,9 @@ public class BCPManager {
   }
 }
 // $Log$
+// Revision 1.6  2004/08/04 14:20:11  mbw
+// removed call to resetKeys on the Table class
+//
 // Revision 1.5  2004/07/28 18:15:35  mbw
 // javadocs only
 //

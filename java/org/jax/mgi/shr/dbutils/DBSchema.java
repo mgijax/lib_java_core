@@ -369,11 +369,11 @@ public class DBSchema
     public void truncateLog()
         throws DBException
     {
-        String dbname = sqlmanager.getDatabase();
-        String command = "dump transaction " + dbname + " with truncate_only";
-        Vector v = new Vector();
-        v.add(command);
-        executeSqlVector(v);
+        //String dbname = sqlmanager.getDatabase();
+        //String command = "dump transaction " + dbname + " with truncate_only";
+        //Vector v = new Vector();
+        //v.add(command);
+        //executeSqlVector(v);
     }
 
     /**
@@ -897,6 +897,9 @@ public class DBSchema
 
 }
 // $Log$
+// Revision 1.12.4.2  2015/03/06 16:56:01  mgiadmin
+// postgres branch
+//
 // Revision 1.12  2013/01/30 16:48:14  kstone
 // reverting mistake
 //
