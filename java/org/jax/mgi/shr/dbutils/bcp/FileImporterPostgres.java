@@ -64,6 +64,8 @@ public class FileImporterPostgres
 	cmd = bcpCommand + " " + server + " " + db + " " + tablename + " " +
 		"/" + " " + filename + " " + delimiter + " " + "'\\n'" + " " + sqlMgr.getSchema();
 
+	logger.logInfo("bcp command = " + cmd);
+
         int exitCode = 0;
         RunCommand runner = new RunCommand();
         try
