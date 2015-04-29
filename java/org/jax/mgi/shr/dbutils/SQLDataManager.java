@@ -1150,6 +1150,8 @@ public class SQLDataManager {
     this.schema = pConfig.getSchema();
     password = pConfig.getPassword();
     passwordFile = pConfig.getPasswordFile();
+
+    System.out.println("server = " + server);
     logger = new ConsoleLogger();
   }
 
@@ -1517,6 +1519,9 @@ public class SQLDataManager {
 }
 
 // $Log$
+// Revision 1.18.4.4  2015/03/06 20:17:29  mgiadmin
+// dbsgen mgd postgres
+//
 // Revision 1.18.4.3  2015/03/06 20:16:15  mgiadmin
 // dbsgen mgd postgres
 //
