@@ -88,9 +88,11 @@ public abstract class TypeValidator
                 validator = new LongvarcharValidator(columnDef);
                 break;
             case DBTypeConstants.DB_DOUBLE :
+	    case DBTypeConstants.DB_NUMERIC :
                 validator = new DoubleValidator(columnDef);
                 break;
             case DBTypeConstants.DB_BIT :
+		case 5:
                 validator = new BitValidator(columnDef);
                 break;
             default :

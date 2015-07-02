@@ -288,11 +288,22 @@ public class BCPManagerCfg extends Configurator {
     return value;
   }
 
+  public String getBcpCommand() {
+	String dbutilities = getConfigString("PG_DBUTILS", null);
+	return dbutilities + "/bin/bcpin.csh";
+  }
+
 
 }
 
 
 // $Log$
+// Revision 1.3.42.1  2015/03/11 17:33:00  mgiadmin
+// pg convert
+//
+// Revision 1.3  2005/08/15 14:58:42  mbw
+// javadocs only
+//
 // Revision 1.2  2004/07/21 18:26:32  mbw
 // added a getOkToDropTriggers method and made some javadocs edits
 //

@@ -136,7 +136,7 @@ public class BatchProcessor
         {
             file = new InputDataFile(filename);
             file.setOkToUseRegex(true);
-            file.setEndDelimiter("^/n");
+            file.setEndDelimiter(";");
             it = file.getIterator();
             while (it.hasNext())
             {

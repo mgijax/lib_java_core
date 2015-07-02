@@ -58,6 +58,9 @@ public class SQLDataManagerFactory {
       sqlmgr = new SQLDataManager(conf);
       refmap.put(cfgPrefix, sqlmgr);
     }
+    if (cfgPrefix != null) {
+	sqlmgr.setSchema(cfgPrefix.toLowerCase());
+    }
     return sqlmgr;
   }
 

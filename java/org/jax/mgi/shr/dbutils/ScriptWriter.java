@@ -23,7 +23,7 @@ import org.jax.mgi.shr.config.LogCfg;
 import org.jax.mgi.shr.exception.MGIException;
 
 /**
- * A class which creates and executes sql scripts within the Sybase
+ * A class which creates and executes sql scripts within the Postgres
  * database
  * @has a configuration object for configuring
  * @does provides methods for creating and executing sql scripts
@@ -409,7 +409,7 @@ public class ScriptWriter
 
     /**
      * write a line to the script and include the command termination string
-     * ('go' in the case of the Sybase database)
+     * ('go' in the case of the Postgres database)
      * @param s the line to write along with the command termination string
      * @throws ScriptException thown if there is an error writing to the script
      * file
@@ -435,7 +435,7 @@ public class ScriptWriter
 
     /**
      * write the command termination string to the script file ('go' in the
-     * case of the Sybase database)
+     * case of the Postgres database)
      * @throws ScriptException thrown if there is an error writing to the
      * script file
      */
@@ -445,7 +445,7 @@ public class ScriptWriter
             createScriptFile();
         try
         {
-            bufferedWriter.write("go\n");
+            bufferedWriter.write(";\n");
         }
         catch (IOException e)
         {
@@ -473,8 +473,8 @@ public class ScriptWriter
         String pwFile = sqlMgr.getPasswordFile();
         String inFile = path + File.separator + filename + "." + suffix;
         String outFile = path + File.separator + outfilename + "." + outsuffix;
-        String cmd = "cat " + pwFile + " | isql -U" + user + " -S" +
-            server + " -D" + db + " -i " + inFile + " -o " + outFile + " -e";
+        String cmd = "psql -U" + user + " -h" + server + " -d" + db + " -f" + 
+	    inFile +  " -e >" + outFile + " 2>&1";
         this.logger.logInfo("executing script: " + cmd);
         try
         {
@@ -521,9 +521,11 @@ public class ScriptWriter
         // standard out and standard error
         String msgErr = null;
         String msgOut = null;
-        if ( (msgErr = runner.getStdErr()) != null)
+	msgErr = runner.getStdErr();
+	msgOut = runner.getStdOut();
+        if ( msgErr != null)
             logger.logInfo(msgErr);
-        if ( (msgOut = runner.getStdOut()) != null)
+        if ( msgOut != null)
             logger.logInfo(msgOut);
         // throw a ScriptException on non-zero exit code
         if (exitCode != 0)
@@ -534,10 +536,10 @@ public class ScriptWriter
             e.bind(cmd);
             throw e;
         }
-        SybaseOutFile sybaseOut = null;
+        PostgresOutFile postgresOut = null;
         try
         {
-            sybaseOut = new SybaseOutFile(outFile);
+            postgresOut = new PostgresOutFile(outFile);
         }
         catch (MGIException e)
         {
@@ -551,7 +553,7 @@ public class ScriptWriter
         String errorSummary = null;
         try
         {
-            errorSummary = sybaseOut.parseForErrors();
+            errorSummary = postgresOut.parseForErrors();
         }
         catch (MGIException e)
         {
@@ -717,7 +719,7 @@ public class ScriptWriter
     }
 
     /**
-     * is a an object used to store error information for a failed sybase isql
+     * is a an object used to store error information for a failed Postgres isql
      * error
      * @has an errno and an error message
      * @does nothing
@@ -725,19 +727,19 @@ public class ScriptWriter
      * @author M Walker
      *
      */
-    public static class SybaseError
+    public static class PostgresError
     {
         public Integer errno = null;
         public String message = null;
         public int count = 1;
-        public SybaseError(Integer errno, String errMessage)
+        public PostgresError(Integer errno, String errMessage)
         {
             this.errno = errno;
             this.message = errMessage;
         }
         public boolean equals(Object o)
         {
-            SybaseError err = (SybaseError)o;
+            PostgresError err = (PostgresError)o;
             if (err.errno.equals(this.errno) &&
                 err.message.equals(this.message))
             {
@@ -757,23 +759,23 @@ public class ScriptWriter
      * @author M Walker
      *
      */
-    public static class SybaseOutFile extends InputDataFile
+    public static class PostgresOutFile extends InputDataFile
     {
         /**
          * An object that represents one record of output in the output file
          * of the script
-         * @has the sql command executed and a SybaseError object if an error
+         * @has the sql command executed and a PostgresError object if an error
          * occurred
          * @does nothing
          * @company Jackson Laboratory
          * @author M Walker
          *
          */
-        public class SybaseEntry
+        public class PostgresEntry
         {
             public String sql = null;
-            public SybaseError error = null;
-            public SybaseEntry(String sql, SybaseError error)
+            public PostgresError error = null;
+            public PostgresEntry(String sql, PostgresError error)
             {
                 this.sql = sql;
                 this.error = error;
@@ -790,18 +792,18 @@ public class ScriptWriter
          * @throws ConfigException thrown if there is an error accessing the
          * configuration
          */
-        public SybaseOutFile(String filename)
+        public PostgresOutFile(String filename)
             throws IOUException, ConfigException
         {
             super(filename);
-            super.setBeginDelimiter("1>");
-            super.setEndDelimiter(null);
+            super.setBeginDelimiter(null);
+            super.setEndDelimiter(")");
             super.setOkToUseRegex(false);
         }
 
         /**
          * get a RecordDataIterator which iterates over the out file
-         * and returns SybaseEntry objects for each record
+
          * @return a RecordDataIterator
          * @throws IOUException thrown if there is an error accessing ther file
          */
@@ -812,9 +814,9 @@ public class ScriptWriter
         }
 
         /**
-         * A RecordDataInterpreter for creating SybaseEntry objects
+         * A RecordDataInterpreter for creating PostgresEntry objects
          * @has nothing
-         * @does creates SybaseEntry objects from the given record data
+         * @does creates PostgresEntry objects from the given record data
          * @company Jackson Laboratory
          * @author M Walker
          *
@@ -835,26 +837,17 @@ public class ScriptWriter
             /**
              * interpret a record from the out file
              * @param s the current record of the out file
-             * @return a SybaseEntry object for the current record
+             * @return a PostgresEntry object for the current record
              */
             public Object interpret(String s)
             {
-                String[] lines =
-                    s.split("\n");
-                if (lines[1].startsWith("Msg"))
+		if (s.contains( "ERROR"))
                 {
-                    String[] errFields = lines[1].split(",");
-                    String[] tokens = errFields[0].split(" ");
-                    Integer errno = new Integer(tokens[1]);
-                    String message = new String("");
-                    for (int i = 1; i < lines.length; i++)
-                    {
-                        message = message + lines[i] + "\n";
-                    }
-                    return new SybaseEntry(lines[0].substring(2),
-                                           new SybaseError(errno, message));
+                    Integer errno = 99999;
+                    return new PostgresEntry(s,
+                                           new PostgresError(errno, s));
                 }
-                return new SybaseEntry(lines[0].substring(2), null);
+		return new PostgresEntry(s, null);
             }
         }
 
@@ -868,12 +861,12 @@ public class ScriptWriter
             RecordDataIterator it = this.getEntryIterator();
             while (it.hasNext())
             {
-                SybaseEntry entry = (SybaseEntry)it.next();
+                PostgresEntry entry = (PostgresEntry)it.next();
                 totalCount++;
                 if (entry.error != null)
                 {
-                    SybaseError savedError =
-                        (SybaseError)errs.get(entry.error.errno);
+                    PostgresError savedError =
+                        (PostgresError)errs.get(entry.error.errno);
                     if (savedError != null)
                         savedError.count++;
                     else
@@ -884,7 +877,7 @@ public class ScriptWriter
             StringBuffer summary = null;
             for (Iterator it2=errs.entrySet().iterator(); it2.hasNext(); ) {
                 Map.Entry entry = (Map.Entry)it2.next();
-                SybaseError error = (SybaseError)entry.getValue();
+                PostgresError error = (PostgresError)entry.getValue();
                 if (summary == null)
                     summary = new StringBuffer("");
                 summary.append("The following error occurred " + error.count +
@@ -902,17 +895,17 @@ public class ScriptWriter
     }
 
     /**
-     * get an instance of a SybaseOutFile
+     * get an instance of a PostgresOutFile
      * @param filename the name of the file
-     * @return an instance of a SybaseOutFile
+     * @return an instance of a PostgresOutFile
      * @throws IOUException thrown if there is an error accessing the file
      * @throws ConfigException thrown if there is an error accessing the
      * configuration
      */
-    public static SybaseOutFile getSybaseOutFile(String filename)
+    public static PostgresOutFile getPostgresOutFile(String filename)
     throws IOUException, ConfigException
     {
-        return new SybaseOutFile(filename);
+        return new PostgresOutFile(filename);
     }
 
 

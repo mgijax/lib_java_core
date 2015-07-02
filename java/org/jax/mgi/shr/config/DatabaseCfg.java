@@ -30,6 +30,8 @@ public class DatabaseCfg
       "org.jax.mgi.shr.dbutils.MGIDriverManager";
   private int DEFAULT_MAX_INCLAUSE = 400;
 
+  private String schema = null;
+
   /**
    * default constructor which obtains a reference to the ConfigurationManager
    * singleton class.
@@ -48,6 +50,9 @@ public class DatabaseCfg
   public DatabaseCfg(String pParameterPrefix) throws ConfigException {
     super();
     super.parameterPrefix = pParameterPrefix;
+    if (pParameterPrefix != null) {
+	this.schema = pParameterPrefix.toLowerCase();
+    }
   }
 
 
@@ -101,6 +106,10 @@ public class DatabaseCfg
    */
   public String getUrl() {
     return getConfigString("DBURL", DEFAULT_URL);
+  }
+
+  public String getSchema() {
+    return this.schema;
   }
 
   /**
@@ -171,6 +180,12 @@ public class DatabaseCfg
 
 }
 // $Log$
+// Revision 1.7.42.1  2015/03/06 20:16:15  mgiadmin
+// dbsgen mgd postgres
+//
+// Revision 1.7  2005/08/15 14:58:43  mbw
+// javadocs only
+//
 // Revision 1.6  2005/08/05 16:28:00  mbw
 // merged code from branch lib_java_core-tr6427-1
 //

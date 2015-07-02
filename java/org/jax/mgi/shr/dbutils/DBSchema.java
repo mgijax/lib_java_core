@@ -345,7 +345,16 @@ public class DBSchema
     public void truncateTable(String pTablename)
         throws DBException
     {
-        String command = "truncate table " + pTablename;
+	String command; 
+	if(sqlmanager.isSybase())
+	{
+        	command = "truncate table " + pTablename;
+	}
+	else
+	{
+		// postgres syntax
+        	command = "truncate table " + pTablename+" cascade ";
+	}
         Vector v = new Vector();
         v.add(command);
         executeSqlVector(v);
@@ -360,11 +369,11 @@ public class DBSchema
     public void truncateLog()
         throws DBException
     {
-        String dbname = sqlmanager.getDatabase();
-        String command = "dump transaction " + dbname + " with truncate_only";
-        Vector v = new Vector();
-        v.add(command);
-        executeSqlVector(v);
+        //String dbname = sqlmanager.getDatabase();
+        //String command = "dump transaction " + dbname + " with truncate_only";
+        //Vector v = new Vector();
+        //v.add(command);
+        //executeSqlVector(v);
     }
 
     /**
@@ -888,6 +897,15 @@ public class DBSchema
 
 }
 // $Log$
+// Revision 1.12.4.3  2015/03/11 17:33:00  mgiadmin
+// pg convert
+//
+// Revision 1.12.4.2  2015/03/06 16:56:01  mgiadmin
+// postgres branch
+//
+// Revision 1.12  2013/01/30 16:48:14  kstone
+// reverting mistake
+//
 // Revision 1.10  2004/09/03 17:52:54  mbw
 // added a check for nested quotation marks within trigger
 //

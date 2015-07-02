@@ -147,7 +147,8 @@ public class XMLTagIterator
                 {
                     this.state = TAG_END;
                     this.currentTag = reader.getLocalName();
-                    this.setAttributes();
+			// You can't get attributes off of the end element... How did this ever work!???	
+                    //this.setAttributes();
                     return false;
                 }
                 reader.next();
@@ -310,10 +311,13 @@ public class XMLTagIterator
             while (reader.hasNext())
             {
                 reader.next();
+		// skip characters that are outside of XML tags
+		if(reader.isCharacters() ) continue;
                 if (target.equals(reader.getLocalName()))
                 {
                     this.state = this.TAG_TARGET;
                     // store tag name and attributes and then move
+		//System.out.println("reader State = "+reader.getEventType());
                     // pointer to next
                     this.currentTag = reader.getLocalName();
                     this.setAttributes();

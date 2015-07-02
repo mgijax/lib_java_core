@@ -40,6 +40,8 @@ public interface DatabaseConfigurator {
    */
   public String getUrl();
 
+  public String getSchema();
+
   /**
    * get the name of a file that holds the login password for the
    * database connection.
