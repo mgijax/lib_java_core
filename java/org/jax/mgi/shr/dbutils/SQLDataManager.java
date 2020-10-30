@@ -932,8 +932,9 @@ public class SQLDataManager {
   public ResultsNavigator getTables() throws DBException {
     DatabaseMetaData meta = this.getMetaData();
     ResultSet rs = null;
+    String[] tableTypes = {"TABLE"};
     try {
-      rs = meta.getTables(null, this.schema, "%", null);
+      rs = meta.getTables(null, this.schema, "%", tableTypes);
     }
     catch (SQLException e) {
       String msg = "get table metadata from database " + database +
